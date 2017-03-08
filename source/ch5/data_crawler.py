@@ -76,7 +76,8 @@ class DataCrawler:
         for market_type in ['kospiVal','kosdaqVal']:
             html = self.downloadCode(market_type)
             codes = self.parseCodeHTML(html,market_type)
-            self.dbwriter.updateCodeToDB(codes)
+            print(codes)
+            # self.dbwriter.updateCodeToDB(codes)
 
 
     def downloadStockData(self,market_type,code,year1,month1,date1,year2,month2,date2):
@@ -92,7 +93,7 @@ class DataCrawler:
             df = web.DataReader(makeCode(market_type,code), "yahoo", start, end)
             return df
         except:
-            (print "!!! Fatal Error Occurred")
+            print ("!!! Fatal Error Occurred")
             return None
 
 
@@ -139,15 +140,15 @@ class DataCrawler:
 
 
 if __name__ == "__main__":
-    services.register('dbhandler',DataHandler())
-    services.register('dbwriter',DataWriter())
-
+    # services.register('dbhandler',DataHandler())
+    # services.register('dbwriter',DataWriter())
+    #
     crawler = DataCrawler()
-    html_codes = crawler.downloadCode('2')
-    print html_codes.__class__
-    crawler.parseCodeHTML(html_codes,'2')
+    # html_codes = crawler.downloadCode('2')
+    # print html_codes.__class__
+    # crawler.parseCodeHTML(html_codes,'2')
 
-    #crawler.updateAllCodes()
+    crawler.updateAllCodes()
     #crawler.updateAllStockData(1,2010,1,1,2015,12,1,start_index=1)
 
 
