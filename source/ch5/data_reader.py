@@ -2,7 +2,7 @@
 from __future__ import division
 import os, sys
 import sqlite3
-from pymysql import *
+# from pymysql import *
 
 from data_handler import *
 from data_model import *

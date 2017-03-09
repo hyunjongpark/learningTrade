@@ -46,6 +46,12 @@ class DataCrawler:
             company = a_option.text[8:]
             full_code = a_option.get('value')
 
+            if company == '':
+                continue;
+
+            if "폐지" in str(company):
+                continue
+
             codes.add(market_type, code, full_code, company)
 
         return codes
