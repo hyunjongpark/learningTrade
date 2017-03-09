@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 from datetime import date,datetime,timedelta
-import urllib2, urllib 
+# import urllib2, urllib
 import os,sys,math,pickle
 import csv 
 import time

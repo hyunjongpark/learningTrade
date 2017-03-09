@@ -35,27 +35,23 @@ def get_autocorrelation_dataframe(series):
 
 df_samsung = load_stock_data('samsung.data')
 df_samsung_corr = get_autocorrelation_dataframe(df_samsung['Close'])
+# print ('df_samsung_corr' + df_samsung_corr)
 
-# print df_samsung_corr
-#for i in range(df_samsung.shape[0]):
-#	arr = df_samsung['Close'].autocorr(lag=i)
-#	print "%s, %s" % (i,arr)
+# for i in range(df_samsung.shape[0]):
+# 	arr = df_samsung['Close'].autocorr(lag=i)
+# 	print ("%s, %s" % (i,arr))
 
-#df_samsung_corr = pd.DataFrame(arr,index=arr,columns=arr)
-
-#df_hanmi = load_stock_data('hanmi.data')
-
-#print df_samsung['Close'].cov(df_hanmi['Close'])
-
-#print df_samsung['Close'].corr(df_hanmi['Close'])
+# df_samsung_corr = pd.DataFrame(arr,index=arr,columns=arr)
+df_hanmi = load_stock_data('hanmi.data')
+print (df_samsung['Close'].cov(df_hanmi['Close']))
+print (df_samsung['Close'].corr(df_hanmi['Close']))
 
 fig, axs = plt.subplots(2,1)
 axs[1].xaxis.set_visible(False) 
 
 df_samsung['Close'].plot(ax=axs[0])
 df_samsung_corr[0].plot(kind='bar',ax=axs[1])
-#autocorrelation_plot(df_samsung['Close'],ax=axs[1], kind='box')
-
+# autocorrelation_plot(df_samsung['Close'],ax=axs[1])
 plt.show()
 
 

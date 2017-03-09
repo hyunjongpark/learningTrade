@@ -32,3 +32,13 @@ def load_stock_data(file_name):
 	return df
 
 
+def get_data_list():
+    dataList = []
+    dataPath = os.path.abspath("../data")
+    print(dataPath)
+
+    for i in os.listdir(dataPath):
+        # print(i)
+        dataList.append(i)
+    return dataList
+

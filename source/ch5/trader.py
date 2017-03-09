@@ -19,6 +19,15 @@ from alpha_model import *
 
 
 if __name__ == "__main__":
+
+
+	# str ='2011-07-18 00:00:00'
+	# str = pd.to_datetime(str).strftime('%Y-%m-%d')
+	# # nowDate = str.strftime('%Y-%m-%d')
+	# # print(nowDate)  # 2015-04-19
+	# print(str)
+
+
 	services.register('dbhandler',DataHandler())
 	services.register('dbwriter',DataWriter())
 	services.register('dbreader',DataReader())
@@ -37,8 +46,8 @@ if __name__ == "__main__":
 	mean_backtester = MeanReversionBackTester()
 	machine_backtester = MachineLearningBackTester()
 
-	#crawler.updateAllCodes()
-	#crawler.updateAllStockData(1,2010,1,1,2015,12,1,start_index=90)
+	# crawler.updateAllCodes()
+	crawler.updateAllStockData(1,2010,1,1,2015,12,1,start_index=90)
 
 	services.get('configurator').register('start_date','20150101')
 	services.get('configurator').register('end_date','20151030')

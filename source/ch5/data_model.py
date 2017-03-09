@@ -3,8 +3,8 @@ from __future__ import division
 
 import os,sys,datetime,pickle
 import requests, json
-import BeautifulSoup
 
+from bs4 import BeautifulSoup
 
 
 class BaseCollection:
@@ -29,7 +29,7 @@ class BaseCollection:
 
 
     def iterItems(self):
-        return self.items.iterItems()
+        return self.items.items()
 
 
 
@@ -62,11 +62,12 @@ class StockCode:
         return self.items[stock_code]
 
     def iterItems(self):
-        return self.items.iteritems()
+        return self.items.items()
 
     def dump(self):
         index = 0
-        for key,value in self.items.iteritems():
+        # for key,value in self.items.iteritems():
+        for key, value in self.items.items():
             print ("%s : %s - Code=%s, Full Code=%s, Company=%s" % (index, value.market_type, key, value.full_code, value.company))
             index += 1
 

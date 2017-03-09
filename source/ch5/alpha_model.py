@@ -71,7 +71,7 @@ class MeanReversionModel(AlphaModel):
 		price_arbitrage = current_price - moving_average
 
 		if verbose:
-			(print "diff=%s, price=%s, moving_average=%s, moving_average_std=%s" % (price_arbitrage,current_price,moving_average,moving_average_std))
+			print ("diff=%s, price=%s, moving_average=%s, moving_average_std=%s" % (price_arbitrage,current_price,moving_average,moving_average_std))
 
 		if abs(price_arbitrage) > moving_average_std*self.threshold:
 			
