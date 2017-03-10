@@ -132,47 +132,128 @@ class Predictors:
         df = services.get('dbreader').loadDataFrame(code,start_date,end_date)
         return df
 
+    def make_dataset(self, df, time_lags=5):
+        print(df)
+        df_lag = pd.DataFrame(index=df.index)
+        df_lag["Close"] = df["Close"]
+        df_lag["Volume"] = df["Volume"]
+
+        df_lag["Close_Lag%s" % str(time_lags)] = df["Close"].shift(time_lags)
+        df_lag["Close_Lag%s_Change" % str(time_lags)] = df_lag["Close_Lag%s" % str(time_lags)].pct_change() * 100.0
+
+        df_lag["Volume_Lag%s" % str(time_lags)] = df["Volume"].shift(time_lags)
+        df_lag["Volume_Lag%s_Change" % str(time_lags)] = df_lag["Volume_Lag%s" % str(time_lags)].pct_change() * 100.0
+
+        df_lag["Close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+        df_lag["Volume_Direction"] = np.sign(df_lag["Volume_Lag%s_Change" % str(time_lags)])
+
+        return df_lag.dropna(how='any')
+
+
     def makeLaggedDataset(self, code,start_date,end_date, input_column, output_column, time_lags=5):
         df = self.makeDataSet(code,start_date,end_date)
-
-        #print df
-
-        #df_lag = pd.DataFrame(index=df.index)
-        df_lag = df
-        df_lag[input_column] = df[input_column]
-        df_lag["volume"] = df["volume"]
-
-        df_lag["%s_Lag%s" % (input_column,time_lags)] = df[input_column].shift(time_lags)
-        df_lag["%s_Lag%s_Change" % (input_column,time_lags)] = df_lag["%s_Lag%s" % (input_column,time_lags)].pct_change()*100.0
-
-        df_lag["volume_Lag%s" % (time_lags)] = df["volume"].shift(time_lags)
-        df_lag["volume_Lag%s_Change" % (time_lags)] = df_lag["volume_Lag%s" % (time_lags)].pct_change()*100.0
-
-        #df_lag[output_column] = np.sign(df_lag["%s_Lag%s_Change" % (input_column,time_lags)])
-        df_lag[output_column] = np.where(df_lag["%s_Lag%s_Change" % (input_column,time_lags)]>0,1,0)
-            
-        df_lag["volume_indicator"] = np.sign(df_lag["volume_Lag%s_Change" % (time_lags)])
-
-        return df_lag.dropna(how='any').reset_index()
+        print (df)
+        # df_lag = pd.DataFrame(index=df['price_date'])
+        # print(df_lag)
+        # df_lag[input_column] = df[input_column]
+        # df_lag["volume"] = df["price_volume"]
+        #
+        # df_lag["%s_Lag%s" % (input_column,time_lags)] = df[input_column].shift(time_lags)
+        # df_lag["%s_Lag%s_Change" % (input_column,time_lags)] = df_lag["%s_Lag%s" % (input_column,time_lags)].pct_change()*100.0
+        #
+        # df_lag["volume_Lag%s" % (time_lags)] = df["price_volume"].shift(time_lags)
+        # df_lag["volume_Lag%s_Change" % (time_lags)] = df_lag["volume_Lag%s" % (time_lags)].pct_change()*100.0
+        #
+        # df_lag[output_column] = np.where(df_lag["%s_Lag%s_Change" % (input_column,time_lags)]>0,1,0)
+        # df_lag["volume_indicator"] = np.sign(df_lag["volume_Lag%s_Change" % (time_lags)])
 
 
-    def splitDataset(self, df, date_column,input_column_array,output_column,split_ratio):
-        first_date,last_date = df.loc[0,date_column], df.loc[df.shape[0]-1, date_column]
-        split_date = getDateByPerent(first_date,last_date,split_ratio)
+        df_lag = pd.DataFrame(index=df['price_date'])
+        print(df_lag)
+        df_lag["price_close"] = df["price_close"]
+        print(df_lag["Close"])
+        df_lag["Volume"] = df["price_volume"]
 
-        #print "splitDataset : date=%s" % (split_date)
+        df_lag["Close_Lag%s" % str(time_lags)] = df["price_close"].shift(time_lags)
+        df_lag["Close_Lag%s_Change" % str(time_lags)] = df_lag["Close_Lag%s" % str(time_lags)].pct_change() * 100.0
+
+        df_lag["Volume_Lag%s" % str(time_lags)] = df["price_volume"].shift(time_lags)
+        df_lag["Volume_Lag%s_Change" % str(time_lags)] = df_lag["Volume_Lag%s" % str(time_lags)].pct_change() * 100.0
+
+        df_lag["Close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+        df_lag["Volume_Direction"] = np.sign(df_lag["Volume_Lag%s_Change" % str(time_lags)])
+
+
+        print(df_lag["volume"])
+        print(df_lag["Close_Direction"])
+        print(df_lag["volume_indicator"])
+
+        print(df_lag)
+        return df_lag.dropna(how='any')
+
+        # return df_lag.dropna(how='any').reset_index()
+
+    def split_dataset(df, input_column_array, output_column, spllit_ratio):
+        split_date = getDateByPerent(df.index[0], df.index[df.shape[0] - 1], spllit_ratio)
 
         input_data = df[input_column_array]
         output_data = df[output_column]
 
         # Create training and test sets
-        X_train = input_data[df[date_column] < split_date]
-        X_test = input_data[df[date_column] >= split_date]
-        Y_train = output_data[df[date_column] < split_date]
-        Y_test = output_data[df[date_column] >= split_date]
+        X_train = input_data[input_data.index < split_date]
+        X_test = input_data[input_data.index >= split_date]
+        Y_train = output_data[output_data.index < split_date]
+        Y_test = output_data[output_data.index >= split_date]
 
-        return X_train,X_test,Y_train,Y_test
+        return X_train, X_test, Y_train, Y_test
 
+    def splitDataset(self, df, date_column,input_column_array,output_column,split_ratio):
+        first_date,last_date = df.loc[0,date_column], df.loc[df.shape[0]-1, date_column]
+        split_date = getDateByPerent(first_date,last_date,split_ratio)
+
+        print ("splitDataset : date=%s" % (split_date))
+
+        input_data = df[input_column_array]
+        # print(input_data)
+        output_data = df[output_column]
+        # print(output_data)
+
+        print(input_data.index)
+
+        # split_date = convertDateToString(split_date)
+
+
+        # print(df[date_column])
+        # # Create training and test sets
+        # X_train = input_data[df[date_column] < split_date]
+        # X_test = input_data[df[date_column] >= split_date]
+        # Y_train = output_data[df[date_column] < split_date]
+        # Y_test = output_data[df[date_column] >= split_date]
+        #
+        # return X_train,X_test,Y_train,Y_test
+
+        X_train = input_data[input_data.index < split_date]
+        X_test = input_data[input_data.index >= split_date]
+        Y_train = output_data[output_data.index < split_date]
+        Y_test = output_data[output_data.index >= split_date]
+
+        return X_train, X_test, Y_train, Y_test
+
+    def split_dataset(self, df, input_column_array, output_column, spllit_ratio):
+        print(df)
+        split_date = getDateByPerent(df.index[0], df.index[df.shape[0] - 1], spllit_ratio)
+
+        input_data = df[input_column_array]
+        output_data = df[output_column]
+
+        print(input_data.index)
+        # Create training and test sets
+        X_train = input_data[input_data.index < split_date]
+        X_test = input_data[input_data.index >= split_date]
+        Y_train = output_data[output_data.index < split_date]
+        Y_test = output_data[output_data.index >= split_date]
+
+        return X_train, X_test, Y_train, Y_test
 
     def trainAll(self, time_lags=5, split_ratio=0.75):
         rows_code = self.dbreader.loadCodes(self.config.get('data_limit'))
@@ -188,8 +269,6 @@ class Predictors:
 
             df_dataset = self.makeLaggedDataset(code,self.config.get('start_date'),self.config.get('end_date'), self.config.get('input_column'),self.config.get('output_column'),time_lags=time_lags)
 
-            #print df_dataset
-
             if df_dataset.shape[0]>0:
                 
                 test_result['code'].append(code)
@@ -197,7 +276,13 @@ class Predictors:
 
                 #print df_dataset
 
-                X_train,X_test,Y_train,Y_test = self.splitDataset(df_dataset,'price_date',[self.config.get('input_column')],self.config.get('output_column'),split_ratio)
+                # X_train,X_test,Y_train,Y_test = self.splitDataset(df_dataset,'price_date',
+                #                                                   [self.config.get('input_column')],
+                #                                                   self.config.get('output_column'),split_ratio)
+
+                X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset,
+                                                                 ["Close_Lag%s" % (time_lags),"Volume_Lag%s" % (time_lags)],
+                                                                 "Close_Direction", 0.75)
 
                 #print X_test, Y_test
 

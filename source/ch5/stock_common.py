@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 from datetime import date,datetime,timedelta
+import numpy as np
 # import urllib2, urllib
 import os,sys,math,pickle
 import csv 
@@ -92,20 +93,23 @@ def convertMarketType(str):
 
 
 def convertStringToDate(value):
-	value_year = value[0:4]
-	value_month = value[4:6]
-	value_day = value[6:8]
+	value_year = str(value)[0:4]
+	value_month = str(value)[4:6]
+	value_day = str(value)[6:8]
 	#print "convertStringToDate : %s, %s, %s" % (value_year,value_month,value_day)
-	return datetime(int(value_year), int(value_month), int(value_day)).strftime('%Y-%m-%d %H:%M:%S')
+	# return datetime(int(value_year), int(value_month), int(value_day)).strftime('%Y-%m-%d %H:%M:%S')
+	# return datetime.datetime(value_year, 1, value_day)
+	return datetime(int(value_year), int(value_month), int(value_day))
 
+def convertDateToString(value):
+	return pd.to_datetime(value).strftime('%Y%m%d')
 
-def getDateByPerent(start_date,end_date,percent):
-    days = (end_date - start_date).days
-    target_days = numpy.trunc(days * percent)
-    target_date = start_date + timedelta(days=target_days)
-    #print days, target_days,target_date
+def getDateByPerent(start_date, end_date, percent):
+    days = (convertStringToDate(end_date) - convertStringToDate(start_date)).days
+    target_days = np.trunc(days * percent)
+    target_date = convertStringToDate(start_date) + timedelta(days=target_days)
+    # print days, target_days,target_date
     return target_date
-
 
 def getPercentileIndex(percentile_arr,value):
 	for index in range(len(percentile_arr)):

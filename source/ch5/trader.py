@@ -19,7 +19,6 @@ from alpha_model import *
 
 
 if __name__ == "__main__":
-
 	services.register('dbhandler',DataHandler())
 	services.register('dbwriter',DataWriter())
 	services.register('dbreader',DataReader())
@@ -45,13 +44,13 @@ if __name__ == "__main__":
 	services.get('configurator').register('end_date','20151030')
 	services.get('configurator').register('input_column','price_adj_close')
 	services.get('configurator').register('output_column','indicator')
-	services.get('configurator').register('data_limit',20)
+	services.get('configurator').register('data_limit',10)
 
 	#finder.setTimePeriod('20150101','20151130')
 	df_stationarity = portfolio.doStationarityTest('price_close')	
 	df_rank = portfolio.rankStationarity(df_stationarity)
 	stationarity_codes = portfolio.buildUniverse(df_rank,'rank',0.8)
-	#print stationarity_codes
+	print ('top 80 list %s' %stationarity_codes)
 
 	
 	df_machine_result = portfolio.doMachineLearningTest( split_ratio=0.75,lags_count=5 )

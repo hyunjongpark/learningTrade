@@ -15,16 +15,28 @@ class DataReader():
     def __init__(self):
         self.dbhandler = services.get('dbhandler')
 
+    # def loadDataFrame(self, code, start_date, end_date):
+    #     print("loadDataFrame : %s, %s" % (start_date, end_date))
+    #     converted_start_date = start_date
+    #     converted_end_date = end_date
+    #     sql = "select * from prices"
+    #     sql += " where code='%s'" % (code)
+    #     sql += " and price_date between '%s' and '%s' " % (converted_start_date, converted_end_date)
+    #     print('sql' + sql)
+    #     df = pd.read_sql(sql, self.dbhandler.conn)
+    #     return df
+
     def loadDataFrame(self, code, start_date, end_date):
         print("loadDataFrame : %s, %s" % (start_date, end_date))
-        converted_start_date = convertStringToDate(start_date)
-        converted_end_date = convertStringToDate(end_date)
-        sql = "select * from prices"
+        converted_start_date = start_date
+        converted_end_date = end_date
+        sql = "select price_date, price_open, price_close, price_high, price_low, price_adj_close, price_volume  from prices"
         sql += " where code='%s'" % (code)
         sql += " and price_date between '%s' and '%s' " % (converted_start_date, converted_end_date)
         print('sql' + sql)
         df = pd.read_sql(sql, self.dbhandler.conn)
         return df
+
 
     def loadCodes(self, limit=0):
         sql = "select code,company from codes where market_type=1"
@@ -34,3 +46,8 @@ class DataReader():
         rows = self.dbhandler.openSql(sql).fetchall()
 
         return rows
+
+    def deleteCode(self, code):
+        sql = "delete from codes where code='%s'" %(code)
+        print(sql)
+        rows = self.dbhandler.execSql(sql).fetchall()

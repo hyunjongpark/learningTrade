@@ -30,7 +30,7 @@ class MeanReversionModel(AlphaModel):
 	def calcADF(self,df):
 		adf_result = ts.adfuller(df)
 		ciritical_values = adf_result[4]
-		#print ciritical_values
+		print ('ciritical_values %s' % ciritical_values)
 
 		return adf_result[0], ciritical_values['1%'],ciritical_values['5%'], ciritical_values['10%']
 

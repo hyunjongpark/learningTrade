@@ -104,6 +104,8 @@ class PortfolioBuilder():
         test_result = {'code': [], 'company': [], 'adf_statistic': [], 'adf_1': [], 'adf_5': [], 'adf_10': [],
                        'hurst': [], 'halflife': []}
 
+        deleteCode = []
+
         index = 1
         for a_row_code in rows_code:
             code = a_row_code[0]
@@ -113,7 +115,7 @@ class PortfolioBuilder():
 
             a_df = self.loadDataFrame(code)
             a_df_column = a_df[column]
-            # print a_df_column
+            # print (a_df_column)
 
             if a_df_column.shape[0] > 0:
                 test_result['code'].append(code)
@@ -121,17 +123,30 @@ class PortfolioBuilder():
                 test_result['hurst'].append(self.mean_reversion_model.calcHurstExponent(a_df_column, lags_count))
                 test_result['halflife'].append(self.mean_reversion_model.calcHalfLife(a_df_column))
 
-                test_stat, adf_1, adf_5, adf_10 = self.mean_reversion_model.calcADF(a_df_column)
-                test_result['adf_statistic'].append(test_stat)
-                test_result['adf_1'].append(adf_1)
-                test_result['adf_5'].append(adf_5)
-                test_result['adf_10'].append(adf_10)
+                try:
+                    test_stat, adf_1, adf_5, adf_10 = self.mean_reversion_model.calcADF(a_df_column)
+                    test_result['adf_statistic'].append(test_stat)
+                    test_result['adf_1'].append(adf_1)
+                    test_result['adf_5'].append(adf_5)
+                    test_result['adf_10'].append(adf_10)
+                    print (test_result)
+                except:
+                    print('except mean_reversion_model')
 
-            # print test_result
+            else:
+                deleteCode.append(rows_code)
+                self.dbreader.deleteCode(a_row_code[0])
+
 
             index += 1
 
         df_result = pd.DataFrame(test_result)
+
+        for a_row_code in deleteCode:
+            print('delete code %s' % (a_row_code[0]))
+
+
+
 
         return df_result
 
@@ -154,9 +169,12 @@ class PortfolioBuilder():
                                                                                   df_stationarity.loc[
                                                                                       row_index, 'halflife'])
 
-        df_stationarity['rank'] = df_stationarity['rank_adf'] + df_stationarity['rank_hurst'] + df_stationarity[
-            'rank_halflife']
+        df_stationarity['rank'] = df_stationarity['rank_adf'] + df_stationarity['rank_hurst'] + df_stationarity['rank_halflife']
 
+        # print(df_stationarity['rank'])
+        # print(df_stationarity['rank_adf'])
+        # print(df_stationarity['rank_hurst'])
+        # print(df_stationarity['rank_halflife'])
         return df_stationarity
 
     def buildUniverse(self, df_stationarity, column, ratio):
