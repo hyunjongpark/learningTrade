@@ -126,7 +126,7 @@ class DataCrawler:
 
         index = 1
         for a_row in rows:
-            # print a_row
+            print ('%s %s/%s' %(a_row, index, len(rows)))
             code = a_row[2]
             company = a_row[5]
 

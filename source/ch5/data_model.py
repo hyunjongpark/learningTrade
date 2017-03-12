@@ -23,7 +23,7 @@ class BaseCollection:
 
 
     def find(self,column):
-        if self.items.has_key(column):
+        if column in self.items:
             return self.items[column]
         return None
 

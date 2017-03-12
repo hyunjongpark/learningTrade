@@ -118,18 +118,17 @@ class PortfolioBuilder():
             # print (a_df_column)
 
             if a_df_column.shape[0] > 0:
-                test_result['code'].append(code)
-                test_result['company'].append(company)
-                test_result['hurst'].append(self.mean_reversion_model.calcHurstExponent(a_df_column, lags_count))
-                test_result['halflife'].append(self.mean_reversion_model.calcHalfLife(a_df_column))
-
                 try:
                     test_stat, adf_1, adf_5, adf_10 = self.mean_reversion_model.calcADF(a_df_column)
                     test_result['adf_statistic'].append(test_stat)
                     test_result['adf_1'].append(adf_1)
                     test_result['adf_5'].append(adf_5)
                     test_result['adf_10'].append(adf_10)
-                    print (test_result)
+                    test_result['code'].append(code)
+                    test_result['company'].append(company)
+                    test_result['hurst'].append(self.mean_reversion_model.calcHurstExponent(a_df_column, lags_count))
+                    test_result['halflife'].append(self.mean_reversion_model.calcHalfLife(a_df_column))
+                    # print(test_result)
                 except:
                     print('except mean_reversion_model')
 
@@ -140,13 +139,17 @@ class PortfolioBuilder():
 
             index += 1
 
+        print(test_result)
+        # print(len(test_result['code']))
+        # print(len(test_result['company']))
+        # print(len(test_result['adf_statistic']))
+        # print(len(test_result['adf_1']))
+        # print(len(test_result['adf_5']))
+        # print(len(test_result['adf_10']))
+        # print(len(test_result['hurst']))
+        # print(len(test_result['halflife']))
+
         df_result = pd.DataFrame(test_result)
-
-        for a_row_code in deleteCode:
-            print('delete code %s' % (a_row_code[0]))
-
-
-
 
         return df_result
 

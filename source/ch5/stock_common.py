@@ -19,7 +19,7 @@ def getQuote(str):
 	return "'%s'" % (str)
 
 def getToday():
-	return time.strftime("%Y%m%d")
+	return time.strftime("%Y-%m-%d")
 
 def getTime():
 	return time.strftime("%H%M")
@@ -105,9 +105,10 @@ def convertDateToString(value):
 	return pd.to_datetime(value).strftime('%Y%m%d')
 
 def getDateByPerent(start_date, end_date, percent):
-    days = (convertStringToDate(end_date) - convertStringToDate(start_date)).days
+    days = (end_date - start_date).days
+	# days = (convertStringToDate(end_date) - convertStringToDate(start_date)).days
     target_days = np.trunc(days * percent)
-    target_date = convertStringToDate(start_date) + timedelta(days=target_days)
+    target_date = start_date + timedelta(days=target_days)
     # print days, target_days,target_date
     return target_date
 

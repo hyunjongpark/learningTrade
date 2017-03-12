@@ -50,6 +50,7 @@ def split_dataset(df, input_column_array, output_column, spllit_ratio):
     output_data = df[output_column]
 
     print(input_data.index )
+    print(split_date)
     # Create training and test sets
     X_train = input_data[input_data.index < split_date]
     X_test = input_data[input_data.index >= split_date]
@@ -122,6 +123,7 @@ if __name__ == "__main__":
             try:
                 # df_company = load_stock_data('%s.data' % (company))
                 df_company = load_stock_data('%s' % (company))
+                print(df_company.index)
 
                 df_dataset = make_dataset(df_company, time_lags)
                 X_train, X_test, Y_train, Y_test = split_dataset(df_dataset, ["Close_Lag%s" % (time_lags),

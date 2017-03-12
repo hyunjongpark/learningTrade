@@ -44,7 +44,7 @@ if __name__ == "__main__":
 	services.get('configurator').register('end_date','20151030')
 	services.get('configurator').register('input_column','price_adj_close')
 	services.get('configurator').register('output_column','indicator')
-	services.get('configurator').register('data_limit',10)
+	services.get('configurator').register('data_limit',50)
 
 	#finder.setTimePeriod('20150101','20151130')
 	df_stationarity = portfolio.doStationarityTest('price_close')	
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 	#machine_backtester.getHitRatio('rf','006650','20151101','20151130',lags_count=10)
 	#machine_backtester.drawHitRatio('rf','006650','20151101','20151130',lags_count=5)
 	#machine_backtester.optimizeHyperparameter('rf','006650','20150101','20151130',lags_count=5)
-	machine_backtester.optimizeHyperparameterByRandomSearch('rf','006650','20150101','20151130',lags_count=5)
+	# machine_backtester.optimizeHyperparameterByRandomSearch('rf','114100','20150101','20151030',lags_count=5)
 
 	"""
 	mean_backtester.setThreshold(1.5)

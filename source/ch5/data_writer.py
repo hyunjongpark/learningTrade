@@ -44,7 +44,7 @@ class DataWriter():
         sql += "," + getQuote(code_item.company)
         sql += "," + str(convertMarketType(code_item.market_type))
         sql += ")"
-        print(sql)
+        # print(sql)
         return sql
 
     def updatePriceToDB(self, code, df):
@@ -79,7 +79,7 @@ class DataWriter():
     def generatePriceItemSQL(self, code, df, row_index):
         sql = "insert into prices(last_update, price_date, code, price_open, price_close, price_high, price_low, price_adj_close, price_volume) "
         sql += "values(" + "'%s'" % (getToday())
-        sql += "," + "%s" % pd.to_datetime(df.loc[row_index, 'Date']).strftime('%Y%m%d')
+        sql += "," + "%s" % pd.to_datetime(df.loc[row_index, 'Date']).strftime('%Y-%m-%d')
         sql += "," + "'%s'" % (code)
         sql += "," + "%s" % (df.loc[row_index, 'Open'])
         sql += "," + "%s" % (df.loc[row_index, 'Close'])
@@ -88,5 +88,5 @@ class DataWriter():
         sql += "," + "%s" % (df.loc[row_index, 'Adj Close'])
         sql += "," + "%s" % (df.loc[row_index, 'Volume'])
         sql += ")"
-        print(sql)
+        # print(sql)
         return sql
