@@ -90,6 +90,13 @@ class DataCrawler:
             codes = self.parseCodeHTML(html, market_type)
             self.dbwriter.updateCodeToDB(codes)
 
+
+    def updateKospiCodes(self):
+        html = self.downloadCode('kospiVal')
+        codes = self.parseCodeHTML(html, 'kospiVal')
+        self.dbwriter.updateCodeToDB(codes)
+
+
     def downloadStockData(self, market_type, code, year1, month1, date1, year2, month2, date2):
         def makeCode(market_type, code):
             if market_type == 1:

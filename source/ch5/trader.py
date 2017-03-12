@@ -38,10 +38,11 @@ if __name__ == "__main__":
 	machine_backtester = MachineLearningBackTester()
 
 	# crawler.updateAllCodes()
-	# crawler.updateAllStockData(1,2010,1,1,2015,12,1,start_index=90)
+	# crawler.updateKospiCodes()
+	# crawler.updateAllStockData(1,2016,1,1,2016,12,10,start_index=90)
 
-	services.get('configurator').register('start_date','20150101')
-	services.get('configurator').register('end_date','20151030')
+	services.get('configurator').register('start_date','20160101')
+	services.get('configurator').register('end_date','20161230')
 	services.get('configurator').register('input_column','price_adj_close')
 	services.get('configurator').register('output_column','indicator')
 	services.get('configurator').register('data_limit',50)

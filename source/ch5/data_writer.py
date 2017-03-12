@@ -44,7 +44,7 @@ class DataWriter():
         sql += "," + getQuote(code_item.company)
         sql += "," + str(convertMarketType(code_item.market_type))
         sql += ")"
-        # print(sql)
+        print(sql)
         return sql
 
     def updatePriceToDB(self, code, df):
