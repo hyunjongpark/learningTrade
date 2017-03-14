@@ -13,7 +13,7 @@ class DataHandler():
         # self.conn = pymysql.connect('221.147.129.137', 'james', 'mhrinc01', 'stock', port=63306, charset='utf8');
         # self.conn = pymysql.connect('localhost', 'root', 'mhrinc01', 'race', port=63306, charset='utf8');
 
-        self.conn = sqlite3.connect('kospi.db');
+        self.conn = sqlite3.connect('test.db');
         # cursor = self.conn.cursor()
         self.createTable()
 

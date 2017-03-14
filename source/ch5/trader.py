@@ -37,15 +37,21 @@ if __name__ == "__main__":
 	mean_backtester = MeanReversionBackTester()
 	machine_backtester = MachineLearningBackTester()
 
+
 	# crawler.updateAllCodes()
 	# crawler.updateKospiCodes()
 	# crawler.updateAllStockData(1,2016,1,1,2016,12,10,start_index=90)
 
-	services.get('configurator').register('start_date','20160101')
-	services.get('configurator').register('end_date','20161230')
+	services.get('configurator').register('start_date','20150101')
+	services.get('configurator').register('end_date','20151130')
 	services.get('configurator').register('input_column','price_adj_close')
 	services.get('configurator').register('output_column','indicator')
-	services.get('configurator').register('data_limit',50)
+	services.get('configurator').register('data_limit',100)
+	# services.get('configurator').register('input_column', ['price_close','price_volume'])
+	services.get('configurator').register('input_column', ['price_close'])
+	services.get('configurator').register('output_column', 'Close_Direction')
+
+
 
 	#finder.setTimePeriod('20150101','20151130')
 	df_stationarity = portfolio.doStationarityTest('price_close')	
@@ -67,8 +73,7 @@ if __name__ == "__main__":
 	universe.makeUniverse('price_close','machine_learning',machine_codes)
 	universe.dump()
 
-
-	#machine_backtester.getConfusionMatrix('rf','006650','20151101','20151130',lags_count=5)
+	# machine_backtester.getConfusionMatrix('rf','213610','20151101','20151130',lags_count=5)
 	#machine_backtester.printClassificationReport('rf','006650','20151101','20151130',lags_count=5)
 	#machine_backtester.showROC('rf','006650','20151101','20151130',lags_count=5)
 	#machine_backtester.showROC('rf','006650','20151101','20151130',lags_count=5)
@@ -77,26 +82,20 @@ if __name__ == "__main__":
 	#machine_backtester.getHitRatio('rf','006650','20151101','20151130',lags_count=10)
 	#machine_backtester.drawHitRatio('rf','006650','20151101','20151130',lags_count=5)
 	#machine_backtester.optimizeHyperparameter('rf','006650','20150101','20151130',lags_count=5)
-	# machine_backtester.optimizeHyperparameterByRandomSearch('rf','114100','20150101','20151030',lags_count=5)
+	# machine_backtester.optimizeHyperparameterByRandomSearch('rf','213610','20150101','20151130',lags_count=5)
 
-	"""
-	mean_backtester.setThreshold(1.5)
-	mean_backtester.setWindowSize(20)
-	
-	#mean_backtester.doTest('stationarity',universe,'20150101','20151130')
+	# mean_backtester.setThreshold(1.5)
+	# mean_backtester.setWindowSize(20)
+	# mean_backtester.doTest('stationarity',universe,'20150101','20151130')
 
-	"""
-	"""
-	services.get('trader').setPortfolio(universe)
-	services.get('trader').simulate()
-	"""
-	
-	#services.get('trader').dump()
+	# services.get('trader').setPortfolio(universe)
+	# services.get('trader').simulate()
+	# services.get('trader').dump()
 
 
-	#services.get('charter').drawStationarityTestHistogram(df)
-	#services.get('charter').drawStationarityTestBoxPlot(df)
-	#services.get('charter').drawStationarityRankHistogram(df_rank)
+	# services.get('charter').drawStationarityTestHistogram(df)
+	# services.get('charter').drawStationarityTestBoxPlot(df)
+	# services.get('charter').drawStationarityRankHistogram(df_rank)
 
 	#print df_rank
 	#print codes

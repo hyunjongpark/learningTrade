@@ -312,9 +312,16 @@ class MachineLearningBackTester(BaseBackTester):
 	def optimizeHyperparameterByRandomSearch(self,name, code, start_date,end_date,lags_count=5):
 		a_predictor = self.predictor.get(code,name)
 
-		df_dataset = self.predictor.makeLaggedDataset(code,start_date,end_date, self.config.get('input_column'), self.config.get('output_column'),lags_count ) 
+		df_dataset = self.predictor.makeLaggedDataset(code,start_date,end_date, self.config.get('input_column'), self.config.get('output_column'),lags_count )
+
+		df_dataset = df_dataset.set_index(df_dataset["price_date"])
 
 		X_train,X_test,Y_train,Y_test = self.predictor.splitDataset(df_dataset,'price_date',[self.config.get('input_column')],self.config.get('output_column'),split_ratio=0.8)
+
+		X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset,
+															  ["Close_Lag%s" % (time_lags),
+															   "Volume_Lag%s" % (time_lags)],
+															  "Close_Direction", 0.75)
 
 		param_dist = {"max_depth": [3, None],
 					"min_samples_split": sp_randint(1, 11),

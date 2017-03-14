@@ -92,9 +92,10 @@ class DataCrawler:
 
 
     def updateKospiCodes(self):
-        html = self.downloadCode('kospiVal')
-        codes = self.parseCodeHTML(html, 'kospiVal')
-        self.dbwriter.updateCodeToDB(codes)
+        for market_type in ['kospiVal']:
+            html = self.downloadCode(market_type)
+            codes = self.parseCodeHTML(html, market_type)
+            self.dbwriter.updateCodeToDB(codes)
 
 
     def downloadStockData(self, market_type, code, year1, month1, date1, year2, month2, date2):
