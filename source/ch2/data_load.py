@@ -27,7 +27,10 @@ def load_stock_data(file_name):
 df = load_stock_data('samsung.data')
 print (df.describe())
 
+print(df['Open'])
 df['Open'].plot()
+mean = df['Open'].mean()
+# print(df['Open'].mean())
 plt.axhline(df['Open'].mean(),color='red')
 plt.show()
 

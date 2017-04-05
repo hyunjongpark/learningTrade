@@ -30,6 +30,8 @@ class Predictor:
         self.classifier = None
 
     def train(self, x_train, y_train):
+        # print(x_train)
+        # print(y_train)
         self.classifier.fit(x_train, y_train)
         return self.classifier.score(x_train, y_train)
 
@@ -159,17 +161,51 @@ class Predictors:
         # print(df1)
         # df_lag = pd.DataFrame(index=df['price_date'])
         # print(df_lag)
-        df_lag[input_column] = df[input_column]
-        df_lag["volume"] = df["price_volume"]
 
-        df_lag["%s_Lag%s" % (input_column,time_lags)] = df[input_column].shift(time_lags)
-        df_lag["%s_Lag%s_Change" % (input_column,time_lags)] = df_lag["%s_Lag%s" % (input_column,time_lags)].pct_change()*100.0
 
-        df_lag["volume_Lag%s" % (time_lags)] = df["price_volume"].shift(time_lags)
-        df_lag["volume_Lag%s_Change" % (time_lags)] = df_lag["volume_Lag%s" % (time_lags)].pct_change()*100.0
 
-        df_lag[output_column] = np.where(df_lag["%s_Lag%s_Change" % (input_column,time_lags)]>0,1,0)
-        df_lag["volume_indicator"] = np.sign(df_lag["volume_Lag%s_Change" % (time_lags)])
+
+        # df_lag[input_column] = df[input_column]
+        # df_lag["volume"] = df["price_volume"]
+
+        for input in input_column:
+            # df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
+            # df_lag["%s_Lag%s_Change" % (input,time_lags)] = df_lag["%s_Lag%s" % (input,time_lags)].pct_change()*100.0
+            #
+            # df_lag[output_column] = np.where(df_lag["%s_Lag%s_Change" % (input,time_lags)]>0,1,0)
+            df_lag[input] = df[input]
+
+            df_lag["%s_Lag%s" % (input, time_lags)] = df[input].shift(time_lags)
+            df_lag["%s_Lag%s_Change" % (input, time_lags)] = df_lag["%s_Lag%s" % (input, time_lags)].pct_change() * 100.0
+
+            # df_lag["%s_Direction" %(input)] = np.where(df_lag["%s_Lag%s_Change" % (input, time_lags)] > 0, 1, 0)
+
+            df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
+            # df_lag["close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+
+
+
+            # df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
+
+        # df_lag["Close"] = df["price_close"]
+
+        # df_lag["Close_Lag%s" % str(time_lags)] = df["price_close"].shift(time_lags)
+        # df_lag["Close_Lag%s_Change" % str(time_lags)] = df_lag["Close_Lag%s" % str(time_lags)].pct_change() * 100.0
+        #
+        # df_lag["close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+
+
+
+        # df_lag["%s_Lag%s" % (input_column, time_lags)] = df[input_column].shift(time_lags)
+        # df_lag["%s_Lag%s_Change" % (input_column, time_lags)] = df_lag["%s_Lag%s" % (
+        # input_column, time_lags)].pct_change() * 100.0
+        #
+        # df_lag["volume_Lag%s" % (time_lags)] = df["price_volume"].shift(time_lags)
+        # df_lag["volume_Lag%s_Change" % (time_lags)] = df_lag["volume_Lag%s" % (time_lags)].pct_change() * 100.0
+        #
+
+
+
 
         # print(df_lag)
 
@@ -188,6 +224,8 @@ class Predictors:
         # print(df_lag["volume"])
         # print(df_lag["Close_Direction"])
         # print(df_lag["volume_indicator"])
+
+
 
         return df_lag.dropna(how='any')
 
@@ -250,11 +288,17 @@ class Predictors:
         # print(split_date)
         # print(type(input_data.index))
         # print(type(split_date))
-        # Create training and test sets
+        #Create training and test sets
         X_train = input_data[input_data.index < split_date]
         X_test = input_data[input_data.index >= split_date]
         Y_train = output_data[output_data.index < split_date]
         Y_test = output_data[output_data.index >= split_date]
+
+
+        # print(X_train)
+        # print(Y_train)
+        # print(X_train, Y_train)
+        # print(X_test, Y_test)
 
         return X_train, X_test, Y_train, Y_test
 
@@ -328,7 +372,7 @@ class Predictors:
                 test_result['code'].append(code)
                 test_result['company'].append(company)
 
-                print (len(df_dataset))
+                # print (len(df_dataset))
 
                 # X_train,X_test,Y_train,Y_test = self.splitDataset(df_dataset,'price_date',
                 #                                                   [self.config.get('input_column')],
@@ -342,6 +386,9 @@ class Predictors:
                 X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset,
                                                                       self.config.get('input_column'),
                                                                       self.config.get('output_column'), split_ratio)
+
+
+
 
                 # print (X_test, Y_test)
 
@@ -367,7 +414,8 @@ class Predictors:
                     test_result[a_clasifier].append(score)
 
                     print("%s    predictor=%s, score=%s" % (code, a_clasifier, score))
-
+            else:
+                self.dbreader.deleteCode(code)
 
                 # print (test_result)
 

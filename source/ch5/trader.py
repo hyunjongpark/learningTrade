@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 
-import os,sys,datetime
+import os, sys, datetime
 
 from services import *
 from charter import *
@@ -19,83 +19,96 @@ from alpha_model import *
 
 
 if __name__ == "__main__":
-	services.register('dbhandler',DataHandler())
-	services.register('dbwriter',DataWriter())
-	services.register('dbreader',DataReader())
-	services.register('charter',Charter())
-	services.register('configurator',Configurator())
+    services.register('dbhandler', DataHandler())
+    services.register('dbwriter', DataWriter())
+    services.register('dbreader', DataReader())
+    services.register('charter', Charter())
+    services.register('configurator', Configurator())
 
-	services.register('predictor',Predictors())
-	services.register('trader',MessTrader())
-	services.register('mean_reversion_model',MeanReversionModel())
-	services.register('machine_learning_model',MachineLearningModel())
+    services.register('predictor', Predictors())
+    services.register('trader', MessTrader())
+    services.register('mean_reversion_model', MeanReversionModel())
+    services.register('machine_learning_model', MachineLearningModel())
 
+    crawler = DataCrawler()
+    universe = Portfolio()
+    portfolio = PortfolioBuilder()
+    mean_backtester = MeanReversionBackTester()
+    machine_backtester = MachineLearningBackTester()
 
-	crawler = DataCrawler()
-	universe = Portfolio()
-	portfolio = PortfolioBuilder()
-	mean_backtester = MeanReversionBackTester()
-	machine_backtester = MachineLearningBackTester()
-
-
-	# crawler.updateAllCodes()
-	# crawler.updateKospiCodes()
-	# crawler.updateAllStockData(1,2016,1,1,2016,12,10,start_index=90)
-
-	services.get('configurator').register('start_date','20150101')
-	services.get('configurator').register('end_date','20151130')
-	services.get('configurator').register('input_column','price_adj_close')
-	services.get('configurator').register('output_column','indicator')
-	services.get('configurator').register('data_limit',100)
-	# services.get('configurator').register('input_column', ['price_close','price_volume'])
-	services.get('configurator').register('input_column', ['price_close'])
-	services.get('configurator').register('output_column', 'Close_Direction')
+    # crawler.updateAllCodes()
+    # crawler.updateKospiCodes()
+    # crawler.updateAllStockData(1,2016,1,1,2016,12,10,start_index=90)
 
 
+    # services.get('configurator').register('start_date', '20150101')
+    # services.get('configurator').register('end_date', '20151130')
 
-	#finder.setTimePeriod('20150101','20151130')
-	df_stationarity = portfolio.doStationarityTest('price_close')	
-	df_rank = portfolio.rankStationarity(df_stationarity)
-	stationarity_codes = portfolio.buildUniverse(df_rank,'rank',0.8)
-	print ('top 80 list %s' %stationarity_codes)
+    services.get('configurator').register('start_date', '20150519')
+    services.get('configurator').register('end_date', '20170301')
 
-	
-	df_machine_result = portfolio.doMachineLearningTest( split_ratio=0.75,lags_count=5 )
-	df_machine_rank = portfolio.rankMachineLearning(df_machine_result)
-	machine_codes = portfolio.buildUniverse(df_machine_rank,'rank',0.8)
+    # services.get('configurator').register('input_column', 'price_adj_close')
+    # services.get('configurator').register('output_column', 'indicator')
+    services.get('configurator').register('data_limit', 5)
+    services.get('configurator').register('input_column', ['price_close', 'price_volume'])
+    # services.get('configurator').register('input_column', ['price_close'])
+    # services.get('configurator').register('input_column', ['price_volume'])
+    services.get('configurator').register('output_column', 'price_close_Direction')
 
-	#print services.get('predictor').dump()
-	#print df_machine_rank
-	#print machine_codes
-	
-	universe.clear()
-	universe.makeUniverse('price_close','stationarity',stationarity_codes)
-	universe.makeUniverse('price_close','machine_learning',machine_codes)
-	universe.dump()
+    # finder.setTimePeriod('20150101','20151130')
+    df_stationarity = portfolio.doStationarityTest('price_close')
+    df_rank = portfolio.rankStationarity(df_stationarity)
+    stationarity_codes = portfolio.buildUniverse(df_rank, 'rank', 0.8)
+    print('top 80 list %s' % stationarity_codes)
 
-	# machine_backtester.getConfusionMatrix('rf','213610','20151101','20151130',lags_count=5)
-	#machine_backtester.printClassificationReport('rf','006650','20151101','20151130',lags_count=5)
-	#machine_backtester.showROC('rf','006650','20151101','20151130',lags_count=5)
-	#machine_backtester.showROC('rf','006650','20151101','20151130',lags_count=5)
-	#machine_backtester.getHitRatio('rf','006650','20151101','20151130',lags_count=1)
-	#machine_backtester.getHitRatio('rf','006650','20151101','20151130',lags_count=5)
-	#machine_backtester.getHitRatio('rf','006650','20151101','20151130',lags_count=10)
-	#machine_backtester.drawHitRatio('rf','006650','20151101','20151130',lags_count=5)
-	#machine_backtester.optimizeHyperparameter('rf','006650','20150101','20151130',lags_count=5)
-	# machine_backtester.optimizeHyperparameterByRandomSearch('rf','213610','20150101','20151130',lags_count=5)
+    df_machine_result = portfolio.doMachineLearningTest(split_ratio=0.75, lags_count=1)
+    df_machine_rank = portfolio.rankMachineLearning(df_machine_result)
+    machine_codes = portfolio.buildUniverse(df_machine_rank, 'rank', 0.8)
 
-	# mean_backtester.setThreshold(1.5)
-	# mean_backtester.setWindowSize(20)
-	# mean_backtester.doTest('stationarity',universe,'20150101','20151130')
+    # print services.get('predictor').dump()
+    # print df_machine_rank
+    # print machine_codes
 
-	# services.get('trader').setPortfolio(universe)
-	# services.get('trader').simulate()
-	# services.get('trader').dump()
+    universe.clear()
+    universe.makeUniverse('price_close', 'stationarity', stationarity_codes)
+    universe.makeUniverse('price_close', 'machine_learning', machine_codes)
+    universe.dump()
+    codes = universe.getCode()
+
+    start = services.get('configurator').get('start_date')
+    end = services.get('configurator').get('end_date')
+
+    for info in codes:
+        code = info[0]
+        machine_backtester.drawChart('rf', code, start, end, lags_count=5)
+        print('------------------------back tester: %s, %s' %(code, info[1]))
+        machine_backtester.getConfusionMatrix('rf', code, start, end, lags_count=5)
+        machine_backtester.printClassificationReport('rf', code, start, end, lags_count=5)
+        # machine_backtester.showROC('rf', code, start, end, lags_count=5)
+        # machine_backtester.showROC('rf', code, start, end, lags_count=5)
+        machine_backtester.getHitRatio('rf', code, start, end, lags_count=1)
+        machine_backtester.getHitRatio('rf', code, start, end, lags_count=5)
+        machine_backtester.getHitRatio('rf', code, start, end, lags_count=10)
+        machine_backtester.drawHitRatio('rf', code, start, end, lags_count=1)
+        # machine_backtester.drawDrawdown('rf', code, start, end, lags_count=5)
+
+        # machine_backtester.optimizeHyperparameter('rf', code, start, end, lags_count=5)
+        # machine_backtester.optimizeHyperparameterByRandomSearch('rf', code, start, end, lags_count=5)
+
+        # mean_backtester.setThreshold(1.5)
+        # mean_backtester.setWindowSize(20)
+        # mean_backtester.doTest('stationarity',universe,'20150101','20151130')
+
+        # services.get('trader').setPortfolio(universe)
+        # services.get('trader').simulate()
+        # services.get('trader').dump()
 
 
-	# services.get('charter').drawStationarityTestHistogram(df)
-	# services.get('charter').drawStationarityTestBoxPlot(df)
-	# services.get('charter').drawStationarityRankHistogram(df_rank)
+        # services.get('charter').drawStationarityTestHistogram(df)
+        # services.get('charter').drawStationarityTestBoxPlot(df)
+        # services.get('charter').drawStationarityRankHistogram(df_rank)
 
-	#print df_rank
-	#print codes
+        # print df_rank
+        # print codes
+        # plt.title('%s'%(code))
+        # plt.show()

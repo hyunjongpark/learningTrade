@@ -23,9 +23,9 @@ from common import *
 
 
 def make_dataset(df, time_lags=5):
-    print(df)
+    # print(df)
     df_lag = pd.DataFrame(index=df.index)
-    print(df_lag)
+    # print(df_lag)
     df_lag["Close"] = df["Close"]
     df_lag["Volume"] = df["Volume"]
 
@@ -42,20 +42,23 @@ def make_dataset(df, time_lags=5):
 
 
 def split_dataset(df, input_column_array, output_column, spllit_ratio):
-    print(df)
+    # print(df)
 
     split_date = get_date_by_percent(df.index[0], df.index[df.shape[0] - 1], spllit_ratio)
 
     input_data = df[input_column_array]
     output_data = df[output_column]
 
-    print(input_data.index )
-    print(split_date)
+    # print(input_data.index )
+    # print(split_date)
     # Create training and test sets
     X_train = input_data[input_data.index < split_date]
     X_test = input_data[input_data.index >= split_date]
     Y_train = output_data[output_data.index < split_date]
     Y_test = output_data[output_data.index >= split_date]
+
+    # print(X_train)
+    # print(Y_train)
 
     return X_train, X_test, Y_train, Y_test
 
@@ -123,7 +126,7 @@ if __name__ == "__main__":
             try:
                 # df_company = load_stock_data('%s.data' % (company))
                 df_company = load_stock_data('%s' % (company))
-                print(df_company.index)
+                # print(df_company.index)
 
                 df_dataset = make_dataset(df_company, time_lags)
                 X_train, X_test, Y_train, Y_test = split_dataset(df_dataset, ["Close_Lag%s" % (time_lags),

@@ -110,6 +110,8 @@ class PortfolioBuilder():
         for a_row_code in rows_code:
             code = a_row_code[0]
             company = a_row_code[1]
+            if code == str('001440'):
+                self.dbreader.deleteCode(code)
 
             print("... %s of %s : Testing Stationarity on %s %s" % (index, len(rows_code), code, company))
 

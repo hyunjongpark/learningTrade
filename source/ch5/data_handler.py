@@ -48,7 +48,7 @@ class DataHandler():
             return cursor
         # gCursor.commit()
         except:
-            # print "Unexpected error in ExecSQL:", sys.args[0]
+            print ("Unexpected error in ExecSQL:", sys.args[0])
             raise
 
     def execSql(self, sql, db_commit=True):

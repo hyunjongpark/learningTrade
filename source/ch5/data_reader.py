@@ -51,3 +51,9 @@ class DataReader():
         sql = "delete from codes where code='%s'" %(code)
         print(sql)
         rows = self.dbhandler.execSql(sql).fetchall()
+
+    def totlaCountCode(self):
+        sql = "select count(*) from codes"
+        print(sql)
+        rows = self.dbhandler.openSql(sql).fetchall()
+        print(rows)

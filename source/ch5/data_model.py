@@ -125,6 +125,17 @@ class Portfolio(BaseCollection):
                 print ("... column=%s : index=%s, code=%s, company=%s" % (a_item.column,a_item.index,a_item.code,a_item.company))
 
         print ("--- Done ---")
+    def getCode(self):
+        retCode = []
+
+        for key in self.items.keys():
+            for a_item in self.items[key]:
+                info = []
+                info.append(a_item.code)
+                info.append(a_item.company)
+                retCode.append(info)
+        return retCode
+
 
 
 class TradeItem:
