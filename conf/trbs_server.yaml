@@ -1,0 +1,35 @@
+TRBS_SERVER:
+  ip: 172.21.110.174
+  port: 8088
+JENKINS:
+  url: http://localhost:8080
+  username: tft
+  password: tft
+  job_path: /var/lib/jenkins/jobs/
+BUILD:
+  ref_jenkins_master_xml: TRBS_MASTER.xml
+  ref_jenkins_slave_xml: TRBS_SLAVE.xml
+  ref_jenkins_result_xml: TRBS_RESULT.xml
+  multi_line_string_parameter_to_slave:
+    - name: tct_download_latest
+      value: true
+    - name: sr_build_id
+      value: dynamic_value
+    - name: slave_total_count
+      value: dynamic_value
+    - name: slave_index
+      value: dynamic_value
+    - name: tct_name
+      value: dynamic_value
+  tct_list_method: trigger_tct
+  #scheduling_method: trigger_tct = operation tct in trigger info
+  #scheduling_method: full_tct = operation full tct in file(NEW_GIT_LIST.xml)
+  #scheduling_method: partial_tct = operation partial tct in file(RUN_PARTIAL_TCT.yaml)
+  scheduling_method: slave_per_time
+  #scheduling_method: slave_per_number = create slave job by number of run_node_count
+  slave_count: 3
+  #scheduling_method: slave_per_time = create slave job by number of run_job_time
+  slave_time: 20
+  #scheduling_method: slave_per_suite = create slave job by number of tct suite number
+NODE:
+  [TRBS11,TRBS12,TRBS13]

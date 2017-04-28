@@ -31,8 +31,8 @@ if __name__ == "__main__":
     services.register('machine_learning_model', MachineLearningModel())
 
     crawler = DataCrawler()
-    universe = Portfolio()
-    portfolio = PortfolioBuilder()
+    portfolio = Portfolio()
+    portfolioBuilder = PortfolioBuilder()
     mean_backtester = MeanReversionBackTester()
     machine_backtester = MachineLearningBackTester()
 
@@ -41,10 +41,7 @@ if __name__ == "__main__":
     # crawler.updateAllStockData(1,2016,1,1,2016,12,10,start_index=90)
 
 
-    # services.get('configurator').register('start_date', '20150101')
-    # services.get('configurator').register('end_date', '20151130')
-
-    services.get('configurator').register('start_date', '20150519')
+    services.get('configurator').register('start_date', '20110101')
     services.get('configurator').register('end_date', '20170301')
 
     # services.get('configurator').register('input_column', 'price_adj_close')
@@ -56,27 +53,69 @@ if __name__ == "__main__":
     services.get('configurator').register('output_column', 'price_close_Direction')
 
     # finder.setTimePeriod('20150101','20151130')
-    df_stationarity = portfolio.doStationarityTest('price_close')
-    df_rank = portfolio.rankStationarity(df_stationarity)
-    stationarity_codes = portfolio.buildUniverse(df_rank, 'rank', 0.8)
+    df_stationarity = portfolioBuilder.doStationarityTest('price_close')
+    df_rank = portfolioBuilder.rankStationarity(df_stationarity)
+    stationarity_codes, rank_sorted = portfolioBuilder.buildUniverse(df_rank, 'rank', 0.8)
     print('top 80 list %s' % stationarity_codes)
 
-    df_machine_result = portfolio.doMachineLearningTest(split_ratio=0.75, lags_count=1)
-    df_machine_rank = portfolio.rankMachineLearning(df_machine_result)
-    machine_codes = portfolio.buildUniverse(df_machine_rank, 'rank', 0.8)
+    print(rank_sorted)
+
+
+
+    row_index = 0
+    code = rank_sorted.iloc[row_index]['code']
+    company = rank_sorted.iloc[row_index]['company']
+    print('%s: %s, %s' % (row_index, code, company))
+
+    # df = pd.read_pickle('KODEX 인버스.data')
+    # print(df.describe())
+    # print(df['Open'])
+    # df['Open'].plot()
+    # plt.axhline(df['Open'].mean(), color='red')
+    # plt.show()
+
+    # df_dataset = portfolioBuilder.predictor.makeLaggedDataset(code, services.get('configurator').get('start_date'),
+    #                                                    services.get('configurator').get('end_date'),
+    #                                                    services.get('configurator').get('input_column'),
+    #                                                    services.get('configurator').get('output_column'), 5)
+    # df_dataset['price_open'].plot()
+    # plt.axhline(df_dataset['price_open'].mean(), color='red')
+    # plt.show()
+
+
+
+    df_machine_result = portfolioBuilder.doMachineLearningTest(split_ratio=0.75, lags_count=1)
+    df_machine_rank = portfolioBuilder.rankMachineLearning(df_machine_result)
+    machine_codes = portfolioBuilder.buildUniverse(df_machine_rank, 'rank', 0.8)
 
     # print services.get('predictor').dump()
     # print df_machine_rank
     # print machine_codes
 
-    universe.clear()
-    universe.makeUniverse('price_close', 'stationarity', stationarity_codes)
-    universe.makeUniverse('price_close', 'machine_learning', machine_codes)
-    universe.dump()
-    codes = universe.getCode()
+
+
+   # print(stationarity_codes)
+    print(machine_codes)
+    portfolio.clear()
+    portfolio.makeUniverse('price_close', 'stationarity', stationarity_codes)
+    # universe.makeUniverse('price_close', 'machine_learning', machine_codes)
+    portfolio.dump()
+    codes = portfolio.getCode()
 
     start = services.get('configurator').get('start_date')
     end = services.get('configurator').get('end_date')
+
+    code = codes[0][0]
+    # machine_backtester.drawChart('rf', code, start, end, lags_count=5)
+    print('------------------------back tester: %s, %s' %(code, codes[0][1]))
+    machine_backtester.drawHitRatio('rf', code, start, end, lags_count=1)
+
+    code = codes[1][0]
+    machine_backtester.drawChart('rf', code, start, end, lags_count=5)
+    print('------------------------back tester: %s, %s' % (code, codes[1][1]))
+    machine_backtester.getConfusionMatrix('rf', code, start, end, lags_count=5)
+    machine_backtester.drawHitRatio('rf', code, start, end, lags_count=1)
+
 
     for info in codes:
         code = info[0]

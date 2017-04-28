@@ -26,13 +26,21 @@ def load_stock_data(file_name):
 # df = load_stock_data('samsung_2010.data')
 df = load_stock_data('samsung.data')
 print (df.describe())
-
 print(df['Open'])
 df['Open'].plot()
-mean = df['Open'].mean()
-# print(df['Open'].mean())
 plt.axhline(df['Open'].mean(),color='red')
 plt.show()
+
+
+df = load_stock_data('AJ네트웍스.data')
+df['Open'].plot()
+plt.axhline(df['Open'].mean(),color='red')
+plt.show()
+
+
+
+# ax = df_dataset[self.config.get('input_column')].plot()
+
 
 
 

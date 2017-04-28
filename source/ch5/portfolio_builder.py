@@ -142,14 +142,6 @@ class PortfolioBuilder():
             index += 1
 
         print(test_result)
-        # print(len(test_result['code']))
-        # print(len(test_result['company']))
-        # print(len(test_result['adf_statistic']))
-        # print(len(test_result['adf_1']))
-        # print(len(test_result['adf_5']))
-        # print(len(test_result['adf_10']))
-        # print(len(test_result['hurst']))
-        # print(len(test_result['halflife']))
 
         df_result = pd.DataFrame(test_result)
 
@@ -165,6 +157,7 @@ class PortfolioBuilder():
         # print halflife_percentile
 
         for row_index in range(df_stationarity.shape[0]):
+
             df_stationarity.loc[row_index, 'rank_adf'] = self.assessADF(df_stationarity.loc[row_index, 'adf_statistic'],
                                                                         df_stationarity.loc[row_index, 'adf_1'],
                                                                         df_stationarity.loc[row_index, 'adf_5'],
@@ -174,7 +167,10 @@ class PortfolioBuilder():
                                                                                   df_stationarity.loc[
                                                                                       row_index, 'halflife'])
 
+            print('code:%s, adf: %s, hurst:%s, halflife:%s ' %(df_stationarity.loc[row_index, 'company'], df_stationarity.loc[row_index, 'rank_adf'], df_stationarity.loc[row_index, 'rank_hurst'], df_stationarity.loc[row_index, 'rank_halflife']))
+
         df_stationarity['rank'] = df_stationarity['rank_adf'] + df_stationarity['rank_hurst'] + df_stationarity['rank_halflife']
+        print(df_stationarity['rank'])
 
         # print(df_stationarity['rank'])
         # print(df_stationarity['rank_adf'])
@@ -186,6 +182,13 @@ class PortfolioBuilder():
         percentile_column = np.percentile(df_stationarity[column], np.arange(0, 100, 10))
         ratio_index = np.trunc(ratio * len(percentile_column))
 
+        print(df_stationarity)
+
+        rank_sorted = df_stationarity.sort_values(by='rank', ascending=False)
+
+
+
+
         universe = {}
 
         for row_index in range(df_stationarity.shape[0]):
@@ -193,49 +196,10 @@ class PortfolioBuilder():
             if percentile_index >= ratio_index:
                 universe[df_stationarity.loc[row_index, 'code']] = df_stationarity.loc[row_index, 'company']
 
-        return universe
+        return universe, rank_sorted
 
     def doMachineLearningTest(self, split_ratio=0.75, lags_count=10):
         return self.machine_learning_model.calcScore(split_ratio=split_ratio, time_lags=lags_count)
-        # return self.predictor.trainAll(split_ratio=split_ratio,time_lags=lags_count )
-
-        """
-        rows_code = self.dbreader.loadCodes(limit = self.config.get('data_limit'))
-
-        test_result = {'code':[], 'company':[], 'logistic':[], 'rf':[], 'svm':[]}
-
-        index = 1
-        for a_row_code in rows_code:
-            code = a_row_code[0]
-            company = a_row_code[1]
-
-            print "... %s of %s : Testing Machine Learning on %s %s" % (index,len(rows_code),code,company)
-
-            df_dataset = self.predictor.makeLaggedDataset(code,self.config.get('start_date'),self.config.get('end_date'), self.config.get('input_column'),self.config.get('output_column'),time_lags=lags_count)
-
-            if df_dataset.shape[0]>0:
-
-                test_result['code'].append(code)
-                test_result['company'].append(company)
-
-                #print df_dataset
-
-                for a_clasifier in ['logistic','rf','svm']:
-                    predictor = self.predictor.get(a_clasifier)
-
-                    score = predictor.score(self.predictor.X_test,self.predictor.Y_test)
-
-                    test_result[a_clasifier].append(score)
-
-                    print "    predictor=%s, score=%s" % (a_clasifier,score)
-                #print test_result
-
-            index += 1
-
-        df_result = pd.DataFrame(test_result)
-
-        return df_result
-        """
 
     def rankMachineLearning(self, df_machine_learning):
         def listed_columns(arr, prefix):
