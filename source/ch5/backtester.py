@@ -106,8 +106,24 @@ class MachineLearningBackTester(BaseBackTester):
         self.model = services.get('machine_learning_model')
         self.predictor = services.get('predictor')
 
+    def get_predector(self, name, code, start_date, end_date, lags_count=5):
+
+        df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
+                                                      self.config.get('output_column'), lags_count)
+        df_x_test = df_dataset[self.config.get('input_column')]
+        df_y_true = df_dataset[self.config.get('output_column')].values
+
+        X_train, X_test, Y_train, Y_test = self.predictor.split_dataset(df_dataset,
+                                                                        self.config.get('input_column'),
+                                                                        self.config.get('output_column'), 0.75)
+        predictor = self.predictor.createPredictor(name)
+        predictor.train(X_train, Y_train)
+        return predictor
+
     def getTestDataset(self, name, code, start_date, end_date, lags_count=5):
-        a_predictor = self.predictor.get(code, name)
+        # a_predictor = self.predictor.get(code, name)
+        a_predictor = self.get_predector(name, code, start_date, end_date)
+
 
         df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
                                                       self.config.get('output_column'), lags_count)
@@ -119,15 +135,16 @@ class MachineLearningBackTester(BaseBackTester):
         return df_x_test, df_y_true, df_y_pred
 
     def drawChart(self, name, code, start_date, end_date, lags_count=5):
-        a_predictor = self.predictor.get(code, name)
-
         df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
                                                       self.config.get('output_column'), lags_count)
         df_x_test = df_dataset[self.config.get('input_column')]
         df_y_true = df_dataset[self.config.get('output_column')].values
-
-        df_y_pred, df_y_pred_probability = a_predictor.predict(df_x_test)
-        ax = df_dataset[self.config.get('input_column')].plot()
+        fig, axs = plt.subplots(2, 1)
+        axs[1].xaxis.set_visible(False)
+        df_dataset['price_close'].plot(ax=axs[0])
+        df_dataset['price_volume'].plot(ax=axs[1])
+        plt.title(code)
+        plt.show()
 
 
     # Output the hit-rate and the confusion matrix for each model
@@ -153,7 +170,8 @@ class MachineLearningBackTester(BaseBackTester):
         #
         # df_y_pred, df_y_pred_proba = a_predictor.predict(df_x_test.values)
         #
-        a_predictor = self.predictor.get(code, name)
+        # a_predictor = self.predictor.get(code, name)
+        a_predictor = self.get_predector(name, code, start_date, end_date)
         df_x_test, df_y_true, df_y_pred = self.getTestDataset(name, code, start_date, end_date, lags_count)
 
         # print df_y_pred
@@ -163,9 +181,10 @@ class MachineLearningBackTester(BaseBackTester):
     # print pd.crosstab(df_y_true,df_y_pred)
 
 
-    def printClassificationReport(self, name, code, start_date, end_date, lags_count=5):
-        a_predictor = self.predictor.get(code, name)
 
+    def printClassificationReport(self, name, code, start_date, end_date, lags_count=5):
+        # a_predictor = self.predictor.get(code, name)
+        a_predictor = self.get_predector(name, code, start_date, end_date)
         # df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
         #                                               self.config.get('output_column'), lags_count)
         # df_x_test = df_dataset[self.config.get('input_column')]
@@ -186,7 +205,8 @@ class MachineLearningBackTester(BaseBackTester):
 
 
     def getHitRatio(self, name, code, start_date, end_date, lags_count=5):
-        a_predictor = self.predictor.get(code, name)
+        # a_predictor = self.predictor.get(code, name)
+        a_predictor = self.get_predector(name, code, start_date, end_date)
 
         df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
                                                       self.config.get('output_column'), lags_count)
@@ -243,33 +263,29 @@ class MachineLearningBackTester(BaseBackTester):
 
 
     def drawHitRatio(self, name, code, start_date, end_date, lags_count=5):
-        a_predictor = self.predictor.get(code, name)
 
         df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
                                                       self.config.get('output_column'), lags_count)
         df_x_test = df_dataset[self.config.get('input_column')]
         df_y_true = df_dataset[self.config.get('output_column')].values
 
-        df_y_pred, df_y_pred_probability = a_predictor.predict(df_x_test)
+        X_train, X_test, Y_train, Y_test = self.predictor.split_dataset(df_dataset,
+                                                              self.config.get('input_column'),
+                                                              self.config.get('output_column'), 0.75)
+        predictor = self.predictor.createPredictor(name)
+        predictor.train(X_train, Y_train)
+        df_y_pred, df_y_pred_probability = predictor.predict(df_x_test)
 
-        # print(df_dataset.describe())
-        # print(df_dataset[self.config.get('input_column')])
-
-
-        # ax = df_dataset[self.config.get('input_column')].plot()
         ax = df_dataset[['price_close']].plot()
         plt.axhline(df_dataset[['price_close']].mean().values, color='red')
 
         for row_index in range(df_y_true.shape[0]):
             if (df_y_pred[row_index] == df_y_true[row_index]):
-                # print('x: %s, y: %s' %(df_dataset['price_date'].values[row_index], df_dataset[self.config.get('input_column')].values[row_index]))
-                # ax.annotate('Yes', xy=('%s'%(df_dataset['price_date'].values[row_index]), df_dataset[self.config.get('input_column')].values[row_index]),
-                #             xytext=(10, 30), textcoords='offset points', arrowprops=dict(arrowstyle='-|>'))
                 ax.annotate('Yes', xy=('%s' % (df_dataset['price_date'].values[row_index]), df_dataset['price_close'].values[row_index]),
                             xytext=(10, 30), textcoords='offset points', arrowprops=dict(arrowstyle='-|>'))
 
 
-        # plt.show()
+        plt.show()
 
     # Output the hit-rate and the confusion matrix for each model
 

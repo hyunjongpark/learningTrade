@@ -48,7 +48,6 @@ print (df_samsung['Close'].corr(df_hanmi['Close']))
 
 fig, axs = plt.subplots(2,1)
 axs[1].xaxis.set_visible(False)
-
 df_samsung['Close'].plot(ax=axs[0])
 df_samsung_corr[0].plot(kind='bar',ax=axs[1])
 

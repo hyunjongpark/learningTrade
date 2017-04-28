@@ -15,17 +15,6 @@ class DataReader():
     def __init__(self):
         self.dbhandler = services.get('dbhandler')
 
-    # def loadDataFrame(self, code, start_date, end_date):
-    #     print("loadDataFrame : %s, %s" % (start_date, end_date))
-    #     converted_start_date = start_date
-    #     converted_end_date = end_date
-    #     sql = "select * from prices"
-    #     sql += " where code='%s'" % (code)
-    #     sql += " and price_date between '%s' and '%s' " % (converted_start_date, converted_end_date)
-    #     print('sql' + sql)
-    #     df = pd.read_sql(sql, self.dbhandler.conn)
-    #     return df
-
     def loadDataFrame(self, code, start_date, end_date):
         print("loadDataFrame : %s, %s" % (start_date, end_date))
         converted_start_date = start_date
