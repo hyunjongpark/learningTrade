@@ -85,7 +85,8 @@ class MeanReversionModel(AlphaModel):
 
 class MachineLearningModel(AlphaModel):
 	def calcScore(self,split_ratio=0.75,time_lags=10):
-		return self.predictor.trainAll(split_ratio=split_ratio,time_lags=time_lags )
+		# return self.predictor.trainAll(split_ratio=split_ratio,time_lags=time_lags )
+		return self.predictor.trainAllFromFile(split_ratio=split_ratio, time_lags=time_lags)
 
 
 	def determinePosition(self,code,df,column,row_index,verbose=False):

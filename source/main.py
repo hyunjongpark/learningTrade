@@ -13,7 +13,7 @@ from data_reader import *
 from mess_trader import *
 from data_crawler import *
 
-from util.common import load_yaml, write_yaml, convertTodatetime
+from common import load_yaml, download_stock_data, get_df_from_file
 from portfolio_builder import *
 from predictor import *
 from backtester import *
@@ -22,6 +22,26 @@ from alpha_model import *
 
 app = Flask(__name__)
 
+@app.route("/write/stock/list/<file_name>")
+def write_stock_list(file_name):
+    crawler = services.get('crawler')
+    crawler.write_kospi(file_name=file_name)
+    return ''
+
+@app.route("/write/stock/datas/<stock_list_file_name>")
+def download_stock_datas(stock_list_file_name):
+    data = load_yaml(stock_list_file_name)
+    #download_stock_data('lg.data','066570',2015,1,1,2015,11,30)
+    # data.dump()
+    index = 0
+    for company_code, value in data.iterItems():
+        print("%s : %s - key=%s, Full Code=%s, Company=%s" % (index, value.market_type, company_code, value.full_code, value.company))
+        index += 1
+        find_name = '%s_%s.data' %(company_code, value.company)
+        download_stock_data(file_name=find_name, company_code=company_code, start='20110101', end='20170428')
+
+    return 'END'
+
 
 @app.route("/stock/update",methods=['POST'])
 def stock_update():
@@ -29,50 +49,80 @@ def stock_update():
     curl -d "start_date=20110101&end_data=20170421" http://172.21.110.174:8088/stock/update
     :return:
     """
-    start_date = request.form.get('start_date', default='20160101', type=str)
-    end_date = request.form.get('end_data', default='20170101', type=str)
-
+    # start_date = request.form.get('start_date', default='20110101', type=str)
+    # end_date = request.form.get('end_data', default='20170501', type=str)
+    start_date = '20110101'
+    end_date = '20170428'
     crawler = services.get('crawler')
-    crawler.updateAllCodes()
-    crawler.updateKospiCodes()
-    crawler.updateAllStockData(1, str(start_date)[0:4], str(start_date)[5:7], str(start_date)[8:10],
-                               str(end_date)[0:4], str(end_date)[5:7], str(end_date)[8:10], start_index=90)
+    # crawler.updateAllCodes()
+    crawler.updateKospiCodes(write_file=True)
+
+    year1=str(start_date)[0:4]
+    month1=str(start_date)[4:6]
+    date1=str(start_date)[6:8]
+    year2=str(end_date)[0:4]
+    month2=str(end_date)[4:6]
+    date2=str(end_date)[6:8]
+
+    crawler.updateAllStockData(1, year1, month1, date1, year2, month2, date2, start_index=90)
 
 
-@app.route("/stationarity/<count>")
-def stationarity(count):
+@app.route("/stationarity/")
+def stationarity():
     portfolioBuilder = services.get('portfolioBuilder')
-    df_stationarity = portfolioBuilder.doStationarityTest('price_close')
+    df_stationarity = portfolioBuilder.doStationarityTestFromFile(start = '20150101', end = '20161230')
     df_rank = portfolioBuilder.rankStationarity(df_stationarity)
     stationarity_codes, rank_sorted = portfolioBuilder.buildUniverse(df_rank, 'rank', 0.8)
     print('stationarity top 80 list %s' % stationarity_codes)
+    print('stationarity %s' %(rank_sorted))
+    write_yaml('stationarity_kospi100', rank_sorted)
     return rank_sorted
 
-@app.route("/machineLearning/<count>")
-def machineLearning(count):
+@app.route("/machineLearning")
+def machineLearning():
     portfolioBuilder = services.get('portfolioBuilder')
     df_machine_result = portfolioBuilder.doMachineLearningTest(split_ratio=0.75, lags_count=1)
     df_machine_rank = portfolioBuilder.rankMachineLearning(df_machine_result)
-    machine_codes = portfolioBuilder.buildUniverse(df_machine_rank, 'rank', 0.8)
-    print(machine_codes)
+    print('df_machine_rank: %s' %(df_machine_rank))
+    machine_codes, rank_sorted = portfolioBuilder.buildUniverse(df_machine_rank, 'rank', 0.8)
+    print('rank_sorted: %s' %(rank_sorted))
+    write_yaml('machineLearning_kospi100', rank_sorted)
     return 'END'
 
-@app.route("/chart/close/<code>")
-def chart_close(code):
-    print('%s' % (code))
-    portfolioBuilder = services.get('portfolioBuilder')
-    df_dataset = portfolioBuilder.predictor.makeLaggedDataset(code, services.get('configurator').get('start_date'),
-                                                              services.get('configurator').get('end_date'),
-                                                              services.get('configurator').get('input_column'),
-                                                              services.get('configurator').get('output_column'), 5)
-    df_dataset['price_open'].plot()
-    plt.axhline(df_dataset['price_open'].mean(), color='red')
+@app.route("/show/stock/<code>/<start>/<end>")
+def show_stock(code, start, end):
+    print('Show stock: %s %s~%s' % (code, start, end))
+    # portfolioBuilder = services.get('portfolioBuilder')
+    # df_dataset = portfolioBuilder.predictor.makeLaggedDataset(code, services.get('configurator').get('start_date'),
+    #                                                           services.get('configurator').get('end_date'),
+    #                                                           services.get('configurator').get('input_column'),
+    #                                                           services.get('configurator').get('output_column'), 5)
+    # print(df_dataset['price_open'])
+    # df_dataset['price_open'].plot()
+    # plt.axhline(df_dataset['price_open'].mean(), color='red')
+    # plt.show()
+
+    # dir_list = get_data_list()
+    # name = [name for name in dir_list if code in name]
+    # df = load_stock_data(name[0])
+    # print(df.describe())
+    # df = df[start:end]
+
+    df = get_df_from_file(code, start, end)
+
+    fig, axs = plt.subplots(2, 1)
+    axs[1].xaxis.set_visible(False)
+    df['Close'].plot(ax=axs[0])
+    # plt.axhline(df_dataset['Close'].mean(), color='red')
+    df['Volume'].plot(kind='bar', ax=axs[1])
+    # print(df['Close'])
     plt.show()
+
     return 'END'
 
 
 @app.route("/rank/code/<stationarity_codes>/<machine_codes>")
-def get_randk_close(stationarity_codes, machine_codes):
+def get_rank_close(stationarity_codes, machine_codes):
     portfolio = Portfolio()
     portfolio.clear()
     portfolio.makeUniverse('price_close', 'stationarity', stationarity_codes)
@@ -176,31 +226,67 @@ def init():
     services.register('portfolioBuilder', PortfolioBuilder())
 
     services.get('configurator').register('start_date', '20110101')
-    services.get('configurator').register('end_date', '20170301')
-    services.get('configurator').register('data_limit', 10)
+    services.get('configurator').register('end_date', '20150601')
+    services.get('configurator').register('data_limit', 100)
     services.get('configurator').register('input_column', ['price_close', 'price_volume'])
     services.get('configurator').register('output_column', 'price_close_Direction')
 
 
+def test_show_stationarity():
+    start = '20150101'
+    end = '20151230'
+    s_list = load_yaml('stationarity_kospi100')
+    for row_index in range(s_list.shape[0]):
+        if s_list.loc[row_index, 'rank'] >= 7:
+            code = s_list.loc[row_index, 'code']
+            print('code: %s' % (code))
+            df = get_df_from_file(code, start, end)
+            stationarity = Stationarity(df=df, code=code, start=start, end=end)
+            stationarity.show_rolling_mean()
+
+def test_show_machineLearning():
+    start = '20150101'
+    end = '20151230'
+    s_list = load_yaml('machineLearning_kospi100')
+    for row_index in range(s_list.shape[0]):
+        if s_list.loc[row_index, 'rank'] >= 9:
+            # print(s_list)
+            file_name = s_list.loc[row_index, 'company']
+            code = str(file_name).split('_')[0]
+            print('code: %s' % (code))
+            df = get_df_from_file(code, start, end)
+            stationarity = Stationarity(df=df, code=code, start=start, end=end)
+            stationarity.show_rolling_mean()
+
 if __name__ == "__main__":
     init()
+    # write_stock_list('kospi100')
+    # download_stock_datas('kospi100')
+
+    # stock_update()
     # test();
 
-    # stationarity(10);
 
-    # chart_close(114800)
+    # show_stock('000030', '20160101','20170428')
+    # stationarity()
+    # test_show_stationarity()
 
-    # machineLearning(10)
+    # machineLearning()
+    test_show_machineLearning()
+
+    # chart_close('097950')
+
+
 
     # stationarity_codes = {'102780': 'KODEX 삼성그룹', '114800': 'KODEX 인버스', '091170': 'KODEX 은행', '130730': 'KOSEF 단기자금',
     #                       '104530': 'KOSEF 고배당',
     #                       '069660': 'KOSEF 200'}
     # machine_codes = {'117680': 'KODEX 철강', '104530': 'KOSEF 고배당', '114800': 'KODEX 인버스', '102780': 'KODEX 삼성그룹',
     #                  '144600': 'KODEX 은선물(H)', '138920': 'KODEX 콩선물(H)'}
-    # get_randk_close(stationarity_codes, machine_codes)
+    # get_rank_close(stationarity_codes, machine_codes)
 
     #[['144600', 'KODEX 은선물(H)'], ['102780', 'KODEX 삼성그룹'], ['138920', 'KODEX 콩선물(H)'], ['104530', 'KOSEF 고배당'], ['117680', 'KODEX 철강'], ['114800', 'KODEX 인버스'], ['104530', 'KOSEF 고배당'], ['114800', 'KODEX 인버스'], ['091170', 'KODEX 은행'], ['130730', 'KOSEF 단기자금'], ['102780', 'KODEX 삼성그룹'], ['069660', 'KOSEF 200']]
-    backtester(144600, 20150501, 20150601)
+    #backtester(144600, 20150501, 20150601)
 
     # app.debug = True
     # app.run(host='0.0.0.0', port=services.get('configurator').get('trbs_master_port'))

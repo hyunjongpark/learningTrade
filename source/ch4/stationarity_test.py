@@ -104,14 +104,14 @@ def half_life():
 
 
 def rolling_mean():
-    df_samsung = load_stock_data('samsung.data')
+    df_samsung = load_stock_data('066570_LG전자.data')
     # print (df_samsung['Close'])
     draw_moving_average(df_samsung['Close'])
     # do_mean_reversion(df_samsung['Close'],10,100)
 
 
 if __name__ == "__main__":
-    # ADF()
-    # hurst_exponent()
-    # half_life()
+    adf()
+    hurst_exponent()
+    half_life()
     rolling_mean()

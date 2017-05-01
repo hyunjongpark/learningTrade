@@ -33,7 +33,7 @@ def get_autocorrelation_dataframe(series):
     return df
 
 
-df_samsung = load_stock_data('samsung.data')
+df_samsung = load_stock_data('000030_우리은행.data')
 df_samsung_corr = get_autocorrelation_dataframe(df_samsung['Close'])
 # print ('df_samsung_corr' + df_samsung_corr)
 
@@ -42,7 +42,7 @@ df_samsung_corr = get_autocorrelation_dataframe(df_samsung['Close'])
 # 	print ("%s, %s" % (i,arr))
 
 # df_samsung_corr = pd.DataFrame(arr,index=arr,columns=arr)
-df_hanmi = load_stock_data('hanmi.data')
+df_hanmi = load_stock_data('012330_현대모비스.data')
 print (df_samsung['Close'].cov(df_hanmi['Close']))
 print (df_samsung['Close'].corr(df_hanmi['Close']))
 

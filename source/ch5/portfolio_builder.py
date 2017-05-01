@@ -14,6 +14,8 @@ from data_handler import *
 from services import *
 from alpha_model import *
 
+from common import *
+from stationarity import Stationarity
 
 class PortfolioBuilder():
     def __init__(self):
@@ -97,6 +99,41 @@ class PortfolioBuilder():
                     return 1
 
         return 0
+
+    def doStationarityTestFromFile(self, start, end):
+        test_result = {'code': [], 'company': [], 'adf_statistic': [], 'adf_1': [], 'adf_5': [], 'adf_10': [],
+                       'hurst': [], 'halflife': []}
+
+        dataList = get_data_list()
+        print(dataList)
+        index = 0;
+        for file_name in dataList:
+
+            index = index + 1
+            try:
+                code_split = str(file_name).split("_")
+                code = code_split[0]
+                print('    %s/%s: %s' % (index, len(dataList), file_name))
+                df = get_df_from_file(code, start, end)
+                # print(df)
+                stationarity = Stationarity(df=df, code=code, start=start, end=end)
+                test_stat, adf_1, adf_5, adf_10, hurst, halflifes = stationarity.get_result()
+                test_result['adf_statistic'].append(test_stat)
+                test_result['adf_1'].append(adf_1)
+                test_result['adf_5'].append(adf_5)
+                test_result['adf_10'].append(adf_10)
+                test_result['code'].append(code)
+                test_result['company'].append(file_name)
+                test_result['hurst'].append(hurst)
+                test_result['halflife'].append(halflifes)
+            except:
+                print('except %s' %file_name)
+            # if index > 3:
+            #     break
+        print(test_result)
+        df_result = pd.DataFrame(test_result)
+        return df_result
+
 
     def doStationarityTest(self, column, lags_count=100):
         rows_code = self.dbreader.loadCodes(limit=self.config.get('data_limit'))

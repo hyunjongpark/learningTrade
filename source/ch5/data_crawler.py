@@ -16,6 +16,10 @@ from data_handler import *
 from data_writer import *
 from services import *
 
+parentPath = os.path.abspath("..")
+if parentPath not in sys.path:
+    sys.path.insert(0, parentPath)
+from common import write_yaml
 
 # from stock_finder import *
 
@@ -28,7 +32,8 @@ class DataCrawler:
 
     def downloadCode(self, market_type):
         url = 'http://datamall.koscom.co.kr/servlet/infoService/SearchIssue'
-        html = requests.post(url, data={'flag': 'SEARCH', 'marketDisabled': 'null', 'marketBit': market_type})
+        # html = requests.post(url, data={'flag': 'SEARCH', 'marketDisabled': 'null', 'marketBit': market_type})
+        html = requests.post(url, data={'flag': 'SEARCH', 'marketDisabled': 'null', 'marketBit': market_type, 'where':'1', 'whereCode':'62'})
         return html.content
 
     def parseCodeHTML(self, html, market_type):
@@ -91,10 +96,18 @@ class DataCrawler:
             self.dbwriter.updateCodeToDB(codes)
 
 
+    def write_kospi(self, file_name):
+        for market_type in ['kospiVal']:
+            html = self.downloadCode(market_type)
+            codes = self.parseCodeHTML(html, market_type)
+            print('code len %s' %(len(codes.iterItems())))
+            write_yaml(file_name, codes)
+
     def updateKospiCodes(self):
         for market_type in ['kospiVal']:
             html = self.downloadCode(market_type)
             codes = self.parseCodeHTML(html, market_type)
+            print('code len %s' %(len(codes.iterItems())))
             self.dbwriter.updateCodeToDB(codes)
 
 
@@ -105,8 +118,8 @@ class DataCrawler:
 
             return "%s.KQ" % (code)
 
-        start = datetime(year1, month1, date1)
-        end = datetime(year2, month2, date2)
+        start = datetime(int(year1), int(month1), int(date1))
+        end = datetime(int(year2), int(month2), int(date2))
         try:
             df = web.DataReader(makeCode(market_type, code), "yahoo", start, end)
             return df
@@ -125,8 +138,8 @@ class DataCrawler:
 
         sql = "select * from codes"
         sql += " where market_type=%s" % (market_type)
-        if start_index > 1:
-            sql += " and id>%s" % (start_index)
+        # if start_index > 1:
+        #     sql += " and id>%s" % (start_index)
 
         rows = self.dbhandler.openSql(sql).fetchall()
 

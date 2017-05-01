@@ -21,6 +21,7 @@ from data_handler import *
 from data_reader import *
 from data_writer import *
 from services import *
+from common import *
 
 
 # Asbtact Class
@@ -331,6 +332,116 @@ class Predictors:
         # print ("hit_count=%s, total=%s, hit_ratio = %s" % (hit_count,total_count,hit_ratio))
         # print("%s\n" % confusion_matrix(pred, y_test))
         return hit_ratio, score
+
+    def make_dataset(self, df, time_lags=5):
+        # print(df)
+        df_lag = pd.DataFrame(index=df.index)
+        # print(df_lag)
+        df_lag["Close"] = df["Close"]
+        df_lag["Volume"] = df["Volume"]
+
+        df_lag["Close_Lag%s" % str(time_lags)] = df["Close"].shift(time_lags)
+        df_lag["Close_Lag%s_Change" % str(time_lags)] = df_lag["Close_Lag%s" % str(time_lags)].pct_change() * 100.0
+
+        df_lag["Volume_Lag%s" % str(time_lags)] = df["Volume"].shift(time_lags)
+        df_lag["Volume_Lag%s_Change" % str(time_lags)] = df_lag["Volume_Lag%s" % str(time_lags)].pct_change() * 100.0
+
+        df_lag["Close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+        df_lag["Volume_Direction"] = np.sign(df_lag["Volume_Lag%s_Change" % str(time_lags)])
+
+        return df_lag.dropna(how='any')
+
+    def split_dataset(self, df, input_column_array, output_column, spllit_ratio):
+        # print(df)
+
+        def get_date_by_percent(start_date, end_date, percent):
+            days = (end_date - start_date).days
+            target_days = np.trunc(days * percent)
+            target_date = start_date + datetime.timedelta(days=target_days)
+            # print days, target_days,target_date
+            return target_date
+
+        split_date = get_date_by_percent(df.index[0], df.index[df.shape[0] - 1], spllit_ratio)
+
+        input_data = df[input_column_array]
+        output_data = df[output_column]
+
+        # print(input_data.index )
+        # print(split_date)
+        # Create training and test sets
+        X_train = input_data[input_data.index < split_date]
+        X_test = input_data[input_data.index >= split_date]
+        Y_train = output_data[output_data.index < split_date]
+        Y_test = output_data[output_data.index >= split_date]
+
+        # print(X_train)
+        # print(Y_train)
+
+        return X_train, X_test, Y_train, Y_test
+
+    def do_logistic_regression(self, x_train, y_train):
+        classifier = LogisticRegression()
+        classifier.fit(x_train, y_train)
+        return classifier
+
+    def do_random_forest(self, x_train, y_train):
+        classifier = RandomForestClassifier()
+        classifier.fit(x_train, y_train)
+        return classifier
+
+    def do_svm(self, x_train, y_train):
+        classifier = SVC()
+        classifier.fit(x_train, y_train)
+        return classifier
+
+    def trainAllFromFile(self, time_lags=5, split_ratio=0.75):
+
+        test_result = {'code': [], 'company': [], 'logistic': [], 'rf': [], 'svm': []}
+
+        dataList = get_data_list()
+        print(dataList)
+        avg_hit_ratio = 0
+        index = 0;
+        for company in dataList:
+            print('    %s/%s' % (index, len(dataList)))
+            index = index + 1
+
+            for time_lags in range(1, 6):
+                print("- Time Lags=%s" % (time_lags))
+
+                try:
+                    df_company = load_stock_data('%s' % (company))
+                    df_dataset = self.make_dataset(df_company, time_lags)
+                    X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, ["Close_Lag%s" % (time_lags),"Volume_Lag%s" % (time_lags)],"Close_Direction", 0.75)
+
+                    lr_classifier = self.do_logistic_regression(X_train, Y_train)
+                    lr_hit_ratio, lr_score = test_predictor(lr_classifier, X_test, Y_test)
+
+                    rf_classifier = self.do_random_forest(X_train, Y_train)
+                    rf_hit_ratio, rf_score = test_predictor(rf_classifier, X_test, Y_test)
+
+                    svm_classifier = self.do_svm(X_train, Y_train)
+                    svm_hit_ratio, svm_score = test_predictor(svm_classifier, X_test, Y_test)
+
+                    df_company_splat = str(df_company).split('_')
+                    test_result['code'].append(df_company_splat[0])
+                    test_result['company'].append(company)
+                    # test_result['time_lags'].append(time_lags)
+                    test_result['logistic'].append(lr_score)
+                    test_result['rf'].append(rf_score)
+                    test_result['svm'].append(svm_score)
+
+                    print("%s - %s : Hit Ratio - Logistic Regreesion=%0.2f, RandomForest=%0.2f, SVM=%0.2f" % (
+                    len(X_train), company, lr_hit_ratio, rf_hit_ratio, svm_hit_ratio))
+                except:
+                    print('except %s' % company)
+            # if index >= 3:
+            #     break
+
+        df_result = pd.DataFrame(test_result)
+
+        return df_result
+
 
     def trainAll(self, time_lags=5, split_ratio=0.75):
         rows_code = self.dbreader.loadCodes(self.config.get('data_limit'))

@@ -3,6 +3,7 @@ from __future__ import division
 
 import os, sys, datetime
 import numpy as np
+np.seterr(divide='ignore', invalid='ignore')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
@@ -107,32 +108,21 @@ def test_predictor(classifier, x_test, y_test):
 
 if __name__ == "__main__":
     # Calculate and output the CADF test on the residuals
-
-
     dataList = get_data_list()
     print(dataList)
-
     avg_hit_ratio = 0
-    # for time_lags in range(1, 6):
-    for time_lags in range(1, 2):
-        print("- Time Lags=%s" % (time_lags))
+    index = 0;
+    for company in dataList:
+        print('    %s/%s' % (index, len(dataList)))
+        index = index + 1
 
-        # for company in ['samsung', 'hanmi']:
-        index = 0;
-        for company in dataList:
-            print('    %s/%s' % (index, len(dataList)))
-            index = index + 1
+        for time_lags in range(1, 6):
+            print("- Time Lags=%s" % (time_lags))
 
             try:
-                # df_company = load_stock_data('%s.data' % (company))
                 df_company = load_stock_data('%s' % (company))
-                # print(df_company.index)
-
                 df_dataset = make_dataset(df_company, time_lags)
-                X_train, X_test, Y_train, Y_test = split_dataset(df_dataset, ["Close_Lag%s" % (time_lags),
-                                                                              "Volume_Lag%s" % (time_lags)],
-                                                                 "Close_Direction", 0.75)
-
+                X_train, X_test, Y_train, Y_test = split_dataset(df_dataset, ["Close_Lag%s" % (time_lags),"Volume_Lag%s" % (time_lags)],"Close_Direction", 0.75)
                 # X_train, X_test, Y_train, Y_test = split_dataset(df_dataset, ["Close_Lag%s" % (time_lags)],"Close_Direction", 0.75)
 
                 # print (X_train)
@@ -151,7 +141,7 @@ if __name__ == "__main__":
                 rf_hit_ratio, rf_score = test_predictor(rf_classifier, X_test, Y_test)
 
                 svm_classifier = do_svm(X_train, Y_train)
-                svm_hit_ratio, svm_score = test_predictor(rf_classifier, X_test, Y_test)
+                svm_hit_ratio, svm_score = test_predictor(svm_classifier, X_test, Y_test)
 
                 print("%s - %s : Hit Ratio - Logistic Regreesion=%0.2f, RandomForest=%0.2f, SVM=%0.2f" % (len(X_train),company,lr_hit_ratio,rf_hit_ratio,svm_hit_ratio))
             except:

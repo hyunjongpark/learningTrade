@@ -22,8 +22,9 @@ class DataReader():
         sql = "select price_date, price_open, price_close, price_high, price_low, price_adj_close, price_volume  from prices"
         sql += " where code='%s'" % (code)
         sql += " and price_date between '%s' and '%s' " % (converted_start_date, converted_end_date)
-        # print('sql' + sql)
+        print('sql: %s' %(sql))
         df = pd.read_sql(sql, self.dbhandler.conn)
+        print('df %s' %(df))
         return df
 
 

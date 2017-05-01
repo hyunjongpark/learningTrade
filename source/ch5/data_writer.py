@@ -50,6 +50,7 @@ class DataWriter():
     def updatePriceToDB(self, code, df):
         for row_index in range(df.shape[0]):
             sql = self.generatePriceItemSQL(code, df, row_index)
+            # print('updatePriceToDB: %s' %(sql))
             self.dbhandler.execSql(sql)
 
     # def generatePriceItemSQL(self, code, df, row_index):
