@@ -110,12 +110,29 @@ def show_stock(code, start, end):
 
     df = get_df_from_file(code, start, end)
 
-    fig, axs = plt.subplots(2, 1)
-    axs[1].xaxis.set_visible(False)
-    df['Close'].plot(ax=axs[0])
-    # plt.axhline(df_dataset['Close'].mean(), color='red')
-    df['Volume'].plot(kind='bar', ax=axs[1])
+
+    #test
+    # date = df['Date']
+    # print(date)
+    close = df['Close']
+    print(close)
+
+
+    fig, axs = plt.subplots(2)
+    # axs[1].xaxis.set_visible(False)
+    ax = axs[0]
+    ax.plot(df['Close'])
+    ax.plot(['20150106', '20150128', '2015-02-20'], [97800, 99000, 110000], 'bo')
+    ax.plot(['2015-01-02', '2015-02-04',], [101000,  97400], 'ro')
+    # ax.axhline(df['Close'].mean(), color='red')
+    ax.grid(True)
+
+    ax = axs[1]
+    ax.plot(df['Volume'], 'b')
+    # ax.plot(df['Volume'],5 , color="blue")
+    # df['Volume'].plot(kind='bar', ax=axs[1])
     # print(df['Close'])
+    ax.grid(True)
     plt.show()
 
     return 'END'
@@ -267,12 +284,12 @@ if __name__ == "__main__":
     # test();
 
 
-    # show_stock('000030', '20160101','20170428')
+    show_stock('000030', '20150101','20150301')
     # stationarity()
     # test_show_stationarity()
 
     # machineLearning()
-    test_show_machineLearning()
+    # test_show_machineLearning()
 
     # chart_close('097950')
 
