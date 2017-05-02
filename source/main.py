@@ -283,8 +283,8 @@ if __name__ == "__main__":
     # stock_update()
     # test();
 
-
     show_stock('000030', '20150101','20150301')
+    # show_stock('000030', '20160101','20170428')
     # stationarity()
     # test_show_stationarity()
 
@@ -292,8 +292,6 @@ if __name__ == "__main__":
     # test_show_machineLearning()
 
     # chart_close('097950')
-
-
 
     # stationarity_codes = {'102780': 'KODEX 삼성그룹', '114800': 'KODEX 인버스', '091170': 'KODEX 은행', '130730': 'KOSEF 단기자금',
     #                       '104530': 'KOSEF 고배당',
@@ -303,7 +301,7 @@ if __name__ == "__main__":
     # get_rank_close(stationarity_codes, machine_codes)
 
     #[['144600', 'KODEX 은선물(H)'], ['102780', 'KODEX 삼성그룹'], ['138920', 'KODEX 콩선물(H)'], ['104530', 'KOSEF 고배당'], ['117680', 'KODEX 철강'], ['114800', 'KODEX 인버스'], ['104530', 'KOSEF 고배당'], ['114800', 'KODEX 인버스'], ['091170', 'KODEX 은행'], ['130730', 'KOSEF 단기자금'], ['102780', 'KODEX 삼성그룹'], ['069660', 'KOSEF 200']]
-    #backtester(144600, 20150501, 20150601)
+    # backtester(144600, 20150501, 20150601)
 
     # app.debug = True
     # app.run(host='0.0.0.0', port=services.get('configurator').get('trbs_master_port'))

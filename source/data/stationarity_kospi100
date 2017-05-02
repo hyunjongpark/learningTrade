@@ -1,0 +1,583 @@
+!!python/object:pandas.core.frame.DataFrame
+_data: !!python/object/new:pandas.core.internals.BlockManager
+  state: !!python/tuple
+  - &id005
+    - !!python/object/apply:pandas.indexes.base._new_Index
+      - &id004 !!python/name:pandas.indexes.base.Index ''
+      - data: !!python/object/apply:numpy.core.multiarray._reconstruct
+          args:
+          - &id001 !!python/name:numpy.ndarray ''
+          - !!python/tuple
+            - 0
+          - !!binary |
+            Yg==
+          state: !!python/tuple
+          - 1
+          - !!python/tuple
+            - 12
+          - &id003 !!python/object/apply:numpy.dtype
+            args:
+            - O4
+            - 0
+            - 1
+            state: !!python/tuple
+            - 3
+            - '|'
+            - null
+            - null
+            - null
+            - -1
+            - -1
+            - 63
+          - false
+          - - adf_1
+            - adf_10
+            - adf_5
+            - adf_statistic
+            - code
+            - company
+            - halflife
+            - hurst
+            - rank_adf
+            - rank_hurst
+            - rank_halflife
+            - rank
+        name: null
+    - !!python/object/apply:pandas.indexes.base._new_Index
+      - !!python/name:pandas.indexes.numeric.Int64Index ''
+      - data: !!python/object/apply:numpy.core.multiarray._reconstruct
+          args:
+          - *id001
+          - !!python/tuple
+            - 0
+          - !!binary |
+            Yg==
+          state: !!python/tuple
+          - 1
+          - !!python/tuple
+            - 101
+          - &id002 !!python/object/apply:numpy.dtype
+            args:
+            - i8
+            - 0
+            - 1
+            state: !!python/tuple
+            - 3
+            - <
+            - null
+            - null
+            - null
+            - -1
+            - -1
+            - 0
+          - false
+          - !!binary |
+            XQAAAAAAAAACAAAAAAAAAD0AAAAAAAAAUwAAAAAAAAA6AAAAAAAAADkAAAAAAAAACQAAAAAAAABC
+            AAAAAAAAACkAAAAAAAAAQAAAAAAAAABGAAAAAAAAACgAAAAAAAAADwAAAAAAAABHAAAAAAAAAFsA
+            AAAAAAAADQAAAAAAAABSAAAAAAAAACwAAAAAAAAALgAAAAAAAAA7AAAAAAAAAFgAAAAAAAAAQQAA
+            AAAAAAAYAAAAAAAAADAAAAAAAAAASgAAAAAAAAAzAAAAAAAAAAoAAAAAAAAABAAAAAAAAAARAAAA
+            AAAAAE0AAAAAAAAADAAAAAAAAAA3AAAAAAAAADYAAAAAAAAAKgAAAAAAAAAOAAAAAAAAAF8AAAAA
+            AAAAJwAAAAAAAAAxAAAAAAAAAEkAAAAAAAAABwAAAAAAAAAbAAAAAAAAABMAAAAAAAAAAwAAAAAA
+            AABiAAAAAAAAAGMAAAAAAAAARQAAAAAAAABEAAAAAAAAAEMAAAAAAAAASAAAAAAAAABhAAAAAAAA
+            AFwAAAAAAAAAYAAAAAAAAABLAAAAAAAAAFoAAAAAAAAATAAAAAAAAABOAAAAAAAAAE8AAAAAAAAA
+            UAAAAAAAAABRAAAAAAAAAF4AAAAAAAAAVAAAAAAAAABVAAAAAAAAAFYAAAAAAAAAVwAAAAAAAABZ
+            AAAAAAAAAAAAAAAAAAAAMgAAAAAAAAA/AAAAAAAAABUAAAAAAAAAHQAAAAAAAAAcAAAAAAAAABoA
+            AAAAAAAAGQAAAAAAAAAXAAAAAAAAABYAAAAAAAAAFAAAAAAAAAA+AAAAAAAAABIAAAAAAAAAEAAA
+            AAAAAAALAAAAAAAAAAgAAAAAAAAABgAAAAAAAAAFAAAAAAAAAB4AAAAAAAAAHwAAAAAAAAAgAAAA
+            AAAAACEAAAAAAAAAIgAAAAAAAAAjAAAAAAAAACQAAAAAAAAAJQAAAAAAAAAmAAAAAAAAACsAAAAA
+            AAAALQAAAAAAAAAvAAAAAAAAAAEAAAAAAAAANAAAAAAAAAA1AAAAAAAAADgAAAAAAAAAPAAAAAAA
+            AABkAAAAAAAAAA==
+        name: null
+  - - &id006 !!python/object/apply:numpy.core.multiarray._reconstruct
+      args:
+      - *id001
+      - !!python/tuple
+        - 0
+      - !!binary |
+        Yg==
+      state: !!python/tuple
+      - 1
+      - !!python/tuple
+        - 6
+        - 101
+      - !!python/object/apply:numpy.dtype
+        args:
+        - f8
+        - 0
+        - 1
+        state: !!python/tuple
+        - 3
+        - <
+        - null
+        - null
+        - null
+        - -1
+        - -1
+        - 0
+      - false
+      - !!binary |
+        gfBloDCLC8De6nNoPYsLwIHwZaAwiwvA3upzaD2LC8CB8GWgMIsLwM89px5XiwvA3upzaD2LC8CR
+        Di49SosLwN7qc2g9iwvAgfBloDCLC8CB8GWgMIsLwIHwZaAwiwvAgfBloDCLC8CRDi49SosLwIHw
+        ZaAwiwvAgfBloDCLC8De6nNoPYsLwJeBWf6/iwvAPzkutLKLC8DAINZHmIsLwMh2XneliwvAZ4Dy
+        DGSLC8CB8GWgMIsLwJEOLj1KiwvAkQ4uPUqLC8De6nNoPYsLwN7qc2g9iwvAZ4DyDGSLC8De6nNo
+        PYsLwIHwZaAwiwvAgfBloDCLC8DyRYEli4sLwFTVE7vaiwvAgfBloDCLC8BngPIMZIsLwJEOLj1K
+        iwvAgfBloDCLC8DPPaceV4sLwIHwZaAwiwvAkQ4uPUqLC8CRDi49SosLwIHwZaAwiwvAgfBloDCL
+        C8BngPIMZIsLwGeA8gxkiwvAgfBloDCLC8CB8GWgMIsLwM89px5XiwvAgfBloDCLC8De6nNoPYsL
+        wN7qc2g9iwvAkQ4uPUqLC8CB8GWgMIsLwN7qc2g9iwvA8kWBJYuLC8DPPaceV4sLwIHwZaAwiwvA
+        yHZed6WLC8De6nNoPYsLwIHwZaAwiwvA3upzaD2LC8CRDi49SosLwIHwZaAwiwvA3upzaD2LC8CB
+        8GWgMIsLwIHwZaAwiwvAgfBloDCLC8De6nNoPYsLwN7qc2g9iwvAgfBloDCLC8DPPaceV4sLwMh2
+        XneliwvAgfBloDCLC8AcBCMIcYsLwIHwZaAwiwvAZ4DyDGSLC8AcBCMIcYsLwN7qc2g9iwvAgfBl
+        oDCLC8De6nNoPYsLwIHwZaAwiwvAgfBloDCLC8DIdl53pYsLwIHwZaAwiwvAgfRY2BCMC8CB8GWg
+        MIsLwAYdTBB+iwvA55H0Vc2LC8CB8GWgMIsLwAYdTBB+iwvA+zdFgh6MC8De6nNoPYsLwJEOLj1K
+        iwvA3upzaD2LC8CB8GWgMIsLwJEOLj1KiwvAgfBloDCLC8CB8GWgMIsLwIHwZaAwiwvAgfBloDCL
+        C8A8fx9MfaoLwEHFfD7QjgTAnQD7PdOOBMBBxXw+0I4EwJ0A+z3TjgTAQcV8PtCOBMDzPeNF2Y4E
+        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
+        f+I/
+    - &id007 !!python/object/apply:numpy.core.multiarray._reconstruct
+      args:
+      - *id001
+      - !!python/tuple
+        - 0
+      - !!binary |
+        Yg==
+      state: !!python/tuple
+      - 1
+      - !!python/tuple
+        - 4
+        - 101
+      - *id002
+      - false
+      - !!binary |
+        AwAAAAAAAAADAAAAAAAAAAMAAAAAAAAAAwAAAAAAAAADAAAAAAAAAAMAAAAAAAAAAwAAAAAAAAAD
+        AAAAAAAAAAMAAAAAAAAAAwAAAAAAAAADAAAAAAAAAAMAAAAAAAAAAwAAAAAAAAADAAAAAAAAAAMA
+        AAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAABAAAAAAAA
+        AAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAA
+        AAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAB
+        AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEA
+        AAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAQAA
+        AAAAAAABAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAMAAAAAAAAAAwAAAAAAAAADAAAAAAAAAAMAAAAA
+        AAAAAwAAAAAAAAADAAAAAAAAAAMAAAAAAAAAAwAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAgAAAAAA
+        AAABAAAAAAAAAAIAAAAAAAAAAQAAAAAAAAADAAAAAAAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAAAAA
+        AAIAAAAAAAAAAgAAAAAAAAADAAAAAAAAAAEAAAAAAAAAAgAAAAAAAAABAAAAAAAAAAEAAAAAAAAA
+        AgAAAAAAAAABAAAAAAAAAAIAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAAHAAAAAAAAAAcAAAAAAAAABwAA
+        AAAAAAAHAAAAAAAAAAcAAAAAAAAABwAAAAAAAAAHAAAAAAAAAAYAAAAAAAAABgAAAAAAAAAGAAAA
+        AAAAAAYAAAAAAAAABQAAAAAAAAAFAAAAAAAAAAUAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAMAAAAA
+        AAAAAwAAAAAAAAADAAAAAAAAAAMAAAAAAAAAAwAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAgAAAAAA
+        AAACAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAAQAAAAAAAAABAAAAAAAA
+        AAEAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAA
+        AQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+    - &id008 !!python/object/apply:numpy.core.multiarray._reconstruct
+      args:
+      - *id001
+      - !!python/tuple
+        - 0
+      - !!binary |
+        Yg==
+      state: !!python/tuple
+      - 1
+      - !!python/tuple
+        - 2
+        - 101
+      - *id003
+      - false
+      - - 097950
+        - '000120'
+        - 028260
+        - '055550'
+        - '023530'
+        - '021240'
+        - 000810
+        - 032830
+        - '010130'
+        - '030200'
+        - '034730'
+        - '010060'
+        - 002790
+        - '035250'
+        - 090430
+        - 001800
+        - 051910
+        - '011070'
+        - '011210'
+        - '024110'
+        - 086280
+        - '032640'
+        - 005380
+        - '012330'
+        - '036570'
+        - '012750'
+        - 000880
+        - '000210'
+        - '003550'
+        - '047040'
+        - '001740'
+        - 018260
+        - '017670'
+        - '010140'
+        - 002380
+        - '114090'
+        - 009830
+        - '012450'
+        - '036460'
+        - '000670'
+        - 005830
+        - '004170'
+        - '000150'
+        - '139480'
+        - '161390'
+        - '034220'
+        - '034020'
+        - 033780
+        - '035420'
+        - '138930'
+        - 096770
+        - '128940'
+        - '042660'
+        - 088350
+        - '042670'
+        - '047050'
+        - 047810
+        - '051600'
+        - 051900
+        - '105560'
+        - '066570'
+        - 069960
+        - '071050'
+        - 078930
+        - 086790
+        - '000030'
+        - '012630'
+        - '030000'
+        - 004800
+        - 005940
+        - 005930
+        - '005610'
+        - 005490
+        - '005300'
+        - 004990
+        - '004370'
+        - 029780
+        - '004020'
+        - 003490
+        - '001040'
+        - '000720'
+        - '000660'
+        - '000270'
+        - '006400'
+        - 006800
+        - '007070'
+        - '007310'
+        - 008770
+        - 008930
+        - 009150
+        - 009240
+        - 009540
+        - 010950
+        - '011170'
+        - 011780
+        - '000100'
+        - '015760'
+        - '016360'
+        - 018880
+        - '027410'
+        - hanmi.data
+        - "097950_CJ\uC81C\uC77C\uC81C\uB2F9.data"
+        - "000120_CJ\uB300\uD55C\uD1B5\uC6B4.data"
+        - "028260_\uC0BC\uC131\uBB3C\uC0B0.data"
+        - "055550_\uC2E0\uD55C\uC9C0\uC8FC.data"
+        - "023530_\uB86F\uB370\uC1FC\uD551.data"
+        - "021240_\uCF54\uC6E8\uC774.data"
+        - "000810_\uC0BC\uC131\uD654\uC7AC.data"
+        - "032830_\uC0BC\uC131\uC0DD\uBA85.data"
+        - "010130_\uACE0\uB824\uC544\uC5F0.data"
+        - 030200_KT.data
+        - 034730_SK.data
+        - 010060_OCI.data
+        - "002790_\uC544\uBAA8\uB808G.data"
+        - "035250_\uAC15\uC6D0\uB79C\uB4DC.data"
+        - "090430_\uC544\uBAA8\uB808\uD37C\uC2DC\uD53D.data"
+        - "001800_\uC624\uB9AC\uC628.data"
+        - "051910_LG\uD654\uD559.data"
+        - "011070_LG\uC774\uB178\uD14D.data"
+        - "011210_\uD604\uB300\uC704\uC544.data"
+        - "024110_\uAE30\uC5C5\uC740\uD589.data"
+        - "086280_\uD604\uB300\uAE00\uB85C\uBE44\uC2A4.data"
+        - "032640_LG\uC720\uD50C\uB7EC\uC2A4.data"
+        - "005380_\uD604\uB300\uCC28.data"
+        - "012330_\uD604\uB300\uBAA8\uBE44\uC2A4.data"
+        - "036570_\uC5D4\uC528\uC18C\uD504\uD2B8.data"
+        - "012750_\uC5D0\uC2A4\uC6D0.data"
+        - "000880_\uD55C\uD654.data"
+        - "000210_\uB300\uB9BC\uC0B0\uC5C5.data"
+        - 003550_LG.data
+        - "047040_\uB300\uC6B0\uAC74\uC124.data"
+        - "001740_SK\uB124\uD2B8\uC6CD\uC2A4.data"
+        - "018260_\uC0BC\uC131\uC5D0\uC2A4\uB514\uC5D0\uC2A4.data"
+        - "017670_SK\uD154\uB808\uCF64.data"
+        - "010140_\uC0BC\uC131\uC911\uACF5\uC5C5.data"
+        - 002380_KCC.data
+        - 114090_GKL.data
+        - "009830_\uD55C\uD654\uCF00\uBBF8\uCE7C.data"
+        - "012450_\uD55C\uD654\uD14C\uD06C\uC708.data"
+        - "036460_\uD55C\uAD6D\uAC00\uC2A4\uACF5\uC0AC.data"
+        - "000670_\uC601\uD48D.data"
+        - "005830_\uB3D9\uBD80\uD654\uC7AC.data"
+        - "004170_\uC2E0\uC138\uACC4.data"
+        - "000150_\uB450\uC0B0.data"
+        - "139480_\uC774\uB9C8\uD2B8.data"
+        - "161390_\uD55C\uAD6D\uD0C0\uC774\uC5B4.data"
+        - "034220_LG\uB514\uC2A4\uD50C\uB808\uC774.data"
+        - "034020_\uB450\uC0B0\uC911\uACF5\uC5C5.data"
+        - 033780_KT&G.data
+        - 035420_NAVER.data
+        - "138930_BNK\uAE08\uC735\uC9C0\uC8FC.data"
+        - "096770_SK\uC774\uB178\uBCA0\uC774\uC158.data"
+        - "128940_\uD55C\uBBF8\uC57D\uD488.data"
+        - "042660_\uB300\uC6B0\uC870\uC120\uD574\uC591.data"
+        - "088350_\uD55C\uD654\uC0DD\uBA85.data"
+        - "042670_\uB450\uC0B0\uC778\uD504\uB77C\uCF54\uC5B4.data"
+        - "047050_\uD3EC\uC2A4\uCF54\uB300\uC6B0.data"
+        - "047810_\uD55C\uAD6D\uD56D\uACF5\uC6B0\uC8FC.data"
+        - "051600_\uD55C\uC804KPS.data"
+        - "051900_LG\uC0DD\uD65C\uAC74\uAC15.data"
+        - "105560_KB\uAE08\uC735.data"
+        - "066570_LG\uC804\uC790.data"
+        - "069960_\uD604\uB300\uBC31\uD654\uC810.data"
+        - "071050_\uD55C\uAD6D\uAE08\uC735\uC9C0\uC8FC.data"
+        - 078930_GS.data
+        - "086790_\uD558\uB098\uAE08\uC735\uC9C0\uC8FC.data"
+        - "000030_\uC6B0\uB9AC\uC740\uD589.data"
+        - "012630_\uD604\uB300\uC0B0\uC5C5.data"
+        - "030000_\uC81C\uC77C\uAE30\uD68D.data"
+        - "004800_\uD6A8\uC131.data"
+        - "005940_NH\uD22C\uC790\uC99D\uAD8C.data"
+        - "005930_\uC0BC\uC131\uC804\uC790.data"
+        - "005610_SPC\uC0BC\uB9BD.data"
+        - 005490_POSCO.data
+        - "005300_\uB86F\uB370\uCE60\uC131.data"
+        - "004990_\uB86F\uB370\uC81C\uACFC.data"
+        - "004370_\uB18D\uC2EC.data"
+        - "029780_\uC0BC\uC131\uCE74\uB4DC.data"
+        - "004020_\uD604\uB300\uC81C\uCCA0.data"
+        - "003490_\uB300\uD55C\uD56D\uACF5.data"
+        - 001040_CJ.data
+        - "000720_\uD604\uB300\uAC74\uC124.data"
+        - "000660_SK\uD558\uC774\uB2C9\uC2A4.data"
+        - "000270_\uAE30\uC544\uCC28.data"
+        - "006400_\uC0BC\uC131SDI.data"
+        - "006800_\uBBF8\uB798\uC5D0\uC14B\uB300\uC6B0.data"
+        - "007070_GS\uB9AC\uD14C\uC77C.data"
+        - "007310_\uC624\uB69C\uAE30.data"
+        - "008770_\uD638\uD154\uC2E0\uB77C.data"
+        - "008930_\uD55C\uBBF8\uC0AC\uC774\uC5B8\uC2A4.data"
+        - "009150_\uC0BC\uC131\uC804\uAE30.data"
+        - "009240_\uD55C\uC0D8.data"
+        - "009540_\uD604\uB300\uC911\uACF5\uC5C5.data"
+        - 010950_S-Oil.data
+        - "011170_\uB86F\uB370\uCF00\uBBF8\uCE7C.data"
+        - "011780_\uAE08\uD638\uC11D\uC720.data"
+        - "000100_\uC720\uD55C\uC591\uD589.data"
+        - "015760_\uD55C\uAD6D\uC804\uB825.data"
+        - "016360_\uC0BC\uC131\uC99D\uAD8C.data"
+        - "018880_\uD55C\uC628\uC2DC\uC2A4\uD15C.data"
+        - "027410_BGF\uB9AC\uD14C\uC77C.data"
+        - hanmi.data
+  - - !!python/object/apply:pandas.indexes.base._new_Index
+      - *id004
+      - data: !!python/object/apply:numpy.core.multiarray._reconstruct
+          args:
+          - *id001
+          - !!python/tuple
+            - 0
+          - !!binary |
+            Yg==
+          state: !!python/tuple
+          - 1
+          - !!python/tuple
+            - 6
+          - *id003
+          - false
+          - - adf_1
+            - adf_10
+            - adf_5
+            - adf_statistic
+            - halflife
+            - hurst
+        name: null
+    - !!python/object/apply:pandas.indexes.base._new_Index
+      - *id004
+      - data: !!python/object/apply:numpy.core.multiarray._reconstruct
+          args:
+          - *id001
+          - !!python/tuple
+            - 0
+          - !!binary |
+            Yg==
+          state: !!python/tuple
+          - 1
+          - !!python/tuple
+            - 4
+          - *id003
+          - false
+          - - rank_adf
+            - rank_hurst
+            - rank_halflife
+            - rank
+        name: null
+    - !!python/object/apply:pandas.indexes.base._new_Index
+      - *id004
+      - data: !!python/object/apply:numpy.core.multiarray._reconstruct
+          args:
+          - *id001
+          - !!python/tuple
+            - 0
+          - !!binary |
+            Yg==
+          state: !!python/tuple
+          - 1
+          - !!python/tuple
+            - 2
+          - *id003
+          - false
+          - - code
+            - company
+        name: null
+  - 0.14.1:
+      axes: *id005
+      blocks:
+      - mgr_locs: !!python/object/apply:numpy.core.multiarray._reconstruct
+          args:
+          - *id001
+          - !!python/tuple
+            - 0
+          - !!binary |
+            Yg==
+          state: !!python/tuple
+          - 1
+          - !!python/tuple
+            - 6
+          - *id002
+          - false
+          - !!binary |
+            AAAAAAAAAAABAAAAAAAAAAIAAAAAAAAAAwAAAAAAAAAGAAAAAAAAAAcAAAAAAAAA
+        values: *id006
+      - mgr_locs: !!python/object/apply:builtins.slice
+        - 8
+        - 12
+        - 1
+        values: *id007
+      - mgr_locs: !!python/object/apply:builtins.slice
+        - 4
+        - 6
+        - 1
+        values: *id008
+_metadata: []
+_typ: dataframe
