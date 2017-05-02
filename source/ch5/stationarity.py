@@ -24,7 +24,7 @@ class Stationarity():
         self.adf_result = self.adf()
         self.hurst = self.hurst_exponent()
         self.half_life = self.half_life()
-        self.show_rolling_mean()
+        # self.show_rolling_mean()
 
         self.ciritical_values = self.adf_result[4]
         # print('ciritical_values %s' % ciritical_values)
@@ -68,8 +68,9 @@ class Stationarity():
 
     def draw_moving_average(self,df):
         # df['Close'].plot(style='k--')
-        df['Open'].plot(style='k')
+        df['Close'].plot()
         pd.rolling_mean(df['Close'], 20).plot(color='r')
+        # plt.rolling(window=20, center=False).mean()
         plt.show()
 
 
@@ -82,19 +83,19 @@ class Stationarity():
 
     def adf(self):
         adf_result = ts.adfuller(self.df["Close"])
-        # pprint.pprint(adf_result)
+        pprint.pprint(adf_result)
         return adf_result
 
 
     def hurst_exponent(self):
         hurst = self.get_hurst_exponent(self.df['Close'])
-        print(" than 1, Hurst Exponent : %s=%s" % (self.code, hurst))
+        print("Hurst Exponent : %s=%s" % (self.code, hurst))
         return hurst
 
 
     def half_life(self):
         half_life = self.get_half_life(self.df['Close'])
-        print("thaHalf_life :  %s=%s" % (self.code, half_life))
+        print("Half_life :  %s=%s" % (self.code, half_life))
         return half_life
 
 

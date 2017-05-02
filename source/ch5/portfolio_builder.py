@@ -85,11 +85,11 @@ class PortfolioBuilder():
     def assessMachineLearning(self, percentile, halflife):
         for index in range(len(percentile)):
 
-            # print "assessHalflife : %s , half=%s : percentile=%s" % (index, halflife, percentile[index])
+            print ("assessHalflife : %s , half=%s : percentile=%s" % (index, halflife, percentile[index]))
 
             if halflife <= percentile[index]:
 
-                # print "assessHalflife : %s , half=%s : percentile=%s" % (index, halflife, percentile[index])
+                print ("assessHalflife : %s , half=%s : percentile=%s" % (index, halflife, percentile[index]))
 
                 if index < 2:
                     return 3
@@ -221,7 +221,7 @@ class PortfolioBuilder():
 
         print(df_stationarity)
 
-        rank_sorted = df_stationarity.sort_values(by='rank', ascending=False)
+        # rank_sorted = df_stationarity.sort_values(by='total_score', ascending=False)
 
 
 
@@ -233,7 +233,7 @@ class PortfolioBuilder():
             if percentile_index >= ratio_index:
                 universe[df_stationarity.loc[row_index, 'code']] = df_stationarity.loc[row_index, 'company']
 
-        return universe, rank_sorted
+        return universe
 
     def doMachineLearningTest(self, split_ratio=0.75, lags_count=10):
         return self.machine_learning_model.calcScore(split_ratio=split_ratio, time_lags=lags_count)

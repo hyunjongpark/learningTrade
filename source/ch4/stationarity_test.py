@@ -92,7 +92,7 @@ def hurst_exponent():
     df_hanmi = load_stock_data('hanmi.data')
     hurst_samsung = get_hurst_exponent(df_samsung['Close'])
     hurst_hanmi = get_hurst_exponent(df_hanmi['Close'])
-    print(" than 1, Hurst Exponent : Samsung=%s, Hanmi=%s" % (hurst_samsung, hurst_hanmi))
+    print("Hurst Exponent : Samsung=%s, Hanmi=%s" % (hurst_samsung, hurst_hanmi))
 
 
 def half_life():
@@ -100,7 +100,7 @@ def half_life():
     df_hanmi = load_stock_data('hanmi.data')
     half_life_samsung = get_half_life(df_samsung['Close'])
     half_life_hanmi = get_half_life(df_hanmi['Close'])
-    print("thaHalf_life : Samsung=%s, Hanmi=%s" % (half_life_samsung, half_life_hanmi))
+    print("Half_life : Samsung=%s, Hanmi=%s" % (half_life_samsung, half_life_hanmi))
 
 
 def rolling_mean():

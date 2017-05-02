@@ -405,8 +405,8 @@ class Predictors:
         for company in dataList:
             print('    %s/%s' % (index, len(dataList)))
             index = index + 1
-
-            for time_lags in range(1, 6):
+            # for time_lags in range(1, 10):
+            for time_lags in [5]:
                 print("- Time Lags=%s" % (time_lags))
 
                 try:

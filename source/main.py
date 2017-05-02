@@ -72,11 +72,11 @@ def stationarity():
     portfolioBuilder = services.get('portfolioBuilder')
     df_stationarity = portfolioBuilder.doStationarityTestFromFile(start = '20150101', end = '20161230')
     df_rank = portfolioBuilder.rankStationarity(df_stationarity)
-    stationarity_codes, rank_sorted = portfolioBuilder.buildUniverse(df_rank, 'rank', 0.8)
+    stationarity_codes = portfolioBuilder.buildUniverse(df_rank, 'rank', 0.8)
     print('stationarity top 80 list %s' % stationarity_codes)
-    print('stationarity %s' %(rank_sorted))
-    write_yaml('stationarity_kospi100', rank_sorted)
-    return rank_sorted
+    print('stationarity %s' %(stationarity_codes))
+    write_yaml('stationarity_kospi100', df_rank)
+    return 'END'
 
 @app.route("/machineLearning")
 def machineLearning():
@@ -84,9 +84,9 @@ def machineLearning():
     df_machine_result = portfolioBuilder.doMachineLearningTest(split_ratio=0.75, lags_count=1)
     df_machine_rank = portfolioBuilder.rankMachineLearning(df_machine_result)
     print('df_machine_rank: %s' %(df_machine_rank))
-    machine_codes, rank_sorted = portfolioBuilder.buildUniverse(df_machine_rank, 'rank', 0.8)
-    print('rank_sorted: %s' %(rank_sorted))
-    write_yaml('machineLearning_kospi100', rank_sorted)
+    machine_codes = portfolioBuilder.buildUniverse(df_machine_rank, 'rank', 0.8)
+    print('rank_sorted: %s' %(machine_codes))
+    write_yaml('machineLearning_kospi100', df_machine_rank)
     return 'END'
 
 @app.route("/show/stock/<code>/<start>/<end>")
@@ -122,16 +122,13 @@ def show_stock(code, start, end):
     # axs[1].xaxis.set_visible(False)
     ax = axs[0]
     ax.plot(df['Close'])
-    ax.plot(['20150106', '20150128', '2015-02-20'], [97800, 99000, 110000], 'bo')
-    ax.plot(['2015-01-02', '2015-02-04',], [101000,  97400], 'ro')
-    # ax.axhline(df['Close'].mean(), color='red')
+    # ax.plot(['20150106', '20150128', '2015-02-20'], [97800, 99000, 110000], 'bo')
+    # ax.plot(['2015-01-02', '2015-02-04',], [101000,  97400], 'ro')
+    ax.axhline(df['Close'].mean(), color='red')
     ax.grid(True)
 
     ax = axs[1]
     ax.plot(df['Volume'], 'b')
-    # ax.plot(df['Volume'],5 , color="blue")
-    # df['Volume'].plot(kind='bar', ax=axs[1])
-    # print(df['Close'])
     ax.grid(True)
     plt.show()
 
@@ -253,27 +250,36 @@ def test_show_stationarity():
     start = '20150101'
     end = '20151230'
     s_list = load_yaml('stationarity_kospi100')
-    for row_index in range(s_list.shape[0]):
-        if s_list.loc[row_index, 'rank'] >= 7:
-            code = s_list.loc[row_index, 'code']
-            print('code: %s' % (code))
-            df = get_df_from_file(code, start, end)
-            stationarity = Stationarity(df=df, code=code, start=start, end=end)
-            stationarity.show_rolling_mean()
+    print(s_list)
+    rank_sorted = s_list.sort_values(by='rank', ascending=False)
+    aa = rank_sorted.set_index('rank')
+    print(aa)
+    for row_index in range(rank_sorted.shape[0]):
+        print(aa.iloc[row_index])
+        code = aa.iloc[row_index]['code']
+        # code = rank_sorted.loc[row_index, 'code']
+        print('code: %s' % (code))
+        df = get_df_from_file(code, start, end)
+        stationarity = Stationarity(df=df, code=code, start=start, end=end)
+        stationarity.show_rolling_mean()
 
 def test_show_machineLearning():
     start = '20150101'
     end = '20151230'
     s_list = load_yaml('machineLearning_kospi100')
-    for row_index in range(s_list.shape[0]):
-        if s_list.loc[row_index, 'rank'] >= 9:
-            # print(s_list)
-            file_name = s_list.loc[row_index, 'company']
-            code = str(file_name).split('_')[0]
-            print('code: %s' % (code))
-            df = get_df_from_file(code, start, end)
-            stationarity = Stationarity(df=df, code=code, start=start, end=end)
-            stationarity.show_rolling_mean()
+    rank_sorted = s_list.sort_values(by='total_score', ascending=False)
+    print(rank_sorted)
+    aa = rank_sorted.set_index('total_score')
+    print(aa)
+    for row_index in range(aa.shape[0]):
+        print(aa.iloc[row_index])
+        file_name = aa.iloc[row_index]['company']
+        print('Index %s, %s, %s' %(row_index, file_name,rank_sorted.loc[row_index, 'total_score']))
+        code = str(file_name).split('_')[0]
+        print('code: %s' % (code))
+        df = get_df_from_file(code, start, end)
+        stationarity = Stationarity(df=df, code=code, start=start, end=end)
+        stationarity.show_rolling_mean()
 
 if __name__ == "__main__":
     init()
@@ -283,13 +289,12 @@ if __name__ == "__main__":
     # stock_update()
     # test();
 
-    show_stock('000030', '20150101','20150301')
-    # show_stock('000030', '20160101','20170428')
+    # show_stock('000030', '20150201','20150401')
     # stationarity()
-    # test_show_stationarity()
+    test_show_stationarity()
 
     # machineLearning()
-    # test_show_machineLearning()
+    test_show_machineLearning()
 
     # chart_close('097950')
 
