@@ -55,7 +55,7 @@ def download_stock_data(file_name, company_code, start, end):
 		df = web.DataReader("%s.KS" % (company_code), "yahoo", start, end)
 		save_stock_data(df, file_name)
 	except:
-		print("!!! Fatal Error Occurred")
+		print("!!! Fatal Error Occurred %s" %(company_code))
 		return None
 	return df
 
@@ -67,7 +67,7 @@ def load_stock_data(file_name):
 def get_data_list():
     dataList = []
     dataPath = os.path.abspath("data")
-    print(dataPath)
+    # print(dataPath)
     for i in os.listdir(dataPath):
         # print(i)
         dataList.append(i)
@@ -78,7 +78,7 @@ def get_df_from_file(code, start, end):
     dir_list = get_data_list()
     name = [name for name in dir_list if code in name]
     df = load_stock_data(name[0])
-    print(df.describe())
+    # print(df.describe())
     df_range = df[start:end]
     return df_range
 

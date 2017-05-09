@@ -148,87 +148,99 @@ class Predictors:
     #
     #     return df_lag.dropna(how='any')
 
-    def makeLaggedDataset(self, code, start_date, end_date, input_column, output_column, time_lags=5):
-        df = self.makeDataSet(code, start_date, end_date)
-        # print(df)
-
-        df = df.set_index(df["price_date"])
-        df_lag = df.set_index(df["price_date"])
-        # print(df_lag.index)
-
+    def makeLaggedDataset(self, df, input_column, output_column, time_lags=5):
+        # df = df.set_index(df["date"])
+        # df_lag = df.set_index(df["date"])
         df.index = pd.to_datetime(df.index, format='%Y%m%d')
         df_lag.index = pd.to_datetime(df_lag.index, format='%Y%m%d')
-
-        # print(df1)
-        # df_lag = pd.DataFrame(index=df['price_date'])
-        # print(df_lag)
-
-
-
-
-        # df_lag[input_column] = df[input_column]
-        # df_lag["volume"] = df["price_volume"]
-
         for input in input_column:
-            # df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
-            # df_lag["%s_Lag%s_Change" % (input,time_lags)] = df_lag["%s_Lag%s" % (input,time_lags)].pct_change()*100.0
-            #
-            # df_lag[output_column] = np.where(df_lag["%s_Lag%s_Change" % (input,time_lags)]>0,1,0)
             df_lag[input] = df[input]
-
             df_lag["%s_Lag%s" % (input, time_lags)] = df[input].shift(time_lags)
             df_lag["%s_Lag%s_Change" % (input, time_lags)] = df_lag["%s_Lag%s" % (input, time_lags)].pct_change() * 100.0
-
-            # df_lag["%s_Direction" %(input)] = np.where(df_lag["%s_Lag%s_Change" % (input, time_lags)] > 0, 1, 0)
-
             df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
-            # df_lag["close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
-
-
-
-            # df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
-
-        # df_lag["Close"] = df["price_close"]
-
-        # df_lag["Close_Lag%s" % str(time_lags)] = df["price_close"].shift(time_lags)
-        # df_lag["Close_Lag%s_Change" % str(time_lags)] = df_lag["Close_Lag%s" % str(time_lags)].pct_change() * 100.0
-        #
-        # df_lag["close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
-
-
-
-        # df_lag["%s_Lag%s" % (input_column, time_lags)] = df[input_column].shift(time_lags)
-        # df_lag["%s_Lag%s_Change" % (input_column, time_lags)] = df_lag["%s_Lag%s" % (
-        # input_column, time_lags)].pct_change() * 100.0
-        #
-        # df_lag["volume_Lag%s" % (time_lags)] = df["price_volume"].shift(time_lags)
-        # df_lag["volume_Lag%s_Change" % (time_lags)] = df_lag["volume_Lag%s" % (time_lags)].pct_change() * 100.0
-        #
-
-
-
-
-        # print(df_lag)
-
-        # df_lag["price_close"] = df_lag["price_close"]
-        # df_lag["price_volume"] = df_lag["price_volume"]
-        #
-        # df_lag["Close_Lag%s" % str(time_lags)] = df["price_close"].shift(time_lags)
-        # df_lag["Close_Lag%s_Change" % str(time_lags)] = df_lag["Close_Lag%s" % str(time_lags)].pct_change() * 100.0
-        #
-        # df_lag["Volume_Lag%s" % str(time_lags)] = df["price_volume"].shift(time_lags)
-        # df_lag["Volume_Lag%s_Change" % str(time_lags)] = df_lag["Volume_Lag%s" % str(time_lags)].pct_change() * 100.0
-        #
-        # df_lag["Close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
-        # df_lag["Volume_Direction"] = np.sign(df_lag["Volume_Lag%s_Change" % str(time_lags)])
-
-        # print(df_lag["volume"])
-        # print(df_lag["Close_Direction"])
-        # print(df_lag["volume_indicator"])
-
-
-
         return df_lag.dropna(how='any')
+
+    # def makeLaggedDataset(self, code, start_date, end_date, input_column, output_column, time_lags=5):
+    #     df = self.makeDataSet(code, start_date, end_date)
+    #     # print(df)
+    #
+    #     df = df.set_index(df["price_date"])
+    #     df_lag = df.set_index(df["price_date"])
+    #     # print(df_lag.index)
+    #
+    #     df.index = pd.to_datetime(df.index, format='%Y%m%d')
+    #     df_lag.index = pd.to_datetime(df_lag.index, format='%Y%m%d')
+    #
+    #     # print(df1)
+    #     # df_lag = pd.DataFrame(index=df['price_date'])
+    #     # print(df_lag)
+    #
+    #
+    #
+    #
+    #     # df_lag[input_column] = df[input_column]
+    #     # df_lag["volume"] = df["price_volume"]
+    #
+    #     for input in input_column:
+    #         # df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
+    #         # df_lag["%s_Lag%s_Change" % (input,time_lags)] = df_lag["%s_Lag%s" % (input,time_lags)].pct_change()*100.0
+    #         #
+    #         # df_lag[output_column] = np.where(df_lag["%s_Lag%s_Change" % (input,time_lags)]>0,1,0)
+    #         df_lag[input] = df[input]
+    #
+    #         df_lag["%s_Lag%s" % (input, time_lags)] = df[input].shift(time_lags)
+    #         df_lag["%s_Lag%s_Change" % (input, time_lags)] = df_lag["%s_Lag%s" % (input, time_lags)].pct_change() * 100.0
+    #
+    #         # df_lag["%s_Direction" %(input)] = np.where(df_lag["%s_Lag%s_Change" % (input, time_lags)] > 0, 1, 0)
+    #
+    #         df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
+    #         # df_lag["close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+    #
+    #
+    #
+    #         # df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
+    #
+    #     # df_lag["Close"] = df["price_close"]
+    #
+    #     # df_lag["Close_Lag%s" % str(time_lags)] = df["price_close"].shift(time_lags)
+    #     # df_lag["Close_Lag%s_Change" % str(time_lags)] = df_lag["Close_Lag%s" % str(time_lags)].pct_change() * 100.0
+    #     #
+    #     # df_lag["close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+    #
+    #
+    #
+    #     # df_lag["%s_Lag%s" % (input_column, time_lags)] = df[input_column].shift(time_lags)
+    #     # df_lag["%s_Lag%s_Change" % (input_column, time_lags)] = df_lag["%s_Lag%s" % (
+    #     # input_column, time_lags)].pct_change() * 100.0
+    #     #
+    #     # df_lag["volume_Lag%s" % (time_lags)] = df["price_volume"].shift(time_lags)
+    #     # df_lag["volume_Lag%s_Change" % (time_lags)] = df_lag["volume_Lag%s" % (time_lags)].pct_change() * 100.0
+    #     #
+    #
+    #
+    #
+    #
+    #     # print(df_lag)
+    #
+    #     # df_lag["price_close"] = df_lag["price_close"]
+    #     # df_lag["price_volume"] = df_lag["price_volume"]
+    #     #
+    #     # df_lag["Close_Lag%s" % str(time_lags)] = df["price_close"].shift(time_lags)
+    #     # df_lag["Close_Lag%s_Change" % str(time_lags)] = df_lag["Close_Lag%s" % str(time_lags)].pct_change() * 100.0
+    #     #
+    #     # df_lag["Volume_Lag%s" % str(time_lags)] = df["price_volume"].shift(time_lags)
+    #     # df_lag["Volume_Lag%s_Change" % str(time_lags)] = df_lag["Volume_Lag%s" % str(time_lags)].pct_change() * 100.0
+    #     #
+    #     # df_lag["Close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+    #     # df_lag["Volume_Direction"] = np.sign(df_lag["Volume_Lag%s_Change" % str(time_lags)])
+    #
+    #     # print(df_lag["volume"])
+    #     # print(df_lag["Close_Direction"])
+    #     # print(df_lag["volume_indicator"])
+    #
+    #
+    #
+    #     return df_lag.dropna(how='any')
 
     # def split_dataset(df, input_column_array, output_column, spllit_ratio):
     #     split_date = getDateByPerent(df.index[0], df.index[df.shape[0] - 1], spllit_ratio)

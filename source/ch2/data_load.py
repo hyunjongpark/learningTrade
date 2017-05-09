@@ -19,7 +19,7 @@ def load_stock_data(file_name):
 	df = pd.read_pickle(file_name)
 	return df
 
-#download_stock_data('lg.data','066570',2015,1,1,2015,11,30)
+# download_stock_data('249420_ildong.data','249420',2017,1,1,2017,4,30)
 #download_stock_data('samsung_2010.data','005930',2010,1,1,2015,11,30)
 #download_stock_data('hanmi.data','128940',2015,1,1,2015,11,30)
 

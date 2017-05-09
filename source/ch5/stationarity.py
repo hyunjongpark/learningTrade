@@ -66,11 +66,39 @@ class Stationarity():
         return ts
 
 
-    def draw_moving_average(self,df):
+    def draw_moving_average(self,df, title, sell_df=None, buy_df=None, trade_df=None, windows=20):
         # df['Close'].plot(style='k--')
-        df['Close'].plot()
-        pd.rolling_mean(df['Close'], 20).plot(color='r')
-        # plt.rolling(window=20, center=False).mean()
+        # df[['Open','High','Low','Close','Adj Close']].plot(kind='box')
+
+
+        # df['Close'].plot()
+        # pd.rolling_mean(df['Close'], 20).plot(color='r')
+        # plt.axhline(df['Close'].mean(), color='g')
+        #
+        # if sell_df is not None:
+        #     # sell_df['Close'].plot()
+        #     df.plot.scatter(sell_df.index, sell_df['Close'], 'ro')
+        #
+        # if buy_df is not None:
+        #     buy_df['Close'].plot()
+        # plt.show()
+
+        fig, axs = plt.subplots(2)
+        ax = axs[0]
+        ax.plot(df['Close'])
+        ax.plot(pd.rolling_mean(df['Close'], windows), 'r')
+        if sell_df is not None:
+            ax.plot(sell_df.index, sell_df['Close'], 'bo')
+        if buy_df is not None:
+            ax.plot(buy_df.index, buy_df['Close'], 'yo')
+        if trade_df is not None:
+            ax.plot(trade_df.index, trade_df['Close'], 'ro')
+        ax.axhline(df['Close'].mean(), color='red')
+        ax.set_title(title)
+        ax.grid(True)
+        ax = axs[1]
+        ax.plot(df['Volume'], 'b')
+        ax.grid(True)
         plt.show()
 
 
@@ -99,6 +127,6 @@ class Stationarity():
         return half_life
 
 
-    def show_rolling_mean(self):
-        self.draw_moving_average(self.df)
+    def show_rolling_mean(self, title='title', sell_df=None, buy_df=None, trade_df=None, window=20):
+        self.draw_moving_average(self.df, title, sell_df, buy_df,trade_df, window)
 

@@ -124,7 +124,7 @@ class DataCrawler:
             df = web.DataReader(makeCode(market_type, code), "yahoo", start, end)
             return df
         except:
-            print("!!! Fatal Error Occurred")
+            print("Fatal Error Occurred %s" % (code))
             return None
 
     def getDataCount(self, code):

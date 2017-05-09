@@ -1,0 +1,36 @@
+buy: []
+date: !!python/object/apply:pandas.tslib.Timestamp
+- 1494201600000000000
+- null
+- null
+last_month: 6
+sell:
+- Close: !!python/object/apply:numpy.core.multiarray.scalar
+  - &id001 !!python/object/apply:numpy.dtype
+    args:
+    - f8
+    - 0
+    - 1
+    state: !!python/tuple
+    - 3
+    - <
+    - null
+    - null
+    - null
+    - -1
+    - -1
+    - 0
+  - !!binary |
+    AAAAAEDi/kA=
+  code: 028260
+- Close: !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    AAAAAADn2EA=
+  code: 009830
+- Close: !!python/object/apply:numpy.core.multiarray.scalar
+  - *id001
+  - !!binary |
+    AAAAAIBo8kA=
+  code: 011780
+window: 20

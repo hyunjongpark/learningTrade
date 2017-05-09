@@ -101,15 +101,16 @@ class MeanReversionBackTester(BaseBackTester):
 
 
 class MachineLearningBackTester(BaseBackTester):
-    def __init__(self):
+    def __init__(self, df):
         BaseBackTester.__init__(self)
+        self.df = df
         self.model = services.get('machine_learning_model')
         self.predictor = services.get('predictor')
 
-    def get_predector(self, name, code, start_date, end_date, lags_count=5):
+    def get_predector(self, name, lags_count=5):
 
-        df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
-                                                      self.config.get('output_column'), lags_count)
+        df_dataset = self.predictor.makeLaggedDataset(df=self.df, input_column=self.config.get('input_column'),
+                                                      output_column=self.config.get('output_column'), time_lags=lags_count)
         df_x_test = df_dataset[self.config.get('input_column')]
         df_y_true = df_dataset[self.config.get('output_column')].values
 
@@ -119,6 +120,20 @@ class MachineLearningBackTester(BaseBackTester):
         predictor = self.predictor.createPredictor(name)
         predictor.train(X_train, Y_train)
         return predictor
+
+    # def get_predector(self, name, code, start_date, end_date, lags_count=5):
+    #
+    #     df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
+    #                                                   self.config.get('output_column'), lags_count)
+    #     df_x_test = df_dataset[self.config.get('input_column')]
+    #     df_y_true = df_dataset[self.config.get('output_column')].values
+    #
+    #     X_train, X_test, Y_train, Y_test = self.predictor.split_dataset(df_dataset,
+    #                                                                     self.config.get('input_column'),
+    #                                                                     self.config.get('output_column'), 0.75)
+    #     predictor = self.predictor.createPredictor(name)
+    #     predictor.train(X_train, Y_train)
+    #     return predictor
 
     def getTestDataset(self, name, code, start_date, end_date, lags_count=5):
         # a_predictor = self.predictor.get(code, name)
@@ -155,32 +170,10 @@ class MachineLearningBackTester(BaseBackTester):
         a_predictor.drawROC(df_y_true, df_y_pred)
 
     def getConfusionMatrix(self, name, code, start_date, end_date, lags_count=5):
-        # a_predictor = self.predictor.get(code, name)
-        #
-        # df_dataset = self.predictor.makeLaggedDataset(code, start_date, end_date, self.config.get('input_column'),
-        #                                               self.config.get('output_column'), lags_count)
-        #
-        #
-        # df_x_test = df_dataset[self.config.get('input_column')]
-        # df_y_true = df_dataset[self.config.get('output_column')]
-        #
-        #
-        # # print df_x_test
-        # # print df_y_true.values
-        #
-        # df_y_pred, df_y_pred_proba = a_predictor.predict(df_x_test.values)
-        #
-        # a_predictor = self.predictor.get(code, name)
-        a_predictor = self.get_predector(name, code, start_date, end_date)
+        # a_predictor = self.get_predector(name, code, start_date, end_date)
+        a_predictor = self.get_predector(name)
         df_x_test, df_y_true, df_y_pred = self.getTestDataset(name, code, start_date, end_date, lags_count)
-
-        # print df_y_pred
-
         print(a_predictor.confusionMatrix(df_y_true, df_y_pred))
-
-    # print pd.crosstab(df_y_true,df_y_pred)
-
-
 
     def printClassificationReport(self, name, code, start_date, end_date, lags_count=5):
         # a_predictor = self.predictor.get(code, name)

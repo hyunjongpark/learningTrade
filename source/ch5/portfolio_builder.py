@@ -134,6 +134,28 @@ class PortfolioBuilder():
         df_result = pd.DataFrame(test_result)
         return df_result
 
+    def doStationarityTestFromFileCode(self, code, start, end):
+        test_result = {'code': [], 'company': [], 'adf_statistic': [], 'adf_1': [], 'adf_5': [], 'adf_10': [],
+                       'hurst': [], 'halflife': []}
+        try:
+            df = get_df_from_file(code, start, end)
+            # print(df)
+            stationarity = Stationarity(df=df, code=code, start=start, end=end)
+            test_stat, adf_1, adf_5, adf_10, hurst, halflifes = stationarity.get_result()
+            test_result['adf_statistic'].append(test_stat)
+            test_result['adf_1'].append(adf_1)
+            test_result['adf_5'].append(adf_5)
+            test_result['adf_10'].append(adf_10)
+            test_result['code'].append(code)
+            test_result['company'].append(code)
+            test_result['hurst'].append(hurst)
+            test_result['halflife'].append(halflifes)
+        except:
+            print('except %s' %(code))
+        print(test_result)
+        df_result = pd.DataFrame(test_result)
+        return df_result
+
 
     def doStationarityTest(self, column, lags_count=100):
         rows_code = self.dbreader.loadCodes(limit=self.config.get('data_limit'))
