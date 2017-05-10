@@ -173,7 +173,7 @@ if __name__ == "__main__":
     month_ago = today - relativedelta(months=3)
 
     tomorrow_recommander = tomorrow_recommander()
-    tomorrow_recommander.tomorrow_recommand_stock(is_update_stock=False, last_month=6, window=20)
+    tomorrow_recommander.tomorrow_recommand_stock(is_update_stock=True, last_month=6, window=20)
     tomorrow_recommander.tomorrow_recommand_draw()
 
     # back_tester = back_tester()
