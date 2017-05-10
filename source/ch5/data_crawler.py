@@ -32,7 +32,6 @@ class DataCrawler:
 
     def downloadCode(self, market_type):
         url = 'http://datamall.koscom.co.kr/servlet/infoService/SearchIssue'
-        # html = requests.post(url, data={'flag': 'SEARCH', 'marketDisabled': 'null', 'marketBit': market_type})
         html = requests.post(url, data={'flag': 'SEARCH', 'marketDisabled': 'null', 'marketBit': market_type, 'where':'1', 'whereCode':'62'})
         return html.content
 

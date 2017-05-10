@@ -21,15 +21,21 @@ class tomorrow_recommander():
         self.end = datetime.datetime.today()
         self.start = self.end - relativedelta(months=last_month)
 
-    def tomorrow_recommand_stock(self, stock_list_file_name='kospi100', last_month=6, window=20):
+    def tomorrow_recommand_stock(self, is_update_stock=True, last_month=6, window=20):
         print('Tomorrow trade stock')
 
-        # self.stock_updater.update_kospi_100()
+        code_list = []
+        if is_update_stock is True:
+            code_list = self.stock_updater.update_kospi_200()
+        else:
+            data = load_yaml('kospi200')
+            for company_code, value in data.iterItems():
+                code_list.append(company_code)
 
-        stocks_trade_list = self.stationarity_tester.show_stationarity(False, self.start, self.end, window)
-        print(stocks_trade_list)
+        stocks_trade_list = self.stationarity_tester.run_stationarity(code_list, False, self.start, self.end, window)
+        # print(stocks_trade_list)
 
-        df = get_df_from_file('042670', self.start, self.end)
+        df = get_df_from_file('000030', self.start, self.end)
         last_stock_trade_day = df.iloc[len(df) - 1].name
         print('last_stock_trade_day: %s' % (last_stock_trade_day))
 
@@ -48,18 +54,16 @@ class tomorrow_recommander():
                 buy_list.append({'code': stock['code'], 'Close': stock['buy'][len(stock['buy']) - 1]['Close']})
                 print('BUY code:%s %s' % (stock['code'], stock['buy'][len(stock['buy']) - 1]))
 
-        print('[%s][last_month:%s, window:%s] SELL list: %s' % (last_stock_trade_day, last_month, window, sell_list))
-        print('[%s][last_month:%s, window:%s] BUY list: %s' % (last_stock_trade_day, last_month, window, buy_list))
-        write_yaml('daily_trade',
-                   {'date': last_stock_trade_day, 'sell': sell_list, 'buy': buy_list, 'last_month': last_month,
-                    'window': window})
-        return 'END'
+        print('TOMORROW SELL LIST [%s][last_month:%s, window:%s] SELL list: %s' % (last_stock_trade_day, last_month, window, sell_list))
+        print('TOMORROW BUY LIST [%s][last_month:%s, window:%s] BUY list: %s' % (last_stock_trade_day, last_month, window, buy_list))
+        write_yaml('daily_trade', {'date': last_stock_trade_day, 'sell': sell_list, 'buy': buy_list, 'last_month': last_month, 'window': window})
 
     def tomorrow_recommand_draw(self):
         draw = load_yaml('daily_trade')
 
         start = self.end - relativedelta(months=draw['last_month'])
-        df = get_df_from_file('042670', start, self.end)
+        df = get_df_from_file('000030', start, self.end)
+        print(df)
         last_stock_trade_day = df.iloc[len(df) - 1].name
         print('last_stock_trade_day: %s' % (last_stock_trade_day))
 

@@ -26,6 +26,10 @@ def load_yaml(filename):
         data = yaml.load(stream)
     return data
 
+def delete_file(filename):
+    filePath = os.path.join(data_path, filename)
+    if os.path.exists(filePath):
+        os.remove(filePath)
 
 def write_yaml(filename, data):
     confParentPath = os.path.abspath("..")

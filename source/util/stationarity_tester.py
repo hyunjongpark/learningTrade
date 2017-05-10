@@ -21,6 +21,29 @@ class stationarity_tester():
         self.end = datetime.datetime.today()
         self.start = self.end - relativedelta(months=last_month)
 
+    def run_stationarity(self, code_list=None, view_chart=True, start='20160101', end='20170101', windows=20):
+        print(code_list)
+        result_list = []
+        total_profit = 0
+        stock_trade = []
+        for row_index, code in enumerate(code_list, start=0):
+            profit_result, title, rank, sell_list, buy_list = self.stationarity_per_day(code, start, end, view_chart, windows)
+            if rank != 3:
+                continue
+            if profit_result == 0:
+                continue
+            title = str('profit:[%s], %s' % (row_index, title))
+            total_profit += profit_result
+            result_list.append(str('%s, %s' % (row_index, title)))
+
+            stock_trade.append({'code': code, 'sell': sell_list, 'buy': buy_list})
+
+        for v in result_list:
+            print(v)
+        print('Total profit:%s, count:%s %s~%s' % (total_profit / len(result_list), len(result_list), start, end))
+        return stock_trade
+
+
     def show_stationarity(self, view_chart=True, start='20160101', end='20170101', windows=20):
         s_list = load_yaml('stationarity_kospi100')
         print(s_list)

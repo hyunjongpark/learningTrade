@@ -172,12 +172,12 @@ if __name__ == "__main__":
     today = datetime.datetime.today()
     month_ago = today - relativedelta(months=3)
 
-    # tomorrow_recommander = tomorrow_recommander()
-    # tomorrow_recommander.tomorrow_recommand_stock(stock_list_file_name='kospi100', last_month=6, window=20)
-    # tomorrow_recommander.tomorrow_recommand_draw()
+    tomorrow_recommander = tomorrow_recommander()
+    tomorrow_recommander.tomorrow_recommand_stock(is_update_stock=False, last_month=6, window=20)
+    tomorrow_recommander.tomorrow_recommand_draw()
 
-    back_tester = back_tester()
-    back_tester.run()
+    # back_tester = back_tester()
+    # back_tester.run()
 
     # machineLearning()
     # test_show_machineLearning()
