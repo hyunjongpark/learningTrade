@@ -1,15 +1,7 @@
 #-*- coding: utf-8 -*-
-import os,datetime
-
 import pandas as pd
-# import pandas.io.data as web
-import pandas_datareader.data as web
-import matplotlib.pyplot as plt
-from pandas.tools.plotting import scatter_matrix
 import yaml
-import os
-import sys
-import datetime, random
+import os, sys
 
 parentPath = os.path.abspath("..")
 if parentPath not in sys.path:
@@ -45,19 +37,10 @@ def get_data_file_path(file_name):
 	full_file_name = "%s/data/%s" % (os.path.dirname(os.path.abspath(__file__)),file_name)
 	return full_file_name
 
-def save_stock_data(df,file_name):
-	new_file_name = get_data_file_path(file_name)
-	df.to_pickle(new_file_name)
 
-
-def download_stock_data(file_name, company_code, start, end):
-	try:
-		df = web.DataReader("%s.KS" % (company_code), "yahoo", start, end)
-		save_stock_data(df, file_name)
-	except:
-		print("!!! Fatal Error Occurred %s" %(company_code))
-		return None
-	return df
+def save_stock_data(df, file_name):
+    new_file_name = get_data_file_path(file_name)
+    df.to_pickle(new_file_name)
 
 def load_stock_data(file_name):
 	new_file_name = get_data_file_path(file_name)
@@ -81,4 +64,5 @@ def get_df_from_file(code, start, end):
     # print(df.describe())
     df_range = df[start:end]
     return df_range
+
 
