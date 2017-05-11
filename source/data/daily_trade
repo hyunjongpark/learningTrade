@@ -1,6 +1,6 @@
 buy:
 - Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
+  - &id001 !!python/object/apply:numpy.dtype
     args:
     - f8
     - 0
@@ -15,174 +15,42 @@ buy:
     - -1
     - 0
   - !!binary |
-    AAAAAAA5wkA=
-  code: '042670'
+    AAAAAABAD0E=
+  code: '023530'
 - Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
+  - *id001
   - !!binary |
-    AAAAAICp7EA=
-  code: 078930
+    AAAAAICd3kA=
+  code: '030200'
 - Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
+  - *id001
   - !!binary |
-    AAAAAEBi8kA=
-  code: 011780
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
-  - !!binary |
-    AAAAAMAR5UA=
-  code: '015760'
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
-  - !!binary |
-    AAAAAOCwBEE=
-  code: 096770
+    AAAAAADh+UA=
+  code: 069960
 date: !!python/object/apply:pandas.tslib.Timestamp
-- 1494374400000000000
+- 1494460800000000000
 - null
 - null
 last_month: 3
 sell:
 - Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
+  - *id001
   - !!binary |
-    AAAAAKAIBkE=
-  code: 009540
+    AAAAAABMLUE=
+  code: '000670'
 - Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
+  - *id001
   - !!binary |
-    AAAAAPDRJUE=
-  code: 001800
+    AAAAAEDi/kA=
+  code: 028260
 - Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
+  - *id001
   - !!binary |
-    AAAAAIBo0kA=
-  code: '030000'
+    AAAAAACJ10A=
+  code: '034020'
 - Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
+  - *id001
   - !!binary |
-    AAAAAABk2UA=
-  code: 009830
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
-  - !!binary |
-    AAAAACBrAEE=
-  code: '011070'
+    AAAAAIDN5kA=
+  code: '036460'
 window: 10

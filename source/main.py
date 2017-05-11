@@ -171,18 +171,19 @@ def test_show_machineLearning():
 if __name__ == "__main__":
     init()
     end = datetime.datetime.today()
-    start = end - relativedelta(months=6)
+    start = end - relativedelta(months=3)
 
-    # start = datetime.datetime.strptime('20160601', '%Y%m%d')
-    # end = datetime.datetime.strptime('20170101', '%Y%m%d')
+    # start = datetime.datetime.strptime('20160101', '%Y%m%d')
+    # end = datetime.datetime.strptime('20160101', '%Y%m%d')
+    # start = end - relativedelta(months=6)
 
     tomorrow_recommander = tomorrow_recommander()
-    tomorrow_recommander.tomorrow_recommand_stock(is_update_stock=False, last_month=3, window=10)
-    tomorrow_recommander.tomorrow_recommand_draw()
+    tomorrow_recommander.tomorrow_recommand_stock(end=None, is_update_stock=True, last_month=3, window=10)
+    # tomorrow_recommander.tomorrow_recommand_draw()
 
     stationarity_tester = stationarity_tester()
-    # stationarity_tester.stationarity_per_day(code='029780', start=start, end=end, view_chart=True, window=20)
-    # stationarity_tester.stationarity_per_day(code='012330', start=start, end=end, view_chart=True, window=20)
+    # stationarity_tester.stationarity_per_day(code='066570', start=start, end=end, view_chart=True, window=10)
+    # stationarity_tester.stationarity_per_day(code='012330', start=start, end=end, view_chart=True, window=10)
 
     back_tester = back_tester()
     # back_tester.run()
@@ -190,17 +191,13 @@ if __name__ == "__main__":
     # machineLearning()
     # test_show_machineLearning()
 
-    # chart_close('097950')
-
-    # stationarity_codes = {'102780': 'KODEX 삼성그룹', '114800': 'KODEX 인버스', '091170': 'KODEX 은행', '130730': 'KOSEF 단기자금',
-    #                       '104530': 'KOSEF 고배당',
-    #                       '069660': 'KOSEF 200'}
-    # machine_codes = {'117680': 'KODEX 철강', '104530': 'KOSEF 고배당', '114800': 'KODEX 인버스', '102780': 'KODEX 삼성그룹',
-    #                  '144600': 'KODEX 은선물(H)', '138920': 'KODEX 콩선물(H)'}
-    # get_rank_close(stationarity_codes, machine_codes)
-
-    #[['144600', 'KODEX 은선물(H)'], ['102780', 'KODEX 삼성그룹'], ['138920', 'KODEX 콩선물(H)'], ['104530', 'KOSEF 고배당'], ['117680', 'KODEX 철강'], ['114800', 'KODEX 인버스'], ['104530', 'KOSEF 고배당'], ['114800', 'KODEX 인버스'], ['091170', 'KODEX 은행'], ['130730', 'KOSEF 단기자금'], ['102780', 'KODEX 삼성그룹'], ['069660', 'KOSEF 200']]
-    # backtester(144600, 20150501, 20150601)
-
     # app.debug = True
     # app.run(host='0.0.0.0', port=services.get('configurator').get('trbs_master_port'))
+    """
+    Name: 2017-05-10 00:00:00, dtype: float64
+TOMORROW SELL LIST [2017-05-10 00:00:00][last_month:3, window:10] SELL list: [{'code': '001800', 'Close': 715000.0}, {'code': '009540', 'Close': 180500.0}, {'code': '009830', 'Close': 26000.0}, {'code': '011070', 'Close': 134500.0}, {'code': '030000', 'Close': 18850.0}]
+TOMORROW BUY LIST [2017-05-10 00:00:00][last_month:3, window:10] BUY list: [{'code': '011780', 'Close': 75300.0}, {'code': '015760', 'Close': 43150.0}, {'code': '042670', 'Close': 9330.0}, {'code': '078930', 'Close': 58700.0}, {'code': '096770', 'Close': 169500.0}]
+   Name: 2017-05-11 00:00:00, dtype: float64
+TOMORROW SELL LIST [2017-05-11 00:00:00][last_month:3, window:10] SELL list: [{'code': '000670', 'Close': 960000.0}, {'code': '028260', 'Close': 126500.0}, {'code': '034020', 'Close': 24100.0}, {'code': '036460', 'Close': 46700.0}]
+TOMORROW BUY LIST [2017-05-11 00:00:00][last_month:3, window:10] BUY list: [{'code': '023530', 'Close': 256000.0}, {'code': '030200', 'Close': 31350.0}, {'code': '069960', 'Close': 106000.0}]
+    """

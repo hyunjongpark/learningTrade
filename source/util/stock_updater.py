@@ -75,7 +75,7 @@ class stock_updater():
         data = load_yaml(stock_list_file_name)
         index = 0
         end = datetime.datetime.today()
-        start = end - relativedelta(months=24)
+        start = end - relativedelta(months=48)
         code_list = []
         for company_code, value in data.iterItems():
             print("%s : %s - key=%s, Full Code=%s, Company=%s" % (

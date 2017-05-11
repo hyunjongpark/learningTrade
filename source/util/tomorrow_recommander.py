@@ -27,7 +27,7 @@ class tomorrow_recommander():
 
         code_list = []
         if is_update_stock is True:
-            code_list = self.stock_updater.update_kospi_200()
+            code_list = self.stock_updater.update_kospi_100()
         else:
             data = load_yaml('kospi100')
             for company_code, value in data.iterItems():

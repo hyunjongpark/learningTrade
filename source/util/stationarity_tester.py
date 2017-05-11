@@ -26,7 +26,7 @@ class stationarity_tester():
         row_index = 0
         code_list = []
         if stock_list == None:
-            stock_list = load_yaml('kospi100')
+            stock_list = load_yaml('kospi200')
             for company_code, value in stock_list.iterItems():
                 code_list.append(company_code)
         else:
@@ -70,6 +70,7 @@ class stationarity_tester():
     def stationarity_per_day(self, code, start, end, view_chart=True, window=20):
         print('stationarity_per_day: %s, %s~%s' %(code, start, end))
         current_df = get_df_from_file(code, start, end)
+        # print(current_df)
         if current_df is None:
             return 0, None, None, None, None
         sell_list = []
@@ -79,13 +80,13 @@ class stationarity_tester():
         profit = 0
         profit_sum = 0
 
-
-
         for index, date in enumerate(current_df.index, start=0):
             today = date
             ago_month = today - relativedelta(days=(end - start).days)
+            # ago_month = today - relativedelta(days=window)
             df = get_df_from_file(code, ago_month, today)
             # print('[%s] %s ~ %s' % (str(index), ago_month, date))
+            # print(df)
             tomorrow_trade_result = self.tomorrow_trade(df, isBuy, window)
             if tomorrow_trade_result == 1:
 
