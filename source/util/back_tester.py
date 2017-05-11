@@ -20,11 +20,12 @@ class back_tester():
         print('back_tester')
         self.stationarity_tester = stationarity_tester()
         self.end = datetime.datetime.today()
+        # self.end = datetime.datetime.strptime('20160601', '%Y%m%d')
 
     def run(self):
         # for index in [24,15,12,20,8, 6,4,3,2]:
         # for index in [6]:
-        # for window in [5,10,15,20]:
-        for window in [20]:
+        for window in [10]:
+        # for window in [20]:
             start = self.end - relativedelta(months=6)
-            self.stationarity_tester.show_stationarity(False, start, self.end, window)
+            self.stationarity_tester.show_stationarity(None, False, start, self.end, window)

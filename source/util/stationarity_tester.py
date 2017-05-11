@@ -16,70 +16,70 @@ from util.stationarity import Stationarity
 
 
 class stationarity_tester():
-    def __init__(self, last_month=6, window=20):
+    def __init__(self):
         print('stationarity_tester')
-        self.end = datetime.datetime.today()
-        self.start = self.end - relativedelta(months=last_month)
 
-    def run_stationarity(self, code_list=None, view_chart=True, start='20160101', end='20170101', windows=20):
-        print(code_list)
+    def show_stationarity(self, stock_list=None, view_chart=True, start='20160101', end='20170101', windows=20):
         result_list = []
         total_profit = 0
         stock_trade = []
-        for row_index, code in enumerate(code_list, start=0):
-            profit_result, title, rank, sell_list, buy_list = self.stationarity_per_day(code, start, end, view_chart, windows)
-            if rank != 3:
+        row_index = 0
+        code_list = []
+        if stock_list == None:
+            stock_list = load_yaml('kospi100')
+            for company_code, value in stock_list.iterItems():
+                code_list.append(company_code)
+        else:
+            code_list = stock_list
+        for code in code_list:
+            row_index += 1
+            if code == '042660':
                 continue
+
+            print('%s/%s code:%s ==================================' %(row_index, len(code_list), code))
+            profit_result, title, df_rank, sell_list, buy_list = self.stationarity_per_day(code, start, end, view_chart, windows)
             if profit_result == 0:
                 continue
-            title = str('profit:[%s], %s' % (row_index, title))
-            total_profit += profit_result
-            result_list.append(str('%s, %s' % (row_index, title)))
 
-            stock_trade.append({'code': code, 'sell': sell_list, 'buy': buy_list})
-
-        for v in result_list:
-            print(v)
-        print('Total profit:%s, count:%s %s~%s' % (total_profit / len(result_list), len(result_list), start, end))
-        return stock_trade
-
-
-    def show_stationarity(self, view_chart=True, start='20160101', end='20170101', windows=20):
-        s_list = load_yaml('stationarity_kospi100')
-        print(s_list)
-        rank_sorted = s_list.sort_values(by='rank', ascending=False)
-        aa = rank_sorted.set_index('rank')
-        print(aa)
-        result_list = []
-        total_profit = 0
-
-        stock_trade = []
-        for row_index in range(rank_sorted.shape[0]):
-            print(aa.iloc[row_index])
-            code = aa.iloc[row_index]['code']
-            profit_result, title, rank, sell_list, buy_list = self.stationarity_per_day(code, start, end, view_chart, windows)
-            # if rank != 3:
+            # if df_rank['score'].values < 8:
             #     continue
-            if profit_result == 0:
+            # if df_rank['rank_adf'].values < 1:
+            #     continue
+            # if df_rank['rank_hurst'].values < 1:
+            #     continue
+            # if df_rank['rank_halflife'].values < 1:
+            #     continue
+
+            if df_rank['rank_adf'].values < 1 and  df_rank['rank_hurst'].values < 1 and df_rank['rank_halflife'].values < 1:
                 continue
-            title = str('profit:[%s], %s' % (row_index, title))
+
+
             total_profit += profit_result
             result_list.append(str('%s, %s' % (row_index, title)))
 
             stock_trade.append({'code': code, 'sell': sell_list, 'buy': buy_list})
 
+            # if row_index > 10:
+            #     break
+
         for v in result_list:
             print(v)
-        print('Total profit:%s, count:%s %s~%s' % (total_profit / len(result_list), len(result_list), start, end))
+        print('Total profit:%s, count:%s %s~%s windows:%s' % (total_profit / len(result_list), len(result_list), start, end, windows))
         return stock_trade
 
     def stationarity_per_day(self, code, start, end, view_chart=True, window=20):
+        print('stationarity_per_day: %s, %s~%s' %(code, start, end))
         current_df = get_df_from_file(code, start, end)
+        if current_df is None:
+            return 0, None, None, None, None
         sell_list = []
         buy_list = []
+        trade_list = []
         isBuy = False
         profit = 0
         profit_sum = 0
+
+
 
         for index, date in enumerate(current_df.index, start=0):
             today = date
@@ -88,45 +88,65 @@ class stationarity_tester():
             # print('[%s] %s ~ %s' % (str(index), ago_month, date))
             tomorrow_trade_result = self.tomorrow_trade(df, isBuy, window)
             if tomorrow_trade_result == 1:
+
+                # TEST CODE
+                df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
+                df_rank = self.rankStationarity(df_stationarity)
+                # if df_rank['rank_adf'].values < 1:
+                #     continue
+                if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
+                    'rank_halflife'].values < 1:
+                    continue
+                # TEST CODE
+
+
                 sell_list.append(current_df.iloc[index])
                 isBuy = False
-                profit_sum += current_df.iloc[index]['Close'] - profit
+                sell_profit = current_df.iloc[index]['Close'] - profit
+                profit_sum += sell_profit
             elif tomorrow_trade_result == -1:
+
+                #TEST CODE
+                df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
+                df_rank = self.rankStationarity(df_stationarity)
+                # if df_rank['rank_adf'].values < 1:
+                #     continue
+                if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
+                    'rank_halflife'].values < 1:
+                    continue
+                # TEST CODE
+
                 buy_list.append(current_df.iloc[index])
                 isBuy = True
                 profit = current_df.iloc[index]['Close']
             else:
                 continue
 
-        # if isBuy == True:
-        #     sell_list.append(current_df.iloc[len(current_df) - 1])
-        #     profit_sum += current_df.iloc[len(current_df) - 1]['Close'] - profit
+        if isBuy == True:
+            trade_list.append(current_df.iloc[len(current_df) - 1])
+            sell_profit = current_df.iloc[len(current_df) - 1]['Close'] - profit
+            profit_sum += sell_profit
 
         profit_result = (profit_sum / current_df['Close'].mean() * 100)
 
         df_stationarity = self.doStationarityTestFromFileCode(code=code, start=start, end=end)
         df_rank = self.rankStationarity(df_stationarity)
         title = str(
-            'profit:[%s], code:%s, halflife:%s, hurst:%s, rank_adf:%s, rank_hurst:%s, rank_halflife:%s ' % (
+            'profit:[%s], code:%s, score=%s, rank_adf:%s, rank_hurst:%s, rank_halflife:%s ' % (
                 profit_result,
                 code,
-                df_rank[
-                    'halflife'].values,
-                df_rank[
-                    'hurst'].values,
-                df_rank[
-                    'rank_adf'].values,
-                df_rank[
-                    'rank_hurst'].values,
-                df_rank[
-                    'rank_halflife'].values))
-        print('Result %s' % (title))
+                df_rank['score'].values,
+                df_rank['rank_adf'].values,
+                df_rank['rank_hurst'].values,
+                df_rank['rank_halflife'].values))
+        print('==== Result %s' % (title))
+        # title = str('profit:[%s], code:%s, ' % (profit_result, code))
 
         if view_chart is True:
             stationarity = Stationarity(df=current_df, code=code, start=start, end=end)
             stationarity.show_rolling_mean(title=title, sell_df=pd.DataFrame(sell_list), buy_df=pd.DataFrame(buy_list),
-                                           trade_df=None, window=window)
-        return profit_result, title, df_rank['rank_adf'].values, sell_list, buy_list
+                                           trade_df=pd.DataFrame(trade_list), window=window)
+        return profit_result, title, df_rank, sell_list, buy_list
 
     def tomorrow_trade(self, df, isBuy, window):
         df_ma = pd.rolling_mean(df['Close'], window)
@@ -170,7 +190,7 @@ class stationarity_tester():
             test_result['halflife'].append(halflifes)
         except:
             print('except %s' %(code))
-        print(test_result)
+        # print(test_result)
         df_result = pd.DataFrame(test_result)
         return df_result
 
@@ -206,58 +226,85 @@ class stationarity_tester():
                                                                                   df_stationarity.loc[
                                                                                       row_index, 'halflife'])
 
-            print('code:%s, adf: %s, hurst:%s, halflife:%s ' % (
-            df_stationarity.loc[row_index, 'company'], df_stationarity.loc[row_index, 'rank_adf'],
-            df_stationarity.loc[row_index, 'rank_hurst'], df_stationarity.loc[row_index, 'rank_halflife']))
+            # print('code:%s, adf: %s, hurst:%s, halflife:%s ' % (
+            # df_stationarity.loc[row_index, 'company'], df_stationarity.loc[row_index, 'rank_adf'],
+            # df_stationarity.loc[row_index, 'rank_hurst'], df_stationarity.loc[row_index, 'rank_halflife']))
 
-        df_stationarity['rank'] = df_stationarity['rank_adf'] + df_stationarity['rank_hurst'] + df_stationarity[
-            'rank_halflife']
-        print(df_stationarity['rank'])
-
-        # print(df_stationarity['rank'])
-        # print(df_stationarity['rank_adf'])
-        # print(df_stationarity['rank_hurst'])
-        # print(df_stationarity['rank_halflife'])
+        df_stationarity['score'] = df_stationarity['rank_adf'] + df_stationarity['rank_hurst'] + df_stationarity['rank_halflife']
+        # print(df_stationarity['score'].values)
+        # print(df_stationarity['rank_adf'].values)
+        # print(df_stationarity['rank_hurst'].values)
+        # print(df_stationarity['rank_halflife'].values)
         return df_stationarity
 
-    def assessADF(self, test_stat, adf_1, adf_5, adf_10):
-        if test_stat < adf_10:
-            return 3
-        elif test_stat < adf_5:
-            return 2
-        elif test_stat < adf_1:
-            return 1
+    # def assessADF(self, test_stat, adf_1, adf_5, adf_10):
+    #     if test_stat < adf_10:
+    #         return 3
+    #     elif test_stat < adf_5:
+    #         return 2
+    #     elif test_stat < adf_1:
+    #         return 1
+    #     return 0
 
-        return 0
+    def assessADF(self, test_stat, adf_1, adf_5, adf_10):
+        sum = 0
+        if test_stat < adf_10:
+            sum += 1
+        if test_stat < adf_5:
+            sum += 1
+        if test_stat < adf_1:
+            sum += 1
+        return sum
 
     def assessHurst(self, hurst):
-        if hurst > 0.4:
-            return 0
-
+        sum = 0
+        if hurst < 0.4:
+            sum += 1
+        if hurst < 0.25:
+            sum += 1
         if hurst < 0.1:
-            return 3
-        elif hurst < 0.2:
-            return 2
+            sum += 1
+        return sum
 
-        return 1
+
+    # def assessHurst(self, hurst):
+    #     if hurst > 0.4:
+    #         return 0
+    #     if hurst < 0.1:
+    #         return 3
+    #     elif hurst < 0.2:
+    #         return 2
+    #     return 1
+
+    # def assessHalflife(self, percentile, halflife):
+    #     print(percentile)
+    #     for index in range(len(percentile)):
+    #
+    #         print ("assessHalflife : %s , half=%s : percentile=%s" % (index, halflife, percentile[index]))
+    #
+    #         if halflife <= percentile[index]:
+    #
+    #             print ("assessHalflife : %s , half=%s : percentile=%s" % (index, halflife, percentile[index]))
+    #
+    #             if index < 2:
+    #                 return 3
+    #             elif index < 3:
+    #                 return 2
+    #             elif index < 4:
+    #                 return 1
+    #
+    #     return 0
 
     def assessHalflife(self, percentile, halflife):
-        for index in range(len(percentile)):
+        sum = 0
+        if halflife < 50:
+            sum += 1
+        if halflife < 10:
+            sum += 1
+        if halflife < 5:
+            sum += 1
+        return sum
 
-            # print "assessHalflife : %s , half=%s : percentile=%s" % (index, halflife, percentile[index])
-
-            if halflife <= percentile[index]:
-
-                # print "assessHalflife : %s , half=%s : percentile=%s" % (index, halflife, percentile[index])
-
-                if index < 2:
-                    return 3
-                elif index < 3:
-                    return 2
-                elif index < 4:
-                    return 1
-
-        return 0
 
     def assessMachineLearning(self, percentile, halflife):
         for index in range(len(percentile)):

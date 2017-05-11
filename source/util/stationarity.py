@@ -17,6 +17,8 @@ from common import *
 
 class Stationarity():
     def __init__(self, df, code, start, end):
+        # print('Stationarity: %s ~ %s' %(start, end))
+        # print(df)
         self.df = df
         self.code = code
         self.start = start
@@ -24,10 +26,7 @@ class Stationarity():
         self.adf_result = self.adf()
         self.hurst = self.hurst_exponent()
         self.half_life = self.half_life()
-        # self.show_rolling_mean()
-
         self.ciritical_values = self.adf_result[4]
-        # print('ciritical_values %s' % ciritical_values)
 
 
     def get_result(self):
@@ -67,32 +66,16 @@ class Stationarity():
 
 
     def draw_moving_average(self,df, title, sell_df=None, buy_df=None, trade_df=None, windows=20):
-        # df['Close'].plot(style='k--')
-        # df[['Open','High','Low','Close','Adj Close']].plot(kind='box')
-
-
-        # df['Close'].plot()
-        # pd.rolling_mean(df['Close'], 20).plot(color='r')
-        # plt.axhline(df['Close'].mean(), color='g')
-        #
-        # if sell_df is not None:
-        #     # sell_df['Close'].plot()
-        #     df.plot.scatter(sell_df.index, sell_df['Close'], 'ro')
-        #
-        # if buy_df is not None:
-        #     buy_df['Close'].plot()
-        # plt.show()
-
         fig, axs = plt.subplots(2)
         ax = axs[0]
         ax.plot(df['Close'])
         ax.plot(pd.rolling_mean(df['Close'], windows), 'r')
-        if sell_df is not None:
-            ax.plot(sell_df.index, sell_df['Close'], 'bo')
-        if buy_df is not None:
-            ax.plot(buy_df.index, buy_df['Close'], 'yo')
-        if trade_df is not None:
-            ax.plot(trade_df.index, trade_df['Close'], 'ro')
+        if len(sell_df.values) > 0:
+            ax.plot(sell_df.index, sell_df['Close'], 'ro')
+        if len(buy_df.values) > 0:
+            ax.plot(buy_df.index, buy_df['Close'], 'bo')
+        if len(trade_df.values) > 0:
+            ax.plot(trade_df.index, trade_df['Close'], 'yo')
         ax.axhline(df['Close'].mean(), color='red')
         ax.set_title(title)
         ax.grid(True)
@@ -111,19 +94,19 @@ class Stationarity():
 
     def adf(self):
         adf_result = ts.adfuller(self.df["Close"])
-        pprint.pprint(adf_result)
+        # pprint.pprint(adf_result)
         return adf_result
 
 
     def hurst_exponent(self):
         hurst = self.get_hurst_exponent(self.df['Close'])
-        print("Hurst Exponent : %s=%s" % (self.code, hurst))
+        # print("Hurst Exponent : %s=%s" % (self.code, hurst))
         return hurst
 
 
     def half_life(self):
         half_life = self.get_half_life(self.df['Close'])
-        print("Half_life :  %s=%s" % (self.code, half_life))
+        # print("Half_life :  %s=%s" % (self.code, half_life))
         return half_life
 
 

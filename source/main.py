@@ -8,6 +8,7 @@ from common import *
 import datetime
 from dateutil.relativedelta import relativedelta
 from util.back_tester import back_tester
+from util.stationarity_tester import stationarity_tester
 
 app = Flask(__name__)
 
@@ -169,14 +170,21 @@ def test_show_machineLearning():
 
 if __name__ == "__main__":
     init()
-    today = datetime.datetime.today()
-    month_ago = today - relativedelta(months=3)
+    end = datetime.datetime.today()
+    start = end - relativedelta(months=6)
+
+    # start = datetime.datetime.strptime('20160601', '%Y%m%d')
+    # end = datetime.datetime.strptime('20170101', '%Y%m%d')
 
     tomorrow_recommander = tomorrow_recommander()
-    tomorrow_recommander.tomorrow_recommand_stock(is_update_stock=True, last_month=6, window=20)
+    tomorrow_recommander.tomorrow_recommand_stock(is_update_stock=False, last_month=3, window=10)
     tomorrow_recommander.tomorrow_recommand_draw()
 
-    # back_tester = back_tester()
+    stationarity_tester = stationarity_tester()
+    # stationarity_tester.stationarity_per_day(code='029780', start=start, end=end, view_chart=True, window=20)
+    # stationarity_tester.stationarity_per_day(code='012330', start=start, end=end, view_chart=True, window=20)
+
+    back_tester = back_tester()
     # back_tester.run()
 
     # machineLearning()

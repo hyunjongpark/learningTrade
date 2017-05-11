@@ -64,9 +64,12 @@ def get_data_list():
 def get_df_from_file(code, start, end):
     dir_list = get_data_list()
     name = [name for name in dir_list if code in name]
-    df = load_stock_data(name[0])
-    # print(df.describe())
-    df_range = df[start:end]
+    try:
+        df = load_stock_data(name[0])
+        # print(df.describe())
+        df_range = df[start:end]
+    except:
+        return None
     return df_range
 
 
