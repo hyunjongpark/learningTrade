@@ -1,56 +1,28 @@
-buy:
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - &id001 !!python/object/apply:numpy.dtype
-    args:
-    - f8
-    - 0
-    - 1
-    state: !!python/tuple
-    - 3
-    - <
-    - null
-    - null
-    - null
-    - -1
-    - -1
-    - 0
-  - !!binary |
-    AAAAAABAD0E=
-  code: '023530'
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - *id001
-  - !!binary |
-    AAAAAICd3kA=
-  code: '030200'
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - *id001
-  - !!binary |
-    AAAAAADh+UA=
-  code: 069960
-date: !!python/object/apply:pandas.tslib.Timestamp
-- 1494460800000000000
-- null
-- null
-last_month: 3
-sell:
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - *id001
-  - !!binary |
-    AAAAAABMLUE=
-  code: '000670'
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - *id001
-  - !!binary |
-    AAAAAEDi/kA=
-  code: 028260
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - *id001
-  - !!binary |
-    AAAAAACJ10A=
-  code: '034020'
-- Close: !!python/object/apply:numpy.core.multiarray.scalar
-  - *id001
-  - !!binary |
-    AAAAAIDN5kA=
-  code: '036460'
-window: 10
+daily_trade:
+- BUY_list:
+  - 011780
+  - '015760'
+  - '042670'
+  - 078930
+  - 096770
+  SELL_list:
+  - 001800
+  - 009540
+  - 009830
+  - '011070'
+  - '030000'
+  date: '2017-05-10 00:00:00'
+  last_month: 3
+  window: 10
+- BUY_list:
+  - '023530'
+  - '030200'
+  - 069960
+  SELL_list:
+  - '036460'
+  - '034020'
+  - 028260
+  - '000670'
+  date: '2017-05-11 00:00:00'
+  last_month: 3
+  window: 10

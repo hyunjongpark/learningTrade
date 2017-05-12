@@ -178,11 +178,11 @@ if __name__ == "__main__":
     # start = end - relativedelta(months=6)
 
     tomorrow_recommander = tomorrow_recommander()
-    tomorrow_recommander.tomorrow_recommand_stock(end=None, is_update_stock=True, last_month=3, window=10)
-    # tomorrow_recommander.tomorrow_recommand_draw()
+    # tomorrow_recommander.tomorrow_recommand_stock(end=None, is_update_stock=False, last_month=3, window=10)
+    tomorrow_recommander.tomorrow_recommand_draw()
 
     stationarity_tester = stationarity_tester()
-    # stationarity_tester.stationarity_per_day(code='066570', start=start, end=end, view_chart=True, window=10)
+    # stationarity_tester.stationarity_per_day(code='011780', start=start, end=end, view_chart=True, window=10)
     # stationarity_tester.stationarity_per_day(code='012330', start=start, end=end, view_chart=True, window=10)
 
     back_tester = back_tester()
@@ -193,11 +193,3 @@ if __name__ == "__main__":
 
     # app.debug = True
     # app.run(host='0.0.0.0', port=services.get('configurator').get('trbs_master_port'))
-    """
-    Name: 2017-05-10 00:00:00, dtype: float64
-TOMORROW SELL LIST [2017-05-10 00:00:00][last_month:3, window:10] SELL list: [{'code': '001800', 'Close': 715000.0}, {'code': '009540', 'Close': 180500.0}, {'code': '009830', 'Close': 26000.0}, {'code': '011070', 'Close': 134500.0}, {'code': '030000', 'Close': 18850.0}]
-TOMORROW BUY LIST [2017-05-10 00:00:00][last_month:3, window:10] BUY list: [{'code': '011780', 'Close': 75300.0}, {'code': '015760', 'Close': 43150.0}, {'code': '042670', 'Close': 9330.0}, {'code': '078930', 'Close': 58700.0}, {'code': '096770', 'Close': 169500.0}]
-   Name: 2017-05-11 00:00:00, dtype: float64
-TOMORROW SELL LIST [2017-05-11 00:00:00][last_month:3, window:10] SELL list: [{'code': '000670', 'Close': 960000.0}, {'code': '028260', 'Close': 126500.0}, {'code': '034020', 'Close': 24100.0}, {'code': '036460', 'Close': 46700.0}]
-TOMORROW BUY LIST [2017-05-11 00:00:00][last_month:3, window:10] BUY list: [{'code': '023530', 'Close': 256000.0}, {'code': '030200', 'Close': 31350.0}, {'code': '069960', 'Close': 106000.0}]
-    """

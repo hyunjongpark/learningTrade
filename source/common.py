@@ -2,6 +2,8 @@
 import pandas as pd
 import yaml
 import os, sys
+import datetime
+from dateutil.relativedelta import relativedelta
 
 parentPath = os.path.abspath("..")
 if parentPath not in sys.path:
@@ -72,4 +74,10 @@ def get_df_from_file(code, start, end):
         return None
     return df_range
 
+
+def get_trade_last_day():
+    end = datetime.datetime.today()
+    start = end - relativedelta(months=1)
+    df = get_df_from_file('000030', start, end)
+    return df.iloc[len(df) - 1].name
 
