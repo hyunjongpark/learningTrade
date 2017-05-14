@@ -26,3 +26,14 @@ daily_trade:
   date: '2017-05-11 00:00:00'
   last_month: 3
   window: 10
+- BUY_list:
+  - 005830
+  - '036570'
+  - '051600'
+  SELL_list:
+  - '000720'
+  - '023530'
+  - 078930
+  date: '2017-05-12 00:00:00'
+  last_month: 3
+  window: 10

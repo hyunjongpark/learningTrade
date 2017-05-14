@@ -23,9 +23,21 @@ class back_tester():
         # self.end = datetime.datetime.strptime('20170101', '%Y%m%d')
 
     def run(self):
-        # for index in [24,15,12,20,8, 6,4,3,2]:
-        # for index in [6]:
-        for window in [10]:
-        # for window in [20]:
-            start = self.end - relativedelta(months=3)
-            self.stationarity_tester.show_stationarity(None, False, start, self.end, window)
+        for index in [3, 6 , 12, 24 ]:
+            start = self.end - relativedelta(months=index)
+            self.stationarity_tester.show_stationarity(None, False, start, self.end, 10)
+
+    def run_series(self):
+        end = datetime.datetime.today()
+        # end = datetime.datetime.strptime('20160513', '%Y%m%d')
+        start = end - relativedelta(months=6)
+        self.stationarity_tester.show_stationarity(None, False, start, end, 10)
+        print('%s ~ %s' %(start, end))
+
+        for i in range(3):
+            end = start
+            start = end - relativedelta(months=6)
+            print('%s ~ %s' % (start, end))
+            self.stationarity_tester.show_stationarity(None, False, start, end, 10)
+
+

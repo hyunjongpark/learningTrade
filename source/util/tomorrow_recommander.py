@@ -79,24 +79,23 @@ class tomorrow_recommander():
 
         write_yaml('daily_trade', saved_data)
 
-    def tomorrow_recommand_draw(self):
+    def recommand_draw(self, date=get_trade_last_day()):
         draw = load_yaml('daily_trade')
-        last_day = get_trade_last_day()
+        # last_day = get_trade_last_day()
         for v in draw['daily_trade']:
             print(v['date'])
             print(v)
-            if str(v['date']) != str(last_day):
-                continue
-
-            end = datetime.datetime.today()
-            start = end - relativedelta(months=v['last_month'])
-            df = get_df_from_file('000030', start, end)
-            print(df)
-            last_stock_trade_day = df.iloc[len(df) - 1].name
-            print('last_stock_trade_day: %s' % (last_stock_trade_day))
-            for code in v['BUY_list']:
-                print(code)
-                self.stationarity_tester.stationarity_per_day(code, start, end, True, v['window'])
-            for code in v['SELL_list']:
-                print(code)
-                self.stationarity_tester.stationarity_per_day(code, start, end, True, v['window'])
+            # if str(v['date']) != str(last_day):
+            if str(date) in str(v['date']):
+                end = datetime.datetime.today()
+                start = end - relativedelta(months=v['last_month'])
+                df = get_df_from_file('000030', start, end)
+                print(df)
+                last_stock_trade_day = df.iloc[len(df) - 1].name
+                print('last_stock_trade_day: %s' % (last_stock_trade_day))
+                for code in v['BUY_list']:
+                    print(code)
+                    self.stationarity_tester.stationarity_per_day(code, start, end, True, v['window'])
+                for code in v['SELL_list']:
+                    print(code)
+                    self.stationarity_tester.stationarity_per_day(code, start, end, True, v['window'])

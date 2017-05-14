@@ -179,7 +179,7 @@ if __name__ == "__main__":
 
     tomorrow_recommander = tomorrow_recommander()
     # tomorrow_recommander.tomorrow_recommand_stock(end=None, is_update_stock=False, last_month=3, window=10)
-    tomorrow_recommander.tomorrow_recommand_draw()
+    tomorrow_recommander.recommand_draw('2017-05-10')
 
     stationarity_tester = stationarity_tester()
     # stationarity_tester.stationarity_per_day(code='011780', start=start, end=end, view_chart=True, window=10)
@@ -187,6 +187,7 @@ if __name__ == "__main__":
 
     back_tester = back_tester()
     # back_tester.run()
+    back_tester.run_series()
 
     # machineLearning()
     # test_show_machineLearning()
