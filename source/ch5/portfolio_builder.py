@@ -19,11 +19,12 @@ from stationarity import Stationarity
 
 class PortfolioBuilder():
     def __init__(self):
-        self.dbhandler = services.get('dbhandler')
-        self.dbreader = services.get('dbreader')
-        self.predictor = services.get('predictor')
-        self.config = services.get('configurator')
-        self.mean_reversion_model = services.get('mean_reversion_model')
+        print('PortfolioBuilder')
+        # self.dbhandler = services.get('dbhandler')
+        # self.dbreader = services.get('dbreader')
+        # self.predictor = services.get('predictor')
+        # self.config = services.get('configurator')
+        # self.mean_reversion_model = services.get('mean_reversion_model')
         self.machine_learning_model = services.get('machine_learning_model')
 
     """

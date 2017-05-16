@@ -14,6 +14,8 @@ from const import *
 from stock_common import *
 import matplotlib.dates as mdates
 
+from alpha_model import *
+
 
 class BaseBackTester():
     def __init__(self):
@@ -104,8 +106,10 @@ class MachineLearningBackTester(BaseBackTester):
     def __init__(self, df):
         BaseBackTester.__init__(self)
         self.df = df
-        self.model = services.get('machine_learning_model')
+        # self.model = services.get('machine_learning_model')
+        self.model = MachineLearningModel()
         self.predictor = services.get('predictor')
+
 
     def get_predector(self, name, lags_count=5):
 

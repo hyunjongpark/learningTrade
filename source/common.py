@@ -3,6 +3,7 @@ import pandas as pd
 import yaml
 import os, sys
 import datetime
+import numpy as np
 from dateutil.relativedelta import relativedelta
 
 parentPath = os.path.abspath("..")
@@ -81,3 +82,11 @@ def get_trade_last_day():
     df = get_df_from_file('000030', start, end)
     return df.iloc[len(df) - 1].name
 
+
+def getDateByPerent(start_date, end_date, percent):
+    days = (end_date - start_date).days
+	# days = (convertStringToDate(end_date) - convertStringToDate(start_date)).days
+    target_days = np.trunc(days * percent)
+    target_date = start_date + relativedelta(days=target_days)
+    # print days, target_days,target_date
+    return target_date
