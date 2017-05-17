@@ -735,11 +735,6 @@ items:
     company: "\uD31C\uC2A4\uCF54"
     full_code: KR7036580009
     market_type: kospiVal
-  '042660': !!python/object:data_model.StockCodeItem
-    code: '042660'
-    company: "\uB300\uC6B0\uC870\uC120\uD574\uC591"
-    full_code: KR7042660001
-    market_type: kospiVal
   '042670': !!python/object:data_model.StockCodeItem
     code: '042670'
     company: "\uB450\uC0B0\uC778\uD504\uB77C\uCF54\uC5B4"
@@ -999,4 +994,9 @@ items:
     code: '204320'
     company: "\uB9CC\uB3C4"
     full_code: KR7204320006
+    market_type: kospiVal
+  '267250': !!python/object:data_model.StockCodeItem
+    code: '267250'
+    company: "\uD604\uB300\uB85C\uBCF4\uD2F1\uC2A4"
+    full_code: KR7267250009
     market_type: kospiVal

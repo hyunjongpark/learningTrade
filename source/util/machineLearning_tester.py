@@ -14,13 +14,13 @@ if parentPath not in sys.path:
 
 from common import *
 from util.services import *
-from util.ta_tester import ta_tester
+# from util.ta_tester import ta_tester
 
 
 class machine_learning_tester():
     def __init__(self):
         print('machine_learning_tester')
-        self.ta_tester = ta_tester()
+        # self.ta_tester = ta_tester()
 
     def show_machine_learning(self, stock_list=None, view_chart=True, start='20160101', end='20170101', time_lags=5):
         stock_trade = []

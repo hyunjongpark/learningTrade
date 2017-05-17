@@ -37,8 +37,8 @@ class stationarity_tester():
                 continue
 
             print('%s/%s code:%s ==================================' %(row_index, len(code_list), code))
-            profit_result, title, df_rank, sell_list, buy_list = self.stationarity_per_day(code, start, end, view_chart, windows)
-            if profit_result == 0:
+            success, profit_result, title, df_rank, sell_list, buy_list = self.stationarity_per_day(code, start, end, view_chart, windows)
+            if success == False:
                 continue
 
             # if df_rank['score'].values < 8:
@@ -91,7 +91,9 @@ class stationarity_tester():
             if tomorrow_trade_result == 1:
 
                 # TEST CODE
-                df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
+                success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
+                if success == False:
+                    continue
                 df_rank = self.rankStationarity(df_stationarity)
                 # if df_rank['rank_adf'].values < 1:
                 #     continue
@@ -108,7 +110,9 @@ class stationarity_tester():
             elif tomorrow_trade_result == -1:
 
                 #TEST CODE
-                df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
+                success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
+                if success == False:
+                    continue
                 df_rank = self.rankStationarity(df_stationarity)
                 # if df_rank['rank_adf'].values < 1:
                 #     continue
@@ -130,7 +134,9 @@ class stationarity_tester():
 
         profit_result = (profit_sum / current_df['Close'].mean() * 100)
 
-        df_stationarity = self.doStationarityTestFromFileCode(code=code, start=start, end=end)
+        success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=start, end=end)
+        if success == False:
+            return False, None, None, None, None, None
         df_rank = self.rankStationarity(df_stationarity)
         title = str(
             'profit:[%s], code:%s, score=%s, rank_adf:%s, rank_hurst:%s, rank_halflife:%s ' % (
@@ -147,7 +153,7 @@ class stationarity_tester():
             stationarity = Stationarity(df=current_df, code=code, start=start, end=end)
             stationarity.show_rolling_mean(title=title, sell_df=pd.DataFrame(sell_list), buy_df=pd.DataFrame(buy_list),
                                            trade_df=pd.DataFrame(trade_list), window=window)
-        return profit_result, title, df_rank, sell_list, buy_list
+        return True, profit_result, title, df_rank, sell_list, buy_list
 
     def tomorrow_trade(self, df, isBuy, window):
         df_ma = pd.rolling_mean(df['Close'], window)
@@ -189,11 +195,12 @@ class stationarity_tester():
             test_result['company'].append(code)
             test_result['hurst'].append(hurst)
             test_result['halflife'].append(halflifes)
-        except:
-            print('except %s' %(code))
+        except Exception as ex:
+            print('except [%s] %s' % (code, ex))
+            return False, None
         # print(test_result)
         df_result = pd.DataFrame(test_result)
-        return df_result
+        return True, df_result
 
     def buildUniverse(self, df_stationarity, column, ratio):
         percentile_column = np.percentile(df_stationarity[column], np.arange(0, 100, 10))

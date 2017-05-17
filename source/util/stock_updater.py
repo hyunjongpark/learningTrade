@@ -45,6 +45,7 @@ class stock_updater():
         html = requests.post(url, data={'flag': 'SEARCH', 'marketDisabled': 'null', 'marketBit': market_type, 'where':'1', 'whereCode':whereCode})
         return html.content
 
+
     def parseCodeHTML(self, html, market_type):
         soup = BeautifulSoup(html, "lxml")
         options = soup.findAll('option')
@@ -89,11 +90,23 @@ class stock_updater():
 
     def download_stock_data(self, file_name, company_code, start, end):
         try:
-            df = web.DataReader("%s.KS" % (company_code), "yahoo", start, end)
+            # df = web.DataReader("%s.KS" % (company_code), "yahoo", start, end)
+            df = web.DataReader("KRX:%s" % (company_code), "google", start, end)
             print(df)
             save_stock_data(df, file_name)
-        except:
-            print("!!! Fatal Error Occurred %s" % (company_code))
+        except Exception as ex:
+            print('except [%s] %s' % (company_code, ex))
             return None
         return df
 
+    def download_kospi_data(self):
+        end = datetime.datetime.today()
+        start = end - relativedelta(months=48)
+        try:
+            df = web.DataReader("KRX:KOSPI", "google", start, end)
+            print(df)
+            save_stock_data(df, 'kospi.data')
+        except Exception as ex:
+            print('except [%s] %s' % ('kospi', ex))
+            return None
+        return df
