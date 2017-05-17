@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC, SVC
+from sklearn import cross_validation
 
 parentPath = os.path.abspath("..")
 if parentPath not in sys.path:
@@ -13,11 +14,13 @@ if parentPath not in sys.path:
 
 from common import *
 from util.services import *
+from util.ta_tester import ta_tester
 
 
 class machine_learning_tester():
     def __init__(self):
         print('machine_learning_tester')
+        self.ta_tester = ta_tester()
 
     def show_machine_learning(self, stock_list=None, view_chart=True, start='20160101', end='20170101', time_lags=5):
         stock_trade = []
@@ -51,7 +54,7 @@ class machine_learning_tester():
 
 
         print("Total Hit Ratio - Logistic Regreesion=%0.2f, RandomForest=%0.2f, SVM=%0.2f, [%s ~ %s]" % (
-        lr_totla / row_index, rf_totla / row_index, lr_totla / row_index, start, end))
+        lr_totla / row_index, rf_totla / row_index, svm_totla / row_index, start, end))
 
         return stock_trade
 
@@ -61,7 +64,22 @@ class machine_learning_tester():
                        'rf_tomorrow_predic': [], 'svm_tomorrow_predic': []}
         try:
             df = get_df_from_file(code, start, end)
-            # print(df)
+            for input in services.get('configurator').get('input_column'):
+                if input == 'SMA':
+                    df = self.ta_tester.add_sma(df)
+                if input == 'BBANDS_middle':
+                    df = self.ta_tester.add_bbands(df)
+
+                if input == 'MOM':
+                    df = self.ta_tester.add_mom(df)
+
+                if input == 'STOCH_slowk':
+                    df = self.ta_tester.add_stoch(df)
+
+                if input == 'MACD_macd':
+                    df = self.ta_tester.add_macd(df)
+
+
 
 
             df_dataset = self.make_dataset(df, time_lags)
@@ -71,9 +89,19 @@ class machine_learning_tester():
             for input in services.get('configurator').get('input_column'):
                 input_column_name.append("%s_Lag%s" % (input,time_lags))
 
-            X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, input_column_name,
-                                                                  services.get('configurator').get('output_column'), 0.75)
+            # X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, input_column_name,
+            #                                                       "Close_Lag%s_Direction" % (time_lags), 0.75)
 
+            X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, services.get('configurator').get('input_column'),
+                                                                  "Close_Lag%s_Direction" % (time_lags),
+                                                                  0.75)
+
+            # X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, input_column_name,
+            #                                                       services.get('configurator').get('output_column'),
+            #                                                       0.75)
+
+            # print(X_test)
+            # print(Y_test)
 
             lr_classifier = self.do_logistic_regression(X_train, Y_train)
             lr_hit_ratio, lr_score, lr_hit_index, lr_fail_index, lr_tomorrow_predic = self.test_predictor(lr_classifier, X_test, Y_test)
@@ -83,6 +111,12 @@ class machine_learning_tester():
 
             svm_classifier = self.do_svm(X_train, Y_train)
             svm_hit_ratio, svm_score, svm_hit_index, svm_fail_index, svm_tomorrow_predic = self.test_predictor(svm_classifier, X_test, Y_test)
+
+            if lr_hit_ratio < 0.5:
+                if rf_hit_ratio < 0.5:
+                    if svm_hit_ratio < 0.5:
+                        # print("PASS %s : Hit Ratio - Logistic Regreesion=%0.2f, RandomForest=%0.2f, SVM=%0.2f, [%s ~ %s]" % (code, lr_hit_ratio, rf_hit_ratio, svm_hit_ratio, start, end))
+                        return False, None
 
             test_result['code'].append(code)
             test_result['logistic'].append(lr_score)
@@ -101,7 +135,7 @@ class machine_learning_tester():
 
         if view_chart == True:
             self.drawHitRatio(code, df, lr_hit_index, lr_fail_index, rf_hit_index, rf_fail_index, svm_hit_index, svm_fail_index, time_lags)
-            self.drawHitRatioTest(code, df, lr_classifier, rf_classifier, svm_classifier)
+            # self.drawHitRatioTest(code, df, lr_classifier, rf_classifier, svm_classifier)
 
         # print(df_result)
         return True, pd.DataFrame(test_result)
@@ -157,22 +191,62 @@ class machine_learning_tester():
 
         plt.show()
 
+    # def make_dataset(self, df, time_lags=5):
+    #     # print(df.describe())
+    #     df_lag = pd.DataFrame(index=df.index)
+    #
+    #     df_lag['Close'] = df['Close']
+    #
+    #
+    #     df_lag["Close_Lag%s" % (time_lags)] = df['Close'].shift(time_lags)
+    #     df_lag["Close_Lag%s_Change" % (time_lags)] = df_lag["Close_Lag%s" % (time_lags)].pct_change()*100.0
+    #     df_lag["Close_Lag%s_Direction" % (time_lags)] = np.sign(df_lag["Close_Lag%s_Change" % (time_lags)])
+    #
+    #     df_lag["Close_Change"] = df_lag["Close"].pct_change() * 100.0
+    #     df_lag["Close_Direction"] = np.sign(df_lag["Close_Change"])
+    #
+    #     df_lag["Volume"] = df["Volume"]
+    #
+    #     for input in services.get('configurator').get('input_column'):
+    #         df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
+    #
+    #
+    #
+    #     # for input in services.get('configurator').get('input_column'):
+    #     #     df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
+    #     #     df_lag["%s_Lag%s_Change" % (input,time_lags)] = df_lag["%s_Lag%s" % (input,time_lags)].pct_change()*100.0
+    #     #     df_lag["%s_Lang%s_Direction" % (input,time_lags)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
+    #     #
+    #     #     df_lag["%s_Change" % (input)] = df_lag["Close"].pct_change() * 100.0
+    #     #     df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Change" % (input)])
+    #
+    #     return df_lag.dropna(how='any')
+
+
     def make_dataset(self, df, time_lags=5):
         # print(df.describe())
         df_lag = pd.DataFrame(index=df.index)
 
         df_lag['Close'] = df['Close']
+
+        df_lag["Close_Lag%s" % (time_lags)] = df['Close'].shift(-1)
+        df_lag["Close_Lag%s_Change" % (time_lags)] = df_lag["Close_Lag%s" % (time_lags)].pct_change()*100.0
+        df_lag["Close_Lag%s_Direction" % (time_lags)] = np.sign(df_lag["Close_Lag%s_Change" % (time_lags)])
+
+        df_lag["Close_Change"] = df_lag["Close"].pct_change() * 100.0
+        df_lag["Close_Direction"] = np.sign(df_lag["Close_Change"])
+
         df_lag["Volume"] = df["Volume"]
 
         for input in services.get('configurator').get('input_column'):
-            df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
-            df_lag["%s_Lag%s_Change" % (input,time_lags)] = df_lag["%s_Lag%s" % (input,time_lags)].pct_change()*100.0
-            df_lag["%s_Lang%s_Direction" % (input,time_lags)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
+            # df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
+            df_lag["%s" % (input)] = df[input].shift(time_lags)
 
-            df_lag["%s_Change" % (input)] = df_lag["Close"].pct_change() * 100.0
-            df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Change" % (input)])
+
 
         return df_lag.dropna(how='any')
+
+
 
     def split_dataset(self, df, input_column_array, output_column, spllit_ratio):
         split_date = getDateByPerent(df.index[0], df.index[df.shape[0] - 1], spllit_ratio)

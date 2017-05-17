@@ -26,7 +26,6 @@ from common import *
 def make_dataset(df, time_lags=5):
     # print(df)
     df_lag = pd.DataFrame(index=df.index)
-    # print(df_lag)
     df_lag["Close"] = df["Close"]
     df_lag["Volume"] = df["Volume"]
 
@@ -36,7 +35,10 @@ def make_dataset(df, time_lags=5):
     df_lag["Volume_Lag%s" % str(time_lags)] = df["Volume"].shift(time_lags)
     df_lag["Volume_Lag%s_Change" % str(time_lags)] = df_lag["Volume_Lag%s" % str(time_lags)].pct_change() * 100.0
 
-    df_lag["Close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+    # df_lag["Close_Direction"] = np.sign(df_lag["Close_Lag%s_Change" % str(time_lags)])
+    df_lag["%s_Change" % ('Close')] = df_lag["Close"].pct_change() * 100.0
+    df_lag["%s_Direction" % ('Close')] = np.sign(df_lag["%s_Change" % ('Close')])
+    # print(df_lag["Close_Direction"])
     df_lag["Volume_Direction"] = np.sign(df_lag["Volume_Lag%s_Change" % str(time_lags)])
 
     return df_lag.dropna(how='any')
@@ -107,42 +109,31 @@ def test_predictor(classifier, x_test, y_test):
 
 
 if __name__ == "__main__":
-    # Calculate and output the CADF test on the residuals
-    dataList = get_data_list()
-    print(dataList)
-    avg_hit_ratio = 0
-    index = 0;
-    for company in dataList:
-        print('    %s/%s' % (index, len(dataList)))
-        index = index + 1
 
-        for time_lags in range(1, 6):
-            print("- Time Lags=%s" % (time_lags))
+    code_list = []
+    end = datetime.datetime.today()
+    start = end - relativedelta(months=6)
+    data = load_yaml('kospi100')
+    time_lags = 1
+    for code, value in data.iterItems():
+        try:
+            df_company = get_df_from_file(code, start, end)
+            df_dataset = make_dataset(df_company, time_lags)
+            X_train, X_test, Y_train, Y_test = split_dataset(df_dataset,
+                                                             ["Close_Lag%s" % (time_lags), "Volume_Lag%s" % (time_lags)],
+                                                             "Close_Direction", 0.75)
+            # print(df_dataset['Close'])
+            # print(X_train)
+            # print(Y_train)
+            lr_classifier = do_logistic_regression(X_train, Y_train)
+            lr_hit_ratio, lr_score = test_predictor(lr_classifier, X_test, Y_test)
 
-            try:
-                df_company = load_stock_data('%s' % (company))
-                df_dataset = make_dataset(df_company, time_lags)
-                X_train, X_test, Y_train, Y_test = split_dataset(df_dataset, ["Close_Lag%s" % (time_lags),"Volume_Lag%s" % (time_lags)],"Close_Direction", 0.75)
-                # X_train, X_test, Y_train, Y_test = split_dataset(df_dataset, ["Close_Lag%s" % (time_lags)],"Close_Direction", 0.75)
+            rf_classifier = do_random_forest(X_train, Y_train)
+            rf_hit_ratio, rf_score = test_predictor(rf_classifier, X_test, Y_test)
 
-                # print (X_train)
-                # print(X_test)
+            svm_classifier = do_svm(X_train, Y_train)
+            svm_hit_ratio, svm_score = test_predictor(svm_classifier, X_test, Y_test)
 
-                # for i in range(len(X_train)):
-                #     print(X_train.index[i]["Close_Lag1"])
-                #     print(Y_train.index[i])
-
-
-
-                lr_classifier = do_logistic_regression(X_train, Y_train)
-                lr_hit_ratio, lr_score = test_predictor(lr_classifier, X_test, Y_test)
-
-                rf_classifier = do_random_forest(X_train, Y_train)
-                rf_hit_ratio, rf_score = test_predictor(rf_classifier, X_test, Y_test)
-
-                svm_classifier = do_svm(X_train, Y_train)
-                svm_hit_ratio, svm_score = test_predictor(svm_classifier, X_test, Y_test)
-
-                print("%s - %s : Hit Ratio - Logistic Regreesion=%0.2f, RandomForest=%0.2f, SVM=%0.2f" % (len(X_train),company,lr_hit_ratio,rf_hit_ratio,svm_hit_ratio))
-            except:
-                print('except %s' %company)
+            print("%s : Hit Ratio - Logistic Regreesion=%0.2f, RandomForest=%0.2f, SVM=%0.2f" % (code, lr_hit_ratio, rf_hit_ratio, svm_hit_ratio))
+        except Exception as ex:
+            print('except [%s] %s' % code, ex)

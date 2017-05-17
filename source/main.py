@@ -10,6 +10,7 @@ from dateutil.relativedelta import relativedelta
 from util.back_tester import back_tester
 from util.stationarity_tester import stationarity_tester
 from util.machineLearning_tester import machine_learning_tester
+from util.ta_tester import ta_tester
 
 # from ch5.portfolio_builder import PortfolioBuilder
 # from ch5.backtester import MachineLearningBackTester
@@ -53,8 +54,21 @@ def init():
     if parentPath not in sys.path:
         sys.path.insert(0, parentPath)
     services.register('configurator', Configurator())
-    # services.get('configurator').register('input_column', ['Close', 'Open', 'High', 'Low', 'Volume'])
-    services.get('configurator').register('input_column', ['Close', 'Volume'])
+    services.get('configurator').register('input_column', ['Open', 'High','Low', 'Close',  'Volume', 'Adj Close'])
+    # services.get('configurator').register('input_column', ['Close', 'Volume'])
+    # services.get('configurator').register('input_column',
+    #                                       ['Open', 'High', 'Low', 'Close', 'Volume', 'Adj Close', 'SMA', 'BBANDS_upper',
+    #                                        'BBANDS_middle', 'BBANDS_lower'], )
+    # services.get('configurator').register('input_column', ['Close', 'Volume'])
+
+    # services.get('configurator').register('input_column', ['Close', 'Volume'])
+    # services.get('configurator').register('input_column',['Close','Volume','Open'])
+
+    """
+    'SMA','BBANDS_upper','BBANDS_middle','BBANDS_lower',"MOM","STOCH_slowk","STOCH_slowd"
+    ,"MACD_macd","MACD_signal","MACD_hist"
+    """
+
     services.get('configurator').register('output_column', 'Close_Direction')
 
 
@@ -87,12 +101,16 @@ if __name__ == "__main__":
     machine_learning_recommander = machine_learning_tester()
     # for i in range(2, 10):
     #     machine_learning_recommander.show_machine_learning(code_list, False, start, end, i)
-    machine_learning_recommander.show_machine_learning(code_list, False, start, end, 4)
+    machine_learning_recommander.show_machine_learning(code_list, False, start, end, 1)
+
 
     # for i in [1, 2, 3, 4, 5, 7, 10]:
     #     machine_learning_recommander.trading_machine_learning('114090', start, end, False, 4)
     # machine_learning_recommander.trading_machine_learning('047040', start, end, True, 5)
     # machine_learning_recommander.trading_machine_learning('047040', start, end, True, 10)
+
+    ta_tester = ta_tester()
+    # ta_tester.test('008770')
 
     # app.debug = True
     # app.run(host='0.0.0.0', port=services.get('configurator').get('trbs_master_port'))
