@@ -86,12 +86,12 @@ class tomorrow_recommander():
         for v in draw['daily_trade']:
             print(v['date'])
             print(v)
+            print(date)
             # if str(v['date']) != str(last_day):
             if str(date) in str(v['date']):
                 end = datetime.datetime.today()
                 start = end - relativedelta(months=v['last_month'])
                 df = get_df_from_file('000030', start, end)
-                print(df)
                 last_stock_trade_day = df.iloc[len(df) - 1].name
                 print('last_stock_trade_day: %s' % (last_stock_trade_day))
                 for code in v['BUY_list']:

@@ -8,6 +8,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC, SVC
 from sklearn import cross_validation
 #https://github.com/mrjbq7/ta-lib
+
+#http://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib
+#https://pip.pypa.io/en/latest/user_guide/#installing-from-wheels
 import talib
 from talib import MA_Type
 

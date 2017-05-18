@@ -76,7 +76,7 @@ class Stationarity():
             ax.plot(buy_df.index, buy_df['Close'], 'bo')
         if len(trade_df.values) > 0:
             ax.plot(trade_df.index, trade_df['Close'], 'yo')
-        ax.axhline(df['Close'].mean(), color='red')
+        # ax.axhline(df['Close'].mean(), color='red')
         ax.set_title(title)
         ax.grid(True)
         ax = axs[1]

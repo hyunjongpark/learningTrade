@@ -95,8 +95,6 @@ class stationarity_tester():
                 if success == False:
                     continue
                 df_rank = self.rankStationarity(df_stationarity)
-                # if df_rank['rank_adf'].values < 1:
-                #     continue
                 if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
                     'rank_halflife'].values < 1:
                     continue
@@ -114,8 +112,6 @@ class stationarity_tester():
                 if success == False:
                     continue
                 df_rank = self.rankStationarity(df_stationarity)
-                # if df_rank['rank_adf'].values < 1:
-                #     continue
                 if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
                     'rank_halflife'].values < 1:
                     continue

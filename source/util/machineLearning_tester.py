@@ -14,13 +14,14 @@ if parentPath not in sys.path:
 
 from common import *
 from util.services import *
-# from util.ta_tester import ta_tester
+from util.ta_tester import ta_tester
+np.seterr(divide='ignore', invalid='ignore')
 
 
 class machine_learning_tester():
     def __init__(self):
         print('machine_learning_tester')
-        # self.ta_tester = ta_tester()
+        self.ta_tester = ta_tester()
 
     def show_machine_learning(self, stock_list=None, view_chart=True, start='20160101', end='20170101', time_lags=5):
         stock_trade = []
@@ -79,44 +80,34 @@ class machine_learning_tester():
                 if input == 'MACD_macd':
                     df = self.ta_tester.add_macd(df)
 
+                if input == 'kospi':
+                    kospi_df = get_df_from_file('kospi.data', start, end)
+                    df['kospi'] = kospi_df['Close']
+                    df['kospi_volume'] = kospi_df['Volume']
 
-
-
-            df_dataset = self.make_dataset(df, time_lags)
-            # print(df_dataset)
-
-            input_column_name = []
-            for input in services.get('configurator').get('input_column'):
-                input_column_name.append("%s_Lag%s" % (input,time_lags))
-
-            # X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, input_column_name,
-            #                                                       "Close_Lag%s_Direction" % (time_lags), 0.75)
-
-            X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, services.get('configurator').get('input_column'),
-                                                                  "Close_Lag%s_Direction" % (time_lags),
-                                                                  0.75)
-
-            # X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, input_column_name,
-            #                                                       services.get('configurator').get('output_column'),
-            #                                                       0.75)
-
-            # print(X_test)
-            # print(Y_test)
-
+            X_train, Y_train = self.get_train_df(df, time_lags)
             lr_classifier = self.do_logistic_regression(X_train, Y_train)
+            X_test, Y_test = self.get_test_df(df, time_lags)
             lr_hit_ratio, lr_score, lr_hit_index, lr_fail_index, lr_tomorrow_predic = self.test_predictor(lr_classifier, X_test, Y_test)
+            print('---------- %s' %lr_tomorrow_predic)
 
+            X_train, Y_train = self.get_train_df(df, time_lags)
             rf_classifier = self.do_random_forest(X_train, Y_train)
+            X_test, Y_test = self.get_test_df(df, time_lags)
             rf_hit_ratio, rf_score, rf_hit_index, rf_fail_index, rf_tomorrow_predic = self.test_predictor(rf_classifier, X_test, Y_test)
+            print('---------- %s' % rf_tomorrow_predic)
 
+            X_train, Y_train = self.get_train_df(df, time_lags)
             svm_classifier = self.do_svm(X_train, Y_train)
+            X_test, Y_test = self.get_test_df(df, time_lags)
             svm_hit_ratio, svm_score, svm_hit_index, svm_fail_index, svm_tomorrow_predic = self.test_predictor(svm_classifier, X_test, Y_test)
+            print('---------- %s' % svm_tomorrow_predic)
 
-            if lr_hit_ratio < 0.5:
-                if rf_hit_ratio < 0.5:
-                    if svm_hit_ratio < 0.5:
-                        # print("PASS %s : Hit Ratio - Logistic Regreesion=%0.2f, RandomForest=%0.2f, SVM=%0.2f, [%s ~ %s]" % (code, lr_hit_ratio, rf_hit_ratio, svm_hit_ratio, start, end))
-                        return False, None
+            # if lr_hit_ratio < 0.5:
+            #     if rf_hit_ratio < 0.5:
+            #         if svm_hit_ratio < 0.5:
+            #             # print("PASS %s : Hit Ratio - Logistic Regreesion=%0.2f, RandomForest=%0.2f, SVM=%0.2f, [%s ~ %s]" % (code, lr_hit_ratio, rf_hit_ratio, svm_hit_ratio, start, end))
+            #             return False, None
 
             test_result['code'].append(code)
             test_result['logistic'].append(lr_score)
@@ -139,6 +130,28 @@ class machine_learning_tester():
 
         # print(df_result)
         return True, pd.DataFrame(test_result)
+
+    def get_train_df(self,df, time_lags):
+        df_dataset = self.make_dataset(df, time_lags)
+        df_dataset = df_dataset.dropna(how='any')
+        X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset,
+                                                              services.get('configurator').get('input_column'),
+                                                              "Close_Lag%s_Direction" % (time_lags),
+                                                              0.8)
+        return X_train, Y_train
+
+    def get_test_df(self,df, time_lags):
+        df_dataset = self.make_dataset(df, time_lags)
+        X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset,
+                                                              services.get('configurator').get('input_column'),
+                                                              "Close_Lag%s_Direction" % (time_lags),
+                                                              0.8)
+        for i in range(0, time_lags):
+            a = i + 1
+            index = len(Y_test) - a
+            Y_test[index] = 0.0
+        return X_test, Y_test
+
 
     def drawHitRatioTest(self, code, df, lr_classifier, rf_classifier, svm_classifier):
         df_dataset = self.make_dataset(df, 0)
@@ -191,62 +204,21 @@ class machine_learning_tester():
 
         plt.show()
 
-    # def make_dataset(self, df, time_lags=5):
-    #     # print(df.describe())
-    #     df_lag = pd.DataFrame(index=df.index)
-    #
-    #     df_lag['Close'] = df['Close']
-    #
-    #
-    #     df_lag["Close_Lag%s" % (time_lags)] = df['Close'].shift(time_lags)
-    #     df_lag["Close_Lag%s_Change" % (time_lags)] = df_lag["Close_Lag%s" % (time_lags)].pct_change()*100.0
-    #     df_lag["Close_Lag%s_Direction" % (time_lags)] = np.sign(df_lag["Close_Lag%s_Change" % (time_lags)])
-    #
-    #     df_lag["Close_Change"] = df_lag["Close"].pct_change() * 100.0
-    #     df_lag["Close_Direction"] = np.sign(df_lag["Close_Change"])
-    #
-    #     df_lag["Volume"] = df["Volume"]
-    #
-    #     for input in services.get('configurator').get('input_column'):
-    #         df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
-    #
-    #
-    #
-    #     # for input in services.get('configurator').get('input_column'):
-    #     #     df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
-    #     #     df_lag["%s_Lag%s_Change" % (input,time_lags)] = df_lag["%s_Lag%s" % (input,time_lags)].pct_change()*100.0
-    #     #     df_lag["%s_Lang%s_Direction" % (input,time_lags)] = np.sign(df_lag["%s_Lag%s_Change" % (input, time_lags)])
-    #     #
-    #     #     df_lag["%s_Change" % (input)] = df_lag["Close"].pct_change() * 100.0
-    #     #     df_lag["%s_Direction" % (input)] = np.sign(df_lag["%s_Change" % (input)])
-    #
-    #     return df_lag.dropna(how='any')
-
-
     def make_dataset(self, df, time_lags=5):
         # print(df.describe())
         df_lag = pd.DataFrame(index=df.index)
 
+        shift = time_lags * -1
         df_lag['Close'] = df['Close']
-
-        df_lag["Close_Lag%s" % (time_lags)] = df['Close'].shift(-1)
+        df_lag["Close_Lag%s" % (time_lags)] = df['Close'].shift(shift)
         df_lag["Close_Lag%s_Change" % (time_lags)] = df_lag["Close_Lag%s" % (time_lags)].pct_change()*100.0
         df_lag["Close_Lag%s_Direction" % (time_lags)] = np.sign(df_lag["Close_Lag%s_Change" % (time_lags)])
-
         df_lag["Close_Change"] = df_lag["Close"].pct_change() * 100.0
         df_lag["Close_Direction"] = np.sign(df_lag["Close_Change"])
-
         df_lag["Volume"] = df["Volume"]
-
         for input in services.get('configurator').get('input_column'):
-            # df_lag["%s_Lag%s" % (input,time_lags)] = df[input].shift(time_lags)
-            df_lag["%s" % (input)] = df[input].shift(time_lags)
-
-
-
-        return df_lag.dropna(how='any')
-
-
+            df_lag["%s" % (input)] = df[input]
+        return df_lag
 
     def split_dataset(self, df, input_column_array, output_column, spllit_ratio):
         split_date = getDateByPerent(df.index[0], df.index[df.shape[0] - 1], spllit_ratio)
