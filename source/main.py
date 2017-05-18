@@ -81,7 +81,7 @@ if __name__ == "__main__":
     start = end - relativedelta(months=6)
 
     tomorrow_recommander = tomorrow_recommander()
-    # tomorrow_recommander.tomorrow_recommand_stock(end=end, is_update_stock=False, last_month=3, window=10)
+    tomorrow_recommander.tomorrow_recommand_stock(end=end, is_update_stock=True, last_month=3, window=10)
     # tomorrow_recommander.recommand_draw('2017-05-10')
     # tomorrow_recommander.recommand_draw()
 
