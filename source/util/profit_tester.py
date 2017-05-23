@@ -65,9 +65,30 @@ class profit_tester():
 
             for i in range(len(buy_date)):
                 start = buy_date[i]
-                if len(sell_date) == 0 or len(sell_date) < i:
+                if len(sell_date) == 0 or len(sell_date) <= i:
                     continue
                 end = sell_date[i]
+
+                if isinstance(start, str):
+                    t = start.split(" ")
+                    split = t[0].split("-")
+                    start = datetime.datetime(int(split[0]),int(split[1]),int(split[2]))
+                if isinstance(end, str):
+                    t = end.split(" ")
+                    split = t[0].split("-")
+                    end = datetime.datetime(int(split[0]),int(split[1]),int(split[2]))
+                if start > end:
+                    for end_date in sell_date:
+                        if isinstance(end_date, str):
+                            t = end_date.split(" ")
+                            split = t[0].split("-")
+                            end_date = datetime.datetime(int(split[0]), int(split[1]), int(split[2]))
+                        if start < end_date:
+                            end = end_date
+                            break
+                if start > end:
+                    continue
+
                 profit = self.code_profit(code, start, end)
                 profit_sum += profit
                 print('[%s] total: %s, profit: %s, [%s ~ %s]' % (code, profit_sum, profit, start, end))
@@ -94,8 +115,29 @@ class profit_tester():
             for i in range(len(buy_date)):
                 start = buy_date[i]
                 end = datetime.datetime.today()
-                if len(sell_date) != 0 and len(sell_date) >= i:
+                if len(sell_date) != 0 and len(sell_date) > i:
+                    print(i)
+                    print(len(sell_date))
                     end = sell_date[i]
+                if isinstance(start, str):
+                    t = start.split(" ")
+                    split = t[0].split("-")
+                    start = datetime.datetime(int(split[0]),int(split[1]),int(split[2]))
+                if isinstance(end, str):
+                    t = end.split(" ")
+                    split = t[0].split("-")
+                    end = datetime.datetime(int(split[0]),int(split[1]),int(split[2]))
+                if start > end:
+                    for end_date in sell_date:
+                        if isinstance(end_date, str):
+                            t = end_date.split(" ")
+                            split = t[0].split("-")
+                            end_date = datetime.datetime(int(split[0]), int(split[1]), int(split[2]))
+                        if start < end_date:
+                            end = end_date
+                            break
+                if start > end:
+                    end = datetime.datetime.today()
                 profit = self.code_profit(code, start, end)
                 profit_sum += profit
                 print('[%s] total: %s, profit: %s, [%s ~ %s]' % (code, profit_sum, profit, start, end))
@@ -104,6 +146,7 @@ class profit_tester():
         return profit_sum
 
     def code_profit(self, code='023530', start=20170510, end=get_trade_last_day()):
+        print('%s %s' %(start, end))
         current_df = get_df_from_file(code, start, end)
         start_price = current_df.iloc[0]['Close']
         end_price = current_df.iloc[len(current_df) - 1]['Close']

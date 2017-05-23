@@ -12,39 +12,9 @@ from util.stationarity_tester import stationarity_tester
 from util.machineLearning_tester import machine_learning_tester
 from util.ta_tester import ta_tester
 from util.profit_tester import profit_tester
+from util.macd_tester import macd_tester
 
 app = Flask(__name__)
-
-def test_show_machineLearning():
-    start = '20160101'
-    end = '20170501'
-    s_list = load_yaml('machineLearning_kospi100')
-    rank_sorted = s_list.sort_values(by='total_score', ascending=False)
-    print(rank_sorted)
-    aa = rank_sorted.set_index('total_score')
-    print(aa)
-    for row_index in range(aa.shape[0]):
-        print(aa.iloc[row_index])
-        file_name = aa.iloc[row_index]['company']
-        print('Index %s, %s, %s' %(row_index, file_name,rank_sorted.loc[row_index, 'total_score']))
-        code = str(file_name).split('_')[0]
-        print('code: %s' % (code))
-        df = get_df_from_file(code, start, end)
-
-
-        # stationarity = Stationarity(df=df, code=code, start=start, end=end)
-        # stationarity.show_rolling_mean()
-
-        machine_backtester = MachineLearningBackTester(df)
-        print('------------------------back tester: %s' % (code))
-        machine_backtester.getConfusionMatrix('rf', code, start, end, lags_count=5)
-        machine_backtester.printClassificationReport('rf', code, start, end, lags_count=5)
-        # machine_backtester.showROC('rf', code, start, end, lags_count=5)
-        # machine_backtester.showROC('rf', code, start, end, lags_count=5)
-        machine_backtester.getHitRatio('rf', code, start, end, lags_count=1)
-        machine_backtester.getHitRatio('rf', code, start, end, lags_count=5)
-        machine_backtester.getHitRatio('rf', code, start, end, lags_count=10)
-        machine_backtester.drawHitRatio('rf', code, start, end, lags_count=1)
 
 
 def init():
@@ -75,13 +45,17 @@ def init():
     services.get('configurator').register('output_column', 'Close_Direction')
 
 
+
 if __name__ == "__main__":
     init()
     end = datetime.datetime.today()
     start = end - relativedelta(months=6)
 
+    # end = datetime.datetime.strptime('20170519', '%Y%m%d')
+    # start = end - relativedelta(months=3)
+
     tomorrow_recommander = tomorrow_recommander()
-    tomorrow_recommander.tomorrow_recommand_stock(end=end, is_update_stock=True, last_month=3, window=10)
+    # tomorrow_recommander.tomorrow_recommand_stock(end=end, is_update_stock=True, last_month=3, window=10)
     # tomorrow_recommander.recommand_draw('2017-05-10')
     # tomorrow_recommander.recommand_draw()
 
@@ -91,8 +65,9 @@ if __name__ == "__main__":
     # start = end - relativedelta(months=6)
 
     stationarity_tester = stationarity_tester()
-    # stationarity_tester.stationarity_per_day(code='128940', start=start, end=end, view_chart=True, window=10)
-    # stationarity_tester.stationarity_per_day(code='012330', start=start, end=end, view_chart=True, window=10)
+    # stationarity_tester.stationarity_per_day(code='023530', start=start, end=end, view_chart=True, window=10)
+    # stationarity_tester.stationarity_per_day(code='036570', start=start, end=end, view_chart=False, window=10)
+    # stationarity_tester.stationarity_per_day(code='012330', start=start, end=end, view_chart=False, window=10)
 
     back_tester = back_tester()
     # back_tester.run()
@@ -115,6 +90,14 @@ if __name__ == "__main__":
 
     ta_tester = ta_tester()
     # ta_tester.test('008770')
+
+    macd_tester = macd_tester()
+    # macd_tester.show_profit(start=start, end=end, view_chart=False, last_day_sell=True)
+    # df = get_df_from_file('012330', start, end)
+    # macd_tester.train_macd_vaule(df=df, last_day_sell=True)
+    # macd_tester.show_profit_total_all_kospi(start, end, view_chart=False, last_day_sell=True)
+    # macd_tester.show(df, 6, 29, 13, last_day_sell=True)
+
 
     profit_tester = profit_tester()
     # profit_tester.profit_print_kospi200('20160510')

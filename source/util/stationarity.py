@@ -53,36 +53,24 @@ class Stationarity():
 
         return half_life
 
-
-    def random_walk(self,seed=1000, mu=0.0, sigma=1, length=1000):
-        ts = []
-        for i in range(length):
-            if i == 0:
-                ts.append(seed)
-            else:
-                ts.append(mu + ts[i - 1] + random.gauss(0, sigma))
-
-        return ts
-
-
-    def draw_moving_average(self,df, title, sell_df=None, buy_df=None, trade_df=None, windows=20):
-        fig, axs = plt.subplots(2)
-        ax = axs[0]
-        ax.plot(df['Close'])
-        ax.plot(pd.rolling_mean(df['Close'], windows), 'r')
-        if len(sell_df.values) > 0:
-            ax.plot(sell_df.index, sell_df['Close'], 'ro')
-        if len(buy_df.values) > 0:
-            ax.plot(buy_df.index, buy_df['Close'], 'bo')
-        if len(trade_df.values) > 0:
-            ax.plot(trade_df.index, trade_df['Close'], 'yo')
-        # ax.axhline(df['Close'].mean(), color='red')
-        ax.set_title(title)
-        ax.grid(True)
-        ax = axs[1]
-        ax.plot(df['Volume'], 'b')
-        ax.grid(True)
-        plt.show()
+    # def draw_moving_average(self,df, title, sell_df=None, buy_df=None, trade_df=None, windows=20):
+    #     fig, axs = plt.subplots(2)
+    #     ax = axs[0]
+    #     ax.plot(df['Close'])
+    #     ax.plot(pd.rolling_mean(df['Close'], windows), 'r')
+    #     if len(sell_df.values) > 0:
+    #         ax.plot(sell_df.index, sell_df['Close'], 'ro')
+    #     if len(buy_df.values) > 0:
+    #         ax.plot(buy_df.index, buy_df['Close'], 'bo')
+    #     if len(trade_df.values) > 0:
+    #         ax.plot(trade_df.index, trade_df['Close'], 'yo')
+    #     # ax.axhline(df['Close'].mean(), color='red')
+    #     ax.set_title(title)
+    #     ax.grid(True)
+    #     ax = axs[1]
+    #     ax.plot(df['Volume'], 'b')
+    #     ax.grid(True)
+    #     plt.show()
 
 
     def do_mean_reversion(self,df, window_size, index):
@@ -111,5 +99,22 @@ class Stationarity():
 
 
     def show_rolling_mean(self, title='title', sell_df=None, buy_df=None, trade_df=None, window=20):
-        self.draw_moving_average(self.df, title, sell_df, buy_df,trade_df, window)
+        # self.draw_moving_average(self.df, title, sell_df, buy_df,trade_df, window)
+        fig, axs = plt.subplots(2)
+        ax = axs[0]
+        ax.plot(self.df['Close'])
+        ax.plot(pd.rolling_mean(self.df['Close'], window), 'r')
+        if len(sell_df.values) > 0:
+            ax.plot(sell_df.index, sell_df['Close'], 'ro')
+        if len(buy_df.values) > 0:
+            ax.plot(buy_df.index, buy_df['Close'], 'bo')
+        if len(trade_df.values) > 0:
+            ax.plot(trade_df.index, trade_df['Close'], 'yo')
+        # ax.axhline(df['Close'].mean(), color='red')
+        ax.set_title(title)
+        ax.grid(True)
+        ax = axs[1]
+        ax.plot(self.df['Volume'], 'b')
+        ax.grid(True)
+        plt.show()
 

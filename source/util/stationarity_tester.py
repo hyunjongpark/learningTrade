@@ -40,19 +40,8 @@ class stationarity_tester():
             success, profit_result, title, df_rank, sell_list, buy_list = self.stationarity_per_day(code, start, end, view_chart, windows)
             if success == False:
                 continue
-
-            # if df_rank['score'].values < 8:
-            #     continue
-            # if df_rank['rank_adf'].values < 1:
-            #     continue
-            # if df_rank['rank_hurst'].values < 1:
-            #     continue
-            # if df_rank['rank_halflife'].values < 1:
-            #     continue
-
-            if df_rank['rank_adf'].values < 1 and  df_rank['rank_hurst'].values < 1 and df_rank['rank_halflife'].values < 1:
+            if self.filter_condition(df_rank) == False:
                 continue
-
 
             total_profit += profit_result
             result_list.append(str('%s, %s' % (row_index, title)))
@@ -66,6 +55,14 @@ class stationarity_tester():
             print(v)
         print('Total profit:%s, count:%s %s~%s windows:%s' % (total_profit / len(result_list), len(result_list), start, end, windows))
         return stock_trade
+
+    def filter_condition(self, df_stationarity):
+        df_rank = self.rankStationarity(df_stationarity)
+        if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
+            'rank_halflife'].values < 1:
+            return False
+        else:
+            return True
 
     def stationarity_per_day(self, code, start, end, view_chart=True, window=20):
         print('stationarity_per_day: %s, %s~%s' %(code, start, end))
@@ -90,36 +87,39 @@ class stationarity_tester():
             tomorrow_trade_result = self.tomorrow_trade(df, isBuy, window)
             if tomorrow_trade_result == 1:
 
-                # TEST CODE
                 success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
                 if success == False:
                     continue
-                df_rank = self.rankStationarity(df_stationarity)
-                if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
-                    'rank_halflife'].values < 1:
+                if self.filter_condition(df_stationarity) == False:
                     continue
-                # TEST CODE
-
 
                 sell_list.append(current_df.iloc[index])
                 isBuy = False
                 sell_profit = current_df.iloc[index]['Close'] - profit
                 profit_sum += sell_profit
+
+                # stationarity = Stationarity(df=df, code=code, start=ago_month, end=today)
+                # stationarity.show_rolling_mean(title='test', sell_df=pd.DataFrame(sell_list),
+                #                                buy_df=pd.DataFrame(buy_list),
+                #                                trade_df=pd.DataFrame(trade_list), window=window)
+
             elif tomorrow_trade_result == -1:
 
-                #TEST CODE
                 success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
                 if success == False:
                     continue
-                df_rank = self.rankStationarity(df_stationarity)
-                if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
-                    'rank_halflife'].values < 1:
+                if self.filter_condition(df_stationarity) == False:
                     continue
-                # TEST CODE
 
                 buy_list.append(current_df.iloc[index])
                 isBuy = True
                 profit = current_df.iloc[index]['Close']
+
+                # stationarity = Stationarity(df=df, code=code, start=ago_month, end=today)
+                # stationarity.show_rolling_mean(title='test', sell_df=pd.DataFrame(sell_list),
+                #                                buy_df=pd.DataFrame(buy_list),
+                #                                trade_df=pd.DataFrame(trade_list), window=window)
+
             else:
                 continue
 
@@ -163,13 +163,13 @@ class stationarity_tester():
         if check_diff_std[last_index] < 0:
             return 0
         if diff[last_index] > 0:
-            # if isBuy == True and df.iloc[last_index]['Close'] > df['Close'].mean():
+            #if isBuy == True and df.iloc[last_index]['Close'] > df['Close'].mean()
             if isBuy is True and df.iloc[last_index]['Close'] > df_ma.iloc[last_index]:
                 return 1
             else:
                 return 0
         else:
-            # if isBuy == False and df.iloc[last_index]['Close'] < df['Close'].mean():
+            #if isBuy == False and df.iloc[last_index]['Close'] < df['Close'].mean()
             if isBuy is False and df.iloc[last_index]['Close'] < df_ma.iloc[last_index]:
                 return -1
             else:
@@ -198,19 +198,6 @@ class stationarity_tester():
         df_result = pd.DataFrame(test_result)
         return True, df_result
 
-    def buildUniverse(self, df_stationarity, column, ratio):
-        percentile_column = np.percentile(df_stationarity[column], np.arange(0, 100, 10))
-        ratio_index = np.trunc(ratio * len(percentile_column))
-        print(df_stationarity)
-        universe = {}
-
-        for row_index in range(df_stationarity.shape[0]):
-            percentile_index = getPercentileIndex(percentile_column, df_stationarity.loc[row_index, column])
-            if percentile_index >= ratio_index:
-                universe[df_stationarity.loc[row_index, 'code']] = df_stationarity.loc[row_index, 'company']
-
-        return universe
-
     def rankStationarity(self, df_stationarity):
         df_stationarity['rank_adf'] = 0
         df_stationarity['rank_hurst'] = 0
@@ -230,15 +217,7 @@ class stationarity_tester():
                                                                                   df_stationarity.loc[
                                                                                       row_index, 'halflife'])
 
-            # print('code:%s, adf: %s, hurst:%s, halflife:%s ' % (
-            # df_stationarity.loc[row_index, 'company'], df_stationarity.loc[row_index, 'rank_adf'],
-            # df_stationarity.loc[row_index, 'rank_hurst'], df_stationarity.loc[row_index, 'rank_halflife']))
-
         df_stationarity['score'] = df_stationarity['rank_adf'] + df_stationarity['rank_hurst'] + df_stationarity['rank_halflife']
-        # print(df_stationarity['score'].values)
-        # print(df_stationarity['rank_adf'].values)
-        # print(df_stationarity['rank_hurst'].values)
-        # print(df_stationarity['rank_halflife'].values)
         return df_stationarity
 
     # def assessADF(self, test_stat, adf_1, adf_5, adf_10):
