@@ -6,6 +6,9 @@ import os, sys
 import datetime
 from dateutil.relativedelta import relativedelta
 import numpy as np
+import warnings
+warnings.simplefilter('ignore', np.RankWarning)
+from pandas import Series
 
 parentPath = os.path.abspath("..")
 if parentPath not in sys.path:
@@ -13,13 +16,13 @@ if parentPath not in sys.path:
 
 from common import *
 from util.stationarity import Stationarity
-
+np.seterr(divide='ignore', invalid='ignore')
 
 class stationarity_tester():
     def __init__(self):
         print('stationarity_tester')
 
-    def show_stationarity(self, stock_list=None, view_chart=True, start='20160101', end='20170101', windows=20):
+    def show_stationarity(self, stock_list=None, view_chart=True, start='20160101', end='20170101', windows=10):
         result_list = []
         total_profit = 0
         stock_trade = []
@@ -56,15 +59,43 @@ class stationarity_tester():
         print('Total profit:%s, count:%s %s~%s windows:%s' % (total_profit / len(result_list), len(result_list), start, end, windows))
         return stock_trade
 
+    def get_stationarity_list(self, stock_list=None, view_chart=True, start='20160101', end='20170101', windows=10):
+        stock_stationarity_list = []
+        row_index = 0
+        code_list = []
+        if stock_list == None:
+            stock_list = load_yaml('kospi200')
+            for company_code, value in stock_list.iterItems():
+                code_list.append(company_code)
+        else:
+            code_list = stock_list
+        for code in code_list:
+            row_index += 1
+            if code == '042660':
+                continue
+
+            print('%s/%s code:%s ==================================' % (row_index, len(code_list), code))
+            success, title, df_rank, sell_list, buy_list = self.get_stationarity_value(code, start, end,
+                                                                                                    view_chart, windows)
+            if success == False:
+                continue
+            if self.filter_condition(df_rank) == False:
+                continue
+
+            stock_stationarity_list.append(code)
+        return stock_stationarity_list
+
+
     def filter_condition(self, df_stationarity):
         df_rank = self.rankStationarity(df_stationarity)
         if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
             'rank_halflife'].values < 1:
             return False
+
         else:
             return True
 
-    def stationarity_per_day(self, code, start, end, view_chart=True, window=20):
+    def stationarity_per_day(self, code, start, end, view_chart=True, window=10):
         print('stationarity_per_day: %s, %s~%s' %(code, start, end))
         current_df = get_df_from_file(code, start, end)
         # print(current_df)
@@ -151,9 +182,41 @@ class stationarity_tester():
                                            trade_df=pd.DataFrame(trade_list), window=window)
         return True, profit_result, title, df_rank, sell_list, buy_list
 
+
+    def get_stationarity_value(self, code, start, end, view_chart=True, window=10):
+        print('stationarity_per_day: %s, %s~%s' %(code, start, end))
+        current_df = get_df_from_file(code, start, end)
+        if current_df is None:
+            return 0, None, None, None, None
+        sell_list = []
+        buy_list = []
+        trade_list = []
+
+        success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=start, end=end)
+        if success == False:
+            return False, None, None, None, None, None
+        df_rank = self.rankStationarity(df_stationarity)
+        title = str(
+            'code:%s, score=%s, rank_adf:%s, rank_hurst:%s, rank_halflife:%s ' % (
+                code,
+                df_rank['score'].values,
+                df_rank['rank_adf'].values,
+                df_rank['rank_hurst'].values,
+                df_rank['rank_halflife'].values))
+        print('==== Result %s' % (title))
+
+        if view_chart is True:
+            stationarity = Stationarity(df=current_df, code=code, start=start, end=end)
+            stationarity.show_rolling_mean(title=title, sell_df=pd.DataFrame(sell_list), buy_df=pd.DataFrame(buy_list),
+                                           trade_df=pd.DataFrame(trade_list), window=window)
+        return True, title, df_rank, sell_list, buy_list
+
+
     def tomorrow_trade(self, df, isBuy, window):
-        df_ma = pd.rolling_mean(df['Close'], window)
-        df_std = pd.rolling_std(df['Close'], window)
+        # df_ma = pd.rolling_mean(df['Close'], window)
+        df_ma = Series.rolling(df['Close'],center=False, window=10).mean()
+        # df_std = pd.rolling_std(df['Close'], window)
+        df_std = Series.rolling(df['Close'],center=False,window=10).std()
         diff = df['Close'] - df_ma
         check_diff_std = np.abs(diff) - df_std
         last_index = len(df) - 1
@@ -174,6 +237,7 @@ class stationarity_tester():
                 return -1
             else:
                 return 0
+
 
     def doStationarityTestFromFileCode(self, code, start, end):
         test_result = {'code': [], 'company': [], 'adf_statistic': [], 'adf_1': [], 'adf_5': [], 'adf_10': [],

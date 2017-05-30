@@ -35,7 +35,7 @@ class profit_tester():
 
     def profit_print_kospi200(self, start, end=None):
         stock_list = load_yaml('kospi200')
-        end = datetime.datetime.today()
+        # end = datetime.datetime.today()
         profit_sum = 0
         index = 0
         for code, value in stock_list.iterItems():
@@ -146,8 +146,10 @@ class profit_tester():
         return profit_sum
 
     def code_profit(self, code='023530', start=20170510, end=get_trade_last_day()):
-        print('%s %s' %(start, end))
+        # print('%s %s' %(start, end))
         current_df = get_df_from_file(code, start, end)
+        if len(current_df) <= 0:
+            return 0
         start_price = current_df.iloc[0]['Close']
         end_price = current_df.iloc[len(current_df) - 1]['Close']
         profit = (end_price - start_price) / start_price * 100

@@ -103,8 +103,8 @@ def test_predictor(classifier, x_test, y_test):
 
     hit_ratio = hit_count / total_count
     score = classifier.score(x_test, y_test)
-    # print ("hit_count=%s, total=%s, hit_ratio = %s" % (hit_count,total_count,hit_ratio))
-    # print("%s\n" % confusion_matrix(pred, y_test))
+    print ("hit_count=%s, total=%s, hit_ratio = %s" % (hit_count,total_count,hit_ratio))
+    print("%s\n" % confusion_matrix(pred, y_test))
     return hit_ratio, score
 
 

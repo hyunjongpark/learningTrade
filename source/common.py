@@ -85,6 +85,14 @@ def get_trade_last_day():
     return df.iloc[len(df) - 1].name
 
 
+def get_trade_next_day(base_date):
+    end = datetime.datetime.today()
+    start = end - relativedelta(months=1)
+    df = get_df_from_file('000030', start, end)
+    df = df[df.index > base_date]
+    return df.iloc[0].name
+
+
 def getDateByPerent(start_date, end_date, percent):
     days = (end_date - start_date).days
 	# days = (convertStringToDate(end_date) - convertStringToDate(start_date)).days

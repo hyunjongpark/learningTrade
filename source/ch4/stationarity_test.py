@@ -26,15 +26,14 @@ def get_hurst_exponent(df, lags_count=100):
 
     return result
 
+import pandas as pd
 
 def get_half_life(df):
     price = pd.Series(df)
     lagged_price = price.shift(1).fillna(method="bfill")
     delta = price - lagged_price
     beta = np.polyfit(lagged_price, delta, 1)[0]
-    half_life = (-1 * np.log(2) / beta)
-
-    return half_life
+    return (-1 * np.log(2) / beta)
 
 
 def random_walk(seed=1000, mu=0.0, sigma=1, length=1000):
@@ -73,45 +72,64 @@ def do_mean_reversion(df, window_size, index):
     print(diff)
 
 
-def adf():
+def adf(df):
     # Calculate and output the CADF test on the residuals
     # http://statsmodels.sourceforge.net/devel/generated/statsmodels.tsa.stattools.adfuller.html
-    df_samsung = load_stock_data('samsung.data')
-    adf_result = ts.adfuller(df_samsung["Close"])
-    print('----- Samsung ADF -----')
+    # df = load_stock_data('005930_삼성전자.data')
+    # end = datetime.datetime.today()
+    # start = end - relativedelta(months=12)
+    # df_samsung = df[start:end]
+
+    adf_result = ts.adfuller(df["Close"])
     pprint.pprint(adf_result)
-
-    df_hanmi = load_stock_data('hanmi.data')
-    adf_result = ts.adfuller(df_hanmi["Close"])
-    print('----- hanmi ADF -----')
-    pprint.pprint(adf_result)
-
-
-def hurst_exponent():
-    df_samsung = load_stock_data('samsung.data')
-    df_hanmi = load_stock_data('hanmi.data')
-    hurst_samsung = get_hurst_exponent(df_samsung['Close'])
-    hurst_hanmi = get_hurst_exponent(df_hanmi['Close'])
-    print("Hurst Exponent : Samsung=%s, Hanmi=%s" % (hurst_samsung, hurst_hanmi))
+    # df_hanmi = load_stock_data('hanmi.data')
+    # adf_result = ts.adfuller(df_hanmi["Close"])
+    # print('----- hanmi ADF -----')
+    # pprint.pprint(adf_result)
 
 
-def half_life():
-    df_samsung = load_stock_data('samsung.data')
-    df_hanmi = load_stock_data('hanmi.data')
-    half_life_samsung = get_half_life(df_samsung['Close'])
-    half_life_hanmi = get_half_life(df_hanmi['Close'])
-    print("Half_life : Samsung=%s, Hanmi=%s" % (half_life_samsung, half_life_hanmi))
+def hurst_exponent(df):
+    hurst_samsung = get_hurst_exponent(df['Close'])
+    print("Hurst Exponent: %s " % (hurst_samsung))
 
 
-def rolling_mean():
-    df_samsung = load_stock_data('066570_LG전자.data')
+def half_life(df):
+    half_life = get_half_life(df['Close'])
+    print("Half_life: %s" % (half_life))
+
+
+def rolling_mean(df):
+    # df_samsung = load_stock_data('005930_삼성전자.data')
     # print (df_samsung['Close'])
-    draw_moving_average(df_samsung['Close'])
+    # draw_moving_average(df['Close'])
+    df['Close'].plot()
+    plt.axhline(df['Close'].mean(), color='red')
+    plt.show()
+
     # do_mean_reversion(df_samsung['Close'],10,100)
 
 
 if __name__ == "__main__":
-    adf()
-    hurst_exponent()
-    half_life()
-    rolling_mean()
+
+    end = datetime.datetime.today()
+    # end = datetime.datetime.strptime('20160601', '%Y%m%d')
+    start = end - relativedelta(months=24)
+
+    # data = load_yaml('kospi100')
+    # for code, value in data.iterItems():
+    #     df = get_df_from_file(code, start, end)
+    #     print(code)
+    #     adf(df)
+    #     hurst_exponent(df)
+    #     half_life(df)
+    #     # rolling_mean(df)
+
+
+    # df = load_stock_data('145990_삼양사.data')
+    df = load_stock_data('003520_영진약품.data')
+    df_samsung = df[start:end]
+    print(df_samsung.describe())
+    adf(df_samsung)
+    hurst_exponent(df_samsung)
+    half_life(df_samsung)
+    rolling_mean(df_samsung)

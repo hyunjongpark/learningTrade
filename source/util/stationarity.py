@@ -35,13 +35,9 @@ class Stationarity():
     def get_hurst_exponent(self,df, lags_count=100):
         lags = range(2, lags_count)
         ts = np.log(df)
-
         tau = [np.sqrt(np.std(np.subtract(ts[lag:], ts[:-lag]))) for lag in lags]
         poly = np.polyfit(np.log(lags), np.log(tau), 1)
-
-        result = poly[0] * 2.0
-
-        return result
+        return poly[0] * 2.0
 
 
     def get_half_life(self,df):
@@ -100,21 +96,21 @@ class Stationarity():
 
     def show_rolling_mean(self, title='title', sell_df=None, buy_df=None, trade_df=None, window=20):
         # self.draw_moving_average(self.df, title, sell_df, buy_df,trade_df, window)
-        fig, axs = plt.subplots(2)
-        ax = axs[0]
-        ax.plot(self.df['Close'])
-        ax.plot(pd.rolling_mean(self.df['Close'], window), 'r')
+        # fig, axs = plt.subplots(1)
+        # ax = axs[0]
+        plt.plot(self.df['Close'])
+        plt.plot(pd.rolling_mean(self.df['Close'], window), 'r')
         if len(sell_df.values) > 0:
-            ax.plot(sell_df.index, sell_df['Close'], 'ro')
+            plt.plot(sell_df.index, sell_df['Close'], 'ro')
         if len(buy_df.values) > 0:
-            ax.plot(buy_df.index, buy_df['Close'], 'bo')
+            plt.plot(buy_df.index, buy_df['Close'], 'bo')
         if len(trade_df.values) > 0:
-            ax.plot(trade_df.index, trade_df['Close'], 'yo')
+            plt.plot(trade_df.index, trade_df['Close'], 'yo')
         # ax.axhline(df['Close'].mean(), color='red')
-        ax.set_title(title)
-        ax.grid(True)
-        ax = axs[1]
-        ax.plot(self.df['Volume'], 'b')
-        ax.grid(True)
+        plt.title(title)
+        plt.grid(True)
+        # ax = axs[1]
+        # ax.plot(self.df['Volume'], 'b')
+        # ax.grid(True)
         plt.show()
 

@@ -58,7 +58,14 @@ class macd_tester():
 
         print('total profit:%s ' % (totla_profit / index))
 
-    def train_macd_vaule(self, df, last_day_sell=True):
+
+    def train_macd_valueall_kospi(self, start, end, last_day_sell=True):
+        data = load_yaml('kospi100')
+        for code, value in data.iterItems():
+            df = get_df_from_file(code, start, end)
+            self.train_macd_value(code=code, df=df, last_day_sell=last_day_sell)
+
+    def train_macd_value(self, code, df, last_day_sell=True):
         index = 0
         test_result = {'profit': [], 'macd': []}
         stop = False
@@ -76,12 +83,57 @@ class macd_tester():
                     # print('%s: %s,%s,%s, profit:%s' % (index, fast, slow, signa, profit))
                     test_result['profit'].append(profit)
                     test_result['macd'].append('%s, %s, %s' %(fast, slow, signa))
-                    # if index > 100:
+                    # if len(test_result['profit']) > 10:
                     #     stop = True
-                    #     break
 
         df_result = pd.DataFrame(test_result)
         rank_sorted = df_result.sort_values(by='profit', ascending=False)
+        print(rank_sorted)
+        start_date = df.iloc[0].name
+        end_date = df.iloc[len(df) - 1].name
+
+        save_macd = {'code':code, 'start_date': str(start_date), 'end_date': str(end_date), 'top10':[]}
+
+        for index, v in enumerate(rank_sorted['macd'], start=0):
+            macd_split = str(rank_sorted.iloc[index]['macd']).split(',')
+            # fast = macd_split[0]
+            # slow = macd_split[1]
+            # signal = macd_split[2]
+            profit = rank_sorted.iloc[index]['profit']
+            print(rank_sorted.iloc[index])
+            # macd_inof = {'fast':fast, 'slow': slow, 'signal': signal, 'profit':str(profit)}
+            macd_inof = {'value': str(rank_sorted.iloc[index]['macd']), 'profit': str(profit)}
+            exist = False
+            for v in save_macd['top10']:
+                if str(v['profit']) == str(profit):
+                    exist = True
+                    break
+
+            if exist == False:
+                save_macd['top10'].append(macd_inof)
+            if len(save_macd['top10']) > 10:
+                break
+
+        saved_data = load_yaml('macd_trade')
+        if saved_data == None:
+            saved_data = {'macd_trade': []}
+            saved_data['macd_trade'].append(save_macd)
+        else:
+            if saved_data['macd_trade'] == None:
+                save_list = {'macd_trade': []}
+                save_list.append(rank_sorted)
+            else:
+                for index, v in enumerate(saved_data['macd_trade'], start=0):
+                    if v['code'] == code and str(v['start_date']) == str(start_date) and str(v['end_date']) == str(
+                            end_date):
+                        del saved_data['macd_trade'][index]
+
+                saved_data['macd_trade'].append(save_macd)
+
+        # saved_data = {'macd_trade': []}
+        # saved_data['macd_trade'].append(save_macd)
+        # print(saved_data)
+        write_yaml('macd_trade', saved_data)
         print(rank_sorted)
 
 
