@@ -99,13 +99,26 @@ class Stationarity():
         # fig, axs = plt.subplots(1)
         # ax = axs[0]
         plt.plot(self.df['Close'])
-        plt.plot(pd.rolling_mean(self.df['Close'], window), 'r')
+
+        # plt.plot(pd.rolling_mean(self.df['Close'], window), 'r')
+        plt.plot(Series.rolling(self.df['Close'], center=False, window=10).mean(), 'r')
+
+        # if sell_df != None and len(sell_df.values) > 0:
+        #     plt.plot(sell_df.index, sell_df['Close'], 'ro')
+        # if buy_df != None and len(buy_df.values) > 0:
+        #     plt.plot(buy_df.index, buy_df['Close'], 'bo')
+        # if trade_df != None and len(trade_df.values) > 0:
+        #     plt.plot(trade_df.index, trade_df['Close'], 'yo')
+
+
         if len(sell_df.values) > 0:
             plt.plot(sell_df.index, sell_df['Close'], 'ro')
         if len(buy_df.values) > 0:
             plt.plot(buy_df.index, buy_df['Close'], 'bo')
         if len(trade_df.values) > 0:
             plt.plot(trade_df.index, trade_df['Close'], 'yo')
+
+
         # ax.axhline(df['Close'].mean(), color='red')
         plt.title(title)
         plt.grid(True)

@@ -39,6 +39,10 @@ class stock_updater():
             print('code len %s' %(len(codes.iterItems())))
             delete_file(file_name)
             write_yaml(file_name, codes)
+            code_list = [k for k, v in codes.iterItems()]
+            print(code_list)
+            write_yaml('kospi_200_code', code_list)
+
 
     def downloadCode(self, market_type,whereCode):
         url = 'http://datamall.koscom.co.kr/servlet/infoService/SearchIssue'
@@ -89,14 +93,22 @@ class stock_updater():
         return code_list
 
     def download_stock_data(self, file_name, company_code, start, end):
-        try:
+        # try:
             # df = web.DataReader("%s.KS" % (company_code), "yahoo", start, end)
-            df = web.DataReader("KRX:%s" % (company_code), "google", start, end)
-            print(df)
-            save_stock_data(df, file_name)
-        except Exception as ex:
-            print('except [%s] %s' % (company_code, ex))
-            return None
+        df = web.DataReader("KRX:%s" % (company_code), "google", start, end)
+        df_fe = get_df_from_file_fe(company_code, start, end)
+        if df_fe is None:
+            df_fe = get_foreigner_info(company_code, start, end)
+        else:
+            df_fe.append(get_foreigner_info(company_code, start, end))
+        save_stock_data_fe(df_fe, file_name)
+        df['foreigner_count'] = df_fe['foreigner_count']
+        df['institution_trading'] = df_fe['institution_trading']
+        # print(df)
+        save_stock_data(df, file_name)
+        # except Exception as ex:
+        #     print('except [%s] %s' % (company_code, ex))
+        #     return None
         return df
 
     def download_kospi_data(self):
@@ -106,6 +118,7 @@ class stock_updater():
             df = web.DataReader("KRX:KOSPI", "google", start, end)
             print(df)
             save_stock_data(df, 'kospi.data')
+            # web.DataReader("KRX:KOSPI", "google", start, end).to_csv('kospi.csv')
         except Exception as ex:
             print('except [%s] %s' % ('kospi', ex))
             return None

@@ -13,7 +13,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 
-class profit_tester():
+class profit_stationarity_tester():
     def __init__(self):
         print('profit_tester')
 
@@ -116,8 +116,6 @@ class profit_tester():
                 start = buy_date[i]
                 end = datetime.datetime.today()
                 if len(sell_date) != 0 and len(sell_date) > i:
-                    print(i)
-                    print(len(sell_date))
                     end = sell_date[i]
                 if isinstance(start, str):
                     t = start.split(" ")
@@ -140,8 +138,9 @@ class profit_tester():
                     end = datetime.datetime.today()
                 profit = self.code_profit(code, start, end)
                 profit_sum += profit
-                print('[%s] total: %s, profit: %s, [%s ~ %s]' % (code, profit_sum, profit, start, end))
-                index += 1
+                if profit != 0:
+                    print('[%s] total: %s, profit: %s, [%s ~ %s]' % (code, profit_sum, profit, start, end))
+                    index += 1
         print('TOTAL:%s' % (profit_sum / index))
         return profit_sum
 
@@ -153,7 +152,7 @@ class profit_tester():
         start_price = current_df.iloc[0]['Close']
         end_price = current_df.iloc[len(current_df) - 1]['Close']
         profit = (end_price - start_price) / start_price * 100
-        # print('[%s] profit: %s' %(start, profit))
+        print('[%s] profit: %s' %(start, profit))
         return profit
 
     def get_buy_date(self, code):

@@ -80,6 +80,9 @@ class tomorrow_recommander():
 
         write_yaml('daily_trade', saved_data)
 
+        for code in save_stocks['BUY_list']:
+            print('StockList.add("%s");' % (code))
+
     def recommand_draw(self, date=get_trade_last_day()):
         draw = load_yaml('daily_trade')
         # last_day = get_trade_last_day()

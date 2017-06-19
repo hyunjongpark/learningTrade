@@ -75,7 +75,7 @@ class stationarity_tester():
                 continue
 
             print('%s/%s code:%s ==================================' % (row_index, len(code_list), code))
-            success, title, df_rank, sell_list, buy_list = self.get_stationarity_value(code, start, end,
+            success, title, df_rank = self.get_stationarity_value(code, start, end,
                                                                                                     view_chart, windows)
             if success == False:
                 continue
@@ -118,7 +118,7 @@ class stationarity_tester():
             tomorrow_trade_result = self.tomorrow_trade(df, isBuy, window)
             if tomorrow_trade_result == 1:
 
-                success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
+                success, df_stationarity = self.doStationarityTest(code=code, start=ago_month, end=today)
                 if success == False:
                     continue
                 if self.filter_condition(df_stationarity) == False:
@@ -136,7 +136,7 @@ class stationarity_tester():
 
             elif tomorrow_trade_result == -1:
 
-                success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=ago_month, end=today)
+                success, df_stationarity = self.doStationarityTest(code=code, start=ago_month, end=today)
                 if success == False:
                     continue
                 if self.filter_condition(df_stationarity) == False:
@@ -161,7 +161,7 @@ class stationarity_tester():
 
         profit_result = (profit_sum / current_df['Close'].mean() * 100)
 
-        success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=start, end=end)
+        success, df_stationarity = self.doStationarityTest(code=code, start=start, end=end)
         if success == False:
             return False, None, None, None, None, None
         df_rank = self.rankStationarity(df_stationarity)
@@ -188,13 +188,10 @@ class stationarity_tester():
         current_df = get_df_from_file(code, start, end)
         if current_df is None:
             return 0, None, None, None, None
-        sell_list = []
-        buy_list = []
-        trade_list = []
 
-        success, df_stationarity = self.doStationarityTestFromFileCode(code=code, start=start, end=end)
+        success, df_stationarity = self.doStationarityTest(code=code, start=start, end=end)
         if success == False:
-            return False, None, None, None, None, None
+            return False, None, None, None, None
         df_rank = self.rankStationarity(df_stationarity)
         title = str(
             'code:%s, score=%s, rank_adf:%s, rank_hurst:%s, rank_halflife:%s ' % (
@@ -207,15 +204,14 @@ class stationarity_tester():
 
         if view_chart is True:
             stationarity = Stationarity(df=current_df, code=code, start=start, end=end)
-            stationarity.show_rolling_mean(title=title, sell_df=pd.DataFrame(sell_list), buy_df=pd.DataFrame(buy_list),
-                                           trade_df=pd.DataFrame(trade_list), window=window)
-        return True, title, df_rank, sell_list, buy_list
+            stationarity.show_rolling_mean(title=title, sell_df=None, buy_df=None,
+                                           trade_df=None, window=window)
+        return True, title, df_rank
 
 
     def tomorrow_trade(self, df, isBuy, window):
-        # df_ma = pd.rolling_mean(df['Close'], window)
+
         df_ma = Series.rolling(df['Close'],center=False, window=10).mean()
-        # df_std = pd.rolling_std(df['Close'], window)
         df_std = Series.rolling(df['Close'],center=False,window=10).std()
         diff = df['Close'] - df_ma
         check_diff_std = np.abs(diff) - df_std
@@ -226,38 +222,59 @@ class stationarity_tester():
         if check_diff_std[last_index] < 0:
             return 0
         if diff[last_index] > 0:
-            #if isBuy == True and df.iloc[last_index]['Close'] > df['Close'].mean()
-            if isBuy is True and df.iloc[last_index]['Close'] > df_ma.iloc[last_index]:
-                return 1
+            if isBuy is True and df.iloc[last_index]['Close'] > df_ma.iloc[last_index] :
+                return 1 # sell
             else:
                 return 0
         else:
-            #if isBuy == False and df.iloc[last_index]['Close'] < df['Close'].mean()
-            if isBuy is False and df.iloc[last_index]['Close'] < df_ma.iloc[last_index]:
-                return -1
+            if isBuy is False and df.iloc[last_index]['Close'] < df_ma.iloc[last_index] :
+                return -1 # buy
             else:
                 return 0
 
 
-    def doStationarityTestFromFileCode(self, code, start, end):
+    def tomorrow_trade_fe(self, df, window=10):
+        df_ma = Series.rolling(df['foreigner_count'],center=False, window=window).mean()
+        df_std = Series.rolling(df['foreigner_count'],center=False,window=window).std()
+        diff = df['foreigner_count'] - df_ma
+        check_diff_std = np.abs(diff) - df_std
+        last_index = len(df) - 1
+        today_price = df.iloc[last_index]['foreigner_count']
+        if str(float(today_price)).lower() == 'nan':
+            return 0
+        if check_diff_std[last_index] < 0:
+            return 0
+        if diff[last_index] > 0:
+            if df.iloc[last_index]['Close'] > df_ma.iloc[last_index]:
+                return 1 # sell
+            else:
+                return 0
+        else:
+            if df.iloc[last_index]['Close'] < df_ma.iloc[last_index]:
+                return -1 # buy
+            else:
+                return 0
+
+
+    def doStationarityTest(self, code, start, end):
         test_result = {'code': [], 'company': [], 'adf_statistic': [], 'adf_1': [], 'adf_5': [], 'adf_10': [],
                        'hurst': [], 'halflife': []}
-        try:
-            df = get_df_from_file(code, start, end)
-            # print(df)
-            stationarity = Stationarity(df=df, code=code, start=start, end=end)
-            test_stat, adf_1, adf_5, adf_10, hurst, halflifes = stationarity.get_result()
-            test_result['adf_statistic'].append(test_stat)
-            test_result['adf_1'].append(adf_1)
-            test_result['adf_5'].append(adf_5)
-            test_result['adf_10'].append(adf_10)
-            test_result['code'].append(code)
-            test_result['company'].append(code)
-            test_result['hurst'].append(hurst)
-            test_result['halflife'].append(halflifes)
-        except Exception as ex:
-            print('except [%s] %s' % (code, ex))
-            return False, None
+        # try:
+        df = get_df_from_file(code, start, end)
+        # print(df)
+        stationarity = Stationarity(df=df, code=code, start=start, end=end)
+        test_stat, adf_1, adf_5, adf_10, hurst, halflifes = stationarity.get_result()
+        test_result['adf_statistic'].append(test_stat)
+        test_result['adf_1'].append(adf_1)
+        test_result['adf_5'].append(adf_5)
+        test_result['adf_10'].append(adf_10)
+        test_result['code'].append(code)
+        test_result['company'].append(code)
+        test_result['hurst'].append(hurst)
+        test_result['halflife'].append(halflifes)
+        # except Exception as ex:
+        #     print('except [%s] %s' % (code, ex))
+        #     return False, None
         # print(test_result)
         df_result = pd.DataFrame(test_result)
         return True, df_result

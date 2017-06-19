@@ -26,6 +26,14 @@ from util.services import *
 class ta_tester():
     def __init__(self):
         print('ta_tester')
+        self.code = None
+        self.fastperiod = 12
+        self.slowperiod = 26
+        self.signalperiod = 9
+        self.profit = 0
+
+    def set_code(self, code):
+        self.code = code
 
     def test(self, code='004990'):
         end = datetime.datetime.today()
@@ -41,38 +49,47 @@ class ta_tester():
 
         # print(df)
 
-        fig, axs = plt.subplots(6)
+        fig, axs = plt.subplots(2)
         ax = axs[0]
         ax.plot(df["Close"])
+
+        # ax.plot(df['SMA'])
+        ax.grid(True)
+
+        ax2 = ax.twinx()
+        ax2.plot(get_foreigner_info(code, start, end), 'r')
+
+
+        # ax = axs[1]
+        # ax.plot(df["Close"])
+        # ax.plot(df['BBANDS_upper'])
+        # ax.plot(df['BBANDS_middle'])
+        # ax.plot(df['BBANDS_lower'])
+        # ax.grid(True)
+        #
+        # ax = axs[2]
+        # ax.plot(df["MOM"], 'r')
+        # ax.grid(True)
+        #
+        # ax = axs[3]
+        # ax.plot(df["STOCH_slowk"])
+        # ax.plot(df["STOCH_slowd"])
+        # ax.grid(True)
+        #
+        # ax = axs[4]
+        # ax.plot(df["MACD_macd"])
+        # ax.plot(df["MACD_signal"])
+        # ax.plot(df["MACD_hist"])
+        # ax.grid(True)
+        #
+        # ax = axs[5]
+        # ax.plot(df["Volume"])
+        # ax.grid(True)
+
+        ax = axs[1]
         ax.plot(df['SMA'])
         ax.grid(True)
 
-
-        ax = axs[1]
-        ax.plot(df["Close"])
-        ax.plot(df['BBANDS_upper'])
-        ax.plot(df['BBANDS_middle'])
-        ax.plot(df['BBANDS_lower'])
-        ax.grid(True)
-
-        ax = axs[2]
-        ax.plot(df["MOM"], 'r')
-        ax.grid(True)
-
-        ax = axs[3]
-        ax.plot(df["STOCH_slowk"])
-        ax.plot(df["STOCH_slowd"])
-        ax.grid(True)
-
-        ax = axs[4]
-        ax.plot(df["MACD_macd"])
-        ax.plot(df["MACD_signal"])
-        ax.plot(df["MACD_hist"])
-        ax.grid(True)
-
-        ax = axs[5]
-        ax.plot(df["Volume"])
-        ax.grid(True)
 
         plt.show()
 
@@ -108,12 +125,24 @@ class ta_tester():
         return df
 
     def add_macd(self, df):
+
+        success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(self.code)
+        if success != True:
+            self.fastperiod = 12
+            self.slowperiod = 26
+            self.signalperiod = 9
+        self.profit = profit
+
+
         macd, signal, hist = talib.MACD(df['Close'].values,
-                                        fastperiod=12,
-                                        slowperiod=26,
-                                        signalperiod=9)
+                                        self.fastperiod,
+                                        self.slowperiod,
+                                        self.signalperiod)
         df['MACD_macd'] = macd
         df['MACD_signal'] = signal
         df['MACD_hist'] = hist
         return df
+
+    def get_best_value(self, code):
+        load_yaml()
 

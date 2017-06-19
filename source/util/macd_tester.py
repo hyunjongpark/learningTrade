@@ -27,22 +27,50 @@ class macd_tester():
         print('macd_tester')
         self.startTradePrice = 0
 
-    def show(self, df, fastperiod=12, slowperiod=26, signalperiod=9, last_day_sell=True):
+
+    def show(self, code='003300', start='20170101', end='20170531', last_day_sell=True):
+
+        # macd_values = load_yaml('macd_trade')
+
+        df = get_df_from_file(code, start, end)
+
+        # data = [v for v in macd_values['macd_trade'] if v['code'] == code]
+        # print(data[0]['top10'])
+        # print(data[0]['top10'][0]['value'])
+        # for data in data[0]['top10']:
+        #     print(data)
+        #     macd_split = str(data['value']).split(',')
+        #     fastperiod = int(macd_split[0].strip())
+        #     slowperiod = int(macd_split[1].strip())
+        #     signalperiod = int(macd_split[2].strip())
+
+        # macd_split = str(data[0]['top10'][0]['value']).split(',')
+        # fastperiod = int(macd_split[0].strip())
+        # slowperiod = int(macd_split[1].strip())
+        # signalperiod = int(macd_split[2].strip())
+
+
+        success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(code)
+
         profit, sell_list, buy_list = self.get_profit(df, fastperiod, slowperiod, signalperiod, last_day_sell)
         print('profit: %s' % (profit))
         df = self.add_macd(df, fastperiod, slowperiod, signalperiod)
         self.show_macd_trading(df, sell_df=pd.DataFrame(sell_list), buy_df=pd.DataFrame(buy_list))
 
     def show_profit_total_all_kospi(self, start, end, view_chart=True, last_day_sell=True):
-        data = load_yaml('kospi100')
+        data = load_yaml('kospi200')
         totla_profit = 0
         index = 0
         for code, value in data.iterItems():
             df = get_df_from_file(code, start, end)
 
-            fastperiod = 6
-            slowperiod = 29
-            signalperiod = 13
+            success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(code)
+            if success != True:
+                fastperiod = 6
+                slowperiod = 29
+                signalperiod = 13
+            if profit < 0:
+                continue
 
             profit, sell_list, buy_list = self.get_profit(df, fastperiod, slowperiod, signalperiod, last_day_sell)
             if profit == 0:
@@ -50,7 +78,7 @@ class macd_tester():
             totla_profit += profit
             index += 1
 
-            print('[%s] profit: %s' % (code, profit))
+            print('%s/%s [%s] profit: %s, total profit:%s' % (index, len(data.iterItems()), code, profit, (totla_profit / index)))
 
             if view_chart == True:
                 df = self.add_macd(df, fastperiod, slowperiod, signalperiod)
@@ -58,12 +86,76 @@ class macd_tester():
 
         print('total profit:%s ' % (totla_profit / index))
 
+    def tomorrow_macd(self, start, end, view_chart=True, last_day_sell=True, save_file=False):
+        data = load_yaml('kospi200')
+        totla_profit = 0
+        index = 0
 
-    def train_macd_valueall_kospi(self, start, end, last_day_sell=True):
-        data = load_yaml('kospi100')
+        save_stocks = {'date': str(end), 'SELL_list': [], 'BUY_list': []}
+
+
         for code, value in data.iterItems():
             df = get_df_from_file(code, start, end)
+
+            success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(code)
+            if success != True:
+                fastperiod = 6
+                slowperiod = 29
+                signalperiod = 13
+
+            profit, sell_list, buy_list = self.get_profit(df, fastperiod, slowperiod, signalperiod, last_day_sell)
+
+
+            print('Code: %s, profit:%s' % (code, profit))
+
+            if buy_list[len(sell_list)-1].name == get_trade_last_day():
+                save_stocks['BUY_list'].append(code)
+            if sell_list[len(sell_list) - 1].name == get_trade_last_day():
+                save_stocks['SELL_list'].append(code)
+
+
+
+        if save_file == True:
+            file_name = 'macd_trade'
+            saved_data = load_yaml(file_name)
+            if saved_data == None:
+                saved_data = {file_name: []}
+                saved_data[file_name].append(save_stocks)
+            else:
+                if saved_data[file_name] == None:
+                    save_list = {file_name: []}
+                    save_list.append(save_stocks)
+                else:
+                    for index, v in enumerate(saved_data[file_name], start=0):
+                        if str(v['date']) == str(end):
+                            del saved_data[file_name][index]
+
+                    saved_data[file_name].append(save_stocks)
+
+            write_yaml(file_name, saved_data)
+
+        print('=========================================')
+        print(save_stocks)
+
+        for code in save_stocks['BUY_list']:
+            print('StockList.add("%s");' % (code))
+        return save_stocks
+
+
+
+    def make_best_macd_value_all_kospi(self, start, end, last_day_sell=True):
+        data = load_yaml('kospi200')
+        index = 0
+        for code, value in data.iterItems():
+            print('%s/%s , code: %s' % (index, len(data.iterItems()), code))
+            success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(code)
+            if success == True:
+                print('fastperiod: %s, slowperiod: %s, signalperiod: %s' %(fastperiod, slowperiod, signalperiod))
+                index += 1
+                continue
+            df = get_df_from_file(code, start, end)
             self.train_macd_value(code=code, df=df, last_day_sell=last_day_sell)
+            index += 1
 
     def train_macd_value(self, code, df, last_day_sell=True):
         index = 0
@@ -171,6 +263,7 @@ class macd_tester():
                 buy_list.append(df.iloc[index])
                 self.startTradePrice = closePrice
                 # print('BUY [%s] price:%s' % (date, closePrice))
+            # elif signal[index - 1] <= macd[index - 1] and signal[index] >= macd[index] and (status == 3 or status == 1):
             elif macd[index - 1] >= 0 and macd[index] <= 0 and (status == 3 or status == 1):
                 status = 2
                 sellPrice = (closePrice - closePrice * SELL_CHARGE - closePrice * TAX_RATE)

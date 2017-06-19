@@ -53,8 +53,8 @@ class machine_learning_tester():
 
 
             if apply_st == True:
-                st_start = end - relativedelta(months=6)
-                success, title, df_rank, sell_list, buy_list = self.stationarity_tester.get_stationarity_value(code=code, start=st_start, end=end, view_chart=False, window=10)
+                st_start = end - relativedelta(months=3)
+                success, title, df_rank = self.stationarity_tester.get_stationarity_value(code=code, start=st_start, end=end, view_chart=False, window=10)
                 if success == False:
                     continue
                 if self.filter_condition(df_rank) == False:
@@ -75,28 +75,31 @@ class machine_learning_tester():
 
         return stock_trade
 
-    def test_tomorrow_machine_learning(self):
-        end = datetime.datetime.today()
-        # start = end - relativedelta(months=6)
 
-        end = datetime.datetime.strptime('20170529', '%Y%m%d')
+
+    def test_tomorrow_match_count_of_specific_date(self, date):
+        # end = datetime.datetime.today()
+        # start = end - relativedelta(months=6)
+        # end = datetime.datetime.strptime('20170529', '%Y%m%d')
+
+        end = datetime.datetime.strptime(date, '%Y-%m-%d')
         start = end - relativedelta(months=6)
 
-        df = get_df_from_file('009150', start, end)
-
-        split_date = getDateByPerent(df.index[0], df.index[df.shape[0] - 1], 0.85)
-
-        result = self.tomorrow_machine_learning(view_chart=False, start=start, end=end, time_lags=1,
-                                                dataset_ratio=1, apply_st=True, two_condition=True, save_file=False)
-
-        # result = {'date': str(split_date), 'SELL_list': [], 'BUY_list': ['003620']}
-
+        result = self.tomorrow_machine_learning(view_chart=False, start=start, end=end, time_lags=1, dataset_ratio=1, apply_st=True, two_condition=True, save_file=False)
 
         match_count = 0
         index = 0
+
+        # buy_list = ['028260', '004700', '008060', '009240', '009290', '007690', '005440', '004170', '078930', '007340', '003490', '000880', '012630', '104700', '000660', '034120', '020150', '007070', '009420', '003520', '000240', '020000', '064960', '008930', '000070', '005300', '139480', '036580', '000150', '000100', '012450', '185750', '066570', '036570', '025860', '016360', '003200', '005610', '006280', '000640', '051910', '001680', '027410', '021240', '005180', '012750', '029530', '006400', '071050', '018880', '005090', '000810', '007570', '019680', '010780', '003550', '000120']
+
         for code in result['BUY_list']:
-            print('code: %s, date: %s, next: %s '%(code, result['date'], get_trade_next_day(result['date'])))
+        # for code in buy_list:
+
+            # print('code: %s, date: %s, next: %s '%(code, result['date'], get_trade_next_day(result['date'])))
+            # print('code: %s' % (code))
+
             tomorrow = get_trade_next_day(result['date'])
+            # tomorrow = get_trade_next_day('20170501')
             df = get_df_from_file(code, start, tomorrow)
 
 
@@ -107,17 +110,30 @@ class machine_learning_tester():
             if pre_1_data['Volume'] > tomorrow_data['Volume']:
                 continue
 
+            if today_data['Close'] < tomorrow_data['Open']:
+                if today_data['Close'] > tomorrow_data['Low']:
+                    # print(df)
+                    if get_percent_price(today_data['Close'], -0.1) > tomorrow_data['Low']:
+                        buy_price = get_percent_price(today_data['Close'], -0.1)
+                        index += 1
+                        if today_data['Close'] <= tomorrow_data['Close']:
+                            match_count += 1
+                        elif buy_price < tomorrow_data['Close']:
+                            match_count += 1
+                        # elif today_data['Close'] < tomorrow_data['High'] and today_data['Close'] > tomorrow_data['Low']:
+                        #     match_count += 1
+                        else:
+                            print(df)
+                            print('+++buy_price: %s ' % (buy_price))
+                            print('+++Open: %s ' % (get_percent(today_data['Close'], tomorrow_data['Open'])))
+                            print('+++High: %s ' % (get_percent(today_data['Close'], tomorrow_data['High'])))
+                            print('+++Low: %s ' % (get_percent(today_data['Close'], tomorrow_data['Low'])))
+                            print('+++CLOSE: %s ' % (get_percent(today_data['Close'], tomorrow_data['Close'])))
 
-            if today_data['Close'] <= tomorrow_data['Close']:
-                match_count += 1
-            # elif today_data['Close'] < tomorrow_data['High'] and today_data['Close'] > tomorrow_data['Low']:
-            #     match_count += 1
-            else:
-                print(df)
 
-            index +=1
+        print('+++++%s/%s' %(match_count, index))
 
-        print('%s/%s' %(match_count, index))
+        return str('%s/%s' %(match_count, index))
 
 
 
@@ -143,11 +159,17 @@ class machine_learning_tester():
             if code == '267250':
                 continue
             if apply_st == True:
-                st_start = end - relativedelta(months=3)
-                success, title, df_rank, sell_list, buy_list = self.stationarity_tester.get_stationarity_value(code=code, start=st_start, end=end, view_chart=False, window=10)
+
+                # print('++++++++++++++++: %s' %(is_mean_state(code)))
+                if is_mean_state(code) != -1:
+                    continue
+                st_start = end - relativedelta(months=6)
+                success, title, df_rank = self.stationarity_tester.get_stationarity_value(code=code, start=st_start, end=end, view_chart=False, window=10)
                 if success == False:
+                    print('Skip success: %s' %(success))
                     continue
                 if self.filter_condition(df_rank) == False:
+                    print('Skip filter_condition')
                     continue
 
 
@@ -158,9 +180,9 @@ class machine_learning_tester():
             print('Code: %s, tomorrow:%s' % (code, result))
 
             if result == 1:
-                save_stocks['BUY_list'].append(code)
-            if result == -1:
                 save_stocks['SELL_list'].append(code)
+            if result == -1:
+                save_stocks['BUY_list'].append(code)
             row_index += 1
 
 
@@ -187,6 +209,17 @@ class machine_learning_tester():
         print(save_stocks)
 
         for code in save_stocks['BUY_list']:
+
+            tomorrow = get_trade_next_day(save_stocks['date'])
+            df = get_df_from_file(code, start, end)
+            # print(df)
+
+            pre_1_data = df.iloc[len(df) - 2]
+            today_data = df.iloc[len(df) - 1]
+
+            if today_data['institution_trading'] > 0:
+                continue
+
             print('StockList.add("%s");' %(code))
 
         return save_stocks
@@ -196,8 +229,8 @@ class machine_learning_tester():
     def filter_condition(self, df_rank):
         if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank['rank_halflife'].values < 1:
             return False
-        if df_rank['score'].values < 6:
-            return False
+        # if df_rank['score'].values < 6:
+        #     return False
         else:
             return True
 
@@ -221,6 +254,7 @@ class machine_learning_tester():
                     df = self.ta_tester.add_stoch(df)
 
                 if input == 'MACD_macd':
+                    self.ta_tester.set_code(code)
                     df = self.ta_tester.add_macd(df)
 
                 if input == 'kospi':
@@ -308,6 +342,7 @@ class machine_learning_tester():
                     df = self.ta_tester.add_stoch(df)
 
                 if input == 'MACD_macd':
+                    self.ta_tester.set_code(code)
                     df = self.ta_tester.add_macd(df)
 
                 if input == 'kospi':

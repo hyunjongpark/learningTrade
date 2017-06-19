@@ -135,7 +135,7 @@ class PortfolioBuilder():
         df_result = pd.DataFrame(test_result)
         return df_result
 
-    def doStationarityTestFromFileCode(self, code, start, end):
+    def doStationarityTest(self, code, start, end):
         test_result = {'code': [], 'company': [], 'adf_statistic': [], 'adf_1': [], 'adf_5': [], 'adf_10': [],
                        'hurst': [], 'halflife': []}
         try:
