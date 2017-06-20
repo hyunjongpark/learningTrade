@@ -117,6 +117,22 @@ class stationarity_tester():
             # print(df)
             tomorrow_trade_result = self.tomorrow_trade(df, isBuy, window)
             if tomorrow_trade_result == 1:
+                success, df_stationarity = self.doStationarityTest(code=code, start=ago_month, end=today)
+                if success == False:
+                    continue
+                if self.filter_condition(df_stationarity) == False:
+                    continue
+
+                buy_list.append(current_df.iloc[index])
+                isBuy = True
+                profit = current_df.iloc[index]['Close']
+
+                # stationarity = Stationarity(df=df, code=code, start=ago_month, end=today)
+                # stationarity.show_rolling_mean(title='test', sell_df=pd.DataFrame(sell_list),
+                #                                buy_df=pd.DataFrame(buy_list),
+                #                                trade_df=pd.DataFrame(trade_list), window=window)
+
+            elif tomorrow_trade_result == -1:
 
                 success, df_stationarity = self.doStationarityTest(code=code, start=ago_month, end=today)
                 if success == False:
@@ -134,22 +150,7 @@ class stationarity_tester():
                 #                                buy_df=pd.DataFrame(buy_list),
                 #                                trade_df=pd.DataFrame(trade_list), window=window)
 
-            elif tomorrow_trade_result == -1:
 
-                success, df_stationarity = self.doStationarityTest(code=code, start=ago_month, end=today)
-                if success == False:
-                    continue
-                if self.filter_condition(df_stationarity) == False:
-                    continue
-
-                buy_list.append(current_df.iloc[index])
-                isBuy = True
-                profit = current_df.iloc[index]['Close']
-
-                # stationarity = Stationarity(df=df, code=code, start=ago_month, end=today)
-                # stationarity.show_rolling_mean(title='test', sell_df=pd.DataFrame(sell_list),
-                #                                buy_df=pd.DataFrame(buy_list),
-                #                                trade_df=pd.DataFrame(trade_list), window=window)
 
             else:
                 continue
@@ -223,12 +224,12 @@ class stationarity_tester():
             return 0
         if diff[last_index] > 0:
             if isBuy is True and df.iloc[last_index]['Close'] > df_ma.iloc[last_index] :
-                return 1 # sell
+                return -1 # sell
             else:
                 return 0
         else:
             if isBuy is False and df.iloc[last_index]['Close'] < df_ma.iloc[last_index] :
-                return -1 # buy
+                return 1 # buy
             else:
                 return 0
 
@@ -246,12 +247,12 @@ class stationarity_tester():
             return 0
         if diff[last_index] > 0:
             if df.iloc[last_index]['Close'] > df_ma.iloc[last_index]:
-                return 1 # sell
+                return -1 # sell
             else:
                 return 0
         else:
             if df.iloc[last_index]['Close'] < df_ma.iloc[last_index]:
-                return -1 # buy
+                return 1 # buy
             else:
                 return 0
 

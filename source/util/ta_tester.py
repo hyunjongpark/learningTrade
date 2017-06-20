@@ -133,7 +133,6 @@ class ta_tester():
             self.signalperiod = 9
         self.profit = profit
 
-
         macd, signal, hist = talib.MACD(df['Close'].values,
                                         self.fastperiod,
                                         self.slowperiod,
@@ -141,6 +140,24 @@ class ta_tester():
         df['MACD_macd'] = macd
         df['MACD_signal'] = signal
         df['MACD_hist'] = hist
+        return df
+
+    def add_macd_foreigner_count(self, df):
+
+        success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(self.code)
+        if success != True:
+            self.fastperiod = 12
+            self.slowperiod = 26
+            self.signalperiod = 9
+        self.profit = profit
+
+        macd, signal, hist = talib.MACD(df['foreigner_count'].values,
+                                        self.fastperiod,
+                                        self.slowperiod,
+                                        self.signalperiod)
+        df['MACD_foreigner_count_macd'] = macd
+        df['MACD_foreigner_count_signal'] = signal
+        df['MACD_foreigner_count_hist'] = hist
         return df
 
     def get_best_value(self, code):

@@ -181,12 +181,12 @@ def is_mean_state(code):
         return 0
     if diff[last_index] > 0:
         if df.iloc[last_index]['Close'] > df_ma.iloc[last_index]:
-            return 1 #sell
+            return -1 #sell
         else:
             return 0
     else:
         if df.iloc[last_index]['Close'] < df_ma.iloc[last_index]:
-            return -1 #buy
+            return 1 #buy
         else:
             return 0
 

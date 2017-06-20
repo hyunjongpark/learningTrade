@@ -67,8 +67,9 @@ def machine():
 
     machine_learning_recommander = machine_learning_tester()
 
+    stock_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end,time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
+    # machine_learning_recommander.tomorrow_machine_learning(stock_list=stock_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
 
-    # machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=(end - relativedelta(months=6)), end=end,time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
 
 
     # start = datetime.datetime.strptime('20170501', '%Y%m%d')
@@ -87,12 +88,7 @@ def machine():
     # print('===test_tomorrow_match_count_of_specific_date===')
     # print(return_str)
 
-    # code_list = ['000030','000050','000070','000100','000120','000150','000210','000240','000270','000640','000660','000670','000720','000810','000880','001040',]
-    machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, time_lags=1, dataset_ratio=1, apply_st=True, two_condition=False, save_file=True)
-
     # machine_learning_recommander.show_machine_learning(stock_list = code_list, view_chart = False, start = start, end = end, time_lags = 1, dataset_ratio = 0.8, apply_st = True, two_condition = True)
-
-
     # machine_learning_recommander.get_tomorrow_trade( code = '009150', start = start, end = end, view_chart = True, time_lags = 1, dataset_ratio = 1, two_condition = False)
 
 
@@ -143,13 +139,16 @@ def init():
     # services.get('configurator').register('input_column',
     #                                       ['Open', 'High', 'Low', 'Close', 'Volume', 'kospi', 'kospi_volume', 'SMA'], )
 
-    # services.get('configurator').register('input_column',
-    #                                       ['Open', 'High', 'Low', 'Close', 'Volume', 'kospi', 'kospi_volume',
-    #                                        "MACD_macd", "MACD_signal", "MACD_hist", 'foreigner_count'], )
-
     services.get('configurator').register('input_column',
-                                          ['Close', 'Volume', 'kospi', 'kospi_volume',
-                                           "MACD_macd", "MACD_signal", "MACD_hist"], )
+                                          ['Open', 'High', 'Low', 'Close', 'Volume', 'kospi', 'kospi_volume',
+                                           "MACD_macd", "MACD_signal", "MACD_hist",
+                                           'foreigner_count', 'MACD_foreigner_count_macd',
+                                           'MACD_foreigner_count_signal', 'MACD_foreigner_count_hist',
+                                           'institution_trading'], )
+
+    # services.get('configurator').register('input_column',
+    #                                       ['Close', 'Volume', 'kospi', 'kospi_volume',
+    #                                        "MACD_macd", "MACD_signal", "MACD_hist"], )
 
     # services.get('configurator').register('input_column',
     #                                       ['Close', 'Volume', 'kospi', 'kospi_volume','foreigner_count'], )
@@ -168,11 +167,6 @@ def init():
     # services.get('configurator').register('input_column', ['Close', 'Volume'])
     # services.get('configurator').register('input_column',['Close','Volume','Open'])
 
-    """
-    'SMA','BBANDS_upper','BBANDS_middle','BBANDS_lower',"MOM","STOCH_slowk","STOCH_slowd"
-    ,"MACD_macd","MACD_signal","MACD_hist"
-    """
-
     services.get('configurator').register('output_column', 'Close_Direction')
 
 
@@ -184,7 +178,7 @@ if __name__ == "__main__":
     init()
     # get_foreigner_info()
     # stationarity()
-    tomorrow()
+    # tomorrow()
     machine()
     # macd()
 
