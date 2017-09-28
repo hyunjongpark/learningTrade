@@ -58,7 +58,7 @@ class macd_tester():
         self.show_macd_trading(df, sell_df=pd.DataFrame(sell_list), buy_df=pd.DataFrame(buy_list))
 
     def show_profit_total_all_kospi(self, start, end, view_chart=True, last_day_sell=True):
-        data = load_yaml('kospi200')
+        data = load_yaml(services.get('configurator').get('stock_list'))
         totla_profit = 0
         index = 0
         for code, value in data.iterItems():
@@ -87,7 +87,7 @@ class macd_tester():
         print('total profit:%s ' % (totla_profit / index))
 
     def tomorrow_macd(self, start, end, view_chart=True, last_day_sell=True, save_file=False):
-        data = load_yaml('kospi200')
+        data = load_yaml(services.get('configurator').get('stock_list'))
         totla_profit = 0
         index = 0
 
@@ -144,7 +144,7 @@ class macd_tester():
 
 
     def make_best_macd_value_all_kospi(self, start, end, last_day_sell=True):
-        data = load_yaml('kospi200')
+        data = load_yaml(services.get('configurator').get('stock_list'))
         index = 0
         for code, value in data.iterItems():
             print('%s/%s , code: %s' % (index, len(data.iterItems()), code))

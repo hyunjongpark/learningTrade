@@ -1,0 +1,1211 @@
+!!python/object:data_model.StockCode
+items:
+  069500: !!python/object:data_model.StockCodeItem
+    code: 069500
+    company: KODEX 200
+    full_code: KR7069500007
+    market_type: kospiVal
+  069660: !!python/object:data_model.StockCodeItem
+    code: 069660
+    company: KOSEF 200
+    full_code: KR7069660009
+    market_type: kospiVal
+  091160: !!python/object:data_model.StockCodeItem
+    code: 091160
+    company: "KODEX \uBC18\uB3C4\uCCB4"
+    full_code: KR7091160002
+    market_type: kospiVal
+  091170: !!python/object:data_model.StockCodeItem
+    code: 091170
+    company: "KODEX \uC740\uD589"
+    full_code: KR7091170001
+    market_type: kospiVal
+  091180: !!python/object:data_model.StockCodeItem
+    code: 091180
+    company: "KODEX \uC790\uB3D9\uCC28"
+    full_code: KR7091180000
+    market_type: kospiVal
+  091210: !!python/object:data_model.StockCodeItem
+    code: 091210
+    company: TIGER KRX100
+    full_code: KR7091210005
+    market_type: kospiVal
+  091220: !!python/object:data_model.StockCodeItem
+    code: 091220
+    company: "TIGER \uC740\uD589"
+    full_code: KR7091220004
+    market_type: kospiVal
+  091230: !!python/object:data_model.StockCodeItem
+    code: 091230
+    company: "TIGER \uBC18\uB3C4\uCCB4"
+    full_code: KR7091230003
+    market_type: kospiVal
+  098560: !!python/object:data_model.StockCodeItem
+    code: 098560
+    company: "TIGER \uBC29\uC1A1\uD1B5\uC2E0"
+    full_code: KR7098560006
+    market_type: kospiVal
+  099140: !!python/object:data_model.StockCodeItem
+    code: 099140
+    company: KODEX China H
+    full_code: KR7099140006
+    market_type: kospiVal
+  '100910': !!python/object:data_model.StockCodeItem
+    code: '100910'
+    company: KOSEF KRX100
+    full_code: KR7100910009
+    market_type: kospiVal
+  '102110': !!python/object:data_model.StockCodeItem
+    code: '102110'
+    company: TIGER 200
+    full_code: KR7102110004
+    market_type: kospiVal
+  '102780': !!python/object:data_model.StockCodeItem
+    code: '102780'
+    company: "KODEX \uC0BC\uC131\uADF8\uB8F9"
+    full_code: KR7102780004
+    market_type: kospiVal
+  '102960': !!python/object:data_model.StockCodeItem
+    code: '102960'
+    company: "KODEX \uAE30\uACC4\uC7A5\uBE44"
+    full_code: KR7102960002
+    market_type: kospiVal
+  '102970': !!python/object:data_model.StockCodeItem
+    code: '102970'
+    company: "KODEX \uC99D\uAD8C"
+    full_code: KR7102970001
+    market_type: kospiVal
+  '104520': !!python/object:data_model.StockCodeItem
+    code: '104520'
+    company: "KOSEF \uBE14\uB8E8\uCE69"
+    full_code: KR7104520002
+    market_type: kospiVal
+  '104530': !!python/object:data_model.StockCodeItem
+    code: '104530'
+    company: "KOSEF \uACE0\uBC30\uB2F9"
+    full_code: KR7104530001
+    market_type: kospiVal
+  '105010': !!python/object:data_model.StockCodeItem
+    code: '105010'
+    company: "TIGER \uB77C\uD2F435"
+    full_code: KR7105010003
+    market_type: kospiVal
+  '105190': !!python/object:data_model.StockCodeItem
+    code: '105190'
+    company: KINDEX 200
+    full_code: KR7105190003
+    market_type: kospiVal
+  '105780': !!python/object:data_model.StockCodeItem
+    code: '105780'
+    company: "KBSTAR 5\uB300\uADF8\uB8F9\uC8FC"
+    full_code: KR7105780001
+    market_type: kospiVal
+  '108450': !!python/object:data_model.StockCodeItem
+    code: '108450'
+    company: "KINDEX \uC0BC\uC131\uADF8\uB8F9\uC139\uD130\uAC00\uC911"
+    full_code: KR7108450008
+    market_type: kospiVal
+  '114100': !!python/object:data_model.StockCodeItem
+    code: '114100'
+    company: "KBSTAR \uAD6D\uACE0\uCC443\uB144"
+    full_code: KR7114100001
+    market_type: kospiVal
+  '114260': !!python/object:data_model.StockCodeItem
+    code: '114260'
+    company: "KODEX \uAD6D\uACE0\uCC443\uB144"
+    full_code: KR7114260003
+    market_type: kospiVal
+  '114460': !!python/object:data_model.StockCodeItem
+    code: '114460'
+    company: "KINDEX \uC911\uAE30\uAD6D\uACE0\uCC44"
+    full_code: KR7114460009
+    market_type: kospiVal
+  '114470': !!python/object:data_model.StockCodeItem
+    code: '114470'
+    company: "KOSEF \uAD6D\uACE0\uCC443\uB144"
+    full_code: KR7114470008
+    market_type: kospiVal
+  '114800': !!python/object:data_model.StockCodeItem
+    code: '114800'
+    company: "KODEX \uC778\uBC84\uC2A4"
+    full_code: KR7114800006
+    market_type: kospiVal
+  '114820': !!python/object:data_model.StockCodeItem
+    code: '114820'
+    company: "TIGER \uAD6D\uCC443\uB144"
+    full_code: KR7114820004
+    market_type: kospiVal
+  '117460': !!python/object:data_model.StockCodeItem
+    code: '117460'
+    company: "KODEX \uC5D0\uB108\uC9C0\uD654\uD559"
+    full_code: KR7117460006
+    market_type: kospiVal
+  '117680': !!python/object:data_model.StockCodeItem
+    code: '117680'
+    company: "KODEX \uCCA0\uAC15"
+    full_code: KR7117680009
+    market_type: kospiVal
+  '117690': !!python/object:data_model.StockCodeItem
+    code: '117690'
+    company: "TIGER \uCC28\uC774\uB098\uD56D\uC14D25"
+    full_code: KR7117690008
+    market_type: kospiVal
+  '117700': !!python/object:data_model.StockCodeItem
+    code: '117700'
+    company: "KODEX \uAC74\uC124"
+    full_code: KR7117700005
+    market_type: kospiVal
+  '122090': !!python/object:data_model.StockCodeItem
+    code: '122090'
+    company: "ARIRANG \uCF54\uC2A4\uD53C50"
+    full_code: KR7122090004
+    market_type: kospiVal
+  '122260': !!python/object:data_model.StockCodeItem
+    code: '122260'
+    company: "KOSEF \uD1B5\uC548\uCC441\uB144"
+    full_code: KR7122260003
+    market_type: kospiVal
+  '122630': !!python/object:data_model.StockCodeItem
+    code: '122630'
+    company: "KODEX \uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7122630007
+    market_type: kospiVal
+  '123310': !!python/object:data_model.StockCodeItem
+    code: '123310'
+    company: "TIGER \uC778\uBC84\uC2A4"
+    full_code: KR7123310005
+    market_type: kospiVal
+  '123320': !!python/object:data_model.StockCodeItem
+    code: '123320'
+    company: "TIGER \uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7123320004
+    market_type: kospiVal
+  '130680': !!python/object:data_model.StockCodeItem
+    code: '130680'
+    company: "TIGER \uC6D0\uC720\uC120\uBB3CEnhanced(H)"
+    full_code: KR7130680002
+    market_type: kospiVal
+  '130730': !!python/object:data_model.StockCodeItem
+    code: '130730'
+    company: "KOSEF \uB2E8\uAE30\uC790\uAE08"
+    full_code: KR7130730005
+    market_type: kospiVal
+  '131890': !!python/object:data_model.StockCodeItem
+    code: '131890'
+    company: "KINDEX \uC0BC\uC131\uADF8\uB8F9\uB3D9\uC77C\uAC00\uC911"
+    full_code: KR7131890006
+    market_type: kospiVal
+  '132030': !!python/object:data_model.StockCodeItem
+    code: '132030'
+    company: "KODEX \uACE8\uB4DC\uC120\uBB3C(H)"
+    full_code: KR7132030008
+    market_type: kospiVal
+  '133690': !!python/object:data_model.StockCodeItem
+    code: '133690'
+    company: "TIGER \uBBF8\uAD6D\uB098\uC2A4\uB2E5100"
+    full_code: KR7133690008
+    market_type: kospiVal
+  '136340': !!python/object:data_model.StockCodeItem
+    code: '136340'
+    company: "KBSTAR \uC911\uAE30\uC6B0\uB7C9\uD68C\uC0AC\uCC44"
+    full_code: KR7136340007
+    market_type: kospiVal
+  '137610': !!python/object:data_model.StockCodeItem
+    code: '137610'
+    company: "TIGER \uB18D\uC0B0\uBB3C\uC120\uBB3CEnhanced(H)"
+    full_code: KR7137610002
+    market_type: kospiVal
+  '138230': !!python/object:data_model.StockCodeItem
+    code: '138230'
+    company: "KOSEF \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C"
+    full_code: KR7138230008
+    market_type: kospiVal
+  '138520': !!python/object:data_model.StockCodeItem
+    code: '138520'
+    company: "TIGER \uC0BC\uC131\uADF8\uB8F9\uD380\uB354\uBA58\uD138"
+    full_code: KR7138520002
+    market_type: kospiVal
+  '138530': !!python/object:data_model.StockCodeItem
+    code: '138530'
+    company: "TIGER LG\uADF8\uB8F9+\uD380\uB354\uBA58\uD138"
+    full_code: KR7138530001
+    market_type: kospiVal
+  '138540': !!python/object:data_model.StockCodeItem
+    code: '138540'
+    company: "TIGER \uD604\uB300\uCC28\uADF8\uB8F9+\uD380\uB354\uBA58\uD138"
+    full_code: KR7138540000
+    market_type: kospiVal
+  '138910': !!python/object:data_model.StockCodeItem
+    code: '138910'
+    company: "KODEX \uAD6C\uB9AC\uC120\uBB3C(H)"
+    full_code: KR7138910005
+    market_type: kospiVal
+  '138920': !!python/object:data_model.StockCodeItem
+    code: '138920'
+    company: "KODEX \uCF69\uC120\uBB3C(H)"
+    full_code: KR7138920004
+    market_type: kospiVal
+  '139220': !!python/object:data_model.StockCodeItem
+    code: '139220'
+    company: "TIGER 200 \uAC74\uC124"
+    full_code: KR7139220008
+    market_type: kospiVal
+  '139230': !!python/object:data_model.StockCodeItem
+    code: '139230'
+    company: "TIGER 200 \uC911\uACF5\uC5C5"
+    full_code: KR7139230007
+    market_type: kospiVal
+  '139240': !!python/object:data_model.StockCodeItem
+    code: '139240'
+    company: "TIGER 200 \uCCA0\uAC15\uC18C\uC7AC"
+    full_code: KR7139240006
+    market_type: kospiVal
+  '139250': !!python/object:data_model.StockCodeItem
+    code: '139250'
+    company: "TIGER 200 \uC5D0\uB108\uC9C0\uD654\uD559"
+    full_code: KR7139250005
+    market_type: kospiVal
+  '139260': !!python/object:data_model.StockCodeItem
+    code: '139260'
+    company: TIGER 200 IT
+    full_code: KR7139260004
+    market_type: kospiVal
+  '139270': !!python/object:data_model.StockCodeItem
+    code: '139270'
+    company: "TIGER 200 \uAE08\uC735"
+    full_code: KR7139270003
+    market_type: kospiVal
+  '139280': !!python/object:data_model.StockCodeItem
+    code: '139280'
+    company: "TIGER \uACBD\uAE30\uBC29\uC5B4"
+    full_code: KR7139280002
+    market_type: kospiVal
+  '139290': !!python/object:data_model.StockCodeItem
+    code: '139290'
+    company: "TIGER 200 \uACBD\uAE30\uC18C\uBE44\uC7AC"
+    full_code: KR7139290001
+    market_type: kospiVal
+  '139310': !!python/object:data_model.StockCodeItem
+    code: '139310'
+    company: "TIGER \uAE08\uC18D\uC120\uBB3C(H)"
+    full_code: KR7139310007
+    market_type: kospiVal
+  '139320': !!python/object:data_model.StockCodeItem
+    code: '139320'
+    company: "TIGER \uAE08\uC740\uC120\uBB3C(H)"
+    full_code: KR7139320006
+    market_type: kospiVal
+  '139660': !!python/object:data_model.StockCodeItem
+    code: '139660'
+    company: "KOSEF \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C\uC778\uBC84\uC2A4"
+    full_code: KR7139660005
+    market_type: kospiVal
+  '140570': !!python/object:data_model.StockCodeItem
+    code: '140570'
+    company: "KBSTAR \uC218\uCD9C\uC8FC"
+    full_code: KR7140570003
+    market_type: kospiVal
+  '140580': !!python/object:data_model.StockCodeItem
+    code: '140580'
+    company: "KBSTAR \uC6B0\uB7C9\uC5C5\uC885"
+    full_code: KR7140580002
+    market_type: kospiVal
+  '140700': !!python/object:data_model.StockCodeItem
+    code: '140700'
+    company: "KODEX \uBCF4\uD5D8"
+    full_code: KR7140700006
+    market_type: kospiVal
+  '140710': !!python/object:data_model.StockCodeItem
+    code: '140710'
+    company: "KODEX \uC6B4\uC1A1"
+    full_code: KR7140710005
+    market_type: kospiVal
+  '141240': !!python/object:data_model.StockCodeItem
+    code: '141240'
+    company: "ARIRANG \uCF54\uC2A4\uD53C100\uB3D9\uC77C\uAC00\uC911"
+    full_code: KR7141240002
+    market_type: kospiVal
+  '143460': !!python/object:data_model.StockCodeItem
+    code: '143460'
+    company: "KINDEX \uBC38\uB958\uB300\uD615"
+    full_code: KR7143460004
+    market_type: kospiVal
+  '143860': !!python/object:data_model.StockCodeItem
+    code: '143860'
+    company: "TIGER \uD5EC\uC2A4\uCF00\uC5B4"
+    full_code: KR7143860005
+    market_type: kospiVal
+  '144600': !!python/object:data_model.StockCodeItem
+    code: '144600'
+    company: "KODEX \uC740\uC120\uBB3C(H)"
+    full_code: KR7144600004
+    market_type: kospiVal
+  '145670': !!python/object:data_model.StockCodeItem
+    code: '145670'
+    company: "KINDEX \uC778\uBC84\uC2A4"
+    full_code: KR7145670006
+    market_type: kospiVal
+  '147970': !!python/object:data_model.StockCodeItem
+    code: '147970'
+    company: "TIGER \uBAA8\uBA58\uD140"
+    full_code: KR7147970008
+    market_type: kospiVal
+  '148020': !!python/object:data_model.StockCodeItem
+    code: '148020'
+    company: KBSTAR 200
+    full_code: KR7148020001
+    market_type: kospiVal
+  '148070': !!python/object:data_model.StockCodeItem
+    code: '148070'
+    company: "KOSEF \uAD6D\uACE0\uCC4410\uB144"
+    full_code: KR7148070006
+    market_type: kospiVal
+  '150460': !!python/object:data_model.StockCodeItem
+    code: '150460'
+    company: "TIGER \uC911\uAD6D\uC18C\uBE44\uD14C\uB9C8"
+    full_code: KR7150460004
+    market_type: kospiVal
+  '152100': !!python/object:data_model.StockCodeItem
+    code: '152100'
+    company: ARIRANG 200
+    full_code: KR7152100004
+    market_type: kospiVal
+  '152180': !!python/object:data_model.StockCodeItem
+    code: '152180'
+    company: "TIGER \uC0DD\uD65C\uD544\uC218\uD488"
+    full_code: KR7152180006
+    market_type: kospiVal
+  '152280': !!python/object:data_model.StockCodeItem
+    code: '152280'
+    company: "KOSEF 200 \uC120\uBB3C"
+    full_code: KR7152280004
+    market_type: kospiVal
+  '152380': !!python/object:data_model.StockCodeItem
+    code: '152380'
+    company: "KODEX \uAD6D\uCC44\uC120\uBB3C10\uB144"
+    full_code: KR7152380002
+    market_type: kospiVal
+  '152500': !!python/object:data_model.StockCodeItem
+    code: '152500'
+    company: "KINDEX \uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7152500005
+    market_type: kospiVal
+  '153130': !!python/object:data_model.StockCodeItem
+    code: '153130'
+    company: "KODEX \uB2E8\uAE30\uCC44\uAD8C"
+    full_code: KR7153130000
+    market_type: kospiVal
+  '153270': !!python/object:data_model.StockCodeItem
+    code: '153270'
+    company: "KOSEF \uCF54\uC2A4\uD53C100"
+    full_code: KR7153270004
+    market_type: kospiVal
+  '156080': !!python/object:data_model.StockCodeItem
+    code: '156080'
+    company: KODEX KOREA MSCI
+    full_code: KR7156080004
+    market_type: kospiVal
+  '157450': !!python/object:data_model.StockCodeItem
+    code: '157450'
+    company: "TIGER \uB2E8\uAE30\uD1B5\uC548\uCC44"
+    full_code: KR7157450008
+    market_type: kospiVal
+  '157490': !!python/object:data_model.StockCodeItem
+    code: '157490'
+    company: "TIGER \uC18C\uD504\uD2B8\uC6E8\uC5B4"
+    full_code: KR7157490004
+    market_type: kospiVal
+  '157500': !!python/object:data_model.StockCodeItem
+    code: '157500'
+    company: "TIGER \uC99D\uAD8C"
+    full_code: KR7157500000
+    market_type: kospiVal
+  '157510': !!python/object:data_model.StockCodeItem
+    code: '157510'
+    company: "TIGER \uC790\uB3D9\uCC28"
+    full_code: KR7157510009
+    market_type: kospiVal
+  '157520': !!python/object:data_model.StockCodeItem
+    code: '157520'
+    company: "TIGER \uD654\uD559"
+    full_code: KR7157520008
+    market_type: kospiVal
+  '160580': !!python/object:data_model.StockCodeItem
+    code: '160580'
+    company: "TIGER \uAD6C\uB9AC\uC2E4\uBB3C"
+    full_code: KR7160580007
+    market_type: kospiVal
+  '161490': !!python/object:data_model.StockCodeItem
+    code: '161490'
+    company: "ARIRANG \uACBD\uAE30\uBC29\uC5B4\uC8FC"
+    full_code: KR7161490008
+    market_type: kospiVal
+  '161500': !!python/object:data_model.StockCodeItem
+    code: '161500'
+    company: "ARIRANG \uACBD\uAE30\uC8FC\uB3C4\uC8FC"
+    full_code: KR7161500004
+    market_type: kospiVal
+  '161510': !!python/object:data_model.StockCodeItem
+    code: '161510'
+    company: "ARIRANG \uACE0\uBC30\uB2F9\uC8FC"
+    full_code: KR7161510003
+    market_type: kospiVal
+  '166400': !!python/object:data_model.StockCodeItem
+    code: '166400'
+    company: "TIGER 200\uCEE4\uBC84\uB4DCC"
+    full_code: KR7166400002
+    market_type: kospiVal
+  '167860': !!python/object:data_model.StockCodeItem
+    code: '167860'
+    company: "KOSEF \uAD6D\uACE0\uCC4410\uB144\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7167860006
+    market_type: kospiVal
+  '168580': !!python/object:data_model.StockCodeItem
+    code: '168580'
+    company: "KINDEX \uC911\uAD6D\uBCF8\uD1A0CSI300"
+    full_code: KR7168580009
+    market_type: kospiVal
+  '169950': !!python/object:data_model.StockCodeItem
+    code: '169950'
+    company: "KODEX \uC911\uAD6D\uBCF8\uD1A0 A50"
+    full_code: KR7169950003
+    market_type: kospiVal
+  '170350': !!python/object:data_model.StockCodeItem
+    code: '170350'
+    company: "TIGER \uBCA0\uD0C0\uD50C\uB7EC\uC2A4"
+    full_code: KR7170350003
+    market_type: kospiVal
+  '174350': !!python/object:data_model.StockCodeItem
+    code: '174350'
+    company: "TIGER \uB85C\uC6B0\uBCFC"
+    full_code: KR7174350009
+    market_type: kospiVal
+  '174360': !!python/object:data_model.StockCodeItem
+    code: '174360'
+    company: "KBSTAR \uC911\uAD6D\uBCF8\uD1A0\uB300\uD615\uC8FCCSI100"
+    full_code: KR7174360008
+    market_type: kospiVal
+  '176950': !!python/object:data_model.StockCodeItem
+    code: '176950'
+    company: "KODEX \uAD6D\uCC44\uC120\uBB3C10\uB144\uC778\uBC84\uC2A4"
+    full_code: KR7176950004
+    market_type: kospiVal
+  '181480': !!python/object:data_model.StockCodeItem
+    code: '181480'
+    company: "KINDEX \uBBF8\uAD6D\uB2E4\uC6B0\uC874\uC2A4\uB9AC\uCE20(\uD569\uC131\
+      \ H)"
+    full_code: KR7181480005
+    market_type: kospiVal
+  '182480': !!python/object:data_model.StockCodeItem
+    code: '182480'
+    company: "TIGER \uBBF8\uAD6DMSCI\uB9AC\uCE20(\uD569\uC131 H)"
+    full_code: KR7182480004
+    market_type: kospiVal
+  '182490': !!python/object:data_model.StockCodeItem
+    code: '182490'
+    company: "TIGER \uB2E8\uAE30\uC120\uC9C4\uD558\uC774\uC77C\uB4DC(\uD569\uC131\
+      \ H)"
+    full_code: KR7182490003
+    market_type: kospiVal
+  '183700': !!python/object:data_model.StockCodeItem
+    code: '183700'
+    company: "KBSTAR \uCC44\uAD8C\uD63C\uD569"
+    full_code: KR7183700004
+    market_type: kospiVal
+  '183710': !!python/object:data_model.StockCodeItem
+    code: '183710'
+    company: "KBSTAR \uC8FC\uC2DD\uD63C\uD569"
+    full_code: KR7183710003
+    market_type: kospiVal
+  '189400': !!python/object:data_model.StockCodeItem
+    code: '189400'
+    company: "ARIRANG \uAE00\uB85C\uBC8CMSCI(\uD569\uC131 H)"
+    full_code: KR7189400005
+    market_type: kospiVal
+  '190150': !!python/object:data_model.StockCodeItem
+    code: '190150'
+    company: "ARIRANG \uBC14\uBCA8 \uCC44\uAD8C"
+    full_code: KR7190150003
+    market_type: kospiVal
+  '190160': !!python/object:data_model.StockCodeItem
+    code: '190160'
+    company: "ARIRANG \uB2E8\uAE30\uC720\uB3D9\uC131"
+    full_code: KR7190160002
+    market_type: kospiVal
+  '190620': !!python/object:data_model.StockCodeItem
+    code: '190620'
+    company: "KINDEX \uB2E8\uAE30\uD1B5\uC548\uCC44"
+    full_code: KR7190620005
+    market_type: kospiVal
+  '192090': !!python/object:data_model.StockCodeItem
+    code: '192090'
+    company: "TIGER \uCC28\uC774\uB098CSI300"
+    full_code: KR7192090009
+    market_type: kospiVal
+  '195930': !!python/object:data_model.StockCodeItem
+    code: '195930'
+    company: "TIGER \uC720\uB85C\uC2A4\uD0C1\uC2A450(\uD569\uC131 H)"
+    full_code: KR7195930003
+    market_type: kospiVal
+  '195970': !!python/object:data_model.StockCodeItem
+    code: '195970'
+    company: "ARIRANG \uC120\uC9C4\uAD6DMSCI(\uD569\uC131 H)"
+    full_code: KR7195970009
+    market_type: kospiVal
+  '195980': !!python/object:data_model.StockCodeItem
+    code: '195980'
+    company: "ARIRANG \uC2E0\uD765\uAD6DMSCI(\uD569\uC131 H)"
+    full_code: KR7195980008
+    market_type: kospiVal
+  '196230': !!python/object:data_model.StockCodeItem
+    code: '196230'
+    company: "KBSTAR \uB2E8\uAE30\uD1B5\uC548\uCC44"
+    full_code: KR7196230007
+    market_type: kospiVal
+  '200050': !!python/object:data_model.StockCodeItem
+    code: '200050'
+    company: "KODEX \uB3C5\uC77CMSCI(\uD569\uC131)"
+    full_code: KR7200050003
+    market_type: kospiVal
+  '200250': !!python/object:data_model.StockCodeItem
+    code: '200250'
+    company: "KOSEF \uC778\uB3C4Nifty50(\uD569\uC131)"
+    full_code: KR7200250009
+    market_type: kospiVal
+  '203780': !!python/object:data_model.StockCodeItem
+    code: '203780'
+    company: "TIGER \uBBF8\uAD6D\uB098\uC2A4\uB2E5\uBC14\uC774\uC624"
+    full_code: KR7203780002
+    market_type: kospiVal
+  '204420': !!python/object:data_model.StockCodeItem
+    code: '204420'
+    company: "ARIRANG \uCC28\uC774\uB098H \uB808\uBC84\uB9AC\uC9C0(\uD569\uC131 H)"
+    full_code: KR7204420004
+    market_type: kospiVal
+  '204450': !!python/object:data_model.StockCodeItem
+    code: '204450'
+    company: "KODEX China H \uB808\uBC84\uB9AC\uC9C0(H)"
+    full_code: KR7204450001
+    market_type: kospiVal
+  '204480': !!python/object:data_model.StockCodeItem
+    code: '204480'
+    company: "TIGER \uCC28\uC774\uB098CSI300\uB808\uBC84\uB9AC\uC9C0(\uD569\uC131)"
+    full_code: KR7204480008
+    market_type: kospiVal
+  '210780': !!python/object:data_model.StockCodeItem
+    code: '210780'
+    company: "TIGER \uCF54\uC2A4\uD53C\uACE0\uBC30\uB2F9"
+    full_code: KR7210780003
+    market_type: kospiVal
+  '211260': !!python/object:data_model.StockCodeItem
+    code: '211260'
+    company: "KINDEX \uBC30\uB2F9\uC131\uC7A5"
+    full_code: KR7211260005
+    market_type: kospiVal
+  '211560': !!python/object:data_model.StockCodeItem
+    code: '211560'
+    company: "TIGER \uBC30\uB2F9\uC131\uC7A5"
+    full_code: KR7211560008
+    market_type: kospiVal
+  '211900': !!python/object:data_model.StockCodeItem
+    code: '211900'
+    company: "KODEX \uBC30\uB2F9\uC131\uC7A5"
+    full_code: KR7211900006
+    market_type: kospiVal
+  '213610': !!python/object:data_model.StockCodeItem
+    code: '213610'
+    company: "KODEX \uC0BC\uC131\uADF8\uB8F9\uBC38\uB958"
+    full_code: KR7213610009
+    market_type: kospiVal
+  '213630': !!python/object:data_model.StockCodeItem
+    code: '213630'
+    company: "ARIRANG \uBBF8\uAD6D\uB2E4\uC6B0\uC874\uC2A4\uACE0\uBC30\uB2F9\uC8FC\
+      (\uD569\uC131 H)"
+    full_code: KR7213630007
+    market_type: kospiVal
+  '217770': !!python/object:data_model.StockCodeItem
+    code: '217770'
+    company: "TIGER \uC6D0\uC720\uC120\uBB3C\uC778\uBC84\uC2A4(H)"
+    full_code: KR7217770007
+    market_type: kospiVal
+  '217780': !!python/object:data_model.StockCodeItem
+    code: '217780'
+    company: "TIGER \uCC28\uC774\uB098CSI300\uC778\uBC84\uC2A4(\uD569\uC131)"
+    full_code: KR7217780006
+    market_type: kospiVal
+  '217790': !!python/object:data_model.StockCodeItem
+    code: '217790'
+    company: "TIGER \uAC00\uACA9\uC870\uC815"
+    full_code: KR7217790005
+    market_type: kospiVal
+  '219900': !!python/object:data_model.StockCodeItem
+    code: '219900'
+    company: "KINDEX \uC911\uAD6D\uBCF8\uD1A0CSI300\uB808\uBC84\uB9AC\uC9C0(\uD569\
+      \uC131)"
+    full_code: KR7219900008
+    market_type: kospiVal
+  '222180': !!python/object:data_model.StockCodeItem
+    code: '222180'
+    company: "ARIRANG \uC2A4\uB9C8\uD2B8\uBCA0\uD0C0 Value"
+    full_code: KR7222180002
+    market_type: kospiVal
+  '222190': !!python/object:data_model.StockCodeItem
+    code: '222190'
+    company: "ARIRANG \uC2A4\uB9C8\uD2B8\uBCA0\uD0C0 Momentum"
+    full_code: KR7222190001
+    market_type: kospiVal
+  '222200': !!python/object:data_model.StockCodeItem
+    code: '222200'
+    company: "ARIRANG \uC2A4\uB9C8\uD2B8\uBCA0\uD0C0 Quality"
+    full_code: KR7222200008
+    market_type: kospiVal
+  '223190': !!python/object:data_model.StockCodeItem
+    code: '223190'
+    company: "KODEX 200\uAC00\uCE58\uC800\uBCC0\uB3D9"
+    full_code: KR7223190000
+    market_type: kospiVal
+  '225050': !!python/object:data_model.StockCodeItem
+    code: '225050'
+    company: "TIGER \uC720\uB85C\uC2A4\uD0C1\uC2A4\uB808\uBC84\uB9AC\uC9C0(\uD569\uC131\
+      \ H)"
+    full_code: KR7225050004
+    market_type: kospiVal
+  '225060': !!python/object:data_model.StockCodeItem
+    code: '225060'
+    company: "TIGER \uC774\uBA38\uC9D5\uB9C8\uCF13MSCI\uB808\uBC84\uB9AC\uC9C0(\uD569\
+      \uC131 H)"
+    full_code: KR7225060003
+    market_type: kospiVal
+  '225130': !!python/object:data_model.StockCodeItem
+    code: '225130'
+    company: "KINDEX \uACE8\uB4DC\uC120\uBB3C \uB808\uBC84\uB9AC\uC9C0(\uD569\uC131\
+      \ H)"
+    full_code: KR7225130004
+    market_type: kospiVal
+  '225800': !!python/object:data_model.StockCodeItem
+    code: '225800'
+    company: "KOSEF \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C \uB808\uBC84\uB9AC\uC9C0\
+      (\uD569\uC131)"
+    full_code: KR7225800002
+    market_type: kospiVal
+  '226380': !!python/object:data_model.StockCodeItem
+    code: '226380'
+    company: "KINDEX \uD55C\uB958"
+    full_code: KR7226380004
+    market_type: kospiVal
+  '226490': !!python/object:data_model.StockCodeItem
+    code: '226490'
+    company: "KODEX \uCF54\uC2A4\uD53C"
+    full_code: KR7226490001
+    market_type: kospiVal
+  '226980': !!python/object:data_model.StockCodeItem
+    code: '226980'
+    company: "KODEX 200 \uC911\uC18C\uD615"
+    full_code: KR7226980001
+    market_type: kospiVal
+  '227540': !!python/object:data_model.StockCodeItem
+    code: '227540'
+    company: "TIGER 200 \uD5EC\uC2A4\uCF00\uC5B4"
+    full_code: KR7227540002
+    market_type: kospiVal
+  '227550': !!python/object:data_model.StockCodeItem
+    code: '227550'
+    company: "TIGER 200 \uC0B0\uC5C5\uC7AC"
+    full_code: KR7227550001
+    market_type: kospiVal
+  '227560': !!python/object:data_model.StockCodeItem
+    code: '227560'
+    company: "TIGER 200 \uC0DD\uD65C\uC18C\uBE44\uC7AC"
+    full_code: KR7227560000
+    market_type: kospiVal
+  '227570': !!python/object:data_model.StockCodeItem
+    code: '227570'
+    company: "TIGER \uC6B0\uB7C9\uAC00\uCE58"
+    full_code: KR7227570009
+    market_type: kospiVal
+  '227830': !!python/object:data_model.StockCodeItem
+    code: '227830'
+    company: "ARIRANG \uCF54\uC2A4\uD53C"
+    full_code: KR7227830007
+    market_type: kospiVal
+  '228790': !!python/object:data_model.StockCodeItem
+    code: '228790'
+    company: "TIGER \uD654\uC7A5\uD488"
+    full_code: KR7228790002
+    market_type: kospiVal
+  '228800': !!python/object:data_model.StockCodeItem
+    code: '228800'
+    company: "TIGER \uC5EC\uD589\uB808\uC800"
+    full_code: KR7228800009
+    market_type: kospiVal
+  '228810': !!python/object:data_model.StockCodeItem
+    code: '228810'
+    company: "TIGER \uBBF8\uB514\uC5B4\uCEE8\uD150\uCE20"
+    full_code: KR7228810008
+    market_type: kospiVal
+  '229200': !!python/object:data_model.StockCodeItem
+    code: '229200'
+    company: "KODEX \uCF54\uC2A4\uB2E5 150"
+    full_code: KR7229200001
+    market_type: kospiVal
+  '230480': !!python/object:data_model.StockCodeItem
+    code: '230480'
+    company: "KOSEF \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C \uC778\uBC84\uC2A42X(\uD569\
+      \uC131)"
+    full_code: KR7230480006
+    market_type: kospiVal
+  '232080': !!python/object:data_model.StockCodeItem
+    code: '232080'
+    company: "TIGER \uCF54\uC2A4\uB2E5150"
+    full_code: KR7232080002
+    market_type: kospiVal
+  '232590': !!python/object:data_model.StockCodeItem
+    code: '232590'
+    company: "KINDEX \uACE8\uB4DC\uC120\uBB3C \uC778\uBC84\uC2A42X(\uD569\uC131 H)"
+    full_code: KR7232590000
+    market_type: kospiVal
+  '233160': !!python/object:data_model.StockCodeItem
+    code: '233160'
+    company: "TIGER \uCF54\uC2A4\uB2E5150 \uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7233160001
+    market_type: kospiVal
+  '233740': !!python/object:data_model.StockCodeItem
+    code: '233740'
+    company: "KODEX \uCF54\uC2A4\uB2E5150 \uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7233740000
+    market_type: kospiVal
+  '234310': !!python/object:data_model.StockCodeItem
+    code: '234310'
+    company: "KBSTAR V&S\uC140\uB809\uD2B8\uBC38\uB958"
+    full_code: KR7234310001
+    market_type: kospiVal
+  '236350': !!python/object:data_model.StockCodeItem
+    code: '236350'
+    company: "TIGER \uC778\uB3C4\uB2C8\uD504\uD2F050\uB808\uBC84\uB9AC\uC9C0(\uD569\
+      \uC131)"
+    full_code: KR7236350005
+    market_type: kospiVal
+  '236460': !!python/object:data_model.StockCodeItem
+    code: '236460'
+    company: "ARIRANG \uC2A4\uB9C8\uD2B8\uBCA0\uD0C0 LowVOL"
+    full_code: KR7236460002
+    market_type: kospiVal
+  '237350': !!python/object:data_model.StockCodeItem
+    code: '237350'
+    company: "KODEX \uCF54\uC2A4\uD53C100"
+    full_code: KR7237350004
+    market_type: kospiVal
+  '237370': !!python/object:data_model.StockCodeItem
+    code: '237370'
+    company: "KODEX \uBC30\uB2F9\uC131\uC7A5\uCC44\uAD8C\uD63C\uD569"
+    full_code: KR7237370002
+    market_type: kospiVal
+  '237440': !!python/object:data_model.StockCodeItem
+    code: '237440'
+    company: "TIGER \uACBD\uAE30\uBC29\uC5B4\uCC44\uAD8C\uD63C\uD569"
+    full_code: KR7237440003
+    market_type: kospiVal
+  '238670': !!python/object:data_model.StockCodeItem
+    code: '238670'
+    company: "ARIRANG \uC2A4\uB9C8\uD2B8\uBCA0\uD0C0Quality\uCC44\uAD8C\uD63C\uD569"
+    full_code: KR7238670004
+    market_type: kospiVal
+  '238720': !!python/object:data_model.StockCodeItem
+    code: '238720'
+    company: "KINDEX \uC77C\uBCF8Nikkei225(H)"
+    full_code: KR7238720007
+    market_type: kospiVal
+  '239660': !!python/object:data_model.StockCodeItem
+    code: '239660'
+    company: "ARIRANG \uC6B0\uB7C9\uD68C\uC0AC\uCC4450 1\uB144"
+    full_code: KR7239660004
+    market_type: kospiVal
+  '241180': !!python/object:data_model.StockCodeItem
+    code: '241180'
+    company: "TIGER \uC77C\uBCF8\uB2C8\uCF00\uC774225"
+    full_code: KR7241180009
+    market_type: kospiVal
+  '241390': !!python/object:data_model.StockCodeItem
+    code: '241390'
+    company: "KBSTAR V&S\uC140\uB809\uD2B8\uBC38\uB958\uCC44\uAD8C\uD63C\uD569"
+    full_code: KR7241390004
+    market_type: kospiVal
+  '243880': !!python/object:data_model.StockCodeItem
+    code: '243880'
+    company: "TIGER 200IT\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7243880002
+    market_type: kospiVal
+  '243890': !!python/object:data_model.StockCodeItem
+    code: '243890'
+    company: "TIGER 200\uC5D0\uB108\uC9C0\uD654\uD559\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7243890001
+    market_type: kospiVal
+  '244580': !!python/object:data_model.StockCodeItem
+    code: '244580'
+    company: "KODEX \uBC14\uC774\uC624"
+    full_code: KR7244580007
+    market_type: kospiVal
+  '244820': !!python/object:data_model.StockCodeItem
+    code: '244820'
+    company: "ARIRANG \uC2A4\uB9C8\uD2B8\uBCA0\uD0C04\uC885\uACB0\uD569"
+    full_code: KR7244820007
+    market_type: kospiVal
+  '245340': !!python/object:data_model.StockCodeItem
+    code: '245340'
+    company: "TIGER \uBBF8\uAD6D\uB2E4\uC6B0\uC874\uC2A430"
+    full_code: KR7245340005
+    market_type: kospiVal
+  '245350': !!python/object:data_model.StockCodeItem
+    code: '245350'
+    company: "TIGER \uC720\uB85C\uC2A4\uD0C1\uC2A4\uBC30\uB2F930"
+    full_code: KR7245350004
+    market_type: kospiVal
+  '245360': !!python/object:data_model.StockCodeItem
+    code: '245360'
+    company: "TIGER \uCC28\uC774\uB098HSCEI"
+    full_code: KR7245360003
+    market_type: kospiVal
+  '245710': !!python/object:data_model.StockCodeItem
+    code: '245710'
+    company: "KINDEX \uBCA0\uD2B8\uB0A8VN30(\uD569\uC131)"
+    full_code: KR7245710009
+    market_type: kospiVal
+  '247780': !!python/object:data_model.StockCodeItem
+    code: '247780'
+    company: "KODEX \uAC00\uCE58\uD22C\uC790"
+    full_code: KR7247780000
+    market_type: kospiVal
+  '247790': !!python/object:data_model.StockCodeItem
+    code: '247790'
+    company: "KODEX \uC131\uC7A5\uD22C\uC790"
+    full_code: KR7247790009
+    market_type: kospiVal
+  '247800': !!python/object:data_model.StockCodeItem
+    code: '247800'
+    company: "KODEX \uD134\uC5B4\uB77C\uC6B4\uB4DC\uD22C\uC790"
+    full_code: KR7247800006
+    market_type: kospiVal
+  '250730': !!python/object:data_model.StockCodeItem
+    code: '250730'
+    company: "KBSTAR \uCC28\uC774\uB098H\uC8FC(H)"
+    full_code: KR7250730009
+    market_type: kospiVal
+  '250780': !!python/object:data_model.StockCodeItem
+    code: '250780'
+    company: "TIGER \uCF54\uC2A4\uB2E5150\uC120\uBB3C\uC778\uBC84\uC2A4"
+    full_code: KR7250780004
+    market_type: kospiVal
+  '251340': !!python/object:data_model.StockCodeItem
+    code: '251340'
+    company: "KODEX \uCF54\uC2A4\uB2E5150\uC120\uBB3C\uC778\uBC84\uC2A4"
+    full_code: KR7251340006
+    market_type: kospiVal
+  '251350': !!python/object:data_model.StockCodeItem
+    code: '251350'
+    company: "KODEX \uC120\uC9C4\uAD6DMSCI World"
+    full_code: KR7251350005
+    market_type: kospiVal
+  '251590': !!python/object:data_model.StockCodeItem
+    code: '251590'
+    company: "ARIRANG \uACE0\uBC30\uB2F9\uC800\uBCC0\uB3D950"
+    full_code: KR7251590006
+    market_type: kospiVal
+  '251600': !!python/object:data_model.StockCodeItem
+    code: '251600'
+    company: "ARIRANG \uACE0\uBC30\uB2F9\uC8FC\uCC44\uAD8C\uD63C\uD569"
+    full_code: KR7251600003
+    market_type: kospiVal
+  '251890': !!python/object:data_model.StockCodeItem
+    code: '251890'
+    company: "KINDEX \uCF54\uC2A4\uB2E5(\uD569\uC131)"
+    full_code: KR7251890000
+    market_type: kospiVal
+  '252000': !!python/object:data_model.StockCodeItem
+    code: '252000'
+    company: "TIGER 200\uB3D9\uC77C\uAC00\uC911"
+    full_code: KR7252000005
+    market_type: kospiVal
+  '252400': !!python/object:data_model.StockCodeItem
+    code: '252400'
+    company: "KBSTAR 200\uC120\uBB3C\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7252400007
+    market_type: kospiVal
+  '252410': !!python/object:data_model.StockCodeItem
+    code: '252410'
+    company: "KBSTAR 200\uC120\uBB3C\uC778\uBC84\uC2A4"
+    full_code: KR7252410006
+    market_type: kospiVal
+  '252420': !!python/object:data_model.StockCodeItem
+    code: '252420'
+    company: "KBSTAR 200\uC120\uBB3C\uC778\uBC84\uC2A42X"
+    full_code: KR7252420005
+    market_type: kospiVal
+  '252650': !!python/object:data_model.StockCodeItem
+    code: '252650'
+    company: "KODEX 200\uB3D9\uC77C\uAC00\uC911"
+    full_code: KR7252650007
+    market_type: kospiVal
+  '252670': !!python/object:data_model.StockCodeItem
+    code: '252670'
+    company: "KODEX 200\uC120\uBB3C\uC778\uBC84\uC2A42X"
+    full_code: KR7252670005
+    market_type: kospiVal
+  '252710': !!python/object:data_model.StockCodeItem
+    code: '252710'
+    company: "TIGER 200\uC120\uBB3C\uC778\uBC84\uC2A42X"
+    full_code: KR7252710009
+    market_type: kospiVal
+  '252720': !!python/object:data_model.StockCodeItem
+    code: '252720'
+    company: "KBSTAR \uBAA8\uBA58\uD140\uBC38\uB958"
+    full_code: KR7252720008
+    market_type: kospiVal
+  '252730': !!python/object:data_model.StockCodeItem
+    code: '252730'
+    company: "KBSTAR \uBAA8\uBA58\uD140\uB85C\uC6B0\uBCFC"
+    full_code: KR7252730007
+    market_type: kospiVal
+  '253150': !!python/object:data_model.StockCodeItem
+    code: '253150'
+    company: "ARIRANG 200\uC120\uBB3C\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7253150007
+    market_type: kospiVal
+  '253160': !!python/object:data_model.StockCodeItem
+    code: '253160'
+    company: "ARIRANG 200\uC120\uBB3C\uC778\uBC84\uC2A42X"
+    full_code: KR7253160006
+    market_type: kospiVal
+  '253230': !!python/object:data_model.StockCodeItem
+    code: '253230'
+    company: "KOSEF 200\uC120\uBB3C\uC778\uBC84\uC2A42X"
+    full_code: KR7253230007
+    market_type: kospiVal
+  '253240': !!python/object:data_model.StockCodeItem
+    code: '253240'
+    company: "KOSEF 200\uC120\uBB3C\uC778\uBC84\uC2A4"
+    full_code: KR7253240006
+    market_type: kospiVal
+  '253250': !!python/object:data_model.StockCodeItem
+    code: '253250'
+    company: "KOSEF 200\uC120\uBB3C\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7253250005
+    market_type: kospiVal
+  '253280': !!python/object:data_model.StockCodeItem
+    code: '253280'
+    company: "KBSTAR \uD5EC\uC2A4\uCF00\uC5B4"
+    full_code: KR7253280002
+    market_type: kospiVal
+  '253290': !!python/object:data_model.StockCodeItem
+    code: '253290'
+    company: "KBSTAR \uD5EC\uC2A4\uCF00\uC5B4\uCC44\uAD8C\uD63C\uD569"
+    full_code: KR7253290001
+    market_type: kospiVal
+  '253990': !!python/object:data_model.StockCodeItem
+    code: '253990'
+    company: "TIGER \uB300\uB9CCTAIEX\uC120\uBB3C(H)"
+    full_code: KR7253990006
+    market_type: kospiVal
+  '256440': !!python/object:data_model.StockCodeItem
+    code: '256440'
+    company: "KINDEX \uC778\uB3C4\uB124\uC2DC\uC544MSCI(\uD569\uC131)"
+    full_code: KR7256440009
+    market_type: kospiVal
+  '256450': !!python/object:data_model.StockCodeItem
+    code: '256450'
+    company: "ARIRANG \uC2EC\uCC9C\uCC28\uC774\uB125\uC2A4\uD2B8(\uD569\uC131)"
+    full_code: KR7256450008
+    market_type: kospiVal
+  '256750': !!python/object:data_model.StockCodeItem
+    code: '256750'
+    company: "KODEX \uC2EC\uCC9CChiNext(\uD569\uC131)"
+    full_code: KR7256750001
+    market_type: kospiVal
+  '261060': !!python/object:data_model.StockCodeItem
+    code: '261060'
+    company: "TIGER \uCF54\uC2A4\uB2E5150IT"
+    full_code: KR7261060008
+    market_type: kospiVal
+  '261070': !!python/object:data_model.StockCodeItem
+    code: '261070'
+    company: "TIGER \uCF54\uC2A4\uB2E5150\uBC14\uC774\uC624\uD14C\uD06C"
+    full_code: KR7261070007
+    market_type: kospiVal
+  '261110': !!python/object:data_model.StockCodeItem
+    code: '261110'
+    company: "TIGER \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7261110001
+    market_type: kospiVal
+  '261120': !!python/object:data_model.StockCodeItem
+    code: '261120'
+    company: "TIGER \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C\uC778\uBC84\uC2A42X"
+    full_code: KR7261120000
+    market_type: kospiVal
+  '261140': !!python/object:data_model.StockCodeItem
+    code: '261140'
+    company: "TIGER \uC6B0\uC120\uC8FC"
+    full_code: KR7261140008
+    market_type: kospiVal
+  '261220': !!python/object:data_model.StockCodeItem
+    code: '261220'
+    company: "KODEX WTI\uC6D0\uC720\uC120\uBB3C(H)"
+    full_code: KR7261220008
+    market_type: kospiVal
+  '261240': !!python/object:data_model.StockCodeItem
+    code: '261240'
+    company: "KODEX \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C"
+    full_code: KR7261240006
+    market_type: kospiVal
+  '261250': !!python/object:data_model.StockCodeItem
+    code: '261250'
+    company: "KODEX \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7261250005
+    market_type: kospiVal
+  '261260': !!python/object:data_model.StockCodeItem
+    code: '261260'
+    company: "KODEX \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C\uC778\uBC84\uC2A42X"
+    full_code: KR7261260004
+    market_type: kospiVal
+  '261270': !!python/object:data_model.StockCodeItem
+    code: '261270'
+    company: "KODEX \uBBF8\uAD6D\uB2EC\uB7EC\uC120\uBB3C\uC778\uBC84\uC2A4"
+    full_code: KR7261270003
+    market_type: kospiVal
+  '261920': !!python/object:data_model.StockCodeItem
+    code: '261920'
+    company: "KINDEX \uD544\uB9AC\uD540MSCI(\uD569\uC131)"
+    full_code: KR7261920003
+    market_type: kospiVal
+  '263190': !!python/object:data_model.StockCodeItem
+    code: '263190'
+    company: "ARIRANG \uB2E8\uAE30\uC6B0\uB7C9\uCC44\uAD8C"
+    full_code: KR7263190001
+    market_type: kospiVal
+  '265690': !!python/object:data_model.StockCodeItem
+    code: '265690'
+    company: "KINDEX \uB7EC\uC2DC\uC544MSCI(\uD569\uC131)"
+    full_code: KR7265690008
+    market_type: kospiVal
+  '266140': !!python/object:data_model.StockCodeItem
+    code: '266140'
+    company: "TIGER \uC9C0\uC18D\uBC30\uB2F9"
+    full_code: KR7266140003
+    market_type: kospiVal
+  '266160': !!python/object:data_model.StockCodeItem
+    code: '266160'
+    company: "KBSTAR \uACE0\uBC30\uB2F9"
+    full_code: KR7266160001
+    market_type: kospiVal
+  '266360': !!python/object:data_model.StockCodeItem
+    code: '266360'
+    company: "KODEX IT\uC18C\uD504\uD2B8\uC6E8\uC5B4"
+    full_code: KR7266360007
+    market_type: kospiVal
+  '266370': !!python/object:data_model.StockCodeItem
+    code: '266370'
+    company: "KODEX IT\uD558\uB4DC\uC6E8\uC5B4"
+    full_code: KR7266370006
+    market_type: kospiVal
+  '266390': !!python/object:data_model.StockCodeItem
+    code: '266390'
+    company: "KODEX \uACBD\uAE30\uC18C\uBE44\uC7AC"
+    full_code: KR7266390004
+    market_type: kospiVal
+  '266410': !!python/object:data_model.StockCodeItem
+    code: '266410'
+    company: "KODEX \uD544\uC218\uC18C\uBE44\uC7AC"
+    full_code: KR7266410000
+    market_type: kospiVal
+  '266420': !!python/object:data_model.StockCodeItem
+    code: '266420'
+    company: "KODEX \uD5EC\uC2A4\uCF00\uC5B4"
+    full_code: KR7266420009
+    market_type: kospiVal
+  '266550': !!python/object:data_model.StockCodeItem
+    code: '266550'
+    company: "ARIRANG \uC911\uD615\uC8FC\uC800\uBCC0\uB3D950"
+    full_code: KR7266550003
+    market_type: kospiVal
+  '267300': !!python/object:data_model.StockCodeItem
+    code: '267300'
+    company: "TIGER \uCF54\uC2A4\uB2E5150\uB85C\uC6B0\uBCFC"
+    full_code: KR7267300002
+    market_type: kospiVal
+  '267440': !!python/object:data_model.StockCodeItem
+    code: '267440'
+    company: "KBSTAR \uBBF8\uAD6D\uC7A5\uAE30\uAD6D\uCC44\uC120\uBB3C(H)"
+    full_code: KR7267440006
+    market_type: kospiVal
+  '267450': !!python/object:data_model.StockCodeItem
+    code: '267450'
+    company: "KBSTAR \uBBF8\uAD6D\uC7A5\uAE30\uAD6D\uCC44\uC120\uBB3C\uC778\uBC84\uC2A4\
+      (H)"
+    full_code: KR7267450005
+    market_type: kospiVal
+  '267490': !!python/object:data_model.StockCodeItem
+    code: '267490'
+    company: "KBSTAR \uBBF8\uAD6D\uC7A5\uAE30\uAD6D\uCC44\uC120\uBB3C\uB808\uBC84\uB9AC\
+      \uC9C0(\uD569\uC131 H)"
+    full_code: KR7267490001
+    market_type: kospiVal
+  '267500': !!python/object:data_model.StockCodeItem
+    code: '267500'
+    company: "KBSTAR \uBBF8\uAD6D\uC7A5\uAE30\uAD6D\uCC44\uC120\uBB3C\uC778\uBC84\uC2A4\
+      2X(\uD569\uC131 H)"
+    full_code: KR7267500007
+    market_type: kospiVal
+  '267770': !!python/object:data_model.StockCodeItem
+    code: '267770'
+    company: "TIGER 200\uC120\uBB3C\uB808\uBC84\uB9AC\uC9C0"
+    full_code: KR7267770006
+    market_type: kospiVal
+  '270800': !!python/object:data_model.StockCodeItem
+    code: '270800'
+    company: "KBSTAR KQ\uACE0\uBC30\uB2F9"
+    full_code: KR7270800006
+    market_type: kospiVal
+  '270810': !!python/object:data_model.StockCodeItem
+    code: '270810'
+    company: "KBSTAR \uCF54\uC2A4\uB2E5150"
+    full_code: KR7270810005
+    market_type: kospiVal
+  '271050': !!python/object:data_model.StockCodeItem
+    code: '271050'
+    company: "KODEX WTI\uC6D0\uC720\uC120\uBB3C\uC778\uBC84\uC2A4(H)"
+    full_code: KR7271050007
+    market_type: kospiVal
+  '271060': !!python/object:data_model.StockCodeItem
+    code: '271060'
+    company: "KODEX 3\uB300\uB18D\uC0B0\uBB3C\uC120\uBB3C(H)"
+    full_code: KR7271060006
+    market_type: kospiVal
+  '272560': !!python/object:data_model.StockCodeItem
+    code: '272560'
+    company: "KBSTAR \uB2E8\uAE30\uAD6D\uACF5\uCC44\uC561\uD2F0\uBE0C"
+    full_code: KR7272560004
+    market_type: kospiVal
+  '272570': !!python/object:data_model.StockCodeItem
+    code: '272570'
+    company: "KBSTAR \uC911\uC7A5\uAE30\uAD6D\uACF5\uCC44\uC561\uD2F0\uBE0C"
+    full_code: KR7272570003
+    market_type: kospiVal
+  '272580': !!python/object:data_model.StockCodeItem
+    code: '272580'
+    company: "TIGER \uB2E8\uAE30\uCC44\uAD8C\uC561\uD2F0\uBE0C"
+    full_code: KR7272580002
+    market_type: kospiVal
+  '272910': !!python/object:data_model.StockCodeItem
+    code: '272910'
+    company: "KINDEX \uC911\uC7A5\uAE30\uAD6D\uACF5\uCC44\uC561\uD2F0\uBE0C"
+    full_code: KR7272910001
+    market_type: kospiVal
+  '273130': !!python/object:data_model.StockCodeItem
+    code: '273130'
+    company: "KODEX \uC885\uD569\uCC44\uAD8C(AA-\uC774\uC0C1)\uC561\uD2F0\uBE0C"
+    full_code: KR7273130005
+    market_type: kospiVal
+  '273140': !!python/object:data_model.StockCodeItem
+    code: '273140'
+    company: "KODEX \uB2E8\uAE30\uBCC0\uB3D9\uAE08\uB9AC\uBD80\uCC44\uAD8C\uC561\uD2F0\
+      \uBE0C"
+    full_code: KR7273140004
+    market_type: kospiVal

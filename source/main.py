@@ -16,7 +16,7 @@ from util.back_tester import back_tester
 
 
 from util.machineLearning_tester import machine_learning_tester
-
+from util.stock_updater import stock_updater
 
 
 app = Flask(__name__)
@@ -54,50 +54,63 @@ def stationarity_profit():
 @app.route("/machine")
 def machine():
 
-    # end = datetime.datetime.today()
-    # end = datetime.datetime.strptime('20170531', '%Y%m%d')
-    end = datetime.datetime.strptime(get_trade_last_day(), '%Y-%m-%d')
+    end = datetime.datetime.today()
     start = end - relativedelta(months=6)
 
-
     code_list = []
-    data = load_yaml('kospi200')
-    for company_code, value in data.iterItems():
+
+    data = load_yaml(services.get('configurator').get('stock_list'))
+    index =0;
+
+    for company_code, value in data:
+        print('%s/%s, %s' %(index, len(data), company_code))
+
+        index += 1
+        df = get_df_from_file(company_code, end - relativedelta(months=5), end)
+        if len(df) == 0:
+            continue
+        pre_1_data = df.iloc[len(df) - 2]
+        today_data = df.iloc[len(df) - 1]
+        if (today_data['Close'] * today_data['Volume']) / 1000000 <= 2000: #20억
+            continue
+        # if today_data['institution_trading'] <= 0:
+        #     continue
+        if today_data['foreigner_count'] == 0:
+            continue
+        # if today_data['foreigner_count'] < pre_1_data['foreigner_count']:
+        #     continue
+        # if today_data['Volume'] < pre_1_data['Volume']:
+        #     continue
+        if today_data['Close'] > 100000:
+            continue
+
+        # print(Series.rolling(df['Close'], center=False, window=5).mean()[-1:])
+        # print(Series.rolling(df['Close'], center=False, window=10).mean()[-1:])
+        # print(Series.rolling(df['Close'], center=False, window=20).mean()[-1:])
+
+        if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'], center=False, window=10).mean()[-1:].values:
+            continue
+
         code_list.append(company_code)
+
+    print(len(code_list))
+    print(code_list)
 
     machine_learning_recommander = machine_learning_tester()
 
-    stock_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end,time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
-    # machine_learning_recommander.tomorrow_machine_learning(stock_list=stock_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
+    code_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end,time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
+    print(code_list)
 
-
-
-    # start = datetime.datetime.strptime('20170501', '%Y%m%d')
-    # end = datetime.datetime.strptime('20170502', '%Y%m%d')
-    # return_str = []
-    # df = get_df_from_file('000030', start, end)
-    # print(df)
-    # for index, date in enumerate(df.index, start=0):
-    #     date = str(df.iloc[index].name).split(' ')[0]
-    #     print(date)
-    #     try:
-    #         r = machine_learning_recommander.test_tomorrow_match_count_of_specific_date(date)
-    #         return_str.append(r)
-    #     except:
-    #         print('skip')
-    # print('===test_tomorrow_match_count_of_specific_date===')
-    # print(return_str)
-
-    # machine_learning_recommander.show_machine_learning(stock_list = code_list, view_chart = False, start = start, end = end, time_lags = 1, dataset_ratio = 0.8, apply_st = True, two_condition = True)
-    # machine_learning_recommander.get_tomorrow_trade( code = '009150', start = start, end = end, view_chart = True, time_lags = 1, dataset_ratio = 1, two_condition = False)
-
-
+    save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
+    code_list = save_stocks['BUY_list']
+    print(code_list)
 
 
 @app.route("/ta")
 def ta():
     from util.ta_tester import ta_tester
     ta_tester = ta_tester()
+
     ta_tester.test('008770')
 
 @app.route("/macd")
@@ -121,9 +134,8 @@ def tomorrow():
     from util.tomorrow_recommander import tomorrow_recommander
     tomorrow_recommander = tomorrow_recommander()
     tomorrow_recommander.tomorrow_recommand_stock(end=end, is_update_stock=True, last_month=3, window=10)
-    # tomorrow_recommander.recommand_draw('2017-05-10')
-    # tomorrow_recommander.recommand_draw()
-
+    tomorrow_recommander.recommand_draw('2017-05-10')
+    tomorrow_recommander.recommand_draw()
 
 
 def init():
@@ -132,43 +144,15 @@ def init():
         sys.path.insert(0, parentPath)
     services.register('configurator', Configurator())
 
-
-    # services.get('configurator').register('input_column', ['Open', 'High','Low', 'Close',  'Volume', 'kospi', 'kospi_volume'])
-    # services.get('configurator').register('input_column', ['Close', 'Volume','kospi','kospi_volume'])
-
-    # services.get('configurator').register('input_column',
-    #                                       ['Open', 'High', 'Low', 'Close', 'Volume', 'kospi', 'kospi_volume', 'SMA'], )
-
     services.get('configurator').register('input_column',
-                                          ['Open', 'High', 'Low', 'Close', 'Volume', 'kospi', 'kospi_volume',
+                                          ['Close', 'Volume',
                                            "MACD_macd", "MACD_signal", "MACD_hist",
                                            'foreigner_count', 'MACD_foreigner_count_macd',
                                            'MACD_foreigner_count_signal', 'MACD_foreigner_count_hist',
                                            'institution_trading'], )
 
-    # services.get('configurator').register('input_column',
-    #                                       ['Close', 'Volume', 'kospi', 'kospi_volume',
-    #                                        "MACD_macd", "MACD_signal", "MACD_hist"], )
-
-    # services.get('configurator').register('input_column',
-    #                                       ['Close', 'Volume', 'kospi', 'kospi_volume','foreigner_count'], )
-
-    # services.get('configurator').register('input_column',
-    #                                       ['Open', 'High', 'Low', 'Close', 'Volume', 'kospi', 'kospi_volume', 'SMA',
-    #                                        'BBANDS_upper', 'BBANDS_middle', 'BBANDS_lower', "MOM", "STOCH_slowk",
-    #                                        "STOCH_slowd"
-    #                                           , "MACD_macd", "MACD_signal", "MACD_hist"], )
-
-
-    # services.get('configurator').register('input_column', ['Close', 'Volume'])
-    # services.get('configurator').register('input_column', ['Close'])
-
-
-    # services.get('configurator').register('input_column', ['Close', 'Volume'])
-    # services.get('configurator').register('input_column',['Close','Volume','Open'])
-
     services.get('configurator').register('output_column', 'Close_Direction')
-
+    services.get('configurator').register('stock_list', 'kospi200')
 
 
 def get_percent_price(base, p):
@@ -176,14 +160,11 @@ def get_percent_price(base, p):
 
 if __name__ == "__main__":
     init()
-    # get_foreigner_info()
-    # stationarity()
-    # tomorrow()
-    machine()
-    # macd()
 
-    # stationarity_profit()
-    # ta()
+    stock_updater = stock_updater()
+    stock_updater.download_kospi_data()
+    code_list = stock_updater.update_kospi_200()
+    machine()
 
     # app.debug = True
     # app.run(host='0.0.0.0', port=8088)

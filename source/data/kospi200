@@ -1,1002 +1,570 @@
-!!python/object:data_model.StockCode
-items:
-  '000030': !!python/object:data_model.StockCodeItem
-    code: '000030'
-    company: "\uC6B0\uB9AC\uC740\uD589"
-    full_code: KR7000030007
-    market_type: kospiVal
-  '000050': !!python/object:data_model.StockCodeItem
-    code: '000050'
-    company: "\uACBD\uBC29"
-    full_code: KR7000050005
-    market_type: kospiVal
-  '000070': !!python/object:data_model.StockCodeItem
-    code: '000070'
-    company: "\uC0BC\uC591\uD640\uB529\uC2A4"
-    full_code: KR7000070003
-    market_type: kospiVal
-  000080: !!python/object:data_model.StockCodeItem
-    code: 000080
-    company: "\uD558\uC774\uD2B8\uC9C4\uB85C"
-    full_code: KR7000080002
-    market_type: kospiVal
-  '000100': !!python/object:data_model.StockCodeItem
-    code: '000100'
-    company: "\uC720\uD55C\uC591\uD589"
-    full_code: KR7000100008
-    market_type: kospiVal
-  '000120': !!python/object:data_model.StockCodeItem
-    code: '000120'
-    company: "CJ\uB300\uD55C\uD1B5\uC6B4"
-    full_code: KR7000120006
-    market_type: kospiVal
-  '000150': !!python/object:data_model.StockCodeItem
-    code: '000150'
-    company: "\uB450\uC0B0"
-    full_code: KR7000150003
-    market_type: kospiVal
-  '000210': !!python/object:data_model.StockCodeItem
-    code: '000210'
-    company: "\uB300\uB9BC\uC0B0\uC5C5"
-    full_code: KR7000210005
-    market_type: kospiVal
-  '000240': !!python/object:data_model.StockCodeItem
-    code: '000240'
-    company: "\uD55C\uAD6D\uD0C0\uC774\uC5B4\uC6D4\uB4DC\uC640\uC774\uB4DC"
-    full_code: KR7000240002
-    market_type: kospiVal
-  '000270': !!python/object:data_model.StockCodeItem
-    code: '000270'
-    company: "\uAE30\uC544\uCC28"
-    full_code: KR7000270009
-    market_type: kospiVal
-  '000640': !!python/object:data_model.StockCodeItem
-    code: '000640'
-    company: "\uB3D9\uC544\uC3D8\uC2DC\uC624\uD640\uB529\uC2A4"
-    full_code: KR7000640003
-    market_type: kospiVal
-  '000660': !!python/object:data_model.StockCodeItem
-    code: '000660'
-    company: "SK\uD558\uC774\uB2C9\uC2A4"
-    full_code: KR7000660001
-    market_type: kospiVal
-  '000670': !!python/object:data_model.StockCodeItem
-    code: '000670'
-    company: "\uC601\uD48D"
-    full_code: KR7000670000
-    market_type: kospiVal
-  '000720': !!python/object:data_model.StockCodeItem
-    code: '000720'
-    company: "\uD604\uB300\uAC74\uC124"
-    full_code: KR7000720003
-    market_type: kospiVal
-  000810: !!python/object:data_model.StockCodeItem
-    code: 000810
-    company: "\uC0BC\uC131\uD654\uC7AC"
-    full_code: KR7000810002
-    market_type: kospiVal
-  000880: !!python/object:data_model.StockCodeItem
-    code: 000880
-    company: "\uD55C\uD654"
-    full_code: KR7000880005
-    market_type: kospiVal
-  000990: !!python/object:data_model.StockCodeItem
-    code: 000990
-    company: "\uB3D9\uBD80\uD558\uC774\uD14D"
-    full_code: KR7000990002
-    market_type: kospiVal
-  '001040': !!python/object:data_model.StockCodeItem
-    code: '001040'
-    company: CJ
-    full_code: KR7001040005
-    market_type: kospiVal
-  '001060': !!python/object:data_model.StockCodeItem
-    code: '001060'
-    company: "JW\uC911\uC678\uC81C\uC57D"
-    full_code: KR7001060003
-    market_type: kospiVal
-  '001120': !!python/object:data_model.StockCodeItem
-    code: '001120'
-    company: "LG\uC0C1\uC0AC"
-    full_code: KR7001120005
-    market_type: kospiVal
-  '001230': !!python/object:data_model.StockCodeItem
-    code: '001230'
-    company: "\uB3D9\uAD6D\uC81C\uAC15"
-    full_code: KR7001230002
-    market_type: kospiVal
-  '001430': !!python/object:data_model.StockCodeItem
-    code: '001430'
-    company: "\uC138\uC544\uBCA0\uC2A4\uD2F8"
-    full_code: KR7001430008
-    market_type: kospiVal
-  '001450': !!python/object:data_model.StockCodeItem
-    code: '001450'
-    company: "\uD604\uB300\uD574\uC0C1"
-    full_code: KR7001450006
-    market_type: kospiVal
-  '001520': !!python/object:data_model.StockCodeItem
-    code: '001520'
-    company: "\uB3D9\uC591"
-    full_code: KR7001520006
-    market_type: kospiVal
-  001680: !!python/object:data_model.StockCodeItem
-    code: 001680
-    company: "\uB300\uC0C1"
-    full_code: KR7001680008
-    market_type: kospiVal
-  '001740': !!python/object:data_model.StockCodeItem
-    code: '001740'
-    company: "SK\uB124\uD2B8\uC6CD\uC2A4"
-    full_code: KR7001740000
-    market_type: kospiVal
-  001780: !!python/object:data_model.StockCodeItem
-    code: 001780
-    company: "\uC54C\uB8E8\uCF54"
-    full_code: KR7001780006
-    market_type: kospiVal
-  001800: !!python/object:data_model.StockCodeItem
-    code: 001800
-    company: "\uC624\uB9AC\uC628"
-    full_code: KR7001800002
-    market_type: kospiVal
-  '002240': !!python/object:data_model.StockCodeItem
-    code: '002240'
-    company: "\uACE0\uB824\uC81C\uAC15"
-    full_code: KR7002240000
-    market_type: kospiVal
-  '002270': !!python/object:data_model.StockCodeItem
-    code: '002270'
-    company: "\uB86F\uB370\uD478\uB4DC"
-    full_code: KR7002270007
-    market_type: kospiVal
-  '002350': !!python/object:data_model.StockCodeItem
-    code: '002350'
-    company: "\uB125\uC13C\uD0C0\uC774\uC5B4"
-    full_code: KR7002350007
-    market_type: kospiVal
-  002380: !!python/object:data_model.StockCodeItem
-    code: 002380
-    company: KCC
-    full_code: KR7002380004
-    market_type: kospiVal
-  '002620': !!python/object:data_model.StockCodeItem
-    code: '002620'
-    company: "\uC81C\uC77C\uC57D\uD488"
-    full_code: KR7002620003
-    market_type: kospiVal
-  002790: !!python/object:data_model.StockCodeItem
-    code: 002790
-    company: "\uC544\uBAA8\uB808G"
-    full_code: KR7002790004
-    market_type: kospiVal
-  002960: !!python/object:data_model.StockCodeItem
-    code: 002960
-    company: "\uD55C\uAD6D\uC258\uC11D\uC720"
-    full_code: KR7002960003
-    market_type: kospiVal
-  '003000': !!python/object:data_model.StockCodeItem
-    code: '003000'
-    company: "\uBD80\uAD11\uC57D\uD488"
-    full_code: KR7003000007
-    market_type: kospiVal
-  '003030': !!python/object:data_model.StockCodeItem
-    code: '003030'
-    company: "\uC138\uC544\uC81C\uAC15"
-    full_code: KR7003030004
-    market_type: kospiVal
-  '003240': !!python/object:data_model.StockCodeItem
-    code: '003240'
-    company: "\uD0DC\uAD11\uC0B0\uC5C5"
-    full_code: KR7003240009
-    market_type: kospiVal
-  '003300': !!python/object:data_model.StockCodeItem
-    code: '003300'
-    company: "\uD55C\uC77C\uC2DC\uBA58\uD2B8"
-    full_code: KR7003300001
-    market_type: kospiVal
-  '003410': !!python/object:data_model.StockCodeItem
-    code: '003410'
-    company: "\uC30D\uC6A9\uC591\uD68C"
-    full_code: KR7003410008
-    market_type: kospiVal
-  003490: !!python/object:data_model.StockCodeItem
-    code: 003490
-    company: "\uB300\uD55C\uD56D\uACF5"
-    full_code: KR7003490000
-    market_type: kospiVal
-  '003520': !!python/object:data_model.StockCodeItem
-    code: '003520'
-    company: "\uC601\uC9C4\uC57D\uD488"
-    full_code: KR7003520004
-    market_type: kospiVal
-  '003550': !!python/object:data_model.StockCodeItem
-    code: '003550'
-    company: LG
-    full_code: KR7003550001
-    market_type: kospiVal
-  '003620': !!python/object:data_model.StockCodeItem
-    code: '003620'
-    company: "\uC30D\uC6A9\uCC28"
-    full_code: KR7003620002
-    market_type: kospiVal
-  003850: !!python/object:data_model.StockCodeItem
-    code: 003850
-    company: "\uBCF4\uB839\uC81C\uC57D"
-    full_code: KR7003850005
-    market_type: kospiVal
-  003920: !!python/object:data_model.StockCodeItem
-    code: 003920
-    company: "\uB0A8\uC591\uC720\uC5C5"
-    full_code: KR7003920006
-    market_type: kospiVal
-  '004000': !!python/object:data_model.StockCodeItem
-    code: '004000'
-    company: "\uB86F\uB370\uC815\uBC00\uD654\uD559"
-    full_code: KR7004000006
-    market_type: kospiVal
-  '004020': !!python/object:data_model.StockCodeItem
-    code: '004020'
-    company: "\uD604\uB300\uC81C\uCCA0"
-    full_code: KR7004020004
-    market_type: kospiVal
-  '004170': !!python/object:data_model.StockCodeItem
-    code: '004170'
-    company: "\uC2E0\uC138\uACC4"
-    full_code: KR7004170007
-    market_type: kospiVal
-  '004370': !!python/object:data_model.StockCodeItem
-    code: '004370'
-    company: "\uB18D\uC2EC"
-    full_code: KR7004370003
-    market_type: kospiVal
-  004490: !!python/object:data_model.StockCodeItem
-    code: 004490
-    company: "\uC138\uBC29\uC804\uC9C0"
-    full_code: KR7004490009
-    market_type: kospiVal
-  '004710': !!python/object:data_model.StockCodeItem
-    code: '004710'
-    company: "\uD55C\uC194\uD14C\uD06C\uB2C9\uC2A4"
-    full_code: KR7004710000
-    market_type: kospiVal
-  004800: !!python/object:data_model.StockCodeItem
-    code: 004800
-    company: "\uD6A8\uC131"
-    full_code: KR7004800009
-    market_type: kospiVal
-  004990: !!python/object:data_model.StockCodeItem
-    code: 004990
-    company: "\uB86F\uB370\uC81C\uACFC"
-    full_code: KR7004990008
-    market_type: kospiVal
-  005180: !!python/object:data_model.StockCodeItem
-    code: 005180
-    company: "\uBE59\uADF8\uB808"
-    full_code: KR7005180005
-    market_type: kospiVal
-  '005250': !!python/object:data_model.StockCodeItem
-    code: '005250'
-    company: "\uB179\uC2ED\uC790\uD640\uB529\uC2A4"
-    full_code: KR7005250006
-    market_type: kospiVal
-  '005300': !!python/object:data_model.StockCodeItem
-    code: '005300'
-    company: "\uB86F\uB370\uCE60\uC131"
-    full_code: KR7005300009
-    market_type: kospiVal
-  005380: !!python/object:data_model.StockCodeItem
-    code: 005380
-    company: "\uD604\uB300\uCC28"
-    full_code: KR7005380001
-    market_type: kospiVal
-  '005440': !!python/object:data_model.StockCodeItem
-    code: '005440'
-    company: "\uD604\uB300\uADF8\uB9B0\uD478\uB4DC"
-    full_code: KR7005440003
-    market_type: kospiVal
-  005490: !!python/object:data_model.StockCodeItem
-    code: 005490
-    company: POSCO
-    full_code: KR7005490008
-    market_type: kospiVal
-  '005610': !!python/object:data_model.StockCodeItem
-    code: '005610'
-    company: "SPC\uC0BC\uB9BD"
-    full_code: KR7005610001
-    market_type: kospiVal
-  005830: !!python/object:data_model.StockCodeItem
-    code: 005830
-    company: "\uB3D9\uBD80\uD654\uC7AC"
-    full_code: KR7005830005
-    market_type: kospiVal
-  005850: !!python/object:data_model.StockCodeItem
-    code: 005850
-    company: "\uC5D0\uC2A4\uC5D8"
-    full_code: KR7005850003
-    market_type: kospiVal
-  005930: !!python/object:data_model.StockCodeItem
-    code: 005930
-    company: "\uC0BC\uC131\uC804\uC790"
-    full_code: KR7005930003
-    market_type: kospiVal
-  005940: !!python/object:data_model.StockCodeItem
-    code: 005940
-    company: "NH\uD22C\uC790\uC99D\uAD8C"
-    full_code: KR7005940002
-    market_type: kospiVal
-  '006120': !!python/object:data_model.StockCodeItem
-    code: '006120'
-    company: "SK\uCF00\uBBF8\uCE7C"
-    full_code: KR7006120000
-    market_type: kospiVal
-  '006260': !!python/object:data_model.StockCodeItem
-    code: '006260'
-    company: LS
-    full_code: KR7006260004
-    market_type: kospiVal
-  006280: !!python/object:data_model.StockCodeItem
-    code: 006280
-    company: "\uB179\uC2ED\uC790"
-    full_code: KR7006280002
-    market_type: kospiVal
-  '006360': !!python/object:data_model.StockCodeItem
-    code: '006360'
-    company: "GS\uAC74\uC124"
-    full_code: KR7006360002
-    market_type: kospiVal
-  '006400': !!python/object:data_model.StockCodeItem
-    code: '006400'
-    company: "\uC0BC\uC131SDI"
-    full_code: KR7006400006
-    market_type: kospiVal
-  '006650': !!python/object:data_model.StockCodeItem
-    code: '006650'
-    company: "\uB300\uD55C\uC720\uD654"
-    full_code: KR7006650006
-    market_type: kospiVal
-  006800: !!python/object:data_model.StockCodeItem
-    code: 006800
-    company: "\uBBF8\uB798\uC5D0\uC14B\uB300\uC6B0"
-    full_code: KR7006800007
-    market_type: kospiVal
-  006840: !!python/object:data_model.StockCodeItem
-    code: 006840
-    company: "AK\uD640\uB529\uC2A4"
-    full_code: KR7006840003
-    market_type: kospiVal
-  '007070': !!python/object:data_model.StockCodeItem
-    code: '007070'
-    company: "GS\uB9AC\uD14C\uC77C"
-    full_code: KR7007070006
-    market_type: kospiVal
-  '007310': !!python/object:data_model.StockCodeItem
-    code: '007310'
-    company: "\uC624\uB69C\uAE30"
-    full_code: KR7007310006
-    market_type: kospiVal
-  '007340': !!python/object:data_model.StockCodeItem
-    code: '007340'
-    company: "\uB3D9\uC544\uD0C0\uC774\uC5B4"
-    full_code: KR7007340003
-    market_type: kospiVal
-  '007570': !!python/object:data_model.StockCodeItem
-    code: '007570'
-    company: "\uC77C\uC591\uC57D\uD488"
-    full_code: KR7007570005
-    market_type: kospiVal
-  008060: !!python/object:data_model.StockCodeItem
-    code: 008060
-    company: "\uB300\uB355\uC804\uC790"
-    full_code: KR7008060006
-    market_type: kospiVal
-  008560: !!python/object:data_model.StockCodeItem
-    code: 008560
-    company: "\uBA54\uB9AC\uCE20\uC885\uAE08\uC99D\uAD8C"
-    full_code: KR7008560005
-    market_type: kospiVal
-  008770: !!python/object:data_model.StockCodeItem
-    code: 008770
-    company: "\uD638\uD154\uC2E0\uB77C"
-    full_code: KR7008770000
-    market_type: kospiVal
-  008930: !!python/object:data_model.StockCodeItem
-    code: 008930
-    company: "\uD55C\uBBF8\uC0AC\uC774\uC5B8\uC2A4"
-    full_code: KR7008930000
-    market_type: kospiVal
-  009150: !!python/object:data_model.StockCodeItem
-    code: 009150
-    company: "\uC0BC\uC131\uC804\uAE30"
-    full_code: KR7009150004
-    market_type: kospiVal
-  009240: !!python/object:data_model.StockCodeItem
-    code: 009240
-    company: "\uD55C\uC0D8"
-    full_code: KR7009240003
-    market_type: kospiVal
-  009290: !!python/object:data_model.StockCodeItem
-    code: 009290
-    company: "\uAD11\uB3D9\uC81C\uC57D"
-    full_code: KR7009290008
-    market_type: kospiVal
-  009420: !!python/object:data_model.StockCodeItem
-    code: 009420
-    company: "\uD55C\uC62C\uBC14\uC774\uC624\uD30C\uB9C8"
-    full_code: KR7009420001
-    market_type: kospiVal
-  009540: !!python/object:data_model.StockCodeItem
-    code: 009540
-    company: "\uD604\uB300\uC911\uACF5\uC5C5"
-    full_code: KR7009540006
-    market_type: kospiVal
-  009830: !!python/object:data_model.StockCodeItem
-    code: 009830
-    company: "\uD55C\uD654\uCF00\uBBF8\uCE7C"
-    full_code: KR7009830001
-    market_type: kospiVal
-  '010060': !!python/object:data_model.StockCodeItem
-    code: '010060'
-    company: OCI
-    full_code: KR7010060002
-    market_type: kospiVal
-  '010120': !!python/object:data_model.StockCodeItem
-    code: '010120'
-    company: "LS\uC0B0\uC804"
-    full_code: KR7010120004
-    market_type: kospiVal
-  '010130': !!python/object:data_model.StockCodeItem
-    code: '010130'
-    company: "\uACE0\uB824\uC544\uC5F0"
-    full_code: KR7010130003
-    market_type: kospiVal
-  '010140': !!python/object:data_model.StockCodeItem
-    code: '010140'
-    company: "\uC0BC\uC131\uC911\uACF5\uC5C5"
-    full_code: KR7010140002
-    market_type: kospiVal
-  '010620': !!python/object:data_model.StockCodeItem
-    code: '010620'
-    company: "\uD604\uB300\uBBF8\uD3EC\uC870\uC120"
-    full_code: KR7010620003
-    market_type: kospiVal
-  010780: !!python/object:data_model.StockCodeItem
-    code: 010780
-    company: "\uC544\uC774\uC5D0\uC2A4\uB3D9\uC11C"
-    full_code: KR7010780005
-    market_type: kospiVal
-  010950: !!python/object:data_model.StockCodeItem
-    code: 010950
-    company: S-Oil
-    full_code: KR7010950004
-    market_type: kospiVal
-  '011070': !!python/object:data_model.StockCodeItem
-    code: '011070'
-    company: "LG\uC774\uB178\uD14D"
-    full_code: KR7011070000
-    market_type: kospiVal
-  '011170': !!python/object:data_model.StockCodeItem
-    code: '011170'
-    company: "\uB86F\uB370\uCF00\uBBF8\uCE7C"
-    full_code: KR7011170008
-    market_type: kospiVal
-  '011210': !!python/object:data_model.StockCodeItem
-    code: '011210'
-    company: "\uD604\uB300\uC704\uC544"
-    full_code: KR7011210002
-    market_type: kospiVal
-  011780: !!python/object:data_model.StockCodeItem
-    code: 011780
-    company: "\uAE08\uD638\uC11D\uC720"
-    full_code: KR7011780004
-    market_type: kospiVal
-  011790: !!python/object:data_model.StockCodeItem
-    code: 011790
-    company: SKC
-    full_code: KR7011790003
-    market_type: kospiVal
-  '012330': !!python/object:data_model.StockCodeItem
-    code: '012330'
-    company: "\uD604\uB300\uBAA8\uBE44\uC2A4"
-    full_code: KR7012330007
-    market_type: kospiVal
-  '012450': !!python/object:data_model.StockCodeItem
-    code: '012450'
-    company: "\uD55C\uD654\uD14C\uD06C\uC708"
-    full_code: KR7012450003
-    market_type: kospiVal
-  '012630': !!python/object:data_model.StockCodeItem
-    code: '012630'
-    company: "\uD604\uB300\uC0B0\uC5C5"
-    full_code: KR7012630000
-    market_type: kospiVal
-  '012750': !!python/object:data_model.StockCodeItem
-    code: '012750'
-    company: "\uC5D0\uC2A4\uC6D0"
-    full_code: KR7012750006
-    market_type: kospiVal
-  014680: !!python/object:data_model.StockCodeItem
-    code: 014680
-    company: "\uD55C\uC194\uCF00\uBBF8\uCE7C"
-    full_code: KR7014680003
-    market_type: kospiVal
-  014820: !!python/object:data_model.StockCodeItem
-    code: 014820
-    company: "\uB3D9\uC6D0\uC2DC\uC2A4\uD15C\uC988"
-    full_code: KR7014820005
-    market_type: kospiVal
-  014830: !!python/object:data_model.StockCodeItem
-    code: 014830
-    company: "\uC720\uB2C8\uB4DC"
-    full_code: KR7014830004
-    market_type: kospiVal
-  '015760': !!python/object:data_model.StockCodeItem
-    code: '015760'
-    company: "\uD55C\uAD6D\uC804\uB825"
-    full_code: KR7015760002
-    market_type: kospiVal
-  '016360': !!python/object:data_model.StockCodeItem
-    code: '016360'
-    company: "\uC0BC\uC131\uC99D\uAD8C"
-    full_code: KR7016360000
-    market_type: kospiVal
-  '017670': !!python/object:data_model.StockCodeItem
-    code: '017670'
-    company: "SK\uD154\uB808\uCF64"
-    full_code: KR7017670001
-    market_type: kospiVal
-  017800: !!python/object:data_model.StockCodeItem
-    code: 017800
-    company: "\uD604\uB300\uC5D8\uB9AC\uBCA0\uC774"
-    full_code: KR7017800004
-    market_type: kospiVal
-  018260: !!python/object:data_model.StockCodeItem
-    code: 018260
-    company: "\uC0BC\uC131\uC5D0\uC2A4\uB514\uC5D0\uC2A4"
-    full_code: KR7018260000
-    market_type: kospiVal
-  018880: !!python/object:data_model.StockCodeItem
-    code: 018880
-    company: "\uD55C\uC628\uC2DC\uC2A4\uD15C"
-    full_code: KR7018880005
-    market_type: kospiVal
-  019680: !!python/object:data_model.StockCodeItem
-    code: 019680
-    company: "\uB300\uAD50"
-    full_code: KR7019680008
-    market_type: kospiVal
-  '020000': !!python/object:data_model.StockCodeItem
-    code: '020000'
-    company: "\uD55C\uC12C"
-    full_code: KR7020000006
-    market_type: kospiVal
-  '020150': !!python/object:data_model.StockCodeItem
-    code: '020150'
-    company: "\uC77C\uC9C4\uBA38\uD2F0\uB9AC\uC5BC\uC988"
-    full_code: KR7020150009
-    market_type: kospiVal
-  '021240': !!python/object:data_model.StockCodeItem
-    code: '021240'
-    company: "\uCF54\uC6E8\uC774"
-    full_code: KR7021240007
-    market_type: kospiVal
-  '023530': !!python/object:data_model.StockCodeItem
-    code: '023530'
-    company: "\uB86F\uB370\uC1FC\uD551"
-    full_code: KR7023530009
-    market_type: kospiVal
-  '024110': !!python/object:data_model.StockCodeItem
-    code: '024110'
-    company: "\uAE30\uC5C5\uC740\uD589"
-    full_code: KR7024110009
-    market_type: kospiVal
-  '025540': !!python/object:data_model.StockCodeItem
-    code: '025540'
-    company: "\uD55C\uAD6D\uB2E8\uC790"
-    full_code: KR7025540006
-    market_type: kospiVal
-  025860: !!python/object:data_model.StockCodeItem
-    code: 025860
-    company: "\uB0A8\uD574\uD654\uD559"
-    full_code: KR7025860008
-    market_type: kospiVal
-  026960: !!python/object:data_model.StockCodeItem
-    code: 026960
-    company: "\uB3D9\uC11C"
-    full_code: KR7026960005
-    market_type: kospiVal
-  '027410': !!python/object:data_model.StockCodeItem
-    code: '027410'
-    company: "BGF\uB9AC\uD14C\uC77C"
-    full_code: KR7027410000
-    market_type: kospiVal
-  028050: !!python/object:data_model.StockCodeItem
-    code: 028050
-    company: "\uC0BC\uC131\uC5D4\uC9C0\uB2C8\uC5B4\uB9C1"
-    full_code: KR7028050003
-    market_type: kospiVal
-  028260: !!python/object:data_model.StockCodeItem
-    code: 028260
-    company: "\uC0BC\uC131\uBB3C\uC0B0"
-    full_code: KR7028260008
-    market_type: kospiVal
-  028670: !!python/object:data_model.StockCodeItem
-    code: 028670
-    company: "\uD32C\uC624\uC158"
-    full_code: KR7028670008
-    market_type: kospiVal
-  029530: !!python/object:data_model.StockCodeItem
-    code: 029530
-    company: "\uC2E0\uB3C4\uB9AC\uCF54"
-    full_code: KR7029530003
-    market_type: kospiVal
-  029780: !!python/object:data_model.StockCodeItem
-    code: 029780
-    company: "\uC0BC\uC131\uCE74\uB4DC"
-    full_code: KR7029780004
-    market_type: kospiVal
-  '030000': !!python/object:data_model.StockCodeItem
-    code: '030000'
-    company: "\uC81C\uC77C\uAE30\uD68D"
-    full_code: KR7030000004
-    market_type: kospiVal
-  '030200': !!python/object:data_model.StockCodeItem
-    code: '030200'
-    company: KT
-    full_code: KR7030200000
-    market_type: kospiVal
-  '032640': !!python/object:data_model.StockCodeItem
-    code: '032640'
-    company: "LG\uC720\uD50C\uB7EC\uC2A4"
-    full_code: KR7032640005
-    market_type: kospiVal
-  032830: !!python/object:data_model.StockCodeItem
-    code: 032830
-    company: "\uC0BC\uC131\uC0DD\uBA85"
-    full_code: KR7032830002
-    market_type: kospiVal
-  033780: !!python/object:data_model.StockCodeItem
-    code: 033780
-    company: KT&G
-    full_code: KR7033780008
-    market_type: kospiVal
-  033920: !!python/object:data_model.StockCodeItem
-    code: 033920
-    company: "\uBB34\uD559"
-    full_code: KR7033920000
-    market_type: kospiVal
-  '034020': !!python/object:data_model.StockCodeItem
-    code: '034020'
-    company: "\uB450\uC0B0\uC911\uACF5\uC5C5"
-    full_code: KR7034020008
-    market_type: kospiVal
-  '034120': !!python/object:data_model.StockCodeItem
-    code: '034120'
-    company: SBS
-    full_code: KR7034120006
-    market_type: kospiVal
-  '034220': !!python/object:data_model.StockCodeItem
-    code: '034220'
-    company: "LG\uB514\uC2A4\uD50C\uB808\uC774"
-    full_code: KR7034220004
-    market_type: kospiVal
-  '034730': !!python/object:data_model.StockCodeItem
-    code: '034730'
-    company: SK
-    full_code: KR7034730002
-    market_type: kospiVal
-  '035250': !!python/object:data_model.StockCodeItem
-    code: '035250'
-    company: "\uAC15\uC6D0\uB79C\uB4DC"
-    full_code: KR7035250000
-    market_type: kospiVal
-  '035420': !!python/object:data_model.StockCodeItem
-    code: '035420'
-    company: NAVER
-    full_code: KR7035420009
-    market_type: kospiVal
-  '036460': !!python/object:data_model.StockCodeItem
-    code: '036460'
-    company: "\uD55C\uAD6D\uAC00\uC2A4\uACF5\uC0AC"
-    full_code: KR7036460004
-    market_type: kospiVal
-  '036570': !!python/object:data_model.StockCodeItem
-    code: '036570'
-    company: "\uC5D4\uC528\uC18C\uD504\uD2B8"
-    full_code: KR7036570000
-    market_type: kospiVal
-  036580: !!python/object:data_model.StockCodeItem
-    code: 036580
-    company: "\uD31C\uC2A4\uCF54"
-    full_code: KR7036580009
-    market_type: kospiVal
-  '042670': !!python/object:data_model.StockCodeItem
-    code: '042670'
-    company: "\uB450\uC0B0\uC778\uD504\uB77C\uCF54\uC5B4"
-    full_code: KR7042670000
-    market_type: kospiVal
-  '047040': !!python/object:data_model.StockCodeItem
-    code: '047040'
-    company: "\uB300\uC6B0\uAC74\uC124"
-    full_code: KR7047040001
-    market_type: kospiVal
-  '047050': !!python/object:data_model.StockCodeItem
-    code: '047050'
-    company: "\uD3EC\uC2A4\uCF54\uB300\uC6B0"
-    full_code: KR7047050000
-    market_type: kospiVal
-  047810: !!python/object:data_model.StockCodeItem
-    code: 047810
-    company: "\uD55C\uAD6D\uD56D\uACF5\uC6B0\uC8FC"
-    full_code: KR7047810007
-    market_type: kospiVal
-  049770: !!python/object:data_model.StockCodeItem
-    code: 049770
-    company: "\uB3D9\uC6D0F&B"
-    full_code: KR7049770001
-    market_type: kospiVal
-  '051600': !!python/object:data_model.StockCodeItem
-    code: '051600'
-    company: "\uD55C\uC804KPS"
-    full_code: KR7051600005
-    market_type: kospiVal
-  051900: !!python/object:data_model.StockCodeItem
-    code: 051900
-    company: "LG\uC0DD\uD65C\uAC74\uAC15"
-    full_code: KR7051900009
-    market_type: kospiVal
-  051910: !!python/object:data_model.StockCodeItem
-    code: 051910
-    company: "LG\uD654\uD559"
-    full_code: KR7051910008
-    market_type: kospiVal
-  052690: !!python/object:data_model.StockCodeItem
-    code: 052690
-    company: "\uD55C\uC804\uAE30\uC220"
-    full_code: KR7052690005
-    market_type: kospiVal
-  '055550': !!python/object:data_model.StockCodeItem
-    code: '055550'
-    company: "\uC2E0\uD55C\uC9C0\uC8FC"
-    full_code: KR7055550008
-    market_type: kospiVal
-  '057050': !!python/object:data_model.StockCodeItem
-    code: '057050'
-    company: "\uD604\uB300\uD648\uC1FC\uD551"
-    full_code: KR7057050007
-    market_type: kospiVal
-  060980: !!python/object:data_model.StockCodeItem
-    code: 060980
-    company: "\uD55C\uB77C\uD640\uB529\uC2A4"
-    full_code: KR7060980000
-    market_type: kospiVal
-  '064350': !!python/object:data_model.StockCodeItem
-    code: '064350'
-    company: "\uD604\uB300\uB85C\uD15C"
-    full_code: KR7064350002
-    market_type: kospiVal
-  064960: !!python/object:data_model.StockCodeItem
-    code: 064960
-    company: "S&T\uBAA8\uD2F0\uBE0C"
-    full_code: KR7064960008
-    market_type: kospiVal
-  '066570': !!python/object:data_model.StockCodeItem
-    code: '066570'
-    company: "LG\uC804\uC790"
-    full_code: KR7066570003
-    market_type: kospiVal
-  069260: !!python/object:data_model.StockCodeItem
-    code: 069260
-    company: "\uD734\uCF10\uC2A4"
-    full_code: KR7069260008
-    market_type: kospiVal
-  069620: !!python/object:data_model.StockCodeItem
-    code: 069620
-    company: "\uB300\uC6C5\uC81C\uC57D"
-    full_code: KR7069620003
-    market_type: kospiVal
-  069960: !!python/object:data_model.StockCodeItem
-    code: 069960
-    company: "\uD604\uB300\uBC31\uD654\uC810"
-    full_code: KR7069960003
-    market_type: kospiVal
-  '071050': !!python/object:data_model.StockCodeItem
-    code: '071050'
-    company: "\uD55C\uAD6D\uAE08\uC735\uC9C0\uC8FC"
-    full_code: KR7071050009
-    market_type: kospiVal
-  '073240': !!python/object:data_model.StockCodeItem
-    code: '073240'
-    company: "\uAE08\uD638\uD0C0\uC774\uC5B4"
-    full_code: KR7073240004
-    market_type: kospiVal
-  078520: !!python/object:data_model.StockCodeItem
-    code: 078520
-    company: "\uC5D0\uC774\uBE14\uC528\uC5D4\uC528"
-    full_code: KR7078520004
-    market_type: kospiVal
-  078930: !!python/object:data_model.StockCodeItem
-    code: 078930
-    company: GS
-    full_code: KR7078930005
-    market_type: kospiVal
-  079160: !!python/object:data_model.StockCodeItem
-    code: 079160
-    company: CJ CGV
-    full_code: KR7079160008
-    market_type: kospiVal
-  079430: !!python/object:data_model.StockCodeItem
-    code: 079430
-    company: "\uD604\uB300\uB9AC\uBC14\uD2B8"
-    full_code: KR7079430005
-    market_type: kospiVal
-  079550: !!python/object:data_model.StockCodeItem
-    code: 079550
-    company: "LIG\uB125\uC2A4\uC6D0"
-    full_code: KR7079550000
-    market_type: kospiVal
-  086280: !!python/object:data_model.StockCodeItem
-    code: 086280
-    company: "\uD604\uB300\uAE00\uB85C\uBE44\uC2A4"
-    full_code: KR7086280005
-    market_type: kospiVal
-  086790: !!python/object:data_model.StockCodeItem
-    code: 086790
-    company: "\uD558\uB098\uAE08\uC735\uC9C0\uC8FC"
-    full_code: KR7086790003
-    market_type: kospiVal
-  088350: !!python/object:data_model.StockCodeItem
-    code: 088350
-    company: "\uD55C\uD654\uC0DD\uBA85"
-    full_code: KR7088350004
-    market_type: kospiVal
-  090430: !!python/object:data_model.StockCodeItem
-    code: 090430
-    company: "\uC544\uBAA8\uB808\uD37C\uC2DC\uD53D"
-    full_code: KR7090430000
-    market_type: kospiVal
-  093050: !!python/object:data_model.StockCodeItem
-    code: 093050
-    company: LF
-    full_code: KR7093050003
-    market_type: kospiVal
-  093370: !!python/object:data_model.StockCodeItem
-    code: 093370
-    company: "\uD6C4\uC131"
-    full_code: KR7093370005
-    market_type: kospiVal
-  096760: !!python/object:data_model.StockCodeItem
-    code: 096760
-    company: "JW\uD640\uB529\uC2A4"
-    full_code: KR7096760004
-    market_type: kospiVal
-  096770: !!python/object:data_model.StockCodeItem
-    code: 096770
-    company: "SK\uC774\uB178\uBCA0\uC774\uC158"
-    full_code: KR7096770003
-    market_type: kospiVal
-  097230: !!python/object:data_model.StockCodeItem
-    code: 097230
-    company: "\uD55C\uC9C4\uC911\uACF5\uC5C5"
-    full_code: KR7097230007
-    market_type: kospiVal
-  097950: !!python/object:data_model.StockCodeItem
-    code: 097950
-    company: "CJ\uC81C\uC77C\uC81C\uB2F9"
-    full_code: KR7097950000
-    market_type: kospiVal
-  '103140': !!python/object:data_model.StockCodeItem
-    code: '103140'
-    company: "\uD48D\uC0B0"
-    full_code: KR7103140000
-    market_type: kospiVal
-  '105560': !!python/object:data_model.StockCodeItem
-    code: '105560'
-    company: "KB\uAE08\uC735"
-    full_code: KR7105560007
-    market_type: kospiVal
-  '105630': !!python/object:data_model.StockCodeItem
-    code: '105630'
-    company: "\uD55C\uC138\uC2E4\uC5C5"
-    full_code: KR7105630008
-    market_type: kospiVal
-  '108670': !!python/object:data_model.StockCodeItem
-    code: '108670'
-    company: "LG\uD558\uC6B0\uC2DC\uC2A4"
-    full_code: KR7108670001
-    market_type: kospiVal
-  '111770': !!python/object:data_model.StockCodeItem
-    code: '111770'
-    company: "\uC601\uC6D0\uBB34\uC5ED"
-    full_code: KR7111770004
-    market_type: kospiVal
-  '114090': !!python/object:data_model.StockCodeItem
-    code: '114090'
-    company: GKL
-    full_code: KR7114090004
-    market_type: kospiVal
-  '115390': !!python/object:data_model.StockCodeItem
-    code: '115390'
-    company: "\uB77D\uC564\uB77D"
-    full_code: KR7115390007
-    market_type: kospiVal
-  '120110': !!python/object:data_model.StockCodeItem
-    code: '120110'
-    company: "\uCF54\uC624\uB871\uC778\uB354"
-    full_code: KR7120110002
-    market_type: kospiVal
-  '128940': !!python/object:data_model.StockCodeItem
-    code: '128940'
-    company: "\uD55C\uBBF8\uC57D\uD488"
-    full_code: KR7128940004
-    market_type: kospiVal
-  '138930': !!python/object:data_model.StockCodeItem
-    code: '138930'
-    company: "BNK\uAE08\uC735\uC9C0\uC8FC"
-    full_code: KR7138930003
-    market_type: kospiVal
-  '139480': !!python/object:data_model.StockCodeItem
-    code: '139480'
-    company: "\uC774\uB9C8\uD2B8"
-    full_code: KR7139480008
-    market_type: kospiVal
-  '145990': !!python/object:data_model.StockCodeItem
-    code: '145990'
-    company: "\uC0BC\uC591\uC0AC"
-    full_code: KR7145990008
-    market_type: kospiVal
-  '161390': !!python/object:data_model.StockCodeItem
-    code: '161390'
-    company: "\uD55C\uAD6D\uD0C0\uC774\uC5B4"
-    full_code: KR7161390000
-    market_type: kospiVal
-  '161890': !!python/object:data_model.StockCodeItem
-    code: '161890'
-    company: "\uD55C\uAD6D\uCF5C\uB9C8"
-    full_code: KR7161890009
-    market_type: kospiVal
-  '170900': !!python/object:data_model.StockCodeItem
-    code: '170900'
-    company: "\uB3D9\uC544\uC5D0\uC2A4\uD2F0"
-    full_code: KR7170900005
-    market_type: kospiVal
-  '185750': !!python/object:data_model.StockCodeItem
-    code: '185750'
-    company: "\uC885\uADFC\uB2F9"
-    full_code: KR7185750007
-    market_type: kospiVal
-  '192400': !!python/object:data_model.StockCodeItem
-    code: '192400'
-    company: "\uCFE0\uCFE0\uC804\uC790"
-    full_code: KR7192400000
-    market_type: kospiVal
-  '192820': !!python/object:data_model.StockCodeItem
-    code: '192820'
-    company: "\uCF54\uC2A4\uB9E5\uC2A4"
-    full_code: KR7192820009
-    market_type: kospiVal
-  '204320': !!python/object:data_model.StockCodeItem
-    code: '204320'
-    company: "\uB9CC\uB3C4"
-    full_code: KR7204320006
-    market_type: kospiVal
-  '207940': !!python/object:data_model.StockCodeItem
-    code: '207940'
-    company: "\uC0BC\uC131\uBC14\uC774\uC624\uB85C\uC9C1\uC2A4"
-    full_code: KR7207940008
-    market_type: kospiVal
-  '214320': !!python/object:data_model.StockCodeItem
-    code: '214320'
-    company: "\uC774\uB178\uC158"
-    full_code: KR7214320004
-    market_type: kospiVal
-  '251270': !!python/object:data_model.StockCodeItem
-    code: '251270'
-    company: "\uB137\uB9C8\uBE14\uAC8C\uC784\uC988"
-    full_code: KR7251270005
-    market_type: kospiVal
-  '267250': !!python/object:data_model.StockCodeItem
-    code: '267250'
-    company: "\uD604\uB300\uB85C\uBCF4\uD2F1\uC2A4"
-    full_code: KR7267250009
-    market_type: kospiVal
+- !!python/tuple
+  - 005930
+  - "\uC0BC\uC131\uC804\uC790"
+- !!python/tuple
+  - '000660'
+  - "SK\uD558\uC774\uB2C9\uC2A4"
+- !!python/tuple
+  - 005380
+  - "\uD604\uB300\uCC28"
+- !!python/tuple
+  - 005490
+  - POSCO
+- !!python/tuple
+  - 051910
+  - "LG\uD654\uD559"
+- !!python/tuple
+  - 028260
+  - "\uC0BC\uC131\uBB3C\uC0B0"
+- !!python/tuple
+  - '015760'
+  - "\uD55C\uAD6D\uC804\uB825"
+- !!python/tuple
+  - '035420'
+  - NAVER
+- !!python/tuple
+  - '055550'
+  - "\uC2E0\uD55C\uC9C0\uC8FC"
+- !!python/tuple
+  - '105560'
+  - "KB\uAE08\uC735"
+- !!python/tuple
+  - 032830
+  - "\uC0BC\uC131\uC0DD\uBA85"
+- !!python/tuple
+  - '012330'
+  - "\uD604\uB300\uBAA8\uBE44\uC2A4"
+- !!python/tuple
+  - '207940'
+  - "\uC0BC\uC131\uBC14\uC774\uC624\uB85C\uC9C1\uC2A4"
+- !!python/tuple
+  - '017670'
+  - "SK\uD154\uB808\uCF64"
+- !!python/tuple
+  - '034730'
+  - SK
+- !!python/tuple
+  - 096770
+  - "SK\uC774\uB178\uBCA0\uC774\uC158"
+- !!python/tuple
+  - 090430
+  - "\uC544\uBAA8\uB808\uD37C\uC2DC\uD53D"
+- !!python/tuple
+  - 033780
+  - KT&G
+- !!python/tuple
+  - 086790
+  - "\uD558\uB098\uAE08\uC735\uC9C0\uC8FC"
+- !!python/tuple
+  - 051900
+  - "LG\uC0DD\uD65C\uAC74\uAC15"
+- !!python/tuple
+  - 010950
+  - S-Oil
+- !!python/tuple
+  - '006400'
+  - "\uC0BC\uC131SDI"
+- !!python/tuple
+  - '003550'
+  - LG
+- !!python/tuple
+  - 000810
+  - "\uC0BC\uC131\uD654\uC7AC"
+- !!python/tuple
+  - '066570'
+  - "LG\uC804\uC790"
+- !!python/tuple
+  - '011170'
+  - "\uB86F\uB370\uCF00\uBBF8\uCE7C"
+- !!python/tuple
+  - 018260
+  - "\uC0BC\uC131\uC5D0\uC2A4\uB514\uC5D0\uC2A4"
+- !!python/tuple
+  - '251270'
+  - "\uB137\uB9C8\uBE14\uAC8C\uC784\uC988"
+- !!python/tuple
+  - '000270'
+  - "\uAE30\uC544\uCC28"
+- !!python/tuple
+  - '000030'
+  - "\uC6B0\uB9AC\uC740\uD589"
+- !!python/tuple
+  - '034220'
+  - "LG\uB514\uC2A4\uD50C\uB808\uC774"
+- !!python/tuple
+  - '036570'
+  - "\uC5D4\uC528\uC18C\uD504\uD2B8"
+- !!python/tuple
+  - 002790
+  - "\uC544\uBAA8\uB808G"
+- !!python/tuple
+  - '035720'
+  - "\uCE74\uCE74\uC624"
+- !!python/tuple
+  - '010130'
+  - "\uACE0\uB824\uC544\uC5F0"
+- !!python/tuple
+  - '024110'
+  - "\uAE30\uC5C5\uC740\uD589"
+- !!python/tuple
+  - 009540
+  - "\uD604\uB300\uC911\uACF5\uC5C5"
+- !!python/tuple
+  - '023530'
+  - "\uB86F\uB370\uC1FC\uD551"
+- !!python/tuple
+  - '030200'
+  - KT
+- !!python/tuple
+  - 009150
+  - "\uC0BC\uC131\uC804\uAE30"
+- !!python/tuple
+  - '035250'
+  - "\uAC15\uC6D0\uB79C\uB4DC"
+- !!python/tuple
+  - '161390'
+  - "\uD55C\uAD6D\uD0C0\uC774\uC5B4"
+- !!python/tuple
+  - '004020'
+  - "\uD604\uB300\uC81C\uCCA0"
+- !!python/tuple
+  - '021240'
+  - "\uCF54\uC6E8\uC774"
+- !!python/tuple
+  - '267250'
+  - "\uD604\uB300\uB85C\uBCF4\uD2F1\uC2A4"
+- !!python/tuple
+  - 018880
+  - "\uD55C\uC628\uC2DC\uC2A4\uD15C"
+- !!python/tuple
+  - 006800
+  - "\uBBF8\uB798\uC5D0\uC14B\uB300\uC6B0"
+- !!python/tuple
+  - 078930
+  - GS
+- !!python/tuple
+  - 088350
+  - "\uD55C\uD654\uC0DD\uBA85"
+- !!python/tuple
+  - '139480'
+  - "\uC774\uB9C8\uD2B8"
+- !!python/tuple
+  - '032640'
+  - "LG\uC720\uD50C\uB7EC\uC2A4"
+- !!python/tuple
+  - 008930
+  - "\uD55C\uBBF8\uC0AC\uC774\uC5B8\uC2A4"
+- !!python/tuple
+  - 086280
+  - "\uD604\uB300\uAE00\uB85C\uBE44\uC2A4"
+- !!python/tuple
+  - 009830
+  - "\uD55C\uD654\uCF00\uBBF8\uCE7C"
+- !!python/tuple
+  - 005830
+  - "\uB3D9\uBD80\uD654\uC7AC"
+- !!python/tuple
+  - 004800
+  - "\uD6A8\uC131"
+- !!python/tuple
+  - '001040'
+  - CJ
+- !!python/tuple
+  - '128940'
+  - "\uD55C\uBBF8\uC57D\uD488"
+- !!python/tuple
+  - 097950
+  - "CJ\uC81C\uC77C\uC81C\uB2F9"
+- !!python/tuple
+  - '010140'
+  - "\uC0BC\uC131\uC911\uACF5\uC5C5"
+- !!python/tuple
+  - '000720'
+  - "\uD604\uB300\uAC74\uC124"
+- !!python/tuple
+  - 047810
+  - "\uD55C\uAD6D\uD56D\uACF5\uC6B0\uC8FC"
+- !!python/tuple
+  - 029780
+  - "\uC0BC\uC131\uCE74\uB4DC"
+- !!python/tuple
+  - '001450'
+  - "\uD604\uB300\uD574\uC0C1"
+- !!python/tuple
+  - '027410'
+  - "BGF\uB9AC\uD14C\uC77C"
+- !!python/tuple
+  - 002380
+  - KCC
+- !!python/tuple
+  - '036460'
+  - "\uD55C\uAD6D\uAC00\uC2A4\uACF5\uC0AC"
+- !!python/tuple
+  - 005940
+  - "NH\uD22C\uC790\uC99D\uAD8C"
+- !!python/tuple
+  - '271560'
+  - "\uC624\uB9AC\uC628"
+- !!python/tuple
+  - '000120'
+  - "CJ\uB300\uD55C\uD1B5\uC6B4"
+- !!python/tuple
+  - 009240
+  - "\uD55C\uC0D8"
+- !!python/tuple
+  - '011070'
+  - "LG\uC774\uB178\uD14D"
+- !!python/tuple
+  - '071050'
+  - "\uD55C\uAD6D\uAE08\uC735\uC9C0\uC8FC"
+- !!python/tuple
+  - '012750'
+  - "\uC5D0\uC2A4\uC6D0"
+- !!python/tuple
+  - 000880
+  - "\uD55C\uD654"
+- !!python/tuple
+  - '138930'
+  - "BNK\uAE08\uC735\uC9C0\uC8FC"
+- !!python/tuple
+  - '016360'
+  - "\uC0BC\uC131\uC99D\uAD8C"
+- !!python/tuple
+  - '047040'
+  - "\uB300\uC6B0\uAC74\uC124"
+- !!python/tuple
+  - '000150'
+  - "\uB450\uC0B0"
+- !!python/tuple
+  - 028670
+  - "\uD32C\uC624\uC158"
+- !!python/tuple
+  - 003490
+  - "\uB300\uD55C\uD56D\uACF5"
+- !!python/tuple
+  - '000210'
+  - "\uB300\uB9BC\uC0B0\uC5C5"
+- !!python/tuple
+  - '012630'
+  - "\uD604\uB300\uC0B0\uC5C5"
+- !!python/tuple
+  - 008560
+  - "\uBA54\uB9AC\uCE20\uC885\uAE08\uC99D\uAD8C"
+- !!python/tuple
+  - '007070'
+  - "GS\uB9AC\uD14C\uC77C"
+- !!python/tuple
+  - 026960
+  - "\uB3D9\uC11C"
+- !!python/tuple
+  - '006260'
+  - LS
+- !!python/tuple
+  - '007310'
+  - "\uC624\uB69C\uAE30"
+- !!python/tuple
+  - '010060'
+  - OCI
+- !!python/tuple
+  - '204320'
+  - "\uB9CC\uB3C4"
+- !!python/tuple
+  - '000100'
+  - "\uC720\uD55C\uC591\uD589"
+- !!python/tuple
+  - '047050'
+  - "\uD3EC\uC2A4\uCF54\uB300\uC6B0"
+- !!python/tuple
+  - 004990
+  - "\uB86F\uB370\uC81C\uACFC"
+- !!python/tuple
+  - 006280
+  - "\uB179\uC2ED\uC790"
+- !!python/tuple
+  - 008770
+  - "\uD638\uD154\uC2E0\uB77C"
+- !!python/tuple
+  - 011780
+  - "\uAE08\uD638\uC11D\uC720"
+- !!python/tuple
+  - 028050
+  - "\uC0BC\uC131\uC5D4\uC9C0\uB2C8\uC5B4\uB9C1"
+- !!python/tuple
+  - '004370'
+  - "\uB18D\uC2EC"
+- !!python/tuple
+  - '030000'
+  - "\uC81C\uC77C\uAE30\uD68D"
+- !!python/tuple
+  - 069960
+  - "\uD604\uB300\uBC31\uD654\uC810"
+- !!python/tuple
+  - '000670'
+  - "\uC601\uD48D"
+- !!python/tuple
+  - '000240'
+  - "\uD55C\uAD6D\uD0C0\uC774\uC5B4\uC6D4\uB4DC\uC640\uC774\uB4DC"
+- !!python/tuple
+  - '006360'
+  - "GS\uAC74\uC124"
+- !!python/tuple
+  - '004170'
+  - "\uC2E0\uC138\uACC4"
+- !!python/tuple
+  - '010620'
+  - "\uD604\uB300\uBBF8\uD3EC\uC870\uC120"
+- !!python/tuple
+  - '051600'
+  - "\uD55C\uC804KPS"
+- !!python/tuple
+  - 000080
+  - "\uD558\uC774\uD2B8\uC9C4\uB85C"
+- !!python/tuple
+  - '005250'
+  - "\uB179\uC2ED\uC790\uD640\uB529\uC2A4"
+- !!python/tuple
+  - '120110'
+  - "\uCF54\uC624\uB871\uC778\uB354"
+- !!python/tuple
+  - '001740'
+  - "SK\uB124\uD2B8\uC6CD\uC2A4"
+- !!python/tuple
+  - '034020'
+  - "\uB450\uC0B0\uC911\uACF5\uC5C5"
+- !!python/tuple
+  - '003520'
+  - "\uC601\uC9C4\uC57D\uD488"
+- !!python/tuple
+  - '011210'
+  - "\uD604\uB300\uC704\uC544"
+- !!python/tuple
+  - '012450'
+  - "\uD55C\uD654\uD14C\uD06C\uC708"
+- !!python/tuple
+  - '042670'
+  - "\uB450\uC0B0\uC778\uD504\uB77C\uCF54\uC5B4"
+- !!python/tuple
+  - '005300'
+  - "\uB86F\uB370\uCE60\uC131"
+- !!python/tuple
+  - '020150'
+  - "\uC77C\uC9C4\uBA38\uD2F0\uB9AC\uC5BC\uC988"
+- !!python/tuple
+  - '010120'
+  - "LS\uC0B0\uC804"
+- !!python/tuple
+  - '006650'
+  - "\uB300\uD55C\uC720\uD654"
+- !!python/tuple
+  - 079550
+  - "LIG\uB125\uC2A4\uC6D0"
+- !!python/tuple
+  - 011790
+  - SKC
+- !!python/tuple
+  - '161890'
+  - "\uD55C\uAD6D\uCF5C\uB9C8"
+- !!python/tuple
+  - '005440'
+  - "\uD604\uB300\uADF8\uB9B0\uD478\uB4DC"
+- !!python/tuple
+  - '064350'
+  - "\uD604\uB300\uB85C\uD15C"
+- !!python/tuple
+  - '057050'
+  - "\uD604\uB300\uD648\uC1FC\uD551"
+- !!python/tuple
+  - '114090'
+  - GKL
+- !!python/tuple
+  - '006120'
+  - "SK\uCF00\uBBF8\uCE7C"
+- !!python/tuple
+  - '111770'
+  - "\uC601\uC6D0\uBB34\uC5ED"
+- !!python/tuple
+  - '103140'
+  - "\uD48D\uC0B0"
+- !!python/tuple
+  - '214320'
+  - "\uC774\uB178\uC158"
+- !!python/tuple
+  - 079160
+  - CJ CGV
+- !!python/tuple
+  - '002350'
+  - "\uB125\uC13C\uD0C0\uC774\uC5B4"
+- !!python/tuple
+  - 014820
+  - "\uB3D9\uC6D0\uC2DC\uC2A4\uD15C\uC988"
+- !!python/tuple
+  - 069620
+  - "\uB300\uC6C5\uC81C\uC57D"
+- !!python/tuple
+  - '192400'
+  - "\uCFE0\uCFE0\uC804\uC790"
+- !!python/tuple
+  - 017800
+  - "\uD604\uB300\uC5D8\uB9AC\uBCA0\uC774"
+- !!python/tuple
+  - '192820'
+  - "\uCF54\uC2A4\uB9E5\uC2A4"
+- !!python/tuple
+  - '003410'
+  - "\uC30D\uC6A9\uC591\uD68C"
+- !!python/tuple
+  - '003240'
+  - "\uD0DC\uAD11\uC0B0\uC5C5"
+- !!python/tuple
+  - '001430'
+  - "\uC138\uC544\uBCA0\uC2A4\uD2F8"
+- !!python/tuple
+  - '005610'
+  - "SPC\uC0BC\uB9BD"
+- !!python/tuple
+  - '001120'
+  - "LG\uC0C1\uC0AC"
+- !!python/tuple
+  - '004000'
+  - "\uB86F\uB370\uC815\uBC00\uD654\uD559"
+- !!python/tuple
+  - '001230'
+  - "\uB3D9\uAD6D\uC81C\uAC15"
+- !!python/tuple
+  - '185750'
+  - "\uC885\uADFC\uB2F9"
+- !!python/tuple
+  - '003000'
+  - "\uBD80\uAD11\uC57D\uD488"
+- !!python/tuple
+  - 010780
+  - "\uC544\uC774\uC5D0\uC2A4\uB3D9\uC11C"
+- !!python/tuple
+  - '115390'
+  - "\uB77D\uC564\uB77D"
+- !!python/tuple
+  - '145990'
+  - "\uC0BC\uC591\uC0AC"
+- !!python/tuple
+  - 069260
+  - "\uD734\uCF10\uC2A4"
+- !!python/tuple
+  - 093370
+  - "\uD6C4\uC131"
+- !!python/tuple
+  - '105630'
+  - "\uD55C\uC138\uC2E4\uC5C5"
+- !!python/tuple
+  - '073240'
+  - "\uAE08\uD638\uD0C0\uC774\uC5B4"
+- !!python/tuple
+  - '003300'
+  - "\uD55C\uC77C\uC2DC\uBA58\uD2B8"
+- !!python/tuple
+  - 006840
+  - "AK\uD640\uB529\uC2A4"
+- !!python/tuple
+  - '002270'
+  - "\uB86F\uB370\uD478\uB4DC"
+- !!python/tuple
+  - 014680
+  - "\uD55C\uC194\uCF00\uBBF8\uCE7C"
+- !!python/tuple
+  - '108670'
+  - "LG\uD558\uC6B0\uC2DC\uC2A4"
+- !!python/tuple
+  - '025540'
+  - "\uD55C\uAD6D\uB2E8\uC790"
+- !!python/tuple
+  - 049770
+  - "\uB3D9\uC6D0F&B"
+- !!python/tuple
+  - '020000'
+  - "\uD55C\uC12C"
+- !!python/tuple
+  - '001060'
+  - "JW\uC911\uC678\uC81C\uC57D"
+- !!python/tuple
+  - '000070'
+  - "\uC0BC\uC591\uD640\uB529\uC2A4"
+- !!python/tuple
+  - 001680
+  - "\uB300\uC0C1"
+- !!python/tuple
+  - 093050
+  - LF
+- !!python/tuple
+  - '000640'
+  - "\uB3D9\uC544\uC3D8\uC2DC\uC624\uD640\uB529\uC2A4"
+- !!python/tuple
+  - '003620'
+  - "\uC30D\uC6A9\uCC28"
+- !!python/tuple
+  - 019680
+  - "\uB300\uAD50"
+- !!python/tuple
+  - 064960
+  - "S&T\uBAA8\uD2F0\uBE0C"
+- !!python/tuple
+  - 052690
+  - "\uD55C\uC804\uAE30\uC220"
+- !!python/tuple
+  - 060980
+  - "\uD55C\uB77C\uD640\uB529\uC2A4"
+- !!python/tuple
+  - '170900'
+  - "\uB3D9\uC544\uC5D0\uC2A4\uD2F0"
+- !!python/tuple
+  - 029530
+  - "\uC2E0\uB3C4\uB9AC\uCF54"
+- !!python/tuple
+  - 000990
+  - "\uB3D9\uBD80\uD558\uC774\uD14D"
+- !!python/tuple
+  - '002240'
+  - "\uACE0\uB824\uC81C\uAC15"
+- !!python/tuple
+  - 005850
+  - "\uC5D0\uC2A4\uC5D8"
+- !!python/tuple
+  - '007570'
+  - "\uC77C\uC591\uC57D\uD488"
+- !!python/tuple
+  - 009420
+  - "\uD55C\uC62C\uBC14\uC774\uC624\uD30C\uB9C8"
+- !!python/tuple
+  - 005180
+  - "\uBE59\uADF8\uB808"
+- !!python/tuple
+  - '007340'
+  - "\uB3D9\uC544\uD0C0\uC774\uC5B4"
+- !!python/tuple
+  - '003030'
+  - "\uC138\uC544\uC81C\uAC15"
+- !!python/tuple
+  - 008060
+  - "\uB300\uB355\uC804\uC790"
+- !!python/tuple
+  - 033920
+  - "\uBB34\uD559"
+- !!python/tuple
+  - 004490
+  - "\uC138\uBC29\uC804\uC9C0"
+- !!python/tuple
+  - 002960
+  - "\uD55C\uAD6D\uC258\uC11D\uC720"
+- !!python/tuple
+  - 003920
+  - "\uB0A8\uC591\uC720\uC5C5"
+- !!python/tuple
+  - 096760
+  - "JW\uD640\uB529\uC2A4"
+- !!python/tuple
+  - 001800
+  - "\uC624\uB9AC\uC628\uD640\uB529\uC2A4"
+- !!python/tuple
+  - 025860
+  - "\uB0A8\uD574\uD654\uD559"
+- !!python/tuple
+  - '034120'
+  - SBS

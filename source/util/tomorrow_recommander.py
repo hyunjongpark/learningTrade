@@ -30,7 +30,7 @@ class tomorrow_recommander():
             self.stock_updater.download_kospi_data()
             code_list = self.stock_updater.update_kospi_200()
         else:
-            data = load_yaml('kospi200')
+            data = load_yaml(services.get('configurator').get('stock_list'))
             for company_code, value in data.iterItems():
                 code_list.append(company_code)
 

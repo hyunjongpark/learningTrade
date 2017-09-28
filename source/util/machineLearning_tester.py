@@ -28,12 +28,12 @@ class machine_learning_tester():
         self.ta_tester = ta_tester()
         self.stationarity_tester = stationarity_tester()
 
-    def show_machine_learning(self, stock_list=None, view_chart=True, start='20160101', end='20170101', time_lags=5, dataset_ratio=0.8, apply_st=False, two_condition= False):
+    def show_machine_learning(self, stock_list=None, view_chart=False, start='20160101', end='20170101', time_lags=5, dataset_ratio=0.8, apply_st=False, two_condition= False):
         stock_trade = []
         row_index = 0
         code_list = []
         if stock_list == None:
-            stock_list = load_yaml('kospi200')
+            stock_list = load_yaml(services.get('configurator').get('stock_list'))
             for company_code, value in stock_list.iterItems():
                 code_list.append(company_code)
         else:
@@ -86,7 +86,7 @@ class machine_learning_tester():
         row_index = 0
         code_list = []
         if stock_list == None:
-            stock_list = load_yaml('kospi200')
+            stock_list = load_yaml(services.get('configurator').get('stock_list'))
             for company_code, value in stock_list.iterItems():
                 code_list.append(company_code)
         else:
@@ -99,8 +99,9 @@ class machine_learning_tester():
             if code == '267250':
                 continue
 
-            if is_mean_state(code) != 1:
-                continue
+            # if is_mean_state(code) != 1:
+            #     print('Skip by is_mean_state')
+            #     continue
 
             isSuccess, result = self.get_tomorrow_trade(code = code, start = start, end = end, view_chart = view_chart, time_lags = 1, dataset_ratio = 1, two_condition = two_condition)
             if isSuccess == False:
@@ -116,27 +117,13 @@ class machine_learning_tester():
             row_index += 1
 
 
-        if save_file == True:
-            saved_data = load_yaml('ml_trade')
-            if saved_data == None:
-                saved_data = {'ml_trade': []}
-                saved_data['ml_trade'].append(save_stocks)
-            else:
-                if saved_data['ml_trade'] == None:
-                    save_list = {'ml_trade': []}
-                    save_list.append(save_stocks)
-                else:
-                    for index, v in enumerate(saved_data['ml_trade'], start=0):
-                        if str(v['date']) == str(end):
-                            del saved_data['ml_trade'][index]
-
-                    saved_data['ml_trade'].append(save_stocks)
-
-            write_yaml('ml_trade', saved_data)
 
 
         print('=========================================')
         print(save_stocks)
+
+        return_array = []
+
 
         for code in save_stocks['BUY_list']:
 
@@ -147,17 +134,35 @@ class machine_learning_tester():
             pre_1_data = df.iloc[len(df) - 2]
             today_data = df.iloc[len(df) - 1]
 
-            if today_data['institution_trading'] < 0:
-                continue
+            pass_institution_trading = True
+            pass_foreigner_count = True
+            pass_Volume = True
+            pass_is_mean_state = True
 
-            print(today_data['institution_trading'])
-            print('StockList.add("%s");' %(code))
 
+            if today_data['foreigner_count'] <= pre_1_data['foreigner_count']:
+                pass_foreigner_count = False
+                # continue
+            if today_data['Volume'] < pre_1_data['Volume']:
+                pass_Volume = False
+                # continue
+            if is_mean_state(code) != 1:
+                pass_is_mean_state = False
+                # continue
+            if today_data['institution_trading'] <= 0:
+                pass_institution_trading = False
+                # continue  nhy6tygh                                                              v
+
+            print('StockList.add("%s"); //pass_institution_trading:%s, foreigner_count:%s, Volume:%s, is_mean_state:%s' % (
+            code, pass_institution_trading, pass_foreigner_count, pass_Volume, pass_is_mean_state))
+            return_array.append(code)
+
+        save_stocks['BUY_list'] = return_array
         return save_stocks
 
 
 
-    def test_tomorrow_match_count_of_specific_date(self, date):
+    def test_tomorrow_match_count_of_specific_date(self, stock_list, date):
         # end = datetime.datetime.today()
         # start = end - relativedelta(months=6)
         # end = datetime.datetime.strptime('20170529', '%Y%m%d')
@@ -165,7 +170,7 @@ class machine_learning_tester():
         end = datetime.datetime.strptime(date, '%Y-%m-%d')
         start = end - relativedelta(months=6)
 
-        result = self.tomorrow_machine_learning(view_chart=False, start=start, end=end, time_lags=1, dataset_ratio=1, apply_st=True, two_condition=True, save_file=False)
+        result = self.tomorrow_machine_learning(stock_list=stock_list, view_chart=False, start=start,end=end, two_condition=False, save_file=True)
 
         match_count = 0
         index = 0
@@ -173,7 +178,7 @@ class machine_learning_tester():
         # buy_list = ['028260', '004700', '008060', '009240', '009290', '007690', '005440', '004170', '078930', '007340', '003490', '000880', '012630', '104700', '000660', '034120', '020150', '007070', '009420', '003520', '000240', '020000', '064960', '008930', '000070', '005300', '139480', '036580', '000150', '000100', '012450', '185750', '066570', '036570', '025860', '016360', '003200', '005610', '006280', '000640', '051910', '001680', '027410', '021240', '005180', '012750', '029530', '006400', '071050', '018880', '005090', '000810', '007570', '019680', '010780', '003550', '000120']
 
         for code in result['BUY_list']:
-        # for code in buy_list:
+        # for code in result['SELL_list']:
 
             # print('code: %s, date: %s, next: %s '%(code, result['date'], get_trade_next_day(result['date'])))
             # print('code: %s' % (code))
@@ -187,33 +192,42 @@ class machine_learning_tester():
             today_data = df.iloc[len(df) - 2]
             tomorrow_data = df.iloc[len(df) - 1]
 
-            if pre_1_data['Volume'] > tomorrow_data['Volume']:
-                continue
+            # if today_data['institution_trading'] <= 0:
+            #     continue
+            # if today_data['foreigner_count'] == 0:
+            #     continue
 
-            if today_data['Close'] < tomorrow_data['Open']:
-                if today_data['Close'] > tomorrow_data['Low']:
-                    # print(df)
-                    if get_percent_price(today_data['Close'], -0.1) > tomorrow_data['Low']:
-                        buy_price = get_percent_price(today_data['Close'], -0.1)
-                        index += 1
-                        if today_data['Close'] <= tomorrow_data['Close']:
-                            match_count += 1
-                        elif buy_price < tomorrow_data['Close']:
-                            match_count += 1
-                        # elif today_data['Close'] < tomorrow_data['High'] and today_data['Close'] > tomorrow_data['Low']:
-                        #     match_count += 1
-                        else:
-                            print(df)
-                            print('+++buy_price: %s ' % (buy_price))
-                            print('+++Open: %s ' % (get_percent(today_data['Close'], tomorrow_data['Open'])))
-                            print('+++High: %s ' % (get_percent(today_data['Close'], tomorrow_data['High'])))
-                            print('+++Low: %s ' % (get_percent(today_data['Close'], tomorrow_data['Low'])))
-                            print('+++CLOSE: %s ' % (get_percent(today_data['Close'], tomorrow_data['Close'])))
+            print('%s %s - %s'%(code, today_data['Close'], tomorrow_data['Close']))
+            index += 1
+            if today_data['Close'] < tomorrow_data['Close']:
+                match_count += 1
+
+
+            #
+            # if today_data['Close'] < tomorrow_data['Open']:
+            #     if today_data['Close'] > tomorrow_data['Low']:
+            #         # print(df)
+            #         if get_percent_price(today_data['Close'], -0.1) > tomorrow_data['Low']:
+            #             buy_price = get_percent_price(today_data['Close'], -0.1)
+            #             index += 1
+            #             if today_data['Close'] <= tomorrow_data['Close']:
+            #                 match_count += 1
+            #             elif buy_price < tomorrow_data['Close']:
+            #                 match_count += 1
+            #             # elif today_data['Close'] < tomorrow_data['High'] and today_data['Close'] > tomorrow_data['Low']:
+            #             #     match_count += 1
+            #             else:
+            #                 print(df)
+            #                 print('+++buy_price: %s ' % (buy_price))
+            #                 print('+++Open: %s ' % (get_percent(today_data['Close'], tomorrow_data['Open'])))
+            #                 print('+++High: %s ' % (get_percent(today_data['Close'], tomorrow_data['High'])))
+            #                 print('+++Low: %s ' % (get_percent(today_data['Close'], tomorrow_data['Low'])))
+            #                 print('+++CLOSE: %s ' % (get_percent(today_data['Close'], tomorrow_data['Close'])))
 
 
         print('+++++%s/%s' %(match_count, index))
 
-        return str('%s/%s' %(match_count, index))
+        return str('%s, %s/%s' %(end, match_count, index))
 
 
 
@@ -294,7 +308,7 @@ class machine_learning_tester():
 
 
             X_test, Y_test = self.get_test_df(df, time_lags, test_split_date, two_condition)
-            vote_hit_ratio, vote_score, vote_hit_index, vote_fail_index, vote_tomorrow_predic = self.test_vote_predictor(
+            vaild_count, vote_hit_ratio, vote_score, vote_hit_index, vote_fail_index, vote_tomorrow_predic = self.test_vote_predictor(
                 lr_classifier, rf_classifier, svm_classifier, X_test, Y_test)
 
             print('---------- %s' % vote_tomorrow_predic)
@@ -340,8 +354,9 @@ class machine_learning_tester():
             lr_classifier = self.do_logistic_regression(X_train, Y_train)
             score = lr_classifier.score(X_test, Y_test)
             if score < 0.5:
-                return False, None
-            X_test, Y_test = self.get_test_df(df, time_lags, split_date, two_condition)
+                print('lr_classifier.score < 0.5')
+                # return False, None
+            # X_test, Y_test = self.get_test_df(df, time_lags, split_date, two_condition)
             lr_hit_ratio, lr_score, lr_hit_index, lr_fail_index, lr_tomorrow_predic = self.test_predictor(lr_classifier, X_test, Y_test)
             print('---------- %s' %lr_tomorrow_predic)
 
@@ -349,9 +364,10 @@ class machine_learning_tester():
             rf_classifier = self.do_random_forest(X_train, Y_train)
             score = rf_classifier.score(X_test, Y_test)
             if score < 0.5:
-                return False, None
+                print('rf_classifier.score < 0.5')
+                # return False, None
 
-            X_test, Y_test = self.get_test_df(df, time_lags, split_date, two_condition)
+            # X_test, Y_test = self.get_test_df(df, time_lags, split_date, two_condition)
             rf_hit_ratio, rf_score, rf_hit_index, rf_fail_index, rf_tomorrow_predic = self.test_predictor(rf_classifier, X_test, Y_test)
             print('---------- %s' % rf_tomorrow_predic)
 
@@ -359,15 +375,20 @@ class machine_learning_tester():
             svm_classifier = self.do_svm(X_train, Y_train)
             score = svm_classifier.score(X_test, Y_test)
             if score < 0.5:
-                return False, None
-            X_test, Y_test = self.get_test_df(df, time_lags, split_date, two_condition)
+                print('svm_classifier.score < 0.5')
+                # return False, None
+            # X_test, Y_test = self.get_test_df(df, time_lags, split_date, two_condition)
             svm_hit_ratio, svm_score, svm_hit_index, svm_fail_index, svm_tomorrow_predic = self.test_predictor(svm_classifier, X_test, Y_test)
             print('---------- %s' % svm_tomorrow_predic)
 
 
 
-            X_test, Y_test = self.get_test_df(df, time_lags, split_date, two_condition)
-            vote_hit_ratio, vote_score, vote_hit_index, vote_fail_index, vote_tomorrow_predic = self.test_vote_predictor(lr_classifier,rf_classifier,svm_classifier, X_test,Y_test)
+            # X_test, Y_test = self.get_test_df(df, time_lags, split_date, two_condition)
+            vaild_count, vote_hit_ratio, vote_score, vote_hit_index, vote_fail_index, vote_tomorrow_predic = self.test_vote_predictor(lr_classifier,rf_classifier,svm_classifier, X_test,Y_test)
+            # if vote_score < 0.5 or vaild_count < 10:
+            if vote_score < 0.5:
+                print('vote.score < 0.5')
+                return False, None
 
             test_result['code'].append(code)
             test_result['logistic'].append(lr_score)
@@ -495,10 +516,8 @@ class machine_learning_tester():
         return df_lag
 
     def split_dataset(self, df, input_column_array, output_column, split_date):
-
         input_data = df[input_column_array]
         output_data = df[output_column]
-
         X_train = input_data[input_data.index <= split_date]
         Y_train = output_data[output_data.index <= split_date]
 
@@ -591,7 +610,7 @@ class machine_learning_tester():
         print("hit_count=%s, total=%s, hit_ratio = %s [%s ~ %s]" % (
         hit_count, vaild_count, hit_ratio, x_test.iloc[0].name, x_test.iloc[len(x_test) - 1].name))
 
-        return hit_ratio, hit_ratio, pd.DataFrame(hit_index_array), pd.DataFrame(fail_index_array), trade
+        return vaild_count, hit_ratio, hit_ratio, pd.DataFrame(hit_index_array), pd.DataFrame(fail_index_array), trade
 
 
 

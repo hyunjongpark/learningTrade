@@ -29,7 +29,7 @@ class stationarity_tester():
         row_index = 0
         code_list = []
         if stock_list == None:
-            stock_list = load_yaml('kospi200')
+            stock_list = load_yaml(services.get('configurator').get('stock_list'))
             for company_code, value in stock_list.iterItems():
                 code_list.append(company_code)
         else:
@@ -64,7 +64,7 @@ class stationarity_tester():
         row_index = 0
         code_list = []
         if stock_list == None:
-            stock_list = load_yaml('kospi200')
+            stock_list = load_yaml(services.get('configurator').get('stock_list'))
             for company_code, value in stock_list.iterItems():
                 code_list.append(company_code)
         else:

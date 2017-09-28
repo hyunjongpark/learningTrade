@@ -94,6 +94,10 @@ def get_df_from_file(code, start, end):
     if len(name) == 0:
         return None
     df = load_stock_data(name[0])
+    df.sort_index(inplace=True)
+    # df = df.drop_duplicates(subset='index')
+    df = df.groupby(df.index).first()
+    # df = df.set_index('date')
     # print(df)
     # print(df.describe())
     # df_range = df[start:end]
@@ -118,6 +122,7 @@ def get_df_from_file_fe(code, start, end):
         return None
     try:
         df = load_stock_data_fe(name[0])
+        df = df.set_index('date')
         df = df[df.index > start]
         df = df[df.index <= end]
     except:
@@ -131,6 +136,7 @@ def get_trade_last_day(code='000030'):
     df = get_df_from_file(code, start, end)
     try:
         return str(df.iloc[len(df) - 1].name).split(' ')[0]
+        # return str(df.iloc[0].name).split(' ')[0]
     except:
         return '2015-01-01'
 
@@ -169,8 +175,8 @@ def is_mean_state(code):
     end = datetime.datetime.today()
     start = end - relativedelta(months=1)
     df = get_df_from_file(code, start, end)
-    df_ma = Series.rolling(df['Close'], center=False, window=10).mean()
-    df_std = Series.rolling(df['Close'], center=False, window=10).std()
+    df_ma = Series.rolling(df['Close'], center=False, window=5).mean()
+    df_std = Series.rolling(df['Close'], center=False, window=5).std()
     diff = df['Close'] - df_ma
     check_diff_std = np.abs(diff) - df_std
     last_index = len(df) - 1
@@ -256,4 +262,5 @@ def get_foreigner_info(code='000660', start=None, end=None):
     df = df.set_index('date')
     df = df[df.index > start]
     df = df[df.index <= end]
+    print(df)
     return df

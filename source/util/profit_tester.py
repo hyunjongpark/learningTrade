@@ -11,6 +11,7 @@ if parentPath not in sys.path:
 from common import *
 import datetime
 from dateutil.relativedelta import relativedelta
+from util.services import *
 
 
 class profit_stationarity_tester():
@@ -34,7 +35,7 @@ class profit_stationarity_tester():
         return profit_sum
 
     def profit_print_kospi200(self, start, end=None):
-        stock_list = load_yaml('kospi200')
+        stock_list = load_yaml(services.get('configurator').get('stock_list'))
         # end = datetime.datetime.today()
         profit_sum = 0
         index = 0
