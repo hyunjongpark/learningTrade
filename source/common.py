@@ -16,6 +16,7 @@ parentPath = os.path.abspath("..")
 if parentPath not in sys.path:
     sys.path.insert(0, parentPath)
 data_path = os.path.abspath("data")
+data_backup_path = os.path.abspath("data_backup")
 # data_path = os.path.abspath("../data")
 
 def load_yaml(filename):
@@ -32,6 +33,12 @@ def load_yaml(filename):
 
     filePath = os.path.join(data_path , filename)
 
+    with open(filePath, 'r') as stream:
+        data = yaml.load(stream)
+    return data
+
+def load__data_backup_yaml(filename):
+    filePath = os.path.join(data_backup_path , filename)
     with open(filePath, 'r') as stream:
         data = yaml.load(stream)
     return data
@@ -264,3 +271,4 @@ def get_foreigner_info(code='000660', start=None, end=None):
     df = df[df.index <= end]
     print(df)
     return df
+

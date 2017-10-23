@@ -51,6 +51,120 @@ def stationarity_profit():
     # profit_stationarity_tester.profit_print_all_with_sell()
     # profit_stationarity_tester.code_profit(code='128940', start='2017-01-01', end=end)
 
+@app.route("/close_eaual_high")
+def close_eaual_high():
+
+    past_time= 36
+
+    end = datetime.datetime.today()
+    start = end - relativedelta(months=past_time)
+
+    data = load_yaml(services.get('configurator').get('stock_list'))
+    data_backup = load__data_backup_yaml(services.get('configurator').get('stock_list'))
+
+    index =0;
+
+    code_list = []
+
+    success_count=0
+    fail_count=0;
+
+    for company_code, value in data:
+        print('%s, %s' %(index, company_code))
+
+        index += 1
+        df = get_df_from_file(company_code, end - relativedelta(months=past_time), end)
+        if len(df) == 0:
+            continue
+
+
+        for index in range(3, len(df)-1):
+            pre2_data = df.iloc[index-2]
+            pre1_data = df.iloc[index - 1]
+            data = df.iloc[index]
+            next_data = df.iloc[index+1]
+
+            close = data['Close']
+            next_high = next_data['High']
+
+            if pre2_data['Close'] > pre1_data['Close']:
+                continue
+
+            if pre1_data['Close'] > data['Close']:
+                continue
+
+            if pre2_data['Volume'] > pre1_data['Volume']:
+                continue
+
+            if pre1_data['Close'] >= data['Open']:
+                continue
+
+            if pre1_data['Volume'] > data['Volume']:
+                continue
+
+            today_percentage = (close - data['Open']) / (data['Open'] / 100)
+            if today_percentage < 5:
+                continue
+
+            close_volume = (data['Close'] * data['Volume']) / 100000000
+            if close_volume <= 100:  #억
+                continue
+
+            if data['Close'] != data['High']:
+                continue
+
+            next_high_percentage = (next_high - close) / (close / 100)
+
+            if close >= next_high or next_high_percentage < 0.8:
+                # print("failed")
+                print(pre2_data)
+                print(pre1_data)
+                print(data)
+                print(next_data)
+                # print(next_data)
+                fail_count = fail_count +1
+                print('+++++++++++++++++')
+                print('today_percentage: %s' %(today_percentage))
+                print('close_volume: %s' % (close_volume))
+                print('next_high_percentage: %s' % (next_high_percentage))
+                print('+++++++++++++++++')
+                continue
+            else:
+                success_count = success_count + 1
+                print(next_high_percentage)
+
+        print('code: %s, date: %s ~ %s, success: %s, fail: %s' %(company_code, df.iloc[3].name, df.iloc[len(df)-1].name, success_count, fail_count))
+
+
+
+        # if index > 50:
+        #     break
+
+
+        # pre_1_data = df.iloc[len(df) - 2]
+        # today_data = df.iloc[len(df) - 1]
+        #
+
+        # if (today_data['Close'] * today_data['Volume']) / 1000000 <= 2000: #20억
+        #     continue
+        # # if today_data['institution_trading'] <= 0:
+        # #     continue
+        # if today_data['foreigner_count'] == 0:
+        #     continue
+        # # if today_data['foreigner_count'] < pre_1_data['foreigner_count']:
+        # #     continue
+        # # if today_data['Volume'] < pre_1_data['Volume']:
+        # #     continue
+        # if today_data['Close'] > 100000:
+        #     continue
+
+
+
+        # code_list.append(company_code)
+
+    # print(len(code_list))
+    # print(code_list)
+
 @app.route("/machine")
 def machine():
 
@@ -162,9 +276,10 @@ if __name__ == "__main__":
     init()
 
     stock_updater = stock_updater()
-    stock_updater.download_kospi_data()
-    code_list = stock_updater.update_kospi_200()
-    machine()
+    # stock_updater.download_kospi_data()
+    # code_list = stock_updater.update_kospi_200()
+    # machine()
+    close_eaual_high()
 
     # app.debug = True
     # app.run(host='0.0.0.0', port=8088)

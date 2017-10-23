@@ -200,24 +200,24 @@ class stock_updater():
 
         return code_list
 
-    def download_stock_data(self, file_name, company_code, start, end):
-        # company_code='001470'
-        df_fe = get_df_from_file(company_code, start, end)
-        # print(df_fe)
-        if df_fe is None:
-            df_fe = get_foreigner_info(company_code, start, end)
-        else:
-            df_new =get_foreigner_info(company_code, start, end)
-            df_new.sort_index(inplace=True)
-            # print(df_new)
-            df_fe = df_fe.append(df_new, ignore_index=False)
-            # print(df_fe)
-            df_fe = df_fe.drop_duplicates(subset =['Close','foreigner_count','institution_trading'], take_last=True)
-            df_fe.groupby(df_fe.index).first()
-        df_fe.sort_index(inplace=True)
-        print(df_fe)
-        save_stock_data(df_fe, file_name)
-        return df_fe
+    # def download_stock_data(self, file_name, company_code, start, end):
+    #     # company_code='001470'
+    #     df_fe = get_df_from_file(company_code, start, end)
+    #     # print(df_fe)
+    #     if df_fe is None:
+    #         df_fe = get_foreigner_info(company_code, start, end)
+    #     else:
+    #         df_new =get_foreigner_info(company_code, start, end)
+    #         df_new.sort_index(inplace=True)
+    #         # print(df_new)
+    #         df_fe = df_fe.append(df_new, ignore_index=False)
+    #         # print(df_fe)
+    #         df_fe = df_fe.drop_duplicates(subset =['Close','foreigner_count','institution_trading'], take_last=True)
+    #         df_fe.groupby(df_fe.index).first()
+    #     df_fe.sort_index(inplace=True)
+    #     print(df_fe)
+    #     save_stock_data(df_fe, file_name)
+    #     return df_fe
 
     def download_kospi_data(self):
         end = datetime.datetime.today()
@@ -230,4 +230,11 @@ class stock_updater():
         except Exception as ex:
             print('except [%s] %s' % ('kospi', ex))
             return None
+        return df
+
+    def download_stock_data(self, file_name, company_code, start, end):
+        # start = datetime.datetime(start)
+        # end = datetime.datetime(end)
+        df = web.DataReader("KRX:%s" % (company_code), "google", start, end)
+        df.to_pickle(file_name)
         return df
