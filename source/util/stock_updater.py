@@ -12,7 +12,7 @@ from common import *
 # import BeautifulSoup
 import pandas_datareader.data as web
 from dateutil.relativedelta import relativedelta
-from data_model import *
+from util.data_model import *
 from util.services import *
 import re
 
@@ -59,10 +59,6 @@ class stock_updater():
                     code_list.append(data)
                     print(data)
         write_yaml(file_name, code_list)
-
-
-
-
 
     def update_stock_list(self, file_name, whereCode=51):
         for market_type in ['kospiVal']:
@@ -193,12 +189,19 @@ class stock_updater():
         for company_code, value in data:
             print("%s/%s : Code=%s, Company=%s" % (index, len(data), company_code, value))
             index += 1
-            find_name = '%s_%s.data' % (company_code, value)
+            find_name = 'data/%s_%s.data' % (company_code, value)
             if self.download_stock_data(file_name=find_name, company_code=company_code, start=start, end=end) is not None:
                 code_list.append(company_code)
-
-
         return code_list
+
+    def download_stock_data(self, file_name, company_code, start, end):
+        try:
+            df = web.DataReader('%s.KS' %(company_code), 'yahoo', start, end)
+            df.to_pickle(file_name)
+        except Exception as ex:
+            print('except [%s] %s' % ('download_stock_data', ex))
+            return None
+        return df
 
     # def download_stock_data(self, file_name, company_code, start, end):
     #     # company_code='001470'
@@ -219,22 +222,17 @@ class stock_updater():
     #     save_stock_data(df_fe, file_name)
     #     return df_fe
 
-    def download_kospi_data(self):
-        end = datetime.datetime.today()
-        start = end - relativedelta(months=48)
-        try:
-            df = web.DataReader("KRX:KOSPI", "google", start, end)
-            print(df)
-            save_stock_data(df, 'kospi.data')
-            # web.DataReader("KRX:KOSPI", "google", start, end).to_csv('kospi.csv')
-        except Exception as ex:
-            print('except [%s] %s' % ('kospi', ex))
-            return None
-        return df
+    # def download_kospi_data(self):
+    #     end = datetime.datetime.today()
+    #     start = end - relativedelta(months=48)
+    #     try:
+    #         df = web.DataReader("KRX:KOSPI", "yahoo", start, end)
+    #         print(df)
+    #         save_stock_data(df, 'kospi.data')
+    #         # web.DataReader("KRX:KOSPI", "google", start, end).to_csv('kospi.csv')
+    #     except Exception as ex:
+    #         print('except [%s] %s' % ('kospi', ex))
+    #         return None
+    #     return df
 
-    def download_stock_data(self, file_name, company_code, start, end):
-        # start = datetime.datetime(start)
-        # end = datetime.datetime(end)
-        df = web.DataReader("KRX:%s" % (company_code), "google", start, end)
-        df.to_pickle(file_name)
-        return df
+

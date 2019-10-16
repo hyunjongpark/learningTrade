@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC, SVC
-from sklearn import cross_validation
+from sklearn.model_selection import cross_validate
 
 
 parentPath = os.path.abspath("..")

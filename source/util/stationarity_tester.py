@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
-from dateutil.relativedelta import relativedelta
-
 import os, sys
 import datetime
 from dateutil.relativedelta import relativedelta

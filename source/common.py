@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import pandas as pd
 import yaml
 import os, sys
@@ -17,6 +17,8 @@ if parentPath not in sys.path:
     sys.path.insert(0, parentPath)
 data_path = os.path.abspath("data")
 data_backup_path = os.path.abspath("data_backup")
+
+
 # data_path = os.path.abspath("../data")
 
 def load_yaml(filename):
@@ -30,23 +32,25 @@ def load_yaml(filename):
     # confDir = os.path.abspath('./conf')
     # fileDir = os.path.dirname(os.path.realpath(__file__))
 
-
-    filePath = os.path.join(data_path , filename)
+    filePath = os.path.join(data_path, filename)
 
     with open(filePath, 'r') as stream:
         data = yaml.load(stream)
     return data
+
 
 def load__data_backup_yaml(filename):
-    filePath = os.path.join(data_backup_path , filename)
+    filePath = os.path.join(data_backup_path, filename)
     with open(filePath, 'r') as stream:
         data = yaml.load(stream)
     return data
+
 
 def delete_file(filename):
     filePath = os.path.join(data_path, filename)
     if os.path.exists(filePath):
         os.remove(filePath)
+
 
 def write_yaml(filename, data):
     confParentPath = os.path.abspath("..")
@@ -54,35 +58,43 @@ def write_yaml(filename, data):
     with open(filePath, 'w') as stream:
         yaml.dump(data, stream, default_flow_style=False)
 
+
 def get_data_file_path(file_name):
-	full_file_name = "%s/data/%s" % (os.path.dirname(os.path.abspath(__file__)),file_name)
-	return full_file_name
+    full_file_name = "%s/data/%s" % (os.path.dirname(os.path.abspath(__file__)), file_name)
+    return full_file_name
+
 
 def get_data_file_path_fe(file_name):
-	full_file_name = "%s/data/fe/%s" % (os.path.dirname(os.path.abspath(__file__)),file_name)
-	return full_file_name
+    full_file_name = "%s/data/fe/%s" % (os.path.dirname(os.path.abspath(__file__)), file_name)
+    return full_file_name
+
 
 def save_stock_data(df, file_name):
     new_file_name = get_data_file_path(file_name)
     df.to_pickle(new_file_name)
 
+
 def save_stock_data_fe(df, file_name):
     new_file_name = get_data_file_path_fe(file_name)
     df.to_pickle(new_file_name)
+
 
 def save_stock_csv_data(df, file_name):
     new_file_name = get_data_file_path(file_name)
     df.to(new_file_name)
 
+
 def load_stock_data(file_name):
-	new_file_name = get_data_file_path(file_name)
-	df = pd.read_pickle(new_file_name)
-	return df
+    new_file_name = get_data_file_path(file_name)
+    df = pd.read_pickle(new_file_name)
+    return df
+
 
 def load_stock_data_fe(file_name):
-	new_file_name = get_data_file_path_fe(file_name)
-	df = pd.read_pickle(new_file_name)
-	return df
+    new_file_name = get_data_file_path_fe(file_name)
+    df = pd.read_pickle(new_file_name)
+    return df
+
 
 def get_data_list():
     dataList = []
@@ -122,6 +134,7 @@ def get_df_from_file(code, start, end):
     #     return None
     return df
 
+
 def get_df_from_file_fe(code, start, end):
     dir_list = get_data_list()
     name = [name for name in dir_list if code in name]
@@ -147,6 +160,7 @@ def get_trade_last_day(code='000030'):
     except:
         return '2015-01-01'
 
+
 def get_trade_next_day(base_date):
     end = datetime.datetime.today()
     start = end - relativedelta(months=1)
@@ -162,6 +176,7 @@ def getDateByPerent(start_date, end_date, percent):
     target_days = np.trunc(days * percent)
     target_date = start_date + relativedelta(days=target_days)
     return target_date
+
 
 def get_best_macd_value(code):
     try:
@@ -194,22 +209,23 @@ def is_mean_state(code):
         return 0
     if diff[last_index] > 0:
         if df.iloc[last_index]['Close'] > df_ma.iloc[last_index]:
-            return -1 #sell
+            return -1  # sell
         else:
             return 0
     else:
         if df.iloc[last_index]['Close'] < df_ma.iloc[last_index]:
-            return 1 #buy
+            return 1  # buy
         else:
             return 0
 
 
-
 def get_percent(base, diff):
-    return (base - diff) / (base / 100 ) * -1
+    return (base - diff) / (base / 100) * -1
+
 
 def get_percent_price(base, p):
-    return base + ((base / 100 ) * p)
+    return base + ((base / 100) * p)
+
 
 def get_foreigner_info(code='000660', start=None, end=None):
     dates = []
@@ -224,7 +240,7 @@ def get_foreigner_info(code='000660', start=None, end=None):
     for i in range(1, 30):
         if isStop == True:
             break
-        url = str('http://finance.naver.com/item/frgn.nhn?code=%s&page=%s'  %(code, i))
+        url = str('http://finance.naver.com/item/frgn.nhn?code=%s&page=%s' % (code, i))
         print(url)
         html = requests.post(url)
         soup = BeautifulSoup(html.content, "lxml")
@@ -254,21 +270,20 @@ def get_foreigner_info(code='000660', start=None, end=None):
                 foreigner_count = cells[7].find(text=True)
                 foreigner_percent = cells[8].find(text=True)
 
-
                 dates.append(datetime.datetime.strptime(date, '%Y.%m.%d'))
                 closes.append(close)
                 volumes.append(volume)
                 institution_tradings.append(institution_trading)
-                foreigner_counts.append(float(str(foreigner_count).replace(',','')))
+                foreigner_counts.append(float(str(foreigner_count).replace(',', '')))
 
         if datetime.datetime.strptime(latest_day, '%Y-%m-%d') in dates:
             break;
 
-    data = {'date': dates, 'Close': closes, 'Volume': volumes, 'institution_trading': institution_tradings, 'foreigner_count': foreigner_counts}
+    data = {'date': dates, 'Close': closes, 'Volume': volumes, 'institution_trading': institution_tradings,
+            'foreigner_count': foreigner_counts}
     df = pd.DataFrame(data);
     df = df.set_index('date')
     df = df[df.index > start]
     df = df[df.index <= end]
     print(df)
     return df
-
