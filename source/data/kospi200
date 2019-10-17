@@ -44,20 +44,20 @@
   - '034730'
   - SK
 - !!python/tuple
-  - '000270'
-  - "\uAE30\uC544\uCC28"
-- !!python/tuple
   - '015760'
   - "\uD55C\uAD6D\uC804\uB825"
+- !!python/tuple
+  - '000270'
+  - "\uAE30\uC544\uCC28"
 - !!python/tuple
   - '006400'
   - "\uC0BC\uC131SDI"
 - !!python/tuple
-  - 018260
-  - "\uC0BC\uC131\uC5D0\uC2A4\uB514\uC5D0\uC2A4"
-- !!python/tuple
   - 096770
   - "SK\uC774\uB178\uBCA0\uC774\uC158"
+- !!python/tuple
+  - 018260
+  - "\uC0BC\uC131\uC5D0\uC2A4\uB514\uC5D0\uC2A4"
 - !!python/tuple
   - 033780
   - KT&G
@@ -68,38 +68,38 @@
   - '003550'
   - LG
 - !!python/tuple
+  - '036570'
+  - "\uC5D4\uC528\uC18C\uD504\uD2B8"
+- !!python/tuple
   - '066570'
   - "LG\uC804\uC790"
 - !!python/tuple
   - 010950
   - S-Oil
 - !!python/tuple
-  - '036570'
-  - "\uC5D4\uC528\uC18C\uD504\uD2B8"
-- !!python/tuple
   - '035720'
   - "\uCE74\uCE74\uC624"
-- !!python/tuple
-  - 000810
-  - "\uC0BC\uC131\uD654\uC7AC"
 - !!python/tuple
   - 086790
   - "\uD558\uB098\uAE08\uC735\uC9C0\uC8FC"
 - !!python/tuple
+  - 000810
+  - "\uC0BC\uC131\uD654\uC7AC"
+- !!python/tuple
   - 090430
   - "\uC544\uBAA8\uB808\uD37C\uC2DC\uD53D"
-- !!python/tuple
-  - 009540
-  - "\uD55C\uAD6D\uC870\uC120\uD574\uC591"
 - !!python/tuple
   - '316140'
   - "\uC6B0\uB9AC\uAE08\uC735\uC9C0\uC8FC"
 - !!python/tuple
-  - 009150
-  - "\uC0BC\uC131\uC804\uAE30"
+  - 009540
+  - "\uD55C\uAD6D\uC870\uC120\uD574\uC591"
 - !!python/tuple
   - '010130'
   - "\uACE0\uB824\uC544\uC5F0"
+- !!python/tuple
+  - 009150
+  - "\uC0BC\uC131\uC804\uAE30"
 - !!python/tuple
   - '011170'
   - "\uB86F\uB370\uCF00\uBBF8\uCE7C"
@@ -143,29 +143,29 @@
   - '000720'
   - "\uD604\uB300\uAC74\uC124"
 - !!python/tuple
-  - 006800
-  - "\uBBF8\uB798\uC5D0\uC14B\uB300\uC6B0"
-- !!python/tuple
   - '004020'
   - "\uD604\uB300\uC81C\uCCA0"
+- !!python/tuple
+  - 006800
+  - "\uBBF8\uB798\uC5D0\uC14B\uB300\uC6B0"
 - !!python/tuple
   - 078930
   - GS
 - !!python/tuple
-  - '071050'
-  - "\uD55C\uAD6D\uAE08\uC735\uC9C0\uC8FC"
+  - 029780
+  - "\uC0BC\uC131\uCE74\uB4DC"
+- !!python/tuple
+  - 004990
+  - "\uB86F\uB370\uC9C0\uC8FC"
 - !!python/tuple
   - '271560'
   - "\uC624\uB9AC\uC628"
 - !!python/tuple
-  - 029780
-  - "\uC0BC\uC131\uCE74\uB4DC"
-- !!python/tuple
   - '161390'
   - "\uD55C\uAD6D\uD0C0\uC774\uC5B4\uC564\uD14C\uD06C\uB180\uB85C\uC9C0"
 - !!python/tuple
-  - 004990
-  - "\uB86F\uB370\uC9C0\uC8FC"
+  - '071050'
+  - "\uD55C\uAD6D\uAE08\uC735\uC9C0\uC8FC"
 - !!python/tuple
   - 005830
   - "DB\uC190\uD574\uBCF4\uD5D8"
@@ -182,23 +182,20 @@
   - '023530'
   - "\uB86F\uB370\uC1FC\uD551"
 - !!python/tuple
-  - 005940
-  - "NH\uD22C\uC790\uC99D\uAD8C"
+  - 081660
+  - "\uD720\uB77C\uCF54\uB9AC\uC544"
 - !!python/tuple
   - '128940'
   - "\uD55C\uBBF8\uC57D\uD488"
 - !!python/tuple
-  - 081660
-  - "\uD720\uB77C\uCF54\uB9AC\uC544"
+  - 005940
+  - "NH\uD22C\uC790\uC99D\uAD8C"
 - !!python/tuple
-  - '139480'
-  - "\uC774\uB9C8\uD2B8"
+  - '000120'
+  - "CJ\uB300\uD55C\uD1B5\uC6B4"
 - !!python/tuple
   - '000210'
   - "\uB300\uB9BC\uC0B0\uC5C5"
-- !!python/tuple
-  - 028050
-  - "\uC0BC\uC131\uC5D4\uC9C0\uB2C8\uC5B4\uB9C1"
 - !!python/tuple
   - 097950
   - "CJ\uC81C\uC77C\uC81C\uB2F9"
@@ -206,20 +203,23 @@
   - '282330'
   - "BGF\uB9AC\uD14C\uC77C"
 - !!python/tuple
-  - '000120'
-  - "CJ\uB300\uD55C\uD1B5\uC6B4"
+  - '139480'
+  - "\uC774\uB9C8\uD2B8"
 - !!python/tuple
   - '241560'
   - "\uB450\uC0B0\uBC25\uCEA3"
 - !!python/tuple
+  - 028050
+  - "\uC0BC\uC131\uC5D4\uC9C0\uB2C8\uC5B4\uB9C1"
+- !!python/tuple
   - '042660'
   - "\uB300\uC6B0\uC870\uC120\uD574\uC591"
 - !!python/tuple
-  - '016360'
-  - "\uC0BC\uC131\uC99D\uAD8C"
-- !!python/tuple
   - '007070'
   - "GS\uB9AC\uD14C\uC77C"
+- !!python/tuple
+  - '016360'
+  - "\uC0BC\uC131\uC99D\uAD8C"
 - !!python/tuple
   - 008770
   - "\uD638\uD154\uC2E0\uB77C"
@@ -230,9 +230,6 @@
   - '003410'
   - "\uC30D\uC6A9\uC591\uD68C"
 - !!python/tuple
-  - '000100'
-  - "\uC720\uD55C\uC591\uD589"
-- !!python/tuple
   - '030000'
   - "\uC81C\uC77C\uAE30\uD68D"
 - !!python/tuple
@@ -241,6 +238,9 @@
 - !!python/tuple
   - '011070'
   - "LG\uC774\uB178\uD14D"
+- !!python/tuple
+  - '000100'
+  - "\uC720\uD55C\uC591\uD589"
 - !!python/tuple
   - 008930
   - "\uD55C\uBBF8\uC0AC\uC774\uC5B8\uC2A4"
@@ -254,14 +254,14 @@
   - '001040'
   - CJ
 - !!python/tuple
+  - 003490
+  - "\uB300\uD55C\uD56D\uACF5"
+- !!python/tuple
   - '004170'
   - "\uC2E0\uC138\uACC4"
 - !!python/tuple
   - '001450'
   - "\uD604\uB300\uD574\uC0C1"
-- !!python/tuple
-  - 003490
-  - "\uB300\uD55C\uD56D\uACF5"
 - !!python/tuple
   - 002380
   - KCC
@@ -272,11 +272,11 @@
   - '047050'
   - "\uD3EC\uC2A4\uCF54\uC778\uD130\uB0B4\uC154\uB110"
 - !!python/tuple
-  - 017800
-  - "\uD604\uB300\uC5D8\uB9AC\uBCA0\uC774"
-- !!python/tuple
   - 011780
   - "\uAE08\uD638\uC11D\uC720"
+- !!python/tuple
+  - 017800
+  - "\uD604\uB300\uC5D8\uB9AC\uBCA0\uC774"
 - !!python/tuple
   - '012450'
   - "\uD55C\uD654\uC5D0\uC5B4\uB85C\uC2A4\uD398\uC774\uC2A4"
@@ -287,11 +287,11 @@
   - 088350
   - "\uD55C\uD654\uC0DD\uBA85"
 - !!python/tuple
-  - '047040'
-  - "\uB300\uC6B0\uAC74\uC124"
-- !!python/tuple
   - '000150'
   - "\uB450\uC0B0"
+- !!python/tuple
+  - '047040'
+  - "\uB300\uC6B0\uAC74\uC124"
 - !!python/tuple
   - 000880
   - "\uD55C\uD654"
@@ -299,11 +299,11 @@
   - 000080
   - "\uD558\uC774\uD2B8\uC9C4\uB85C"
 - !!python/tuple
-  - 069960
-  - "\uD604\uB300\uBC31\uD654\uC810"
-- !!python/tuple
   - 004800
   - "\uD6A8\uC131"
+- !!python/tuple
+  - 069960
+  - "\uD604\uB300\uBC31\uD654\uC810"
 - !!python/tuple
   - '010620'
   - "\uD604\uB300\uBBF8\uD3EC\uC870\uC120"
@@ -323,20 +323,20 @@
   - '010060'
   - OCI
 - !!python/tuple
-  - '064350'
-  - "\uD604\uB300\uB85C\uD15C"
-- !!python/tuple
   - '204320'
   - "\uB9CC\uB3C4"
+- !!python/tuple
+  - '111770'
+  - "\uC601\uC6D0\uBB34\uC5ED"
 - !!python/tuple
   - 011790
   - SKC
 - !!python/tuple
+  - '064350'
+  - "\uD604\uB300\uB85C\uD15C"
+- !!python/tuple
   - '006260'
   - LS
-- !!python/tuple
-  - '111770'
-  - "\uC601\uC6D0\uBB34\uC5ED"
 - !!python/tuple
   - '004370'
   - "\uB18D\uC2EC"
@@ -353,20 +353,20 @@
   - 009240
   - "\uD55C\uC0D8"
 - !!python/tuple
-  - '031430'
-  - "\uC2E0\uC138\uACC4\uC778\uD130\uB0B4\uC154\uB0A0"
-- !!python/tuple
   - '214320'
   - "\uC774\uB178\uC158"
-- !!python/tuple
-  - '000240'
-  - "\uD55C\uAD6D\uD14C\uD06C\uB180\uB85C\uC9C0\uADF8\uB8F9"
 - !!python/tuple
   - '114090'
   - GKL
 - !!python/tuple
+  - '031430'
+  - "\uC2E0\uC138\uACC4\uC778\uD130\uB0B4\uC154\uB0A0"
+- !!python/tuple
   - 006280
   - "\uB179\uC2ED\uC790"
+- !!python/tuple
+  - '000240'
+  - "\uD55C\uAD6D\uD14C\uD06C\uB180\uB85C\uC9C0\uADF8\uB8F9"
 - !!python/tuple
   - '034020'
   - "\uB450\uC0B0\uC911\uACF5\uC5C5"
@@ -374,29 +374,29 @@
   - '042670'
   - "\uB450\uC0B0\uC778\uD504\uB77C\uCF54\uC5B4"
 - !!python/tuple
-  - '001740'
-  - "SK\uB124\uD2B8\uC6CD\uC2A4"
-- !!python/tuple
   - '003240'
   - "\uD0DC\uAD11\uC0B0\uC5C5"
+- !!python/tuple
+  - '001740'
+  - "SK\uB124\uD2B8\uC6CD\uC2A4"
 - !!python/tuple
   - '011210'
   - "\uD604\uB300\uC704\uC544"
 - !!python/tuple
-  - '073240'
-  - "\uAE08\uD638\uD0C0\uC774\uC5B4"
-- !!python/tuple
   - '120110'
   - "\uCF54\uC624\uB871\uC778\uB354"
+- !!python/tuple
+  - '073240'
+  - "\uAE08\uD638\uD0C0\uC774\uC5B4"
 - !!python/tuple
   - '004000'
   - "\uB86F\uB370\uC815\uBC00\uD654\uD559"
 - !!python/tuple
-  - '005440'
-  - "\uD604\uB300\uADF8\uB9B0\uD478\uB4DC"
-- !!python/tuple
   - '005300'
   - "\uB86F\uB370\uCE60\uC131"
+- !!python/tuple
+  - '005440'
+  - "\uD604\uB300\uADF8\uB9B0\uD478\uB4DC"
 - !!python/tuple
   - '000670'
   - "\uC601\uD48D"
@@ -404,11 +404,11 @@
   - 005850
   - "\uC5D0\uC2A4\uC5D8"
 - !!python/tuple
-  - '057050'
-  - "\uD604\uB300\uD648\uC1FC\uD551"
-- !!python/tuple
   - 001800
   - "\uC624\uB9AC\uC628\uD640\uB529\uC2A4"
+- !!python/tuple
+  - '057050'
+  - "\uD604\uB300\uD648\uC1FC\uD551"
 - !!python/tuple
   - '161890'
   - "\uD55C\uAD6D\uCF5C\uB9C8"
@@ -425,9 +425,6 @@
   - '003520'
   - "\uC601\uC9C4\uC57D\uD488"
 - !!python/tuple
-  - '003000'
-  - "\uBD80\uAD11\uC57D\uD488"
-- !!python/tuple
   - 014820
   - "\uB3D9\uC6D0\uC2DC\uC2A4\uD15C\uC988"
 - !!python/tuple
@@ -437,17 +434,17 @@
   - 069260
   - "\uD734\uCF10\uC2A4"
 - !!python/tuple
-  - 049770
-  - "\uB3D9\uC6D0F&B"
+  - '003000'
+  - "\uBD80\uAD11\uC57D\uD488"
 - !!python/tuple
   - '002350'
   - "\uB125\uC13C\uD0C0\uC774\uC5B4"
 - !!python/tuple
+  - 049770
+  - "\uB3D9\uC6D0F&B"
+- !!python/tuple
   - 008060
   - "\uB300\uB355\uC804\uC790"
-- !!python/tuple
-  - '006650'
-  - "\uB300\uD55C\uC720\uD654"
 - !!python/tuple
   - '005610'
   - "SPC\uC0BC\uB9BD"
@@ -458,35 +455,38 @@
   - 093370
   - "\uD6C4\uC131"
 - !!python/tuple
+  - '006650'
+  - "\uB300\uD55C\uC720\uD654"
+- !!python/tuple
   - '192400'
   - "\uCFE0\uCFE0\uD640\uB529\uC2A4"
 - !!python/tuple
   - 018250
   - "\uC560\uACBD\uC0B0\uC5C5"
 - !!python/tuple
-  - 079550
-  - "LIG\uB125\uC2A4\uC6D0"
-- !!python/tuple
   - '105630'
   - "\uD55C\uC138\uC2E4\uC5C5"
-- !!python/tuple
-  - 000990
-  - "DB\uD558\uC774\uD14D"
 - !!python/tuple
   - 001680
   - "\uB300\uC0C1"
 - !!python/tuple
+  - 079550
+  - "LIG\uB125\uC2A4\uC6D0"
+- !!python/tuple
   - '170900'
   - "\uB3D9\uC544\uC5D0\uC2A4\uD2F0"
+- !!python/tuple
+  - 000990
+  - "DB\uD558\uC774\uD14D"
+- !!python/tuple
+  - '020000'
+  - "\uD55C\uC12C"
 - !!python/tuple
   - '012630'
   - HDC
 - !!python/tuple
   - 071840
   - "\uB86F\uB370\uD558\uC774\uB9C8\uD2B8"
-- !!python/tuple
-  - '020000'
-  - "\uD55C\uC12C"
 - !!python/tuple
   - '192820'
   - "\uCF54\uC2A4\uB9E5\uC2A4"
@@ -506,23 +506,23 @@
   - '001120'
   - "LG\uC0C1\uC0AC"
 - !!python/tuple
-  - '001230'
-  - "\uB3D9\uAD6D\uC81C\uAC15"
-- !!python/tuple
   - '027410'
   - BGF
 - !!python/tuple
-  - '001430'
-  - "\uC138\uC544\uBCA0\uC2A4\uD2F8"
+  - '001230'
+  - "\uB3D9\uAD6D\uC81C\uAC15"
 - !!python/tuple
-  - '001060'
-  - "JW\uC911\uC678\uC81C\uC57D"
+  - 005180
+  - "\uBE59\uADF8\uB808"
 - !!python/tuple
   - 093050
   - LF
 - !!python/tuple
-  - 005180
-  - "\uBE59\uADF8\uB808"
+  - '001060'
+  - "JW\uC911\uC678\uC81C\uC57D"
+- !!python/tuple
+  - '001430'
+  - "\uC138\uC544\uBCA0\uC2A4\uD2F8"
 - !!python/tuple
   - 006390
   - "\uD55C\uC77C\uD604\uB300\uC2DC\uBA58\uD2B8"
@@ -530,11 +530,11 @@
   - 004490
   - "\uC138\uBC29\uC804\uC9C0"
 - !!python/tuple
-  - '285130'
-  - "SK\uCF00\uBBF8\uCE7C"
-- !!python/tuple
   - 003850
   - "\uBCF4\uB839\uC81C\uC57D"
+- !!python/tuple
+  - '285130'
+  - "SK\uCF00\uBBF8\uCE7C"
 - !!python/tuple
   - '000070'
   - "\uC0BC\uC591\uD640\uB529\uC2A4"

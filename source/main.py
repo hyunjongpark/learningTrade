@@ -81,7 +81,8 @@ def close_eaual_high():
         if len(df) < 4:
             continue
 
-        # print('%s/%s, %s %s~%s' % (company_index, len(company_data), company_code, df.iloc[3].name, df.iloc[len(df) - 1].name))
+        if company_index == 2:
+            print('START %s ~ %s' % (df.iloc[3].name, df.iloc[len(df) - 1].name))
 
         for index in range(3, len(df) - 1):
             pre2_data = df.iloc[index - 2]
@@ -122,10 +123,10 @@ def close_eaual_high():
 
             if close >= next_high or next_high_percentage < 0.8:
                 # print("failed")
-                print(pre2_data)
-                print(pre1_data)
-                print(today_data)
-                print(next_data)
+                # print(pre2_data)
+                # print(pre1_data)
+                # print(today_data)
+                # print(next_data)
                 # print(next_data)
                 fail_count = fail_count + 1
                 print('+++++++++++++++++')
@@ -138,7 +139,7 @@ def close_eaual_high():
                 success_count = success_count + 1
                 print('code: %s, [%s][%s] [%s][%s] profit[%s]' % (company_code, today_data.name, close, next_data.name, next_high, next_high_percentage))
 
-    print('date: %s ~ %s, success: %s, fail: %s' % (df.iloc[3].name, df.iloc[len(df) - 1].name, success_count, fail_count))
+    print('date: %s ~ %s, success: %s, fail: %s' % (startDate, endDate, success_count, fail_count))
 
         # if index > 50:
         #     break
@@ -284,8 +285,10 @@ def get_percent_price(base, p):
 if __name__ == "__main__":
     init()
 
-    # stock_updater = stock_updater()
+    stock_updater = stock_updater()
     # stock_updater.update_kospi_200()
+    stock_updater.update_kospi(end_index=20)
+
 
     close_eaual_high()
 
