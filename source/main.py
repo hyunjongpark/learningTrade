@@ -92,6 +92,7 @@ def close_eaual_high():
 
             close = today_data['Close']
             next_high = next_data['High']
+            next_low = next_data['Low']
 
             if pre2_data['Close'] > pre1_data['Close']:
                 continue
@@ -121,6 +122,9 @@ def close_eaual_high():
 
             next_high_percentage = (next_high - close) / (close / 100)
 
+            next_low_percentage = (next_low - close) / (close / 100)
+
+
             if close >= next_high or next_high_percentage < 0.8:
                 # print("failed")
                 # print(pre2_data)
@@ -137,7 +141,7 @@ def close_eaual_high():
                 continue
             else:
                 success_count = success_count + 1
-                print('code: %s, [%s][%s] [%s][%s] profit[%s]' % (company_code, today_data.name, close, next_data.name, next_high, next_high_percentage))
+                print('code: %s, [%s][%s] [%s][%s] profit[%s] lowProfit[%s]' % (company_code, today_data.name, close, next_data.name, next_high, next_high_percentage, next_low_percentage))
 
     print('date: %s ~ %s, success: %s, fail: %s' % (startDate, endDate, success_count, fail_count))
 
@@ -242,14 +246,16 @@ def macd():
     start = end - relativedelta(months=12)
 
     macd_tester = macd_tester()
+    print('MACD make_best_macd_value_all_kospi')
     # macd_tester.make_best_macd_value_all_kospi(start, end, last_day_sell=False)
 
-    # df = get_df_from_file('028260', (end - relativedelta(months=24)), end)
-    # macd_tester.train_macd_value(code='028260', df=df, last_day_sell=True)
+    df = get_df_from_file('086790', (end - relativedelta(months=24)), end)
+    print('MACD train_macd_value')
+    macd_tester.train_macd_value(code='086790', df=df, last_day_sell=True)
 
-    macd_tester.show_profit_total_all_kospi(start, end, view_chart=False, last_day_sell=True)
-
-    # macd_tester.show(code='028260', start=start, end=end, last_day_sell=True)
+    print('MACD show_profit_total_all_kospi')
+    # macd_tester.show_profit_total_all_kospi(start, end, view_chart=False, last_day_sell=True)
+    macd_tester.show(code='086790', start=start, end=end, last_day_sell=True)
 
 
 @app.route("/tomorrow")
@@ -285,13 +291,18 @@ def get_percent_price(base, p):
 if __name__ == "__main__":
     init()
 
-    stock_updater = stock_updater()
+    # stock_updater = stock_updater()
     # stock_updater.update_kospi_200()
-    stock_updater.update_kospi(end_index=20)
+    # stock_updater.update_kospi(end_index=10)
 
 
-    close_eaual_high()
-
+    # close_eaual_high()
     # machine()
+    macd()
+    # ta()
+    # tomorrow()
+
+
+
     # app.debug = True
     # app.run(host='0.0.0.0', port=8088)

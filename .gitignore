@@ -1,5 +1,6 @@
-# Created by .ignore support plugin (hsz.mobi)
-source/__pycache__/
+#source/__pycache__/
+*.pyc
 venv/
-data/
+/util/__pycache__/
 .idea/
+*.data
