@@ -1,7 +1,6 @@
-# Created by .ignore support plugin (hsz.mobi)
-.gitignore 제거할 예정
-source/ch2/data_load.py 제거할 예정
-source/ch2/samsung.data 제거할 예정
-source/ch3/hanmi.data 제거할 예정
-source/ch5/__pycache__/
-source/test/ 제거할 예정
+#source/__pycache__/
+*.pyc
+venv/
+/util/__pycache__/
+.idea/
+*.data

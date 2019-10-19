@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC, SVC
-from sklearn import cross_validation
+from sklearn.model_selection import cross_validate
 # https://github.com/mrjbq7/ta-lib
 
 # http://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib
@@ -61,7 +61,7 @@ class macd_tester():
         data = load_yaml(services.get('configurator').get('stock_list'))
         totla_profit = 0
         index = 0
-        for code, value in data.iterItems():
+        for code, value in data:
             df = get_df_from_file(code, start, end)
 
             success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(code)
@@ -78,7 +78,7 @@ class macd_tester():
             totla_profit += profit
             index += 1
 
-            print('%s/%s [%s] profit: %s, total profit:%s' % (index, len(data.iterItems()), code, profit, (totla_profit / index)))
+            print('%s/%s [%s] profit: %s, total profit:%s' % (index, len(data), code, profit, (totla_profit / index)))
 
             if view_chart == True:
                 df = self.add_macd(df, fastperiod, slowperiod, signalperiod)
@@ -94,7 +94,7 @@ class macd_tester():
         save_stocks = {'date': str(end), 'SELL_list': [], 'BUY_list': []}
 
 
-        for code, value in data.iterItems():
+        for code, value in data:
             df = get_df_from_file(code, start, end)
 
             success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(code)
@@ -146,8 +146,8 @@ class macd_tester():
     def make_best_macd_value_all_kospi(self, start, end, last_day_sell=True):
         data = load_yaml(services.get('configurator').get('stock_list'))
         index = 0
-        for code, value in data.iterItems():
-            print('%s/%s , code: %s' % (index, len(data.iterItems()), code))
+        for code, value in data:
+            print('%s/%s , code: %s' % (index, len(data), code))
             success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(code)
             if success == True:
                 print('fastperiod: %s, slowperiod: %s, signalperiod: %s' %(fastperiod, slowperiod, signalperiod))
@@ -172,7 +172,7 @@ class macd_tester():
                 for signa in range(10, 30):
                     index += 1
                     profit, sell_list, buy_list = self.get_profit(df, fast, slow, signa, last_day_sell)
-                    # print('%s: %s,%s,%s, profit:%s' % (index, fast, slow, signa, profit))
+                    print('%s: %s,%s,%s, profit:%s' % (index, fast, slow, signa, profit))
                     test_result['profit'].append(profit)
                     test_result['macd'].append('%s, %s, %s' %(fast, slow, signa))
                     # if len(test_result['profit']) > 10:

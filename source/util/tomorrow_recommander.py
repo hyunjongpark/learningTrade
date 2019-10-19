@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 import os, sys
+
 from util.stationarity_tester import stationarity_tester
 from util.stock_updater import stock_updater
 
