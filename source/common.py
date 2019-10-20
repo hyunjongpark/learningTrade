@@ -35,7 +35,7 @@ def load_yaml(filename):
     filePath = os.path.join(data_path, filename)
 
     with open(filePath, 'r') as stream:
-        data = yaml.load(stream)
+        data = yaml.load(stream, Loader=yaml.FullLoader)
     return data
 
 

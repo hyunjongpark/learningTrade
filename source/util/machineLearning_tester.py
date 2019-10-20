@@ -52,7 +52,10 @@ class machine_learning_tester():
         # for code in ['047040','000120']:
 
             print('%s/%s code:%s ==================================' % (row_index, len(code_list), code))
-
+            if code == '010140' or code == '003550' or code == '042660' or code == '138930' or code == '004800' or code == '011790' or code == '161890' or code == '001430':
+                continue;
+            if row_index > 50:
+                continue;
 
             if apply_st == True:
 
@@ -127,7 +130,7 @@ class machine_learning_tester():
 
         for code in save_stocks['BUY_list']:
 
-            tomorrow = get_trade_next_day(save_stocks['date'])
+            # tomorrow = get_trade_next_day(save_stocks['date'])
             df = get_df_from_file(code, start, end)
             # print(df)
 
@@ -140,17 +143,17 @@ class machine_learning_tester():
             pass_is_mean_state = True
 
 
-            if today_data['foreigner_count'] <= pre_1_data['foreigner_count']:
-                pass_foreigner_count = False
-                # continue
+            # if today_data['foreigner_count'] <= pre_1_data['foreigner_count']:
+            #     pass_foreigner_count = False
+            #     # continue
             if today_data['Volume'] < pre_1_data['Volume']:
                 pass_Volume = False
                 # continue
             if is_mean_state(code) != 1:
                 pass_is_mean_state = False
                 # continue
-            if today_data['institution_trading'] <= 0:
-                pass_institution_trading = False
+            # if today_data['institution_trading'] <= 0:
+            #     pass_institution_trading = False
                 # continue  nhy6tygh                                                              v
 
             print('StockList.add("%s"); //pass_institution_trading:%s, foreigner_count:%s, Volume:%s, is_mean_state:%s' % (
@@ -615,16 +618,16 @@ class machine_learning_tester():
 
 
     def do_logistic_regression(self, x_train, y_train):
-        classifier = LogisticRegression()
+        classifier = LogisticRegression(solver='lbfgs')
         classifier.fit(x_train, y_train)
         return classifier
 
     def do_random_forest(self, x_train, y_train):
-        classifier = RandomForestClassifier()
+        classifier = RandomForestClassifier(n_estimators=100)
         classifier.fit(x_train, y_train)
         return classifier
 
     def do_svm(self, x_train, y_train):
-        classifier = SVC()
+        classifier = SVC(gamma='scale')
         classifier.fit(x_train, y_train)
         return classifier
