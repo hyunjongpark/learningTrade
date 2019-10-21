@@ -188,7 +188,7 @@ def machine():
 
         index += 1
         df = get_df_from_file(company_code, end - relativedelta(months=5), end)
-        if len(df) == 0:
+        if df is None or len(df) == 0:
             continue
         pre_1_data = df.iloc[len(df) - 2]
         today_data = df.iloc[len(df) - 1]
@@ -218,16 +218,11 @@ def machine():
     print(code_list)
 
     machine_learning_recommander = machine_learning_tester()
-
-    code_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start,
-                                                                   end=end, time_lags=1, dataset_ratio=0.8,
-                                                                   apply_st=True, two_condition=True)
+    code_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
     print(code_list)
 
-    save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False,
-                                                                         start=start, end=end, two_condition=False,
-                                                                         save_file=True)
-    code_list = save_stocks['BUY_list']
+    # save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
+    # code_list = save_stocks['BUY_list']
     print(code_list)
 
 
@@ -235,7 +230,6 @@ def machine():
 def ta():
     from util.ta_tester import ta_tester
     ta_tester = ta_tester()
-
     ta_tester.test('008770')
 
 
@@ -281,8 +275,7 @@ def init():
     #                                        'MACD_foreigner_count_signal', 'MACD_foreigner_count_hist',
     #                                        'institution_trading'], )
 
-    services.get('configurator').register('input_column',
-                                          ['Close', 'Volume'], )
+    services.get('configurator').register('input_column', ['Close', 'Volume'])
 
     services.get('configurator').register('output_column', 'Close_Direction')
     services.get('configurator').register('stock_list', 'kospi')
@@ -301,9 +294,9 @@ if __name__ == "__main__":
 
 
     # close_eaual_high()
-    machine()
+    # machine()
     # macd()
-    # ta()
+    ta()
 
     # tomorrow()
 

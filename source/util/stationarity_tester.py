@@ -183,7 +183,6 @@ class stationarity_tester():
 
 
     def get_stationarity_value(self, code, start, end, view_chart=True, window=10):
-        print('stationarity_per_day: %s, %s~%s' %(code, start, end))
         current_df = get_df_from_file(code, start, end)
         if current_df is None:
             return 0, None, None, None, None
@@ -199,7 +198,7 @@ class stationarity_tester():
                 df_rank['rank_adf'].values,
                 df_rank['rank_hurst'].values,
                 df_rank['rank_halflife'].values))
-        print('==== Result %s' % (title))
+        print('====  stationarity_per_day: %s, %s~%s Result %s' % (code, start, end, title))
 
         if view_chart is True:
             stationarity = Stationarity(df=current_df, code=code, start=start, end=end)
