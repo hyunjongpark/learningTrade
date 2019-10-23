@@ -3,11 +3,15 @@ from __future__ import division
 
 import os, sys
 import matplotlib.pyplot as plt
+import numpy as np
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC, SVC
 from sklearn.model_selection import cross_validate
 #https://github.com/mrjbq7/ta-lib
+#https://mrjbq7.github.io/ta-lib/doc_index.html
+#https://booja.blogspot.com/2017/12/python-ta-lib.html
 
 #http://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib
 #https://pip.pypa.io/en/latest/user_guide/#installing-from-wheels
@@ -45,6 +49,7 @@ class ta_tester():
         df = self.add_mom(df)
         # df = self.add_stoch(df)
         df = self.add_macd(df)
+        df = self.add_pattern(df)
 
 
         # print(df)
@@ -93,6 +98,156 @@ class ta_tester():
 
         plt.show()
 
+    def get_pattern(self, src, new, pattern_index):
+        for i in range(len(new)):
+            if new[i] > 0:
+                if 0 == src[i]:
+                    src[i] = pattern_index
+                else:
+                    src[i] = '%s : %s ' %(src[i], pattern_index)
+                    # print('[%s] src[%s] add[%s]' % (i, src[i], pattern_index))
+            elif new[i] < 0:
+                if 0 == src[i]:
+                    src[i] = -pattern_index
+                else:
+                    src[i] = '%s : %s ' %(src[i], -pattern_index)
+                    # print('[%s] src[%s] add[%s]' % (i, src[i], -pattern_index))
+        return src
+
+    def add_pattern(self, df):
+        result = []
+        output = talib.CDL2CROWS(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        for i in range(len(output)):
+            result.append(0)
+
+        result = self.get_pattern(result, output, 1)
+        output = talib.CDL3BLACKCROWS(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 2)
+        output = talib.CDL3INSIDE(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 3)
+        output = talib.CDL3LINESTRIKE(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 4)
+        output = talib.CDL3OUTSIDE(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 5)
+        output = talib.CDL3STARSINSOUTH(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 6)
+        output = talib.CDL3WHITESOLDIERS(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 7)
+        output = talib.CDLABANDONEDBABY(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 8)
+        output = talib.CDLADVANCEBLOCK(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 9)
+        output = talib.CDLBELTHOLD(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 10)
+        output = talib.CDLBREAKAWAY(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 11)
+        output = talib.CDLCLOSINGMARUBOZU(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 12)
+        output = talib.CDLCONCEALBABYSWALL(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 13)
+        output = talib.CDLCOUNTERATTACK(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 14)
+        output = talib.CDLDARKCLOUDCOVER(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 15)
+        output = talib.CDLDOJI(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 16)
+        output = talib.CDLDOJISTAR(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 17)
+        output = talib.CDLDRAGONFLYDOJI(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 18)
+        output = talib.CDLENGULFING(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 19)
+        output = talib.CDLEVENINGDOJISTAR(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 20)
+        output = talib.CDLEVENINGSTAR(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 21)
+        output = talib.CDLGAPSIDESIDEWHITE(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 22)
+        output = talib.CDLGRAVESTONEDOJI(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 23)
+        output = talib.CDLHAMMER(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 24)
+        output = talib.CDLHANGINGMAN(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 25)
+        output = talib.CDLHARAMI(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 26)
+        output = talib.CDLHARAMICROSS(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 27)
+        output = talib.CDLHIGHWAVE(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 28)
+        output = talib.CDLHIKKAKE(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 29)
+        output = talib.CDLHIKKAKEMOD(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 30)
+        output = talib.CDLHOMINGPIGEON(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 31)
+        output = talib.CDLIDENTICAL3CROWS(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 32)
+        output = talib.CDLINNECK(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 33)
+        output = talib.CDLINVERTEDHAMMER(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 34)
+        output = talib.CDLKICKING(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 35)
+        output = talib.CDLKICKINGBYLENGTH(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 36)
+        output = talib.CDLLADDERBOTTOM(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 37)
+        output = talib.CDLLONGLEGGEDDOJI(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 38)
+        output = talib.CDLLONGLINE(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 39)
+        output = talib.CDLMARUBOZU(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 40)
+        output = talib.CDLMATCHINGLOW(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 41)
+        output = talib.CDLMATHOLD(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 42)
+        output = talib.CDLMATCHINGLOW(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 43)
+        output = talib.CDLMORNINGDOJISTAR(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 44)
+        output = talib.CDLMORNINGSTAR(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 45)
+        output = talib.CDLONNECK(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 46)
+        output = talib.CDLPIERCING(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 47)
+        output = talib.CDLRICKSHAWMAN(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 48)
+        output = talib.CDLRISEFALL3METHODS(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 49)
+        output = talib.CDLSEPARATINGLINES(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 50)
+        output = talib.CDLSHOOTINGSTAR(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 51)
+        output = talib.CDLSHORTLINE(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 52)
+        output = talib.CDLSPINNINGTOP(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 53)
+        output = talib.CDLSTALLEDPATTERN(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 54)
+        output = talib.CDLSTICKSANDWICH(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 55)
+        output = talib.CDLTAKURI(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 56)
+        output = talib.CDLTASUKIGAP(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 57)
+        output = talib.CDLTHRUSTING(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 58)
+        output = talib.CDLTRISTAR(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 59)
+        output = talib.CDLUNIQUE3RIVER(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 60)
+        output = talib.CDLUPSIDEGAP2CROWS(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 61)
+        output = talib.CDLXSIDEGAP3METHODS(df['Open'].values, df['High'].values, df['Low'].values, df['Close'].values)
+        result = self.get_pattern(result, output, 62)
+        df['PATTERN'] = result
+        for i in range(len(result)):
+            print('[%s]: [%s][%s]  %s' % (i, df.iloc[i].name, df['Open'].values[i], result[i]))
+
+        return df
 
     def add_sma(self, df):
         output = talib.SMA(df['Close'].values, timeperiod=25)

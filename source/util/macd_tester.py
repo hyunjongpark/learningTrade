@@ -52,8 +52,8 @@ class macd_tester():
 
         success, profit, fastperiod, slowperiod, signalperiod = get_best_macd_value(code)
 
-        profit, sell_list, buy_list = self.get_profit(df, fastperiod, slowperiod, signalperiod, last_day_sell)
-        print('profit: %s' % (profit))
+        profit, sell_list, buy_list = self.get_profit(df, fastperiod, slowperiod, signalperiod, last_day_sell, debug=True)
+        print('[%s] %s ~ %s profit: %s' % (code, start, end, profit))
         df = self.add_macd(df, fastperiod, slowperiod, signalperiod)
         self.show_macd_trading(df, sell_df=pd.DataFrame(sell_list), buy_df=pd.DataFrame(buy_list))
 
@@ -229,7 +229,7 @@ class macd_tester():
         print(rank_sorted)
 
 
-    def get_profit(self, df, fastperiod=12, slowperiod=26, signalperiod=9, last_day_sell=True):
+    def get_profit(self, df, fastperiod=12, slowperiod=26, signalperiod=9, last_day_sell=True, debug=False):
         macd, signal, hist = talib.MACD(df['Close'].values,
                                         fastperiod=fastperiod,
                                         slowperiod=slowperiod,
@@ -262,7 +262,8 @@ class macd_tester():
                 preBuyPrice = (closePrice + closePrice * BUY_CHARGE)
                 buy_list.append(df.iloc[index])
                 self.startTradePrice = closePrice
-                # print('BUY [%s] price:%s' % (date, closePrice))
+                if debug:
+                    print('BUY [%s] price:%s' % (date, closePrice))
             # elif signal[index - 1] <= macd[index - 1] and signal[index] >= macd[index] and (status == 3 or status == 1):
             elif macd[index - 1] >= 0 and macd[index] <= 0 and (status == 3 or status == 1):
                 status = 2
@@ -271,7 +272,8 @@ class macd_tester():
                 mscdProfit += currentProfit
                 preBuyPrice = 0
                 sell_list.append(df.iloc[index])
-                # print('SELL [%s] total:%s profit:%s price:%s'% (date, self.profitToPercentage(mscdProfit), self.profitToPercentage(currentProfit), closePrice))
+                if debug:
+                    print('SELL [%s] total:%s profit:%s price:%s'% (date, self.profitToPercentage(mscdProfit), self.profitToPercentage(currentProfit), closePrice))
             elif status == 1:
                 status = 3
             elif status == 2:
@@ -286,7 +288,7 @@ class macd_tester():
 
     def show_macd_trading(self, df, sell_df=None, buy_df=None):
 
-        fig, axs = plt.subplots(3)
+        fig, axs = plt.subplots(2)
         ax = axs[0]
         ax.plot(df["Close"])
         if len(sell_df.values) > 0:
@@ -299,10 +301,10 @@ class macd_tester():
         ax.plot(df["MACD_macd"])
         ax.plot(df["MACD_signal"])
         ax.grid(True)
-
-        ax = axs[2]
-        ax.plot(df["Volume"])
-        ax.grid(True)
+        #
+        # ax = axs[2]
+        # ax.plot(df["Volume"])
+        # ax.grid(True)
 
         plt.show()
 

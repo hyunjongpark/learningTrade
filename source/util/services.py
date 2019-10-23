@@ -10,7 +10,7 @@ class BaseService():
 	def clear(self):
 		self.items.clear()
 
-	def register(self,name,value):
+	def register(self, name, value):
 		self.items[name] = value
 
 	def get(self,name):
@@ -21,7 +21,7 @@ class Configurator(BaseService):
 	def __init__(self):
 		self.items = {}
 
-	def update(self,name,value):
+	def update(self, name, value):
 		self.items[name] = value
 
 

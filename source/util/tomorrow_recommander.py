@@ -28,8 +28,8 @@ class tomorrow_recommander():
 
         code_list = []
         if is_update_stock is True:
-            self.stock_updater.download_kospi_data()
-            code_list = self.stock_updater.update_kospi_200()
+            # self.stock_updater.download_kospi_data()
+            code_list = self.stock_updater.update_kospi(end_index=2)
         else:
             data = load_yaml(services.get('configurator').get('stock_list'))
             for company_code, value in data.iterItems():

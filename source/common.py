@@ -35,7 +35,7 @@ def load_yaml(filename):
     filePath = os.path.join(data_path, filename)
 
     with open(filePath, 'r') as stream:
-        data = yaml.load(stream)
+        data = yaml.load(stream, Loader=yaml.FullLoader)
     return data
 
 
@@ -171,7 +171,7 @@ def get_trade_next_day(base_date):
     return df.iloc[0].name
 
 
-def getDateByPerent(start_date, end_date, percent):
+def getDateByPercent(start_date, end_date, percent):
     days = (end_date - start_date).days
     target_days = np.trunc(days * percent)
     target_date = start_date + relativedelta(days=target_days)

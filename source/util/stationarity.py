@@ -32,7 +32,7 @@ class Stationarity():
     def get_result(self):
         return self.adf_result[0], self.ciritical_values['1%'], self.ciritical_values['5%'], self.ciritical_values['10%'], self.hurst, self.half_life
 
-    def get_hurst_exponent(self,df, lags_count=100):
+    def get_hurst_exponent(self,df, lags_count=10):
         lags = range(2, lags_count)
         ts = np.log(df)
         tau = [np.sqrt(np.std(np.subtract(ts[lag:], ts[:-lag]))) for lag in lags]

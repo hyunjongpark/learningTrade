@@ -18,6 +18,8 @@ from util.back_tester import back_tester
 
 from util.machineLearning_tester import machine_learning_tester
 from util.stock_updater import stock_updater
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
 
 app = Flask(__name__)
 
@@ -186,16 +188,16 @@ def machine():
 
         index += 1
         df = get_df_from_file(company_code, end - relativedelta(months=5), end)
-        if len(df) == 0:
+        if df is None or len(df) == 0:
             continue
         pre_1_data = df.iloc[len(df) - 2]
         today_data = df.iloc[len(df) - 1]
-        if (today_data['Close'] * today_data['Volume']) / 1000000 <= 2000:  # 20억
-            continue
+        # if (today_data['Close'] * today_data['Volume']) / 1000000 <= 2000:  # 20억
+        #     continue
         # if today_data['institution_trading'] <= 0:
         #     continue
-        if today_data['foreigner_count'] == 0:
-            continue
+        # if today_data['foreigner_count'] == 0:
+        #     continue
         # if today_data['foreigner_count'] < pre_1_data['foreigner_count']:
         #     continue
         # if today_data['Volume'] < pre_1_data['Volume']:
@@ -207,10 +209,7 @@ def machine():
         # print(Series.rolling(df['Close'], center=False, window=10).mean()[-1:])
         # print(Series.rolling(df['Close'], center=False, window=20).mean()[-1:])
 
-        if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'],
-                                                                                                   center=False,
-                                                                                                   window=10).mean()[
-                                                                                    -1:].values:
+        if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'],center=False,window=10).mean()[-1:].values:
             continue
 
         code_list.append(company_code)
@@ -219,16 +218,11 @@ def machine():
     print(code_list)
 
     machine_learning_recommander = machine_learning_tester()
-
-    code_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start,
-                                                                   end=end, time_lags=1, dataset_ratio=0.8,
-                                                                   apply_st=True, two_condition=True)
+    code_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
     print(code_list)
 
-    save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False,
-                                                                         start=start, end=end, two_condition=False,
-                                                                         save_file=True)
-    code_list = save_stocks['BUY_list']
+    # save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
+    # code_list = save_stocks['BUY_list']
     print(code_list)
 
 
@@ -236,26 +230,27 @@ def machine():
 def ta():
     from util.ta_tester import ta_tester
     ta_tester = ta_tester()
-
     ta_tester.test('008770')
 
 
 @app.route("/macd")
 def macd():
     from util.macd_tester import macd_tester
-    start = end - relativedelta(months=12)
+    code='005930'
+    start = end - relativedelta(months=24)
+    end_minus = end - relativedelta(months=12)
 
     macd_tester = macd_tester()
     print('MACD make_best_macd_value_all_kospi')
-    # macd_tester.make_best_macd_value_all_kospi(start, end, last_day_sell=False)
+    # macd_tester.make_best_macd_value_all_kospi(start=start, end=end_minus, last_day_sell=False)
 
-    df = get_df_from_file('086790', (end - relativedelta(months=24)), end)
+    df = get_df_from_file(code=code, start=start, end=end_minus)
     print('MACD train_macd_value')
-    macd_tester.train_macd_value(code='086790', df=df, last_day_sell=True)
+    macd_tester.train_macd_value(code=code, df=df, last_day_sell=True)
 
     print('MACD show_profit_total_all_kospi')
     # macd_tester.show_profit_total_all_kospi(start, end, view_chart=False, last_day_sell=True)
-    macd_tester.show(code='086790', start=start, end=end, last_day_sell=True)
+    macd_tester.show(code=code, start=end_minus, end=end, last_day_sell=True)
 
 
 @app.route("/tomorrow")
@@ -273,15 +268,17 @@ def init():
         sys.path.insert(0, parentPath)
     services.register('configurator', Configurator())
 
-    services.get('configurator').register('input_column',
-                                          ['Close', 'Volume',
-                                           "MACD_macd", "MACD_signal", "MACD_hist",
-                                           'foreigner_count', 'MACD_foreigner_count_macd',
-                                           'MACD_foreigner_count_signal', 'MACD_foreigner_count_hist',
-                                           'institution_trading'], )
+    # services.get('configurator').register('input_column',
+    #                                       ['Close', 'Volume',
+    #                                        "MACD_macd", "MACD_signal", "MACD_hist",
+    #                                        'foreigner_count', 'MACD_foreigner_count_macd',
+    #                                        'MACD_foreigner_count_signal', 'MACD_foreigner_count_hist',
+    #                                        'institution_trading'], )
+
+    services.get('configurator').register('input_column', ['Close', 'Volume'])
 
     services.get('configurator').register('output_column', 'Close_Direction')
-    services.get('configurator').register('stock_list', 'kospi200')
+    services.get('configurator').register('stock_list', 'kospi')
 
 
 def get_percent_price(base, p):
@@ -293,13 +290,14 @@ if __name__ == "__main__":
 
     # stock_updater = stock_updater()
     # stock_updater.update_kospi_200()
-    # stock_updater.update_kospi(end_index=10)
+    # stock_updater.update_kospi(end_index=2)
 
 
     # close_eaual_high()
     # machine()
-    macd()
-    # ta()
+    # macd()
+    ta()
+
     # tomorrow()
 
 
