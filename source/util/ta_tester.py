@@ -245,7 +245,7 @@ class ta_tester():
         result = self.get_pattern(result, output, 62)
         df['PATTERN'] = result
         for i in range(len(result)):
-            print('[%s]: [%s][%s]  %s' % (i, df.iloc[i].name, df['Open'].values[i], result[i]))
+            print('[%s]: [%s][%s][%s][%s]  %s' % (i, df.iloc[i].name, df['High'].values[i],  df['Close'].values[i],  df['Low'].values[i], result[i]))
 
         return df
 
