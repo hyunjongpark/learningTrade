@@ -16,6 +16,7 @@ from common import *
 from util.services import *
 from util.ta_tester import ta_tester
 from util.stationarity_tester import stationarity_tester
+from util.ta_tester import ta_tester
 
 np.seterr(divide='ignore', invalid='ignore')
 
@@ -204,29 +205,36 @@ class machine_learning_tester():
 
     def get_df_for_train(self, code, start, end):
         df = get_df_from_file(code, start, end)
-        for input in services.get('configurator').get('input_column'):
-            if input == 'SMA':
-                df = self.ta_tester.add_sma(df)
-            if input == 'BBANDS_middle':
-                df = self.ta_tester.add_bbands(df)
-
-            if input == 'MOM':
-                df = self.ta_tester.add_mom(df)
-
-            if input == 'STOCH_slowk':
-                df = self.ta_tester.add_stoch(df)
-
-            if input == 'MACD_macd':
-                self.ta_tester.set_code(code)
-                df = self.ta_tester.add_macd(df)
-
-            if input == 'MACD_foreigner_count_macd':
-                df = self.ta_tester.add_macd_foreigner_count(df)
-
-            if input == 'kospi':
-                kospi_df = get_df_from_file('kospi.data', start, end)
-                df['kospi'] = kospi_df['Close']
-                df['kospi_volume'] = kospi_df['Volume']
+        self.ta_tester.add_pattern(df)
+        # for input in services.get('configurator').get('input_column'):
+        #
+        #     if input == 'SMA':
+        #         df = self.ta_tester.add_sma(df)
+        #     if input == 'BBANDS_middle':
+        #         df = self.ta_tester.add_bbands(df)
+        #
+        #     if input == 'MOM':
+        #         df = self.ta_tester.add_mom(df)
+        #
+        #     if input == 'STOCH_slowk':
+        #         df = self.ta_tester.add_stoch(df)
+        #
+        #     if input == 'MACD_macd':
+        #         df = self.ta_tester.add_macd(df)
+        #
+        #     # if input == 'TA_PATTERN':
+        #     df = self.ta_tester.add_pattern(df)
+        #
+        #
+        #
+        #
+        #     if input == 'MACD_foreigner_count_macd':
+        #         df = self.ta_tester.add_macd_foreigner_count(df)
+        #
+        #     if input == 'kospi':
+        #         kospi_df = get_df_from_file('kospi.data', start, end)
+        #         df['kospi'] = kospi_df['Close']
+        #         df['kospi_volume'] = kospi_df['Volume']
         return df
 
     def get_tomorrow_trade(self, code='009150', start='20160101', end='20170101', view_chart=True, time_lags=1, dataset_ratio=0.8, two_condition=False):
@@ -294,6 +302,7 @@ class machine_learning_tester():
         try:
             df = self.get_df_for_train(code, start, end)
 
+
             split_date = getDateByPercent(df.index[0], df.index[df.shape[0] - 1], dataset_ratio)
 
             X_train, Y_train, X_test, Y_test = self.get_train_df(df, time_lags, split_date, two_condition)
@@ -348,9 +357,7 @@ class machine_learning_tester():
     def get_train_df(self, df, time_lags, split_date, two_condition=False):
         df_dataset = self.make_dataset(df, time_lags, two_condition)
         df_dataset = df_dataset.dropna(how='any')
-        X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset,
-                                                              services.get('configurator').get('input_column'),
-                                                              "Close_Lag%s_Direction" % (time_lags), split_date)
+        X_train, X_test, Y_train, Y_test = self.split_dataset(df_dataset, services.get('configurator').get('input_column'), "Close_Lag%s_Direction" % (time_lags), split_date)
         return X_train, Y_train, X_test, Y_test
 
     def get_test_df(self, df, time_lags, dataset_ratio=0.8, two_condition=False):

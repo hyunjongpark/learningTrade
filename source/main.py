@@ -230,7 +230,7 @@ def machine():
 def ta():
     from util.ta_tester import ta_tester
     ta_tester = ta_tester()
-    ta_tester.test('008770')
+    ta_tester.test('005930')
 
 
 @app.route("/macd")
@@ -261,7 +261,6 @@ def tomorrow():
     tomorrow_recommander.recommand_draw('2017-05-10')
     tomorrow_recommander.recommand_draw()
 
-
 def init():
     parentPath = os.path.abspath("..")
     if parentPath not in sys.path:
@@ -275,8 +274,8 @@ def init():
     #                                        'MACD_foreigner_count_signal', 'MACD_foreigner_count_hist',
     #                                        'institution_trading'], )
 
-    services.get('configurator').register('input_column', ['Close', 'Volume'])
 
+    services.get('configurator').register('input_column', ['Close', 'Volume'])
     services.get('configurator').register('output_column', 'Close_Direction')
     services.get('configurator').register('stock_list', 'kospi')
 
@@ -289,14 +288,13 @@ if __name__ == "__main__":
     init()
 
     # stock_updater = stock_updater()
-    # stock_updater.update_kospi_200()
     # stock_updater.update_kospi(end_index=2)
 
 
     # close_eaual_high()
-    # machine()
+    machine()
     # macd()
-    ta()
+    # ta()
 
     # tomorrow()
 
