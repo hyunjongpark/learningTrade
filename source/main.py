@@ -176,7 +176,7 @@ def close_eaual_high():
 @app.route("/machine")
 def machine():
     end = datetime.datetime.today()
-    start = end - relativedelta(months=6)
+    start = end - relativedelta(months=12)
 
     code_list = []
 
@@ -184,16 +184,19 @@ def machine():
     index = 0;
 
     for company_code, value in data:
-        print('%s/%s, %s' % (index, len(data), company_code))
-
         index += 1
         df = get_df_from_file(company_code, end - relativedelta(months=5), end)
-        if df is None or len(df) == 0:
+        if df is None or len(df) < 100:
             continue
+
+
+
         pre_1_data = df.iloc[len(df) - 2]
         today_data = df.iloc[len(df) - 1]
-        # if (today_data['Close'] * today_data['Volume']) / 1000000 <= 2000:  # 20억
-        #     continue
+
+        print('%s/%s, %s %s [%s]' % (index, len(data), company_code, len(df), (today_data['Close'] * today_data['Volume']) / 100000000))
+        if (today_data['Close'] * today_data['Volume']) / 100000000 <= 1:  # 1억
+            continue
         # if today_data['institution_trading'] <= 0:
         #     continue
         # if today_data['foreigner_count'] == 0:
@@ -202,14 +205,14 @@ def machine():
         #     continue
         # if today_data['Volume'] < pre_1_data['Volume']:
         #     continue
-        if today_data['Close'] > 100000:
-            continue
 
         # print(Series.rolling(df['Close'], center=False, window=5).mean()[-1:])
         # print(Series.rolling(df['Close'], center=False, window=10).mean()[-1:])
         # print(Series.rolling(df['Close'], center=False, window=20).mean()[-1:])
 
-        if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'],center=False,window=10).mean()[-1:].values:
+        if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'], center=False, window=10).mean()[-1:].values:
+            continue
+        if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'], center=False, window=20).mean()[-1:].values:
             continue
 
         code_list.append(company_code)
@@ -219,10 +222,10 @@ def machine():
 
     machine_learning_recommander = machine_learning_tester()
     code_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
-    print(code_list)
+    print('Machine [%s]' %(code_list))
 
-    # save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
-    # code_list = save_stocks['BUY_list']
+    save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
+    code_list = save_stocks['BUY_list']
     print(code_list)
 
 
@@ -236,7 +239,7 @@ def ta():
 @app.route("/macd")
 def macd():
     from util.macd_tester import macd_tester
-    code='005930'
+    code='000660'
     start = end - relativedelta(months=24)
     end_minus = end - relativedelta(months=12)
 
@@ -246,7 +249,7 @@ def macd():
 
     df = get_df_from_file(code=code, start=start, end=end_minus)
     print('MACD train_macd_value')
-    macd_tester.train_macd_value(code=code, df=df, last_day_sell=True)
+    # macd_tester.train_macd_value(code=code, df=df, last_day_sell=True)
 
     print('MACD show_profit_total_all_kospi')
     # macd_tester.show_profit_total_all_kospi(start, end, view_chart=False, last_day_sell=True)
@@ -261,7 +264,6 @@ def tomorrow():
     tomorrow_recommander.recommand_draw('2017-05-10')
     tomorrow_recommander.recommand_draw()
 
-
 def init():
     parentPath = os.path.abspath("..")
     if parentPath not in sys.path:
@@ -275,8 +277,8 @@ def init():
     #                                        'MACD_foreigner_count_signal', 'MACD_foreigner_count_hist',
     #                                        'institution_trading'], )
 
-    services.get('configurator').register('input_column', ['Close', 'Volume'])
 
+    services.get('configurator').register('input_column', ['Close', 'Volume'])
     services.get('configurator').register('output_column', 'Close_Direction')
     services.get('configurator').register('stock_list', 'kospi')
 
@@ -289,13 +291,13 @@ if __name__ == "__main__":
     init()
 
     # stock_updater = stock_updater()
-    # stock_updater.update_kospi(end_index=2)
+    # stock_updater.update_kospi(end_index=10)
 
 
     # close_eaual_high()
-    # machine()
+    machine()
     # macd()
-    ta()
+    # ta()
 
     # tomorrow()
 

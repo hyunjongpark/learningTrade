@@ -80,14 +80,17 @@ class stationarity_tester():
             if self.filter_condition(df_rank) == False:
                 continue
 
+            if self.filter_condition(df_rank) == False:
+                    continue
+
+
             stock_stationarity_list.append(code)
         return stock_stationarity_list
 
 
     def filter_condition(self, df_stationarity):
         df_rank = self.rankStationarity(df_stationarity)
-        if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank[
-            'rank_halflife'].values < 1:
+        if df_rank['rank_adf'].values < 1 and df_rank['rank_hurst'].values < 1 and df_rank['rank_halflife'].values < 1:
             return False
 
         else:

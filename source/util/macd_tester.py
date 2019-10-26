@@ -295,11 +295,13 @@ class macd_tester():
             ax.plot(sell_df.index, sell_df['Close'], 'ro')
         if len(buy_df.values) > 0:
             ax.plot(buy_df.index, buy_df['Close'], 'bo')
+        ax.set_title('MACD_macd red: sell, blue: buy')
         ax.grid(True)
 
         ax = axs[1]
         ax.plot(df["MACD_macd"])
         ax.plot(df["MACD_signal"])
+        ax.set_title('red: MACD_macd, blue: MACD_signal')
         ax.grid(True)
         #
         # ax = axs[2]

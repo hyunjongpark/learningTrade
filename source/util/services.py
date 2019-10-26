@@ -13,8 +13,9 @@ class BaseService():
 	def register(self, name, value):
 		self.items[name] = value
 
-	def get(self,name):
+	def get(self, name):
 		return self.items[name]
+
 
 
 class Configurator(BaseService):
@@ -26,7 +27,7 @@ class Configurator(BaseService):
 
 
 class Services(BaseService):
-	def register(self,name,ref):
+	def register(self, name, ref):
 		self.items[name] = ref
 
 
