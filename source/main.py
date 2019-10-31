@@ -10,6 +10,10 @@ from dateutil.relativedelta import relativedelta
 
 from source.common import load_yaml, get_df_from_file
 
+import pythoncom
+import win32com.client as winAPI
+
+
 parentPath = os.path.abspath("..")
 if parentPath not in sys.path:
     sys.path.insert(0, parentPath)
