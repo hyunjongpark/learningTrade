@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
-import os, sys
-
 import pythoncom
 import win32com.client as winAPI
 import datetime
-
+import win32com.client
+import pythoncom
+import os, sys
 from time import sleep
+
+from util.StockManager import *
 
 STAND_BY = 0
 RECEIVED = 1
 
-import win32com.client
-import pythoncom
+
 
 class XASessionEvents:
     login_state = STAND_BY
@@ -53,7 +54,10 @@ TODAY = datetime.datetime.now().strftime('%Y%m%d')
 
 class Trade():
 
-    def __init__(self):
+    def __init__(self, test=False):
+        if test == True:
+            return
+
         print('init')
         id = "phjwithy"
         password = "phj1629"
@@ -71,18 +75,21 @@ class Trade():
             pythoncom.PumpWaitingMessages()
         XASessionEvents.login_state = STAND_BY
 
-    def get_status_all(self):
+    def check_realTime_stoks(self):
         print('get_status_all')
         # ----------------------------------------------------------------------------
         # t1102
         # ----------------------------------------------------------------------------
+        sys.stdout = open('%s.txt' %(TODAY), 'a')
         self.instXAQueryT1102 = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEventHandlerT1102)
-        self.instXAQueryT1102.ResFileName = "C:\\eBEST\\xingAPI\\Res\\t1102.res"
+        path = "C:\\eBEST\\xingAPI\\Res\\t1102.res"
+        self.instXAQueryT1102.ResFileName = path
 
         today_list = ['000660', '005935', '005380', '207940', '207940']
-        for code in today_list:
-            self.get_status_code(code)
-            sleep(1)
+        while True:
+            for code in today_list:
+                self.get_status_code(code)
+                sleep(10) # 10 -> 1분
 
     def get_status_code(self, code):
 
@@ -142,8 +149,21 @@ class Trade():
         ddiff5 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ddiff5", 0)  # 매도 비율 5
         sdiff5 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "sdiff5", 0)  # 매수 비율 5
 
-        print('%s | %s | %s | %s | %s | %s | %s ' % (datetime.datetime.now(), name, code, price, diff, volume, vol))
+
+        print('%s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s ' % (datetime.datetime.now(), name, code, price, diff, volume, vol, dvol1, svol1, dcha1, scha1, ddiff1, sdiff1))
+
+    def file_test(self):
+        f = open('20191101.txt', 'r')
+        lines = f.readlines()
+        for line in lines:
+            # print(line)
+            listParse = line.split('|')
+            stockManager.register(listParse[2], line)
+        f.close()
+        stockManager.all_print_stock()
+
 
 if __name__ == "__main__":
-    Trade = Trade()
-    Trade.get_status_all()
+    Trade = Trade(test=True)
+    # Trade.check_realTime_stoks()
+    Trade.file_test()
