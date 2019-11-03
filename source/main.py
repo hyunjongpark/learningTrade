@@ -199,7 +199,7 @@ def machine():
         today_data = df.iloc[len(df) - 1]
 
         print('%s/%s, %s %s [%s]' % (index, len(data), company_code, len(df), (today_data['Close'] * today_data['Volume']) / 100000000))
-        if (today_data['Close'] * today_data['Volume']) / 100000000 <= 1:  # 1억
+        if (today_data['Close'] * today_data['Volume']) / 100000000 <= 100:  # 1억
             continue
         # if today_data['institution_trading'] <= 0:
         #     continue

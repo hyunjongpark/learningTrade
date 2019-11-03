@@ -59,9 +59,9 @@ class Trade():
             return
 
         print('init')
-        id = "phjwithy"
-        password = "phj1629"
-        certificate_password = "s20036402!"
+        id = ""
+        password = ""
+        certificate_password = ""
         self.instXASession = winAPI.DispatchWithEvents("XA_Session.XASession", XASessionEvents)
         if self.instXASession.IsConnected() is True:
             self.instXASession.DisconnectServer()
@@ -76,20 +76,20 @@ class Trade():
         XASessionEvents.login_state = STAND_BY
 
     def check_realTime_stoks(self):
-        print('get_status_all')
+        print('check_realTime_stoks')
         # ----------------------------------------------------------------------------
         # t1102
         # ----------------------------------------------------------------------------
-        sys.stdout = open('%s.txt' %(TODAY), 'a')
+        sys.stdout = open('%s.txt' % (TODAY), 'a')
         self.instXAQueryT1102 = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEventHandlerT1102)
         path = "C:\\eBEST\\xingAPI\\Res\\t1102.res"
         self.instXAQueryT1102.ResFileName = path
 
-        today_list = ['000660', '005935', '005380', '207940', '207940']
+        today_list = ['035720', '086280', '102110', '122630', '148020', '233740', '139260']
         while True:
             for code in today_list:
                 self.get_status_code(code)
-                sleep(10) # 10 -> 1분
+                sleep(1) # 10 -> 1분
 
     def get_status_code(self, code):
 
@@ -100,33 +100,42 @@ class Trade():
             pythoncom.PumpWaitingMessages()
         XAQueryEventHandlerT1102.query_state = 0
 
-        name = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "hname", 0)
-        price = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "price", 0)
-        diff = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "diff", 0)
+        hname = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "hname", 0)  #한글명
+        price = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "price", 0) #현재가
+        sign = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "sign", 0)   #전일대비구분
+        change = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "change", 0)  # 전일대비
+        diff = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "diff", 0)       #등락율
         volume = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "volume", 0)  # 누적 거래량
+        recprice = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "recprice", 0)  # 기준가(평가가격)
+        avg = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "avg", 0)  # 가중평균
         vol = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "vol", 0)  # 회전율
+        volumediff = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "volumediff", 0)  # 거래량차
+        jvolume = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "jvolume", 0)  # 전일동시간거래량
+        info5 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "info5", 0)  # 투자주의환기
+        shterm_text = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "shterm_text", 0)  # 단기과열
 
+        ftradmdvag = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ftradmdvag", 0)  # 외국계매도평단가
+        ftradmsavg = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ftradmsavg", 0)  # 외국계매수평단가
         fwdvl = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "fwdvl", 0)  # 외국계 매도 함계 수량
         ftradmdcha = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ftradmdcha", 0)  # 외국계 매도 직전 대비
         ftradmddiff = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ftradmddiff", 0)  # 외국계 매도 비율
-
         fwsvl = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "fwsvl", 0)  # 외국계 매수 합계 수향
         ftradmscha = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ftradmscha", 0)  # 외국계 매수 직전 대비
         ftradmsdiff = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ftradmsdiff", 0)  # 외국계 매수 비율
 
-        dvol1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dvol1", 0)  # 총매도 수량 1
-        svol1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "svol1", 0)  # 총매수 수량 1
-        dcha1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dcha1", 0)  # 매도 증감 1
-        scha1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "scha1", 0)  # 매수 증감 1
-        ddiff1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ddiff1", 0)  # 매도 비율 1
-        sdiff1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "sdiff1", 0)  # 매수 비율 1
+        dvol1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dvol1", 0)  # 총매도수량 1
+        svol1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "svol1", 0)  # 총매수수량 1
+        dcha1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dcha1", 0)  # 매도증감 1
+        scha1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "scha1", 0)  # 매수증감 1
+        ddiff1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ddiff1", 0)  # 매도비율 1
+        sdiff1 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "sdiff1", 0)  # 매수비율 1
 
-        dvol2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dvol2", 0)  # 총매도 수량 2
-        svol2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "svol2", 0)  # 총매수 수량 2
-        dcha2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dcha2", 0)  # 매도 증감 2
-        scha2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "scha2", 0)  # 매수 증감 2
-        ddiff2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ddiff2", 0)  # 매도 비율 2
-        sdiff2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "sdiff2", 0)  # 매수 비율 2
+        dvol2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dvol2", 0)  # 총매도수량 2
+        svol2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "svol2", 0)  # 총매수수량 2
+        dcha2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dcha2", 0)  # 매도증감 2
+        scha2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "scha2", 0)  # 매수증감 2
+        ddiff2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ddiff2", 0)  # 매도비율 2
+        sdiff2 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "sdiff2", 0)  # 매수비율 2
 
         dvol3 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "dvol3", 0)  # 총매도 수량 3
         svol3 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "svol3", 0)  # 총매수 수량 3
@@ -149,21 +158,21 @@ class Trade():
         ddiff5 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ddiff5", 0)  # 매도 비율 5
         sdiff5 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "sdiff5", 0)  # 매수 비율 5
 
-
-        print('%s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s ' % (datetime.datetime.now(), name, code, price, diff, volume, vol, dvol1, svol1, dcha1, scha1, ddiff1, sdiff1))
+        print('시간:%s, 이름:%s, 코드:%s, 가격:%s, 전일대비구분:%s, 전일대비:%s, 등락율:%s, 누적거래량:%s, 기준가:%s, 가중평균:%s, 회전율:%s, 거래량차:%s, 전일동시간거래량:%s, 외국계매도평단가:%s, 외국계매수평단가:%s, 외국계매도합계수량:%s, 외국계매도직전대비:%s, 외국계매도비율:%s, 외국계매수합계수량:%s, 외국계매수직전대비:%s, 외국계매수비율:%s, 총매도수량1:%s, 총매수수량1:%s, 매도증감1:%s, 매수증감1:%s, 매도비율1:%s, 매수비율1:%s, 총매도수량2:%s, 총매수수량2:%s, 매도증감2:%s, 매수증감2:%s, 매도비율2:%s, 매수비율2:%s' % (datetime.datetime.now(), hname, code, price, sign, change, diff, volume, recprice, avg, vol, volumediff, jvolume, ftradmdvag, ftradmsavg, fwdvl, ftradmdcha, ftradmddiff, fwsvl, ftradmscha, ftradmsdiff, dvol1, svol1, dcha1, scha1, ddiff1, sdiff1, dvol2, svol2, dcha2, scha2, ddiff2, sdiff2))
 
     def file_test(self):
-        f = open('20191101.txt', 'r')
+        f = open('20191104.txt', 'r')
         lines = f.readlines()
         for line in lines:
             # print(line)
-            listParse = line.split('|')
-            stockManager.register(listParse[2], line)
+            listParse = line.split(',')
+            subParse = listParse[2].split(':')
+            stockManager.register(subParse[1], line)
         f.close()
         stockManager.all_print_stock()
 
 
 if __name__ == "__main__":
-    Trade = Trade(test=True)
-    # Trade.check_realTime_stoks()
-    Trade.file_test()
+    Trade = Trade(test=False)
+    Trade.check_realTime_stoks()
+    # Trade.file_test()
