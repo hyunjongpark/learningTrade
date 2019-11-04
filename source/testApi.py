@@ -61,8 +61,8 @@ class XAQueryEventHandlerT1102:
 
 class Trade():
 
-    def __init__(self, test=False):
-        if test == True:
+    def __init__(self, debug):
+        if debug:
             return
 
         print('init')
@@ -96,7 +96,8 @@ class Trade():
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 0, 0)
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
 
-        today_list = ['035720', '086280', '102110', '122630', '148020', '233740', '139260']
+        # today_list = ['035720', '086280', '102110', '122630', '148020', '233740', '139260']
+        today_list = ['010780', '064960', '003470', '019170', '001880', '006490', '033180', '052300', '099220', '195990', '001360', '111870', '003060', '200230', '043220']
         while True:
             if ( datetime.datetime.now() < startTime):
                 print('Before[%s]' %( datetime.datetime.now()))
@@ -192,6 +193,9 @@ class Trade():
 
 
 if __name__ == "__main__":
-    Trade = Trade(test=False)
-    Trade.check_realTime_stoks()
-    # Trade.file_test()
+    debug_mode = False
+    Trade = Trade(debug=debug_mode)
+    if debug_mode:
+        Trade.file_test()
+    else:
+        Trade.check_realTime_stoks()

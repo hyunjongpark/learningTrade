@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 import os, sys
-
+import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 class Stock():
     def __init__(self, log):
@@ -70,9 +71,12 @@ class StockCode():
 
 
     def show_graph(self):
-        fig, axs = plt.subplots(5)
+        fig, axs = plt.subplots(6)
         ax = axs[0]
-        ax.plot([stock.diff for stock in self.list])
+        # Solar = [float(line[1]) for line in I020]
+        ax.plot([float(stock.diff)for stock in self.list])
+        # ax.plot([float(stock.price) for stock in self.list])
+        # plt.gcf().autofmt_xdate()
         ax.grid(True)
 
 
@@ -80,26 +84,36 @@ class StockCode():
         # ax2.plot(get_foreigner_info(code, start, end), 'r')
 
         ax = axs[1]
-        ax.plot([stock.volumediff for stock in self.list])
-        ax.get_yaxis().set_visible(False)
+
+        ax.plot([float(stock.volumediff) / 1000 for stock in self.list])
+        # ax.get_yaxis().set_visible(False)
+        # start = int(min(data))
+        # end = int(max(data))
+        # plt.xticks(np.arange(start, end, 100.0))
         ax.grid(True)
 
         ax = axs[2]
-        ax.plot([stock.dvol1 for stock in self.list], 'b')
-        ax.plot([stock.svol1 for stock in self.list], 'r')
-        ax.get_yaxis().set_visible(False)
-        ax.grid(True)
-
-        ax = axs[3]
-        ax.plot([stock.dcha1 for stock in self.list], 'b')
-        ax.plot([stock.scha1 for stock in self.list], 'r')
-        ax.get_yaxis().set_visible(False)
+        ax.plot([float(stock.dvol1) / 1000 for stock in self.list], 'b')
+        ax.plot([float(stock.svol1) / 1000 for stock in self.list], 'r')
+        # ax.get_yaxis().set_visible(False)
         ax.grid(True)
         #
+        ax = axs[3]
+        ax.plot([float(stock.dcha1) / 1000 for stock in self.list], 'b')
+        ax.plot([float(stock.scha1) / 1000 for stock in self.list], 'r')
+        # ax.get_yaxis().set_visible(False)
+        ax.grid(True)
+        # #
         ax = axs[4]
-        ax.plot([stock.ddiff1 for stock in self.list], 'b')
-        ax.plot([stock.sdiff1 for stock in self.list], 'r')
-        ax.get_yaxis().set_visible(False)
+        ax.plot([float(stock.ddiff1) / 1000 for stock in self.list], 'b')
+        ax.plot([float(stock.sdiff1) / 1000 for stock in self.list], 'r')
+        # ax.get_yaxis().set_visible(False)
+        ax.grid(True)
+
+        ax = axs[5]
+        ax.plot([float(stock.scha1) / 1000 for stock in self.list], 'y')
+        ax.plot([float(stock.scha2) / 1000 for stock in self.list], 'r')
+        # ax.get_yaxis().set_visible(False)
         ax.grid(True)
 
 

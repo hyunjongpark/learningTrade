@@ -8,7 +8,7 @@ from common import *
 import datetime
 from dateutil.relativedelta import relativedelta
 
-from source.common import load_yaml, get_df_from_file
+from source.common import load_yaml, get_df_from_file, get_percent
 
 import pythoncom
 import win32com.client as winAPI
@@ -198,8 +198,11 @@ def machine():
         pre_1_data = df.iloc[len(df) - 2]
         today_data = df.iloc[len(df) - 1]
 
-        print('%s/%s, %s %s [%s]' % (index, len(data), company_code, len(df), (today_data['Close'] * today_data['Volume']) / 100000000))
-        if (today_data['Close'] * today_data['Volume']) / 100000000 <= 100:  # 1억
+        print('%s/%s, %s %s [%s][%s]' % (index, len(data), company_code, len(df), (today_data['Close'] * today_data['Volume']) / 100000000, get_percent(today_data['Low'], today_data['High'])))
+        if (today_data['Close'] * today_data['Volume']) / 100000000 <= 1:  # 1억
+            continue
+
+        if get_percent(today_data['Low'], today_data['High']) <= 4:
             continue
         # if today_data['institution_trading'] <= 0:
         #     continue
@@ -214,10 +217,10 @@ def machine():
         # print(Series.rolling(df['Close'], center=False, window=10).mean()[-1:])
         # print(Series.rolling(df['Close'], center=False, window=20).mean()[-1:])
 
-        if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'], center=False, window=10).mean()[-1:].values:
-            continue
-        if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'], center=False, window=20).mean()[-1:].values:
-            continue
+        # if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'], center=False, window=10).mean()[-1:].values:
+        #     continue
+        # if Series.rolling(df['Close'], center=False, window=5).mean()[-1:].values < Series.rolling(df['Close'], center=False, window=20).mean()[-1:].values:
+        #     continue
 
         code_list.append(company_code)
 
@@ -294,8 +297,8 @@ def get_percent_price(base, p):
 if __name__ == "__main__":
     init()
 
-    # stock_updater = stock_updater()
-    # stock_updater.update_kospi(end_index=10)
+    stock_updater = stock_updater()
+    stock_updater.update_kospi(end_index=10)
 
 
     # close_eaual_high()
