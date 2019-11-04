@@ -6,6 +6,16 @@ import datetime
 import win32com.client
 import pythoncom
 import os, sys
+
+SERVER_PORT = 20001
+SHOW_CERTIFICATE_ERROR_DIALOG = False
+REPEATED_DATA_QUERY = 1
+TRANSACTION_REQUEST_EXCESS = -21
+TODAY = datetime.datetime.now().strftime('%Y%m%d')
+
+
+
+
 from time import sleep
 
 from util.StockManager import *
@@ -46,11 +56,8 @@ class XAQueryEventHandlerT1102:
     def OnReceiveData(self, code):
         XAQueryEventHandlerT1102.query_state = 1
 
-SERVER_PORT = 20001
-SHOW_CERTIFICATE_ERROR_DIALOG = False
-REPEATED_DATA_QUERY = 1
-TRANSACTION_REQUEST_EXCESS = -21
-TODAY = datetime.datetime.now().strftime('%Y%m%d')
+
+
 
 class Trade():
 
@@ -59,9 +66,9 @@ class Trade():
             return
 
         print('init')
-        id = ""
-        password = ""
-        certificate_password = ""
+        id = "phjwithy"
+        password = "phj1629"
+        certificate_password = "s20036402!"
         self.instXASession = winAPI.DispatchWithEvents("XA_Session.XASession", XASessionEvents)
         if self.instXASession.IsConnected() is True:
             self.instXASession.DisconnectServer()
@@ -80,13 +87,24 @@ class Trade():
         # ----------------------------------------------------------------------------
         # t1102
         # ----------------------------------------------------------------------------
-        sys.stdout = open('%s.txt' % (TODAY), 'a')
+
         self.instXAQueryT1102 = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEventHandlerT1102)
         path = "C:\\eBEST\\xingAPI\\Res\\t1102.res"
         self.instXAQueryT1102.ResFileName = path
 
+        today = datetime.date.today()
+        startTime = datetime.datetime(today.year, today.month, today.day, 9, 0, 0)
+        endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
+
         today_list = ['035720', '086280', '102110', '122630', '148020', '233740', '139260']
         while True:
+            if ( datetime.datetime.now() < startTime):
+                print('Before[%s]' %( datetime.datetime.now()))
+                sleep(5)  # 10 -> 1분
+                continue
+            if ( datetime.datetime.now() > endTime):
+                break
+
             for code in today_list:
                 self.get_status_code(code)
                 sleep(1) # 10 -> 1분
@@ -158,6 +176,7 @@ class Trade():
         ddiff5 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "ddiff5", 0)  # 매도 비율 5
         sdiff5 = self.instXAQueryT1102.GetFieldData("t1102OutBlock", "sdiff5", 0)  # 매수 비율 5
 
+        sys.stdout = open('%s.txt' % (TODAY), 'a')
         print('시간:%s, 이름:%s, 코드:%s, 가격:%s, 전일대비구분:%s, 전일대비:%s, 등락율:%s, 누적거래량:%s, 기준가:%s, 가중평균:%s, 회전율:%s, 거래량차:%s, 전일동시간거래량:%s, 외국계매도평단가:%s, 외국계매수평단가:%s, 외국계매도합계수량:%s, 외국계매도직전대비:%s, 외국계매도비율:%s, 외국계매수합계수량:%s, 외국계매수직전대비:%s, 외국계매수비율:%s, 총매도수량1:%s, 총매수수량1:%s, 매도증감1:%s, 매수증감1:%s, 매도비율1:%s, 매수비율1:%s, 총매도수량2:%s, 총매수수량2:%s, 매도증감2:%s, 매수증감2:%s, 매도비율2:%s, 매수비율2:%s' % (datetime.datetime.now(), hname, code, price, sign, change, diff, volume, recprice, avg, vol, volumediff, jvolume, ftradmdvag, ftradmsavg, fwdvl, ftradmdcha, ftradmddiff, fwsvl, ftradmscha, ftradmsdiff, dvol1, svol1, dcha1, scha1, ddiff1, sdiff1, dvol2, svol2, dcha2, scha2, ddiff2, sdiff2))
 
     def file_test(self):
