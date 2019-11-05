@@ -227,13 +227,13 @@ def machine():
     print(len(code_list))
     print(code_list)
 
-    machine_learning_recommander = machine_learning_tester()
-    code_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
-    print('Machine [%s]' %(code_list))
-
-    save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
-    code_list = save_stocks['BUY_list']
-    print(code_list)
+    # machine_learning_recommander = machine_learning_tester()
+    # code_list = machine_learning_recommander.show_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, time_lags=1, dataset_ratio=0.8, apply_st=True, two_condition=True)
+    # print('Machine [%s]' %(code_list))
+    #
+    # save_stocks = machine_learning_recommander.tomorrow_machine_learning(stock_list=code_list, view_chart=False, start=start, end=end, two_condition=False, save_file=True)
+    # code_list = save_stocks['BUY_list']
+    # print(code_list)
 
 
 @app.route("/ta")
