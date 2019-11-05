@@ -181,7 +181,7 @@ class Trade():
         print('시간:%s, 이름:%s, 코드:%s, 가격:%s, 전일대비구분:%s, 전일대비:%s, 등락율:%s, 누적거래량:%s, 기준가:%s, 가중평균:%s, 회전율:%s, 거래량차:%s, 전일동시간거래량:%s, 외국계매도평단가:%s, 외국계매수평단가:%s, 외국계매도합계수량:%s, 외국계매도직전대비:%s, 외국계매도비율:%s, 외국계매수합계수량:%s, 외국계매수직전대비:%s, 외국계매수비율:%s, 총매도수량1:%s, 총매수수량1:%s, 매도증감1:%s, 매수증감1:%s, 매도비율1:%s, 매수비율1:%s, 총매도수량2:%s, 총매수수량2:%s, 매도증감2:%s, 매수증감2:%s, 매도비율2:%s, 매수비율2:%s' % (datetime.datetime.now(), hname, code, price, sign, change, diff, volume, recprice, avg, vol, volumediff, jvolume, ftradmdvag, ftradmsavg, fwdvl, ftradmdcha, ftradmddiff, fwsvl, ftradmscha, ftradmsdiff, dvol1, svol1, dcha1, scha1, ddiff1, sdiff1, dvol2, svol2, dcha2, scha2, ddiff2, sdiff2))
 
     def file_test(self):
-        f = open('20191104.txt', 'r')
+        f = open('20191105.txt', 'r')
         lines = f.readlines()
         for line in lines:
             # print(line)
@@ -193,7 +193,7 @@ class Trade():
 
 
 if __name__ == "__main__":
-    debug_mode = False
+    debug_mode = True
     Trade = Trade(debug=debug_mode)
     if debug_mode:
         Trade.file_test()
