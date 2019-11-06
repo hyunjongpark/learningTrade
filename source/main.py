@@ -199,10 +199,10 @@ def machine():
         today_data = df.iloc[len(df) - 1]
 
         print('%s/%s, %s %s [%s][%s]' % (index, len(data), company_code, len(df), (today_data['Close'] * today_data['Volume']) / 100000000, get_percent(today_data['Low'], today_data['High'])))
-        if (today_data['Close'] * today_data['Volume']) / 100000000 <= 1:  # 1억
+        if (today_data['Close'] * today_data['Volume']) / 100000000 <= 10:  # 1억
             continue
 
-        if get_percent(today_data['Low'], today_data['High']) <= 4:
+        if get_percent(today_data['Low'], today_data['High']) <= 7:
             continue
         # if today_data['institution_trading'] <= 0:
         #     continue
@@ -297,8 +297,8 @@ def get_percent_price(base, p):
 if __name__ == "__main__":
     init()
 
-    stock_updater = stock_updater()
-    stock_updater.update_kospi(end_index=10)
+    # stock_updater = stock_updater()
+    # stock_updater.update_kospi(end_index=10)
 
 
     # close_eaual_high()

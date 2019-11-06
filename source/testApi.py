@@ -25,7 +25,7 @@ from util.StockManager import *
 STAND_BY = 0
 RECEIVED = 1
 
-today_list = ['032350', '014820', '012630', '033180', '005690', '002990', '002210', '019170', '016580', '006490']
+today_list = ['004170', '007700', '020000', '033180', '249420', '019170', '074610', '002320', '002780', '009580', '229640']
 id = ""
 password = ""
 certificate_password = "!"
@@ -270,26 +270,82 @@ class Trade():
 
     def file_test(self):
         for code in today_list:
-            df = pd.read_csv('log/%s/%s_%s.csv' % (TODAY, TODAY, code),
+            df = pd.read_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code),
                              names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량', '순매수체결량',
                                     '매도체결건수',
                                     '매수체결건수', '순체결건수', '거래량', '시가', '고가', '저가', '체결량', '매도체결건수시간', '매수체결건수시간', '매도잔량',
                                     '매수잔량', '시간별매도체결량', '시간별매수체결량'])
 
-            fig, axs = plt.subplots(2)
+            fig, axs = plt.subplots(11)
+            # ax = axs[0]
+            # ax.plot(df['종가'])
+            # ax.grid(True)
+
+            # ax = axs[1]
+            # ax.plot(df['전일대비구분'])
+            # ax.grid(True)
+            #
+            # ax = axs[2]
+            # ax.plot(df['전일대비'])
+            # ax.grid(True)
+
             ax = axs[0]
-            ax.plot(df['종가'])
+            ax.plot(df['등락율'])
             ax.grid(True)
 
+            # ax = axs[4]
+            # ax.plot(df['거래량'])
+            # ax.grid(True)
+
             ax = axs[1]
-            ax.plot(df['거래량'])
             ax.plot(df['체결량'])
+            ax.grid(True)
+
+            ax = axs[2]
+            ax.plot(df['순체결건수'])
+            ax.grid(True)
+
+            ax = axs[3]
+            ax.plot(df['체결강도'])
+            ax.grid(True)
+
+            ax = axs[4]
+            ax.plot(df['매도체결수량'] , 'b')
+            ax.plot(df['매수체결수량'] , 'r')
+            ax.grid(True)
+
+            ax = axs[5]
+            ax.plot(df['매도체결건수'] , 'b')
+            ax.plot(df['매수체결건수'] , 'r')
+            ax.grid(True)
+
+            ax = axs[6]
+            ax.plot(df['순매수체결량'] , 'r')
+            ax.grid(True)
+
+            ax = axs[7]
+            ax.plot(df['매수체결건수'] , 'r')
+            ax.grid(True)
+
+            ax = axs[8]
+            ax.plot(df['매도체결건수시간'] , 'b')
+            ax.plot(df['매수체결건수시간'] , 'r')
+            ax.grid(True)
+
+            ax = axs[9]
+            ax.plot(df['매도잔량'] , 'b')
+            ax.plot(df['매수잔량'] , 'r')
+            ax.grid(True)
+
+            ax = axs[10]
+            ax.plot(df['시간별매도체결량'] , 'b')
+            ax.plot(df['시간별매수체결량'] , 'r')
             ax.grid(True)
 
             plt.show()
 
 if __name__ == "__main__":
-    debug_mode = False
+    debug_mode = True
     Trade = Trade(debug=debug_mode)
     if debug_mode:
         Trade.file_test()
