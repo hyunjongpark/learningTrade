@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
-import pythoncom
+
 import win32com.client as winAPI
 import datetime
 import win32com.client
 import pythoncom
-import os, sys
+import os, sys, inspect
+import pathlib
+from time import sleep
+from pandas import DataFrame, Series, Panel
+import pandas as pd
 
 SERVER_PORT = 20001
 SHOW_CERTIFICATE_ERROR_DIALOG = False
@@ -14,12 +18,7 @@ TRANSACTION_REQUEST_EXCESS = -21
 TODAY = datetime.datetime.now().strftime('%Y%m%d')
 
 
-import os,sys,inspect
-import pathlib
-import inspect
-from time import sleep
-from pandas import DataFrame, Series, Panel
-import pandas as pd
+
 
 from util.StockManager import *
 
@@ -29,7 +28,7 @@ RECEIVED = 1
 today_list = ['032350', '014820', '012630', '033180', '005690', '002990', '002210', '019170', '016580', '006490']
 id = ""
 password = ""
-certificate_password = ""
+certificate_password = "!"
 
 class XASessionEvents:
     login_state = STAND_BY
@@ -106,10 +105,95 @@ class Trade():
                 pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
 
             for code in today_list:
-                # self.get_status_code(code)
                 df0, df = self.t1302(단축코드=code, 작업구분='1', 시간='1', 건수='1')
-                df.to_csv('log/%s/%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
-                sleep(3) # 1초
+                df.to_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
+                sleep(3)
+
+                # df2, df2 = self.t1305(단축코드=code, 일주월구분='1',날짜='',IDX='',건수='1')
+                # df2.to_csv('log/%s/t1305_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
+                # sleep(3)
+
+    def t1305(self, 단축코드='', 일주월구분='1', 날짜='', IDX='', 건수='1'):
+        '''
+        기간별주가
+        '''
+        query = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+        pathname = os.path.dirname(sys.argv[0])
+        RESDIR = os.path.abspath(pathname)
+
+        MYNAME = inspect.currentframe().f_code.co_name
+        INBLOCK = "%sInBlock" % MYNAME
+        OUTBLOCK = "%sOutBlock" % MYNAME
+        OUTBLOCK1 = "%sOutBlock1" % MYNAME
+        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+
+        query.LoadFromResFile(RESFILE)
+        query.SetFieldData(INBLOCK, "shcode", 0, 단축코드)
+        query.SetFieldData(INBLOCK, "dwmcode", 0, 일주월구분)
+        query.SetFieldData(INBLOCK, "date", 0, 날짜)
+        query.SetFieldData(INBLOCK, "idx", 0, IDX)
+        query.SetFieldData(INBLOCK, "cnt", 0, 건수)
+        query.Request(0)
+
+        while XAQueryEvents.상태 == False:
+            pythoncom.PumpWaitingMessages()
+
+        result = []
+        nCount = query.GetBlockCount(OUTBLOCK)
+        for i in range(nCount):
+            CNT = int(query.GetFieldData(OUTBLOCK, "cnt", i).strip())
+            날짜 = query.GetFieldData(OUTBLOCK, "date", i).strip()
+            IDX = int(query.GetFieldData(OUTBLOCK, "idx", i).strip())
+
+            lst = [CNT, 날짜, IDX]
+            result.append(lst)
+
+        df = DataFrame(data=result, columns=['CNT', '날짜', 'IDX'])
+
+        result = []
+        nCount = query.GetBlockCount(OUTBLOCK1)
+        for i in range(nCount):
+            날짜 = query.GetFieldData(OUTBLOCK1, "date", i).strip()
+            시가 = int(query.GetFieldData(OUTBLOCK1, "open", i).strip())
+            고가 = int(query.GetFieldData(OUTBLOCK1, "high", i).strip())
+            저가 = int(query.GetFieldData(OUTBLOCK1, "low", i).strip())
+            종가 = int(query.GetFieldData(OUTBLOCK1, "close", i).strip())
+            전일대비구분 = query.GetFieldData(OUTBLOCK1, "sign", i).strip()
+            전일대비 = int(query.GetFieldData(OUTBLOCK1, "change", i).strip())
+            등락율 = float(query.GetFieldData(OUTBLOCK1, "diff", i).strip())
+            누적거래량 = int(query.GetFieldData(OUTBLOCK1, "volume", i).strip())
+            거래증가율 = float(query.GetFieldData(OUTBLOCK1, "diff_vol", i).strip())
+            체결강도 = float(query.GetFieldData(OUTBLOCK1, "chdegree", i).strip())
+            소진율 = float(query.GetFieldData(OUTBLOCK1, "sojinrate", i).strip())
+            회전율 = float(query.GetFieldData(OUTBLOCK1, "changerate", i).strip())
+            외인순매수 = int(query.GetFieldData(OUTBLOCK1, "fpvolume", i).strip())
+            기관순매수 = int(query.GetFieldData(OUTBLOCK1, "covolume", i).strip())
+            종목코드 = query.GetFieldData(OUTBLOCK1, "shcode", i).strip()
+            누적거래대금 = int(query.GetFieldData(OUTBLOCK1, "value", i).strip())
+            개인순매수 = int(query.GetFieldData(OUTBLOCK1, "ppvolume", i).strip())
+            시가대비구분 = query.GetFieldData(OUTBLOCK1, "o_sign", i).strip()
+            시가대비 = int(query.GetFieldData(OUTBLOCK1, "o_change", i).strip())
+            시가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "o_diff", i).strip())
+            고가대비구분 = query.GetFieldData(OUTBLOCK1, "h_sign", i).strip()
+            고가대비 = int(query.GetFieldData(OUTBLOCK1, "h_change", i).strip())
+            고가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "h_diff", i).strip())
+            저가대비구분 = query.GetFieldData(OUTBLOCK1, "l_sign", i).strip()
+            저가대비 = int(query.GetFieldData(OUTBLOCK1, "l_change", i).strip())
+            저가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "l_diff", i).strip())
+            시가총액 = int(query.GetFieldData(OUTBLOCK1, "marketcap", i).strip())
+
+            lst = [날짜, 시가, 고가, 저가, 종가, 전일대비구분, 전일대비, 등락율, 누적거래량, 거래증가율, 체결강도, 소진율, 회전율, 외인순매수, 기관순매수, 종목코드, 누적거래대금,
+                   개인순매수, 시가대비구분, 시가대비, 시가기준등락율, 고가대비구분, 고가대비, 고가기준등락율, 저가대비구분, 저가대비, 저가기준등락율, 시가총액]
+            result.append(lst)
+
+        df1 = DataFrame(data=result,
+                        columns=['날짜', '시가', '고가', '저가', '종가', '전일대비구분', '전일대비', '등락율', '누적거래량', '거래증가율', '체결강도', '소진율',
+                                 '회전율', '외인순매수', '기관순매수', '종목코드', '누적거래대금', '개인순매수', '시가대비구분', '시가대비', '시가기준등락율',
+                                 '고가대비구분', '고가대비', '고가기준등락율', '저가대비구분', '저가대비', '저가기준등락율', '시가총액'])
+
+        XAQueryEvents.상태 = False
+
+        return (df, df1)
 
     def t1302(self, 단축코드='', 작업구분='1', 시간='1', 건수='1'):
         '''
