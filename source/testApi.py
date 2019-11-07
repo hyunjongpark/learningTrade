@@ -345,7 +345,7 @@ class Trade():
             plt.show()
 
 if __name__ == "__main__":
-    debug_mode = True
+    debug_mode = False
     Trade = Trade(debug=debug_mode)
     if debug_mode:
         Trade.file_test()
