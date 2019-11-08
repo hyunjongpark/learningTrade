@@ -297,8 +297,8 @@ def get_percent_price(base, p):
 if __name__ == "__main__":
     init()
 
-    # stock_updater = stock_updater()
-    # stock_updater.update_kospi(end_index=10)
+    stock_updater = stock_updater()
+    stock_updater.update_kospi(end_index=10)
 
 
     # close_eaual_high()

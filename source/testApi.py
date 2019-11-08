@@ -10,6 +10,7 @@ import pathlib
 from time import sleep
 from pandas import DataFrame, Series, Panel
 import pandas as pd
+import numpy as np
 
 SERVER_PORT = 20001
 SHOW_CERTIFICATE_ERROR_DIALOG = False
@@ -17,18 +18,15 @@ REPEATED_DATA_QUERY = 1
 TRANSACTION_REQUEST_EXCESS = -21
 TODAY = datetime.datetime.now().strftime('%Y%m%d')
 
-
-
-
 from util.StockManager import *
 
 STAND_BY = 0
 RECEIVED = 1
 
-today_list = ['004170', '007700', '020000', '033180', '249420', '019170', '074610', '002320', '002780', '009580', '229640']
 id = ""
 password = ""
 certificate_password = "!"
+
 
 class XASessionEvents:
     login_state = STAND_BY
@@ -43,7 +41,7 @@ class XASessionEvents:
             print("로그인 실패")
 
     def OnDisconnect(self, code, msg):
-       pass
+        pass
 
 
 class XAQueryEvents:
@@ -54,6 +52,7 @@ class XAQueryEvents:
 
     def OnReceiveMessage(self, error, nMessageCode, szMessage):
         print(szMessage)
+
 
 class XAQueryEvents:
     상태 = False
@@ -89,15 +88,22 @@ class Trade():
         print('check_realTime_stoks')
 
         today = datetime.date.today()
+        today_list = []
+        getListTime = datetime.datetime(today.year, today.month, today.day, 8, 58, 0)
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 0, 0)
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
 
         while True:
-            if ( datetime.datetime.now() < startTime):
-                print('Before[%s]' %( datetime.datetime.now()))
+            if datetime.datetime.now() < startTime:
+                print('Before[%s]' % (datetime.datetime.now()))
                 sleep(5)  # 10 -> 1분
                 continue
-            if ( datetime.datetime.now() > endTime):
+
+            if len(today_list) != 0 and datetime.datetime.now() < getListTime:
+                today_list = self.get_top_trade_volume(field=1)
+                print(today_list)
+
+            if datetime.datetime.now() > endTime:
                 break
 
             log_folder = ('log/%s' % (TODAY))
@@ -105,95 +111,33 @@ class Trade():
                 pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
 
             for code in today_list:
-                df0, df = self.t1302(단축코드=code, 작업구분='1', 시간='1', 건수='1')
-                df.to_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
                 sleep(3)
+                df0, df = self.t1302(단축코드=code, 작업구분='1', 시간='1', 건수='1')
+                if df is None:
+                    print('Skip:[%s]' % (code))
+                    continue
+                stockManager.register(code, df)
+                df.to_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
 
-                # df2, df2 = self.t1305(단축코드=code, 일주월구분='1',날짜='',IDX='',건수='1')
-                # df2.to_csv('log/%s/t1305_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
-                # sleep(3)
-
-    def t1305(self, 단축코드='', 일주월구분='1', 날짜='', IDX='', 건수='1'):
-        '''
-        기간별주가
-        '''
-        query = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
-        pathname = os.path.dirname(sys.argv[0])
-        RESDIR = os.path.abspath(pathname)
-
-        MYNAME = inspect.currentframe().f_code.co_name
-        INBLOCK = "%sInBlock" % MYNAME
-        OUTBLOCK = "%sOutBlock" % MYNAME
-        OUTBLOCK1 = "%sOutBlock1" % MYNAME
-        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
-
-        query.LoadFromResFile(RESFILE)
-        query.SetFieldData(INBLOCK, "shcode", 0, 단축코드)
-        query.SetFieldData(INBLOCK, "dwmcode", 0, 일주월구분)
-        query.SetFieldData(INBLOCK, "date", 0, 날짜)
-        query.SetFieldData(INBLOCK, "idx", 0, IDX)
-        query.SetFieldData(INBLOCK, "cnt", 0, 건수)
-        query.Request(0)
+    def get_top_trade_volume(self, field=1, day=0):
+        sleep(1)
+        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+        inXAQuery.LoadFromResFile("C:\\eBest\\xingAPI\\Res\\t1488.res")
+        inXAQuery.SetFieldData('t1488InBlock', 'gubun', 0, field)
+        # inXAQuery.SetFieldData('t1488InBlock', 'jnilgubun', 0, day)
+        inXAQuery.Request(0)
 
         while XAQueryEvents.상태 == False:
             pythoncom.PumpWaitingMessages()
 
+        nCount = inXAQuery.GetBlockCount('t1488OutBlock1')
         result = []
-        nCount = query.GetBlockCount(OUTBLOCK)
         for i in range(nCount):
-            CNT = int(query.GetFieldData(OUTBLOCK, "cnt", i).strip())
-            날짜 = query.GetFieldData(OUTBLOCK, "date", i).strip()
-            IDX = int(query.GetFieldData(OUTBLOCK, "idx", i).strip())
-
-            lst = [CNT, 날짜, IDX]
-            result.append(lst)
-
-        df = DataFrame(data=result, columns=['CNT', '날짜', 'IDX'])
-
-        result = []
-        nCount = query.GetBlockCount(OUTBLOCK1)
-        for i in range(nCount):
-            날짜 = query.GetFieldData(OUTBLOCK1, "date", i).strip()
-            시가 = int(query.GetFieldData(OUTBLOCK1, "open", i).strip())
-            고가 = int(query.GetFieldData(OUTBLOCK1, "high", i).strip())
-            저가 = int(query.GetFieldData(OUTBLOCK1, "low", i).strip())
-            종가 = int(query.GetFieldData(OUTBLOCK1, "close", i).strip())
-            전일대비구분 = query.GetFieldData(OUTBLOCK1, "sign", i).strip()
-            전일대비 = int(query.GetFieldData(OUTBLOCK1, "change", i).strip())
-            등락율 = float(query.GetFieldData(OUTBLOCK1, "diff", i).strip())
-            누적거래량 = int(query.GetFieldData(OUTBLOCK1, "volume", i).strip())
-            거래증가율 = float(query.GetFieldData(OUTBLOCK1, "diff_vol", i).strip())
-            체결강도 = float(query.GetFieldData(OUTBLOCK1, "chdegree", i).strip())
-            소진율 = float(query.GetFieldData(OUTBLOCK1, "sojinrate", i).strip())
-            회전율 = float(query.GetFieldData(OUTBLOCK1, "changerate", i).strip())
-            외인순매수 = int(query.GetFieldData(OUTBLOCK1, "fpvolume", i).strip())
-            기관순매수 = int(query.GetFieldData(OUTBLOCK1, "covolume", i).strip())
-            종목코드 = query.GetFieldData(OUTBLOCK1, "shcode", i).strip()
-            누적거래대금 = int(query.GetFieldData(OUTBLOCK1, "value", i).strip())
-            개인순매수 = int(query.GetFieldData(OUTBLOCK1, "ppvolume", i).strip())
-            시가대비구분 = query.GetFieldData(OUTBLOCK1, "o_sign", i).strip()
-            시가대비 = int(query.GetFieldData(OUTBLOCK1, "o_change", i).strip())
-            시가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "o_diff", i).strip())
-            고가대비구분 = query.GetFieldData(OUTBLOCK1, "h_sign", i).strip()
-            고가대비 = int(query.GetFieldData(OUTBLOCK1, "h_change", i).strip())
-            고가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "h_diff", i).strip())
-            저가대비구분 = query.GetFieldData(OUTBLOCK1, "l_sign", i).strip()
-            저가대비 = int(query.GetFieldData(OUTBLOCK1, "l_change", i).strip())
-            저가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "l_diff", i).strip())
-            시가총액 = int(query.GetFieldData(OUTBLOCK1, "marketcap", i).strip())
-
-            lst = [날짜, 시가, 고가, 저가, 종가, 전일대비구분, 전일대비, 등락율, 누적거래량, 거래증가율, 체결강도, 소진율, 회전율, 외인순매수, 기관순매수, 종목코드, 누적거래대금,
-                   개인순매수, 시가대비구분, 시가대비, 시가기준등락율, 고가대비구분, 고가대비, 고가기준등락율, 저가대비구분, 저가대비, 저가기준등락율, 시가총액]
-            result.append(lst)
-
-        df1 = DataFrame(data=result,
-                        columns=['날짜', '시가', '고가', '저가', '종가', '전일대비구분', '전일대비', '등락율', '누적거래량', '거래증가율', '체결강도', '소진율',
-                                 '회전율', '외인순매수', '기관순매수', '종목코드', '누적거래대금', '개인순매수', '시가대비구분', '시가대비', '시가기준등락율',
-                                 '고가대비구분', '고가대비', '고가기준등락율', '저가대비구분', '저가대비', '저가기준등락율', '시가총액'])
+            code = inXAQuery.GetFieldData('t1488OutBlock1', 'shcode', i)
+            result.append(code)
 
         XAQueryEvents.상태 = False
-
-        return (df, df1)
+        return result
 
     def t1302(self, 단축코드='', 작업구분='1', 시간='1', 건수='1'):
         '''
@@ -221,6 +165,10 @@ class Trade():
 
         result = []
         nCount = query.GetBlockCount(OUTBLOCK)
+        if nCount == 0:
+            XAQueryEvents.상태 = False
+            return (None, None)
+
         for i in range(nCount):
             시간CTS = query.GetFieldData(OUTBLOCK, "cts_time", i).strip()
 
@@ -231,6 +179,7 @@ class Trade():
 
         result = []
         nCount = query.GetBlockCount(OUTBLOCK1)
+
         for i in range(nCount):
             시간 = query.GetFieldData(OUTBLOCK1, "chetime", i).strip()
             종가 = int(query.GetFieldData(OUTBLOCK1, "close", i).strip())
@@ -256,98 +205,158 @@ class Trade():
             시간별매도체결량 = int(query.GetFieldData(OUTBLOCK1, "mdvolumetm", i).strip())
             시간별매수체결량 = int(query.GetFieldData(OUTBLOCK1, "msvolumetm", i).strip())
 
-            lst = [시간, 단축코드, 종가, 전일대비구분, 전일대비, 등락율, 체결강도, 매도체결수량, 매수체결수량, 순매수체결량, 매도체결건수, 매수체결건수, 순체결건수, 거래량, 시가, 고가, 저가, 체결량,
+            lst = [시간, 단축코드, 종가, 전일대비구분, 전일대비, 등락율, 체결강도, 매도체결수량, 매수체결수량, 순매수체결량, 매도체결건수, 매수체결건수, 순체결건수, 거래량, 시가, 고가,
+                   저가, 체결량,
                    매도체결건수시간, 매수체결건수시간, 매도잔량, 매수잔량, 시간별매도체결량, 시간별매수체결량]
             result.append(lst)
 
         df1 = DataFrame(data=result,
-                        columns=[시간, 단축코드, 종가, 전일대비구분, 전일대비, 등락율, 체결강도, 매도체결수량, 매수체결수량, 순매수체결량, 매도체결건수, 매수체결건수, 순체결건수, 거래량, 시가, 고가, 저가, 체결량,
-                   매도체결건수시간, 매수체결건수시간, 매도잔량, 매수잔량, 시간별매도체결량, 시간별매수체결량])
+                        columns=[시간, 단축코드, 종가, 전일대비구분, 전일대비, 등락율, 체결강도, 매도체결수량, 매수체결수량, 순매수체결량, 매도체결건수, 매수체결건수, 순체결건수,
+                                 거래량, 시가, 고가, 저가, 체결량,
+                                 매도체결건수시간, 매수체결건수시간, 매도잔량, 매수잔량, 시간별매도체결량, 시간별매수체결량])
 
         XAQueryEvents.상태 = False
 
         return (df, df1)
 
-    def file_test(self):
-        for code in today_list:
-            df = pd.read_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code),
+    def file_test2(self):
+        TODAY = '20191108'
+        log_folder = ('log/%s' % (TODAY))
+        if not os.path.exists(log_folder):
+            return
+        files = os.listdir(log_folder)
+
+        for file in files:
+            df = pd.read_csv('log/%s/%s' % (TODAY, file),
                              names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량', '순매수체결량',
                                     '매도체결건수',
                                     '매수체결건수', '순체결건수', '거래량', '시가', '고가', '저가', '체결량', '매도체결건수시간', '매수체결건수시간', '매도잔량',
                                     '매수잔량', '시간별매도체결량', '시간별매수체결량'])
+            for i in df.index:
+                code = df['단축코드'][i]
+                stockManager.register(code, df.iloc[i])
+                # stockManager.get_stock_code(code).is_buy_price()
+            # stockManager.get_stock_code(code).is_buy_price()
+            stockManager.all_print_stock()
 
-            fig, axs = plt.subplots(11)
-            # ax = axs[0]
-            # ax.plot(df['종가'])
-            # ax.grid(True)
 
-            # ax = axs[1]
-            # ax.plot(df['전일대비구분'])
-            # ax.grid(True)
-            #
-            # ax = axs[2]
-            # ax.plot(df['전일대비'])
-            # ax.grid(True)
+    def file_test(self):
+        TODAY = '20191106'
+        log_folder = ('log/%s' % (TODAY))
+        if not os.path.exists(log_folder):
+            return
+        files = os.listdir(log_folder)
+
+        for file in files:
+            df = pd.read_csv('log/%s/%s' % (TODAY, file),
+                             names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량', '순매수체결량',
+                                    '매도체결건수',
+                                    '매수체결건수', '순체결건수', '거래량', '시가', '고가', '저가', '체결량', '매도체결건수시간', '매수체결건수시간', '매도잔량',
+                                    '매수잔량', '시간별매도체결량', '시간별매수체결량'])
+            volume_list = []
+            buy_list = []
+            diff_buy_list = []
+            code = ''
+
+            test_buy_price_list = []
+            test_buy_index_list = []
+
+            is_buy = False
+            test_success_sell_price_list = []
+            test_success_sell_index_list = []
+
+            test_fail_sell_price_list = []
+            test_fail_sell_index_list = []
+
+            buy_limit_list = []
+            max_volume = 0
+
+            real_buy_percent = 50
+
+            for i in df.index:
+                if 0 == i:
+                    volume_list.append(0)
+                    buy_list.append(0)
+                    diff_buy_list.append(0)
+                    buy_limit_list.append(0)
+                    code = df['단축코드'][i]
+                    continue
+
+                diff_time = int(df['시간'][i]) - int(df['시간'][i - 1])
+                diff_volume = int(df['거래량'][i]) - int(df['거래량'][i - 1])
+                diff_buy_pre_limit = int(df['매수잔량'][i - 1]) - int(df['매도잔량'][i - 1])
+                diff_buy_limit = int(df['매수잔량'][i]) - int(df['매도잔량'][i])
+                diff_diff_buy = diff_buy_limit - diff_buy_pre_limit
+
+                volume_list.append(diff_volume)
+                buy_list.append(diff_buy_limit)
+                diff_buy_list.append(diff_diff_buy)
+
+                if diff_volume > max_volume:
+                    max_volume = diff_volume;
+
+                buy_limit_price = (diff_buy_limit * diff_volume) / 100000000
+                buy_limit_list.append(buy_limit_price)
+
+                print('[%s] [%s] [%s] [%s] [%s] [%s]' % (df['시간'][i], df['등락율'][i], diff_buy_limit, diff_diff_buy, diff_volume, diff_time))
+
+                if diff_buy_limit > 0 and diff_diff_buy > 0 and diff_volume >= max_volume / 2 and df['등락율'][i] > \
+                        df['등락율'][i - 1] and buy_limit_price > 2 and df['등락율'][i] > 0 and diff_buy_list[i] > \
+                        diff_buy_list[i - 1]:
+                    print('============== Buy')
+                    test_buy_index_list.append([i])
+                    test_buy_price_list.append(df['등락율'][i])
+                    real_buy_percent = float(df['등락율'][i])
+                    is_buy = True
+
+                if is_buy is True and float(df['등락율'][i]) > real_buy_percent + 1.0:
+                    print('============== Sell')
+                    test_success_sell_index_list.append([i])
+                    test_success_sell_price_list.append(df['등락율'][i])
+                    real_buy_percent = 50
+                    is_buy = False
+
+                if is_buy is True and float(df['등락율'][i]) < real_buy_percent - 1.0:
+                    print('============== Failed Sell')
+                    test_fail_sell_index_list.append([i])
+                    test_fail_sell_price_list.append(df['등락율'][i])
+                    real_buy_percent = 50
+                    is_buy = False
+
+            fig, axs = plt.subplots(5)
 
             ax = axs[0]
             ax.plot(df['등락율'])
+            ax.scatter(test_buy_index_list, test_buy_price_list, c='r')
+            ax.scatter(test_success_sell_index_list, test_success_sell_price_list, c='b')
+            ax.scatter(test_fail_sell_index_list, test_fail_sell_price_list, c='y')
             ax.grid(True)
-
-            # ax = axs[4]
-            # ax.plot(df['거래량'])
-            # ax.grid(True)
+            plt.title(code)
 
             ax = axs[1]
-            ax.plot(df['체결량'])
+            ax.plot(volume_list)
             ax.grid(True)
 
             ax = axs[2]
-            ax.plot(df['순체결건수'])
+            ax.plot(buy_list)
             ax.grid(True)
 
             ax = axs[3]
-            ax.plot(df['체결강도'])
+            ax.plot(diff_buy_list)
             ax.grid(True)
 
             ax = axs[4]
-            ax.plot(df['매도체결수량'] , 'b')
-            ax.plot(df['매수체결수량'] , 'r')
-            ax.grid(True)
-
-            ax = axs[5]
-            ax.plot(df['매도체결건수'] , 'b')
-            ax.plot(df['매수체결건수'] , 'r')
-            ax.grid(True)
-
-            ax = axs[6]
-            ax.plot(df['순매수체결량'] , 'r')
-            ax.grid(True)
-
-            ax = axs[7]
-            ax.plot(df['매수체결건수'] , 'r')
-            ax.grid(True)
-
-            ax = axs[8]
-            ax.plot(df['매도체결건수시간'] , 'b')
-            ax.plot(df['매수체결건수시간'] , 'r')
-            ax.grid(True)
-
-            ax = axs[9]
-            ax.plot(df['매도잔량'] , 'b')
-            ax.plot(df['매수잔량'] , 'r')
-            ax.grid(True)
-
-            ax = axs[10]
-            ax.plot(df['시간별매도체결량'] , 'b')
-            ax.plot(df['시간별매수체결량'] , 'r')
+            ax.plot(buy_limit_list)
             ax.grid(True)
 
             plt.show()
 
+
 if __name__ == "__main__":
-    debug_mode = False
+    debug_mode = True
     Trade = Trade(debug=debug_mode)
     if debug_mode:
-        Trade.file_test()
+        # Trade.file_test()
+        Trade.file_test2()
     else:
         Trade.check_realTime_stoks()
