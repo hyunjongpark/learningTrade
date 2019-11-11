@@ -50,9 +50,9 @@ class XAQueryEvents:
     def OnReceiveData(self, szTrCode):
         XAQueryEvents.상태 = True
 
-    # def OnReceiveMessage(self, systemError, messageCode, message):
-    #     print("OnReceiveMessage : ", systemError, messageCode, message)
-
+    def OnReceiveMessage(self, systemError, messageCode, message):
+        if messageCode != "0000":
+            print("ERROR - OnReceiveMessage : ", systemError, messageCode, message)
 
 class Trade():
     def __init__(self, debug):
@@ -82,16 +82,18 @@ class Trade():
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
 
         today_list = []
+        today_list = self.t1488(field=1)
+        print(today_list)
 
         while True:
+            if len(today_list) == 0 and datetime.datetime.now() > getListTime:
+                today_list = self.t1488(field=1)
+                print(today_list)
+
             if datetime.datetime.now() < startTime:
                 print('Before[%s]' % (datetime.datetime.now()))
-                sleep(5)  # 10 -> 1분
+                sleep(5)
                 continue
-
-            if len(today_list) == 0 and datetime.datetime.now() > getListTime:
-                today_list = self.get_top_trade_volume(field=1)
-                print(today_list)
 
             if datetime.datetime.now() > endTime:
                 break
@@ -110,21 +112,49 @@ class Trade():
                 df.to_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
 
                 stockManager.register(code, df)
-                trade = stockManager.get_stock_code(code).is_trade()
+                trade = stockManager.get_stock_code(code).is_trade(debug = False)
                 if trade == 'buy':
-                    print('BUY [%s][%s][%s]' % (code, df['시간'], df['종가']))
+                    print('BUY [%s][%s][%s]' % (code, df['시간'][0], df['종가'][0]))
                 elif trade == 'sell_success':
-                    print('SELL SUCCESS [%s][%s][%s]' % (code, df['시간'], df['종가']))
+                    print('SELL SUCCESS [%s][%s][%s]' % (code, df['시간'][0], df['종가'][0]))
                 elif trade == 'sell_failed':
-                    print('SELL FAILED [%s][%s][%s]' % (code, df['시간'], df['종가']))
+                    print('SELL FAILED [%s][%s][%s]' % (code, df['시간'][0], df['종가'][0]))
 
-
-
-
-    def get_top_trade_volume(self, field=1, day=0):
+    def t1488(self, field=1, day=0):
         sleep(1)
         inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
-        inXAQuery.LoadFromResFile("C:\\eBest\\xingAPI\\Res\\t1489.res")
+
+        pathname = os.path.dirname(sys.argv[0])
+        RESDIR = os.path.abspath(pathname)
+        MYNAME = inspect.currentframe().f_code.co_name
+        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+
+        inXAQuery.LoadFromResFile(RESFILE)
+        inXAQuery.SetFieldData('t1488InBlock', 'gubun', 0, field)
+        inXAQuery.Request(0)
+
+        while XAQueryEvents.상태 == False:
+            pythoncom.PumpWaitingMessages()
+        XAQueryEvents.상태 = False
+
+        nCount = inXAQuery.GetBlockCount('t1488OutBlock1')
+        result = []
+        for i in range(nCount):
+            code = inXAQuery.GetFieldData('t1488OutBlock1', 'shcode', i)
+            result.append(code)
+
+        return result
+
+    def t1489(self, field=1, day=0):
+        sleep(1)
+        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+
+        pathname = os.path.dirname(sys.argv[0])
+        RESDIR = os.path.abspath(pathname)
+        MYNAME = inspect.currentframe().f_code.co_name
+        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+
+        inXAQuery.LoadFromResFile(RESFILE)
         inXAQuery.SetFieldData('t1489InBlock', 'gubun', 0, field)
         inXAQuery.Request(0)
 
@@ -220,7 +250,7 @@ class Trade():
         return (df, df1)
 
     def file_test(self):
-        TODAY = '20191108'
+        TODAY = '20191106'
         log_folder = ('log/%s' % (TODAY))
         if not os.path.exists(log_folder):
             return
@@ -235,7 +265,7 @@ class Trade():
             for i in df.index:
                 code = df['단축코드'][i]
                 stockManager.register(code, df.iloc[i])
-                trade = stockManager.get_stock_code(code).is_trade()
+                trade = stockManager.get_stock_code(code).is_trade(debug = True)
                 if trade == 'buy':
                     print('BUY [%s][%s][%s]' %(code, df['시간'][i], df['종가'][i]))
                 elif trade == 'sell_success':
