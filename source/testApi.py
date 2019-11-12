@@ -51,7 +51,7 @@ class XAQueryEvents:
         XAQueryEvents.상태 = True
 
     def OnReceiveMessage(self, systemError, messageCode, message):
-        if messageCode != "0000":
+        if message != "조회완료":
             print("ERROR - OnReceiveMessage : ", systemError, messageCode, message)
 
 class Trade():
@@ -110,7 +110,7 @@ class Trade():
                 df.to_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
 
                 stockManager.register(code, df)
-                trade = stockManager.get_stock_code(code).is_trade()
+                trade = stockManager.get_stock_code(code).is_trade(debug=False)
                 if trade == 'buy':
                     print('BUY [%s][%s][%s]' % (code, df['시간'][0], df['종가'][0]))
                 elif trade == 'sell_success':
@@ -139,31 +139,10 @@ class Trade():
         result = []
         for i in range(nCount):
             code = inXAQuery.GetFieldData('t1488OutBlock1', 'shcode', i)
-            result.append(code)
-
-        return result
-
-    def t1489(self, field=1, day=0):
-        sleep(1)
-        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
-
-        pathname = os.path.dirname(sys.argv[0])
-        RESDIR = os.path.abspath(pathname)
-        MYNAME = inspect.currentframe().f_code.co_name
-        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
-
-        inXAQuery.LoadFromResFile(RESFILE)
-        inXAQuery.SetFieldData('t1489InBlock', 'gubun', 0, field)
-        inXAQuery.Request(0)
-
-        while XAQueryEvents.상태 == False:
-            pythoncom.PumpWaitingMessages()
-        XAQueryEvents.상태 = False
-
-        nCount = inXAQuery.GetBlockCount('t1489OutBlock1')
-        result = []
-        for i in range(nCount):
-            code = inXAQuery.GetFieldData('t1489OutBlock1', 'shcode', i)
+            price = int(inXAQuery.GetFieldData('t1488OutBlock1', 'price', i))
+            volume = int(inXAQuery.GetFieldData('t1488OutBlock1', 'volume', i))
+            jnilvolume = int(inXAQuery.GetFieldData('t1488OutBlock1', 'jnilvolume', i))
+            print('today list - code[%s] [%s][%s] price[%s] volume[%s] jnilvolume[%s] ' % (code, price * volume / 100000000, price * jnilvolume / 100000000, price, volume, jnilvolume))
             result.append(code)
 
         return result
@@ -252,8 +231,10 @@ class Trade():
         log_folder = ('log/%s' % (TODAY))
         if not os.path.exists(log_folder):
             return
-        files = os.listdir(log_folder)
 
+        total_profit = 0
+        files = os.listdir(log_folder)
+        # files =['t1302_20191112_020560.csv', 't1302_20191112_001360.csv']
         for file in files:
             df = pd.read_csv('log/%s/%s' % (TODAY, file),
                              names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량', '순매수체결량',
@@ -263,7 +244,7 @@ class Trade():
             for i in df.index:
                 code = df['단축코드'][i]
                 stockManager.register(code, df.iloc[i])
-                trade = stockManager.get_stock_code(code).is_trade()
+                trade = stockManager.get_stock_code(code).is_trade(debug=True)
                 if trade == 'buy':
                     print('BUY [%s][%s][%s]' %(code, df['시간'][i], df['종가'][i]))
                 elif trade == 'sell_success':
@@ -271,7 +252,9 @@ class Trade():
                 elif trade == 'sell_failed':
                     print('SELL FAILED [%s][%s][%s]' %(code, df['시간'][i], df['종가'][i]))
 
+            total_profit += stockManager.get_stock_code(code).test_profit()
             stockManager.get_stock_code(code).show_graph()
+            print('TOTAL - Profit[%s] ' %(total_profit))
 
 
 
