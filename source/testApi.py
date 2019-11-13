@@ -23,9 +23,9 @@ from util.StockManager import *
 STAND_BY = 0
 RECEIVED = 1
 
-id = "phjwithy"
-password = "phj1629"
-certificate_password = "s20036402!"
+id = ""
+password = ""
+certificate_password = "!"
 
 
 class XASessionEvents:
@@ -252,14 +252,14 @@ class Trade():
                     print('SELL FAILED [%s][%s][%s]' %(code, df['시간'][i], df['종가'][i]))
 
             total_profit += stockManager.get_stock_code(code).test_profit()
-            stockManager.get_stock_code(code).show_graph()
+            # stockManager.get_stock_code(code).show_graph()
             print('TOTAL - Profit[%s] ' %(total_profit))
 
 
 
 
 if __name__ == "__main__":
-    debug_mode = False
+    debug_mode = True
     Trade = Trade(debug=debug_mode)
     if debug_mode:
         Trade.file_test()

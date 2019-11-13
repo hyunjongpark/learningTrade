@@ -73,13 +73,13 @@ class StockCode():
             and self.df['등락율'][self.index] > 0 \
             and 남은매수대금 > 10 \
             and int(self.df['등락율'][self.index]) <= 20:
-            if debug is True:
-                print('============== Buy')
             self.buy_list.append([self.index])
             self.real_buy_percent = float(self.df['등락율'][self.index])
             self.등략율_list.append(self.df['등락율'][self.index])
             self.is_buy = True
             self.preBuyPrice = int(self.df['종가'][self.index])
+            if debug is True:
+                print('============== Buy')
             if self.index == len(self.df.index) - 1:
                 is_trade = 'buy'
 
