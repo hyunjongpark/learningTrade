@@ -82,7 +82,6 @@ class Trade():
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
 
         today_list = []
-
         while True:
             if len(today_list) == 0 and datetime.datetime.now() > getListTime:
                 today_list = self.t1488(field=1)
@@ -227,12 +226,14 @@ class Trade():
         return (df, df1)
 
     def file_test(self):
-        TODAY = '20191112'
+        TODAY = '20191111'
         log_folder = ('log/%s' % (TODAY))
         if not os.path.exists(log_folder):
             return
-        files = os.listdir(log_folder)
 
+        total_profit = 0
+        files = os.listdir(log_folder)
+        # files =['t1302_20191112_020560.csv', 't1302_20191112_001360.csv']
         for file in files:
             df = pd.read_csv('log/%s/%s' % (TODAY, file),
                              names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량', '순매수체결량',
@@ -250,13 +251,15 @@ class Trade():
                 elif trade == 'sell_failed':
                     print('SELL FAILED [%s][%s][%s]' %(code, df['시간'][i], df['종가'][i]))
 
+            total_profit += stockManager.get_stock_code(code).test_profit()
             stockManager.get_stock_code(code).show_graph()
+            print('TOTAL - Profit[%s] ' %(total_profit))
 
 
 
 
 if __name__ == "__main__":
-    debug_mode = True
+    debug_mode = False
     Trade = Trade(debug=debug_mode)
     if debug_mode:
         Trade.file_test()
