@@ -220,6 +220,8 @@ def is_mean_state(code):
 
 
 def get_percent(base, diff):
+    if base == 0 or diff == 0:
+        return 1
     return (base - diff) / (base / 100) * -1
 
 
