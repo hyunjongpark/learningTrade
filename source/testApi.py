@@ -235,6 +235,35 @@ class Trade():
 
         return (df, df1)
 
+    def all_file_test(self):
+        total_profit = 0
+        folders = os.listdir('log')
+        for folder in folders:
+            files = os.listdir('log/%s' %(folder))
+            for file in files:
+                df = pd.read_csv('log/%s/%s' % (folder, file),
+                                 names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량',
+                                        '순매수체결량',
+                                        '매도체결건수',
+                                        '매수체결건수', '순체결건수', '거래량', '시가', '고가', '저가', '체결량', '매도체결건수시간', '매수체결건수시간',
+                                        '매도잔량',
+                                        '매수잔량', '시간별매도체결량', '시간별매수체결량'])
+                for i in df.index:
+                    code = df['단축코드'][i]
+                    stockManager.register(code, df.iloc[i])
+                    trade = stockManager.get_stock_code(code).is_trade(debug=False)
+                    if trade == 'buy':
+                        print('BUY [%s][%s][%s]' % (code, df['시간'][i], df['종가'][i]))
+                    elif trade == 'sell_success':
+                        print('SELL SUCCESS [%s][%s][%s]' % (code, df['시간'][i], df['종가'][i]))
+                    elif trade == 'sell_failed':
+                        print('SELL FAILED [%s][%s][%s]' % (code, df['시간'][i], df['종가'][i]))
+
+                total_profit += stockManager.get_stock_code(code).test_profit()
+                # stockManager.get_stock_code(code).show_graph()
+                print('TOTAL - Profit[%s][%s][%s] ' % (folder, file, total_profit))
+
+
     def file_test(self):
         TODAY = '20191114'
         log_folder = ('log/%s' % (TODAY))
@@ -243,7 +272,7 @@ class Trade():
 
         total_profit = 0
         files = os.listdir(log_folder)
-        # files =['t1302_20191112_020560.csv', 't1302_20191112_001360.csv']
+
         for file in files:
             df = pd.read_csv('log/%s/%s' % (TODAY, file),
                              names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량', '순매수체결량',
@@ -272,6 +301,7 @@ if __name__ == "__main__":
     debug_mode = True
     Trade = Trade(debug=debug_mode)
     if debug_mode:
-        Trade.file_test()
+        Trade.all_file_test()
+        # Trade.file_test()
     else:
         Trade.check_realTime_stock()
