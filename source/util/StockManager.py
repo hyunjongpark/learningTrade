@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pandas as pd
 from common import *
-
+import numpy
 from source.common import get_percent
 
 
@@ -42,7 +42,7 @@ class StockCode():
 
     def is_trade(self, debug):
         is_trade = ''
-        if self.index == 0:
+        if self.index == 0 or numpy.isnan(self.df['시간'][self.index]) or numpy.isnan(self.df['시간'][self.index - 1]):
             self.index += 1
             return
 
@@ -62,17 +62,18 @@ class StockCode():
         남은매수대금 = (현재_시간_매수_매도_차이 * 거래량차이) / 100000000
 
         if debug is True:
-            print('[%s] [%s] 거래량차이[%s] 남은매수대금[%s] 현재_차이[%s] 이전_차이[%s] DIFF_차이[%s] 시간차이[%s]' % (
+            print('[%s] [%s] 거래량차이[%s] 남은매수대금[%s] 현재_차이[%s] 이전_차이[%s] DIFF_차이[%s] 체결강도[%s][%s] 시간차이[%s]' % (
             self.df['시간'][self.index], self.df['등락율'][self.index], 거래량차이, 남은매수대금, 현재_시간_매수_매도_차이, 이전_시간_매수_매도_차이,
-            이전시간_현재시간_매수_매도_차이, 시간차이))
+            이전시간_현재시간_매수_매도_차이, self.df['체결강도'][self.index], get_percent(int(self.df['체결강도'][self.index]), int(self.df['체결강도'][self.index-1])), 시간차이))
 
         if self.is_buy is False \
             and 이전시간_현재시간_매수_매도_차이 > 0 \
-            and 현재_시간_매수_매도_차이 > 0 \
+            and 현재_시간_매수_매도_차이 > 0   \
+            and get_percent(int(self.df['체결강도'][self.index]), int(self.df['체결강도'][self.index-1])) > 0  \
             and self.df['등락율'][self.index] > self.df['등락율'][self.index - 1] \
             and self.df['등락율'][self.index] > 0 \
             and 남은매수대금 > 10 \
-            and int(self.df['등락율'][self.index]) <= 20:
+            and int(self.df['등락율'][self.index]) <= 15:
             self.buy_list.append([self.index])
             self.real_buy_percent = float(self.df['등락율'][self.index])
             self.등략율_list.append(self.df['등락율'][self.index])
@@ -116,7 +117,7 @@ class StockCode():
             if self.index == len(self.df.index)-1:
                 is_trade = 'sell_success'
 
-        if self.is_buy is True and float(self.df['등락율'][self.index]) < self.real_buy_percent - 1.0:
+        if self.is_buy is True and float(self.df['등락율'][self.index]) < self.real_buy_percent - 0.5:
             if debug is True:
                 print('============== Failed Sell')
 
