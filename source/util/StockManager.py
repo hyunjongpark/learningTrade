@@ -9,7 +9,7 @@ from common import *
 import numpy
 from source.common import get_percent
 
-
+TAX = 0.33
 class StockCode():
     def __init__(self, code):
         self.df = pd.DataFrame()
@@ -36,7 +36,7 @@ class StockCode():
 
         self.profit = 0
         self.preBuyPrice = 0
-        self. buy_count = 0
+        self.buy_count = 0
 
     def register(self, df):
         self.df = self.df.append(df, ignore_index=True)
@@ -91,7 +91,7 @@ class StockCode():
         if self.is_buy is True and 남은매수대금 < 0:
             self.real_buy_percent = 50
             self.is_buy = False
-            profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - 0.33)
+            profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - TAX)
             if profit > 0:
                 self.test_success_sell_index_list.append(self.index)
                 self.test_success_sell_price_list.append(self.df['등락율'][self.index])
@@ -114,7 +114,7 @@ class StockCode():
             self.is_buy = False
             self.test_success_sell_index_list.append(self.index)
             self.test_success_sell_price_list.append(self.df['등락율'][self.index])
-            profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - 0.33)
+            profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - TAX)
             self.profit += profit
             if debug is True:
                 print('============== SUCCESS Sell[%s][%s][%s]' % (self.preBuyPrice, int(self.df['종가'][self.index]), profit))
@@ -129,7 +129,7 @@ class StockCode():
             self.is_buy = False
             self.test_fail_sell_index_list.append(self.index)
             self.test_fail_sell_price_list.append(self.df['등락율'][self.index])
-            profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - 0.33)
+            profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - TAX)
             self.profit += profit
             if debug is True:
                 print('============== FAILED Sell[%s][%s][%s]' % (self.preBuyPrice, int(self.df['종가'][self.index]), profit))
@@ -181,6 +181,8 @@ class StockManager:
             self.stocks[code] = stockCode
         else:
             stockCode.register(df)
+    def ini_stock_code(self, code):
+        self.stocks.get(code).__init__(code)
 
     def get_stock_code(self, code):
         return self.stocks.get(code)

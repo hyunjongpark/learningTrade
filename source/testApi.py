@@ -267,23 +267,25 @@ class Trade():
                                     '매도체결건수',
                                     '매수체결건수', '순체결건수', '거래량', '시가', '고가', '저가', '체결량', '매도체결건수시간', '매수체결건수시간', '매도잔량',
                                     '매수잔량', '시간별매도체결량', '시간별매수체결량'])
+            code = df['단축코드'][0]
+            stockManager.ini_stock_code(code)
             for i in df.index:
-                code = df['단축코드'][i]
                 stockManager.register(code, df.iloc[i])
                 trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
                 if trade == 'buy':
                     print('BUY')
                     print(' %s' %(log))
                 elif trade == 'sell_success':
-                    print('SELL SUCCESS')
+                    print('SELL SUCCESS profit[%s]' %(stockManager.get_stock_code(code).test_profit()))
                     print(' %s' %(log))
                 elif trade == 'sell_failed':
-                    print('SELL FAILED')
+                    print('SELL FAILED profit[%s]' %(stockManager.get_stock_code(code).test_profit()))
                     print(' %s' %(log))
 
             total_profit += stockManager.get_stock_code(code).test_profit()
             # stockManager.get_stock_code(code).show_graph()
         print('>>DAY[%s] - Profit[%s] ' % (TODAY, total_profit))
+        print('======================================================')
         return total_profit
 
 
@@ -291,7 +293,7 @@ if __name__ == "__main__":
     debug_mode = True
     Trade = Trade(debug=debug_mode)
     if debug_mode:
-        # Trade.all_file_test()
-        Trade.file_test('20191115')
+        Trade.all_file_test()
+        # Trade.file_test('20191115')
     else:
         Trade.check_realTime_stock()
