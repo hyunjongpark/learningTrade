@@ -43,7 +43,7 @@ class StockCode():
 
     def is_trade(self, debug):
         is_trade = ''
-        if self.index == 0 or numpy.isnan(self.df['시간'][self.index]) or numpy.isnan(self.df['시간'][self.index - 1]):
+        if self.index == 0:
             self.index += 1
             return ('', '')
 
@@ -109,7 +109,6 @@ class StockCode():
             self.profit += profit
 
         if self.is_buy is True and float(self.df['등락율'][self.index]) > self.real_buy_percent + 1.0:
-
             self.real_buy_percent = 50
             self.is_buy = False
             self.test_success_sell_index_list.append(self.index)
@@ -124,7 +123,6 @@ class StockCode():
         if self.is_buy is True and float(self.df['등락율'][self.index]) < self.real_buy_percent - 1:
             if debug is True:
                 print('============== Failed Sell')
-
             self.real_buy_percent = 50
             self.is_buy = False
             self.test_fail_sell_index_list.append(self.index)
