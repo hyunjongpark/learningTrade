@@ -36,7 +36,7 @@ def file_test(TODAY, SHOW_CHART):
                 print(' %s' % (log))
 
         total_profit += stockManager.get_stock_code(code).test_profit()
-        if SHOW_CHART is True:
+        if SHOW_CHART:
             stockManager.get_stock_code(code).show_graph()
     print('>>DAY[%s] - Profit[%s] ' % (TODAY, total_profit))
     print('======================================================')
@@ -54,9 +54,8 @@ class Trade():
 
 if __name__ == "__main__":
     all_days_check = False
-    SHOW_CHART = True
     Trade = Trade()
-    if all_days_check is True:
-        Trade.all_file_test(SHOW_CHART=SHOW_CHART)
+    if all_days_check:
+        Trade.all_file_test(SHOW_CHART=False)
     else:
-        file_test(TODAY='20191119', SHOW_CHART=SHOW_CHART)
+        file_test(TODAY='20191121', SHOW_CHART=False)

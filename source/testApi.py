@@ -66,8 +66,6 @@ class XAQueryEvents:
     def OnReceiveMessage(self, systemError, messageCode, message):
         if messageCode == "00040":
             print("OnReceiveMessage : ", systemError, messageCode, message)
-        else:
-            print("ERROR - OnReceiveMessage : ", systemError, messageCode, message)
 
 
 class Trade():
@@ -131,7 +129,6 @@ class Trade():
         startTime = datetime.datetime(today.year, today.month, today.day, 8, 58, 0)
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
         today_list = []
-        total_profit = 0
         while True:
             if len(today_list) == 0 and datetime.datetime.now() > getListTime:
                 today_list = self.t1488(field=1)
@@ -143,8 +140,11 @@ class Trade():
                 continue
 
             if datetime.datetime.now() > endTime:
+                totla_profit = 0
                 for stock in today_list:
-                    print('Today [%s] profit[%s]' % (stock['code'], stockManager.get_stock_code(stock['code']).test_profit()))
+                    profit = stockManager.get_stock_code(stock['code']).test_profit()
+                    totla_profit += profit;
+                    print('Today [%s] profit[%s] total_profit[%s]' % (stock['code'], profit, totla_profit))
                 break
 
             log_folder = ('log/%s' % (TODAY))
@@ -163,13 +163,13 @@ class Trade():
                 stockManager.register(stock['code'], df)
                 trade, log = stockManager.get_stock_code(stock['code']).is_trade(debug=False)
                 if trade == 'buy':
-                    self.handle_buy(self, stock['code'], int(df['종가'][0]))
+                    self.handle_buy(stock['code'], int(df['종가'][0]))
                     print('BUY [%s][%s][%s] profit[%s]' % (stock['code'], df['시간'][0], df['종가'][0], stockManager.get_stock_code(stock['code']).test_profit()))
                 elif trade == 'sell_success':
-                    self.handle_sell(self, stock['code'])
+                    self.handle_sell(stock['code'])
                     print('SELL SUCCESS [%s][%s][%s] profit[%s]' % ( stock['code'], df['시간'][0], df['종가'][0], stockManager.get_stock_code(stock['code']).test_profit()))
                 elif trade == 'sell_failed':
-                    self.handle_sell(self, stock['code'])
+                    self.handle_sell(stock['code'])
                     print('SELL FAILED [%s][%s][%s] profit[%s]' % (stock['code'], df['시간'][0], df['종가'][0], stockManager.get_stock_code(stock['code']).test_profit()))
 
     def t1488(self, field=1, day=0):
@@ -582,54 +582,8 @@ class Trade():
 
         return (df, df1)
 
-    def all_file_test(self):
-        total_profit = 0
-        folders = os.listdir('log')
-        for folder in folders:
-            total_profit += self.file_test(folder)
-        print('TOTAL Profit[%s]' % (total_profit))
-
-    def file_test(self, TODAY):
-        log_folder = ('log/%s' % (TODAY))
-        if not os.path.exists(log_folder):
-            return
-
-        total_profit = 0
-        files = os.listdir(log_folder)
-
-        for file in files:
-            df = pd.read_csv('log/%s/%s' % (TODAY, file),
-                             names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량', '순매수체결량',
-                                    '매도체결건수',
-                                    '매수체결건수', '순체결건수', '거래량', '시가', '고가', '저가', '체결량', '매도체결건수시간', '매수체결건수시간', '매도잔량',
-                                    '매수잔량', '시간별매도체결량', '시간별매수체결량'])
-            code = df['단축코드'][0]
-            stockManager.ini_stock_code(code)
-            for i in df.index:
-                stockManager.register(code, df.iloc[i])
-                trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
-                if trade == 'buy':
-                    print('BUY')
-                    print(' %s' % (log))
-                elif trade == 'sell_success':
-                    print('SELL SUCCESS profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
-                    print(' %s' % (log))
-                elif trade == 'sell_failed':
-                    print('SELL FAILED profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
-                    print(' %s' % (log))
-
-            total_profit += stockManager.get_stock_code(code).test_profit()
-            stockManager.get_stock_code(code).show_graph()
-        print('>>DAY[%s] - Profit[%s] ' % (TODAY, total_profit))
-        print('======================================================')
-        return total_profit
-
-
 if __name__ == "__main__":
-    debug_mode = True
+    debug_mode = False
     Trade = Trade(debug=debug_mode)
-    if debug_mode:
-        # Trade.all_file_test()
-        Trade.file_test('20191119')
-    else:
-        Trade.check_realTime_stock()
+    Trade.check_realTime_stock()
+
