@@ -12,7 +12,7 @@ from pandas import DataFrame, Series, Panel
 import pandas as pd
 import numpy as np
 from operator import itemgetter
-from source.common import get_buy_count
+from source.common import get_buy_count, get_percent
 
 from source.util.StockManager import stockManager
 
@@ -131,7 +131,8 @@ class Trade():
         today_list = []
         while True:
             if len(today_list) == 0 and datetime.datetime.now() > getListTime:
-                today_list = self.t1488(field=1)
+                # today_list = self.t1488(field=1)
+                today_list = self.t1427(field=1, day=0)
                 print(today_list)
 
             if datetime.datetime.now() < startTime:
@@ -140,11 +141,11 @@ class Trade():
                 continue
 
             if datetime.datetime.now() > endTime:
-                totla_profit = 0
+                total_profit = 0
                 for stock in today_list:
                     profit = stockManager.get_stock_code(stock['code']).test_profit()
-                    totla_profit += profit;
-                    print('Today [%s] profit[%s] total_profit[%s]' % (stock['code'], profit, totla_profit))
+                    total_profit += profit;
+                    print('Today [%s] profit[%s] total_profit[%s]' % (stock['code'], profit, total_profit))
                 break
 
             log_folder = ('log/%s' % (TODAY))
@@ -171,6 +172,52 @@ class Trade():
                 elif trade == 'sell_failed':
                     self.handle_sell(stock['code'])
                     print('SELL FAILED [%s][%s][%s] profit[%s]' % (stock['code'], df['시간'][0], df['종가'][0], stockManager.get_stock_code(stock['code']).test_profit()))
+
+    def t1427(self, field=1, day=0):
+        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+
+        pathname = os.path.dirname(sys.argv[0])
+        RESDIR = os.path.abspath(pathname)
+        MYNAME = inspect.currentframe().f_code.co_name
+        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+
+        inXAQuery.LoadFromResFile(RESFILE)
+        inXAQuery.SetFieldData('t1427InBlock', 'gubun', 0, field)
+        inXAQuery.Request(0)
+
+        while XAQueryEvents.상태 == False:
+            sleep(1)
+            pythoncom.PumpWaitingMessages()
+        XAQueryEvents.상태 = False
+
+        nCount = inXAQuery.GetBlockCount('t1427OutBlock1')
+        resultList = []
+        for i in range(nCount):
+            code = inXAQuery.GetFieldData('t1427OutBlock1', 'shcode', i)
+            price = int(inXAQuery.GetFieldData('t1427OutBlock1', 'price', i))
+            volume = int(inXAQuery.GetFieldData('t1427OutBlock1', 'volume', i))  # type: int
+            jnilvolume = int(inXAQuery.GetFieldData('t1427OutBlock1', 'jnilvolume', i))
+            low = int(inXAQuery.GetFieldData('t1427OutBlock1', 'low', i))
+            high = int(inXAQuery.GetFieldData('t1427OutBlock1', 'high', i))
+            value = int(inXAQuery.GetFieldData('t1427OutBlock1', 'value', i))
+
+            stock = {}
+            stock['code'] = code
+            stock['price'] = price
+            stock['volume'] = volume
+            stock['jnilvolume'] = jnilvolume
+            stock['priceVolume'] = price * volume
+            stock['value'] = value
+            stock['low'] = low
+            stock['high'] = high
+            stock['percent'] = get_percent(low, high)
+            if get_percent(low, high) > 10:
+                resultList.append(stock)
+
+        retList = sorted(resultList, key=itemgetter('value'), reverse=True)
+        for d in retList:
+            print(d)
+        return retList[0:10]
 
     def t1488(self, field=1, day=0):
         sleep(1)
