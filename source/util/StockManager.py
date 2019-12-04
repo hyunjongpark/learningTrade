@@ -67,8 +67,8 @@ class StockCode():
         남은매수대금 = (현재_시간_매수_매도_차이 * 거래량차이) / 100000000
         self.남은매수대금.append(남은매수대금)
 
-        print_log = 'code[%s] time[%s] 등락율[%s] 거래량차이[%s] 남은매수대금[%s] 현재_차이[%s] 이전_차이[%s] DIFF_차이[%s] 체결강도[%s][%s] 시간차이[%s]' % (
-            self.df['단축코드'][self.index], self.df['시간'][self.index], self.df['등락율'][self.index], 거래량차이, 남은매수대금,
+        print_log = 'index[%s] code[%s] time[%s] 등락율[%s] 거래량차이[%s][%s] 남은매수대금[%s] 현재_차이[%s] 이전_차이[%s] DIFF_차이[%s] 체결강도[%s][%s] 시간차이[%s]' % (
+            self.index, self.df['단축코드'][self.index], self.df['시간'][self.index], self.df['등락율'][self.index], 거래량차이, self.max_volume, 남은매수대금,
             현재_시간_매수_매도_차이, 이전_시간_매수_매도_차이,
             이전시간_현재시간_매수_매도_차이, self.df['체결강도'][self.index],
             get_percent(int(self.df['체결강도'][self.index]), int(self.df['체결강도'][self.index - 1])), 시간차이)
@@ -79,8 +79,8 @@ class StockCode():
         if self.is_buy is False \
                 and 이전시간_현재시간_매수_매도_차이 > 0 \
                 and 현재_시간_매수_매도_차이 > 0 \
-                and int(self.df['등락율'][self.index]) <= 20 \
-                and self.df['등락율'][self.index] > 0 \
+                and int(self.df['등락율'][self.index]) <= 25 \
+                and int(self.df['등락율'][self.index]) > 0 \
                 and 거래량차이 > self.max_volume / 2 \
                 and 남은매수대금 > 100:
 
@@ -156,7 +156,7 @@ class StockCode():
         return self.profit
 
     def show_graph(self):
-        fig, axs = plt.subplots(4)
+        fig, axs = plt.subplots(3)
 
         ax = axs[0]
         ax.plot(self.df['등락율'])
@@ -166,16 +166,16 @@ class StockCode():
         ax.grid(True)
 
         ax = axs[1]
-        ax.plot(self.거래량_차이_리스트)
+        ax.plot(self.남은매수대금)
         ax.grid(True)
 
         ax = axs[2]
-        ax.plot(self.현재_시간_매수_매도_차이_리스트)
+        ax.plot(self.거래량_차이_리스트)
         ax.grid(True)
-
-        ax = axs[3]
-        ax.plot(self.이전시간_현재시간_매수_매도_차이_리스트)
-        ax.grid(True)
+        #
+        # ax = axs[3]
+        # ax.plot(self.이전시간_현재시간_매수_매도_차이_리스트)
+        # ax.grid(True)
 
         plt.title(self.code)
         plt.show()

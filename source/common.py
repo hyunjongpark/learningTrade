@@ -249,9 +249,9 @@ def get_buy_count(quote_price, currentPrice):
     minus_count = buy_count % step_price
 
     if buy_count > minus_count:
-        buyCount = buy_count - minus_count
+        buy_count = buy_count - minus_count
 
-    return buyCount
+    return buy_count
 
 
 
