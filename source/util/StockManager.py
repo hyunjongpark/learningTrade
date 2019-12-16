@@ -8,6 +8,7 @@ import pandas as pd
 from common import *
 import numpy
 from source.common import get_percent
+from util.ta_tester import ta_tester
 
 TAX = 0.33
 
@@ -21,11 +22,16 @@ class StockCode():
         self.현재_시간_매수_매도_차이_리스트 = []
         self.이전시간_현재시간_매수_매도_차이_리스트 = []
         self.남은매수대금 = []
+        self.매수매도체결건수_리스트 = []
+
         self.거래량_차이_리스트.append(0)
         self.현재_시간_매수_매도_차이_리스트.append(0)
         self.이전시간_현재시간_매수_매도_차이_리스트.append(0)
+        self.매수매도체결건수_리스트.append(0)
 
         self.buy_list = []
+        self.pattern_list = []
+        self.pattern_list_price = []
         self.max_volume = 0
         self.is_buy = False
         self.real_buy_percent = 50
@@ -40,6 +46,9 @@ class StockCode():
         self.profit = 0
         self.preBuyPrice = 0
         self.buy_count = 0
+
+
+        self.ta_tester = ta_tester()
 
     def register(self, df):
         self.df = self.df.append(df, ignore_index=True)
@@ -56,33 +65,53 @@ class StockCode():
         이전_시간_매수_매도_차이 = int(self.df['매수잔량'][self.index - 1]) - int(self.df['매도잔량'][self.index - 1])
         현재_시간_매수_매도_차이 = int(self.df['매수잔량'][self.index]) - int(self.df['매도잔량'][self.index])
         이전시간_현재시간_매수_매도_차이 = 현재_시간_매수_매도_차이 - 이전_시간_매수_매도_차이
+        매수매도체결건수 = int(self.df['시간별매수체결량'][self.index]) - int(self.df['시간별매도체결량'][self.index - 1])
+
 
         self.거래량_차이_리스트.append(거래량차이)
         self.현재_시간_매수_매도_차이_리스트.append(현재_시간_매수_매도_차이)
         self.이전시간_현재시간_매수_매도_차이_리스트.append(이전시간_현재시간_매수_매도_차이)
+        self.매수매도체결건수_리스트.append(매수매도체결건수)
 
         if 거래량차이 > self.max_volume:
-            self.max_volume = 거래량차이;
+            self.max_volume = 거래량차이
 
         남은매수대금 = (현재_시간_매수_매도_차이 * 거래량차이) / 100000000
         self.남은매수대금.append(남은매수대금)
 
-        print_log = 'index[%s] code[%s] time[%s] 등락율[%s] 거래량차이[%s][%s] 남은매수대금[%s] 현재_차이[%s] 이전_차이[%s] DIFF_차이[%s] 체결강도[%s][%s] 시간차이[%s]' % (
-            self.index, self.df['단축코드'][self.index], self.df['시간'][self.index], self.df['등락율'][self.index], 거래량차이, self.max_volume, 남은매수대금,
-            현재_시간_매수_매도_차이, 이전_시간_매수_매도_차이,
-            이전시간_현재시간_매수_매도_차이, self.df['체결강도'][self.index],
-            get_percent(int(self.df['체결강도'][self.index]), int(self.df['체결강도'][self.index - 1])), 시간차이)
+
+        # print(self.df.iloc[self.index])
+
+        print_log = 'index[%s] code[%s] time[%s] 등락율[%s] 거래량차이[%s][%s] ' \
+                    '남은매수대금[%s] 매수매도체결건수[%s] 현재_차이[%s] 이전_차이[%s] DIFF_차이[%s] 체결강도[%s][%s] ' \
+                    '시간차이[%s]' % (
+            self.index, self.df['단축코드'][self.index], self.df['시간'][self.index], self.df['등락율'][self.index], 거래량차이, 거래량차이 > self.max_volume / 2,
+            남은매수대금, 매수매도체결건수, 현재_시간_매수_매도_차이, 이전_시간_매수_매도_차이, 이전시간_현재시간_매수_매도_차이, self.df['체결강도'][self.index],get_percent(int(self.df['체결강도'][self.index]),
+            int(self.df['체결강도'][self.index - 1])), 시간차이)
+
+        # ret_parrern = self.ta_tester.add_pattern(self.df)
+        # for pattern in ret_parrern:
+        #     print(pattern)
+        #     self.pattern_list.append([self.index])
+        #     self.pattern_list_price.append(self.df['등락율'][self.index])
+
 
         if debug is True:
             print(print_log)
 
+        # if self.is_buy is False \
+        #         and 이전시간_현재시간_매수_매도_차이 >= 0 \
+        #         and 현재_시간_매수_매도_차이 > 0 \
+        #         and 25 >= int(self.df['등락율'][self.index]) > 0 \
+        #         and 거래량차이 > self.max_volume / 2 \
+        #         and 1000 > 남은매수대금 > 100:
         if self.is_buy is False \
-                and 이전시간_현재시간_매수_매도_차이 > 0 \
+                and 이전시간_현재시간_매수_매도_차이 >= 0 \
                 and 현재_시간_매수_매도_차이 > 0 \
-                and int(self.df['등락율'][self.index]) <= 25 \
-                and int(self.df['등락율'][self.index]) > 0 \
+                and 25 >= int(self.df['등락율'][self.index]) > 0 \
                 and 거래량차이 > self.max_volume / 2 \
-                and 남은매수대금 > 100:
+                and 매수매도체결건수 > 0 \
+                and 1000 > 남은매수대금 > 100:
 
             self.buy_list.append([self.index])
             self.real_buy_percent = float(self.df['등락율'][self.index])
@@ -156,11 +185,13 @@ class StockCode():
         return self.profit
 
     def show_graph(self):
-        fig, axs = plt.subplots(3)
+        fig, axs = plt.subplots(4)
 
         ax = axs[0]
         ax.plot(self.df['등락율'])
         ax.scatter(self.buy_list, self.등략율_list, c='r')
+        ax.scatter(self.pattern_list, self.pattern_list_price, c='g')
+
         ax.scatter(self.test_success_sell_index_list, self.test_success_sell_price_list, c='b')
         ax.scatter(self.test_fail_sell_index_list, self.test_fail_sell_price_list, c='y')
         ax.grid(True)
@@ -170,6 +201,10 @@ class StockCode():
         ax.grid(True)
 
         ax = axs[2]
+        ax.plot(self.매수매도체결건수_리스트)
+        ax.grid(True)
+
+        ax = axs[3]
         ax.plot(self.거래량_차이_리스트)
         ax.grid(True)
         #

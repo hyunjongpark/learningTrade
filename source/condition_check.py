@@ -58,4 +58,4 @@ if __name__ == "__main__":
     if all_days_check:
         Trade.all_file_test(SHOW_CHART=False, DEBUG_LOG=False)
     else:
-        file_test(TODAY='20191204', SHOW_CHART=False, DEBUG_LOG=True)
+        file_test(TODAY='20191209', SHOW_CHART=False, DEBUG_LOG=False)

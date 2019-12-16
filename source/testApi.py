@@ -35,7 +35,7 @@ money = 100000
 REAL_TRADE = True
 
 
-class TodayTradeStock():
+class TodayTradeStock:
     def __init__(self, code, count):
         self.code = code
         self.buy_count = count
@@ -68,7 +68,7 @@ class XAQueryEvents:
             print("OnReceiveMessage : ", systemError, messageCode, message)
 
 
-class Trade():
+class Trade:
     today_trade_stocks = dict()
 
     def __init__(self, debug):
@@ -125,8 +125,8 @@ class Trade():
         print('check_realTime_stock')
 
         today = datetime.date.today()
-        getListTime = datetime.datetime(today.year, today.month, today.day, 8, 58, 0)
-        startTime = datetime.datetime(today.year, today.month, today.day, 8, 59, 0)
+        getListTime = datetime.datetime(today.year, today.month, today.day, 8, 59, 0)
+        startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
         today_list = []
         # today_list = self.t8436(gubun=1)
@@ -158,7 +158,7 @@ class Trade():
                 code = stock['code']
                 df0, df = self.t1302(단축코드=code, 작업구분='2', 시간='1', 건수='1')
                 if df is None:
-                    print('Skip:[%s]' % (code))
+                    print('Skip:[%s]' % code)
                     continue
 
                 df.to_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
@@ -218,6 +218,7 @@ class Trade():
                     resultList.append(stock)
 
         retList = sorted(resultList, key=itemgetter('value'), reverse=True)
+
         for d in retList:
             print(d)
         return retList[0:10]
@@ -261,6 +262,8 @@ class Trade():
         retList = sorted(resultList, key=itemgetter('priceVolume'), reverse=True)
         for d in retList:
             print(d)
+        df = pd.DataFrame.from_dict(retList)
+        df.to_csv("%s.txt" % TODAY, header=True, index=True, mode='a')
 
         return retList[0:10]
 
