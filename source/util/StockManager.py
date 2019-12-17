@@ -8,7 +8,7 @@ import pandas as pd
 from common import *
 import numpy
 from source.common import get_percent
-from util.ta_tester import ta_tester
+# from util.ta_tester import ta_tester
 
 TAX = 0.33
 
@@ -48,7 +48,7 @@ class StockCode():
         self.buy_count = 0
 
 
-        self.ta_tester = ta_tester()
+        # self.ta_tester = ta_tester()
 
     def register(self, df):
         self.df = self.df.append(df, ignore_index=True)

@@ -121,6 +121,23 @@ class Trade:
         print(df0)
         print(df)
 
+    def handle_trade_condtion_profit_by_bank(self):
+        df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
+        for i in df.index:
+            current_profit = int(df['수익율'][i])
+            if current_profit == 0 or current_profit == -100:
+                continue
+            if current_profit > 1 or current_profit < -2:
+                self.handle_sell(df['종목번호'][i])
+
+    def handle_trade_all_end_time(self):
+        df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
+        for i in df.index:
+            current_profit = int(df['수익율'][i])
+            if current_profit == 0 or current_profit == -100:
+                continue
+            self.handle_sell(df['종목번호'][i])
+
     def check_realTime_stock(self):
         print('check_realTime_stock')
 
@@ -128,8 +145,11 @@ class Trade:
         getListTime = datetime.datetime(today.year, today.month, today.day, 8, 59, 0)
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
+        lastTradeStartTime = datetime.datetime(today.year, today.month, today.day, 15, 25, 0)
         today_list = []
         # today_list = self.t8436(gubun=1)
+
+        isRunLastTrade = False
         while True:
             if len(today_list) == 0 and datetime.datetime.now() > getListTime:
                 today_list = self.t1488(field=2)
@@ -140,6 +160,10 @@ class Trade:
                 sleep(5)
                 continue
 
+            if lastTradeStartTime <= datetime.datetime.now() <= endTime and isRunLastTrade is False:
+                self.handle_trade_all_end_time()
+                isRunLastTrade = True
+
             if datetime.datetime.now() > endTime:
                 total_profit = 0
                 for stock in today_list:
@@ -149,12 +173,13 @@ class Trade:
                     print('Today [%s] profit[%s] total_profit[%s]' % (code, profit, total_profit))
                 break
 
-            log_folder = ('log/%s' % (TODAY))
+            log_folder = ('log/%s' % TODAY)
             if not os.path.exists(log_folder):
                 pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
 
             for stock in today_list:
                 sleep(3)
+                self.handle_trade_condtion_profit_by_bank()
                 code = stock['code']
                 df0, df = self.t1302(단축코드=code, 작업구분='2', 시간='1', 건수='1')
                 if df is None:
@@ -167,13 +192,16 @@ class Trade:
                 trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
                 if trade == 'buy':
                     self.handle_buy(code, int(df['종가'][0]))
-                    print('BUY [%s][%s][%s] profit[%s]' % (code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
+                    print('BUY [%s][%s][%s] profit[%s]' % (
+                        code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
                 elif trade == 'sell_success':
                     self.handle_sell(code)
-                    print('SELL SUCCESS [%s][%s][%s] profit[%s]' % (code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
+                    print('SELL SUCCESS [%s][%s][%s] profit[%s]' % (
+                        code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
                 elif trade == 'sell_failed':
                     self.handle_sell(code)
-                    print('SELL FAILED [%s][%s][%s] profit[%s]' % (code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
+                    print('SELL FAILED [%s][%s][%s] profit[%s]' % (
+                        code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
 
     def t1427(self, field=1, day=0, diff=10, list=[]):
         inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
@@ -364,7 +392,7 @@ class Trade:
         OUTBLOCK2 = "%sOutBlock2" % MYNAME
         RESFILE = "%s\\Res\\%s.res" % (resdir, MYNAME)
 
-        print(MYNAME, RESFILE)
+        # print(MYNAME, RESFILE)
 
         query.LoadFromResFile(RESFILE)
         query.SetFieldData(INBLOCK, "accno", 0, 계좌번호)
@@ -576,7 +604,6 @@ class Trade:
             현재가 = inXAQuery.GetFieldData('t1102OutBlock', 'price', i)
             전일거래량 = int(inXAQuery.GetFieldData('t1102OutBlock', 'jnilvolume', i))
 
-
             stock = {}
             stock['현재가'] = 현재가
             stock['전일거래량'] = 전일거래량
@@ -702,8 +729,8 @@ class Trade:
 
         return (df, df1)
 
+
 if __name__ == "__main__":
     debug_mode = False
     Trade = Trade(debug=debug_mode)
     Trade.check_realTime_stock()
-
