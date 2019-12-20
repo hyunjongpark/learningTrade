@@ -53,9 +53,9 @@ class Trade():
 
 
 if __name__ == "__main__":
-    all_days_check = True
+    all_days_check = False
     Trade = Trade()
     if all_days_check:
         Trade.all_file_test(SHOW_CHART=False, DEBUG_LOG=False)
     else:
-        file_test(TODAY='20191209', SHOW_CHART=False, DEBUG_LOG=False)
+        file_test(TODAY='20191220', SHOW_CHART=False, DEBUG_LOG=False)

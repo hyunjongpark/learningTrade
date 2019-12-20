@@ -12,7 +12,7 @@ from pandas import DataFrame, Series, Panel
 import pandas as pd
 import numpy as np
 from operator import itemgetter
-from source.common import get_buy_count, get_percent
+from source.common import get_buy_count, get_percent, get_percent_price
 
 from source.util.StockManager import stockManager
 
@@ -21,6 +21,7 @@ SHOW_CERTIFICATE_ERROR_DIALOG = False
 REPEATED_DATA_QUERY = 1
 TRANSACTION_REQUEST_EXCESS = -21
 TODAY = datetime.datetime.now().strftime('%Y%m%d')
+today_time = datetime.date.today()
 
 from util.StockManager import *
 
@@ -64,7 +65,7 @@ class XAQueryEvents:
         XAQueryEvents.상태 = True
 
     def OnReceiveMessage(self, systemError, messageCode, message):
-        if messageCode == "00040":
+        if int(messageCode) != 0:
             print("OnReceiveMessage : ", systemError, messageCode, message)
 
 
@@ -106,7 +107,8 @@ class Trade:
             return
         매매구분 = 2  # 매수
         trade_count = int(get_buy_count(money, price))
-        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분)
+        trade_price = get_percent_price(price, 4)
+        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분, 가격=trade_price, 가격구분="00")
         print(df0)
         print(df)
 
@@ -117,11 +119,11 @@ class Trade:
             return
         매매구분 = 1  # 매도
         trade_count = self.today_trade_stocks.get(code).buy_count
-        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분)
+        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분, 가격=0, 가격구분="03")
         print(df0)
         print(df)
 
-    def handle_trade_condtion_profit_by_bank(self):
+    def handle_trade_condition_profit_by_bank(self):
         df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
         for i in df.index:
             current_profit = int(df['수익율'][i])
@@ -144,26 +146,39 @@ class Trade:
         today = datetime.date.today()
         getListTime = datetime.datetime(today.year, today.month, today.day, 8, 59, 0)
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
+        logEndTime = datetime.datetime(today.year, today.month, today.day, 9, 10, 0)
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
         lastTradeStartTime = datetime.datetime(today.year, today.month, today.day, 15, 25, 0)
         today_list = []
-        # today_list = self.t8436(gubun=1)
+
+        log_folder = ('log/%s' % TODAY)
+        if not os.path.exists(log_folder):
+            pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
 
         isRunLastTrade = False
         while True:
+            ## 그날에 주식 종목 가져오기
             if len(today_list) == 0 and datetime.datetime.now() > getListTime:
                 today_list = self.t1488(field=2)
                 print(today_list)
 
+            if startTime < datetime.datetime.now() < logEndTime:
+                self.t1488(field=1)
+                self.t1488(field=2)
+
+            ## 장 시작전까지 홀딩
             if datetime.datetime.now() < startTime:
                 print('Before[%s]' % (datetime.datetime.now()))
+                self.handle_trade_condition_profit_by_bank()
                 sleep(5)
                 continue
 
+            ## 3시25분 안 팔린 주식 일괄 매도
             if lastTradeStartTime <= datetime.datetime.now() <= endTime and isRunLastTrade is False:
                 self.handle_trade_all_end_time()
                 isRunLastTrade = True
 
+            ## 프로그램 종료
             if datetime.datetime.now() > endTime:
                 total_profit = 0
                 for stock in today_list:
@@ -173,13 +188,11 @@ class Trade:
                     print('Today [%s] profit[%s] total_profit[%s]' % (code, profit, total_profit))
                 break
 
-            log_folder = ('log/%s' % TODAY)
-            if not os.path.exists(log_folder):
-                pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
-
+            ## 주식 종목들 매수/매도 체크
             for stock in today_list:
-                sleep(3)
-                self.handle_trade_condtion_profit_by_bank()
+                sleep(1)
+                self.handle_trade_condition_profit_by_bank()
+                sleep(2)
                 code = stock['code']
                 df0, df = self.t1302(단축코드=code, 작업구분='2', 시간='1', 건수='1')
                 if df is None:
@@ -203,56 +216,10 @@ class Trade:
                     print('SELL FAILED [%s][%s][%s] profit[%s]' % (
                         code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
 
-    def t1427(self, field=1, day=0, diff=10, list=[]):
-        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
-
-        pathname = os.path.dirname(sys.argv[0])
-        RESDIR = os.path.abspath(pathname)
-        MYNAME = inspect.currentframe().f_code.co_name
-        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
-
-        inXAQuery.LoadFromResFile(RESFILE)
-        inXAQuery.SetFieldData('t1427InBlock', 'gubun', 0, field)
-        inXAQuery.Request(0)
-
-        while XAQueryEvents.상태 == False:
-            sleep(1)
-            pythoncom.PumpWaitingMessages()
-        XAQueryEvents.상태 = False
-
-        nCount = inXAQuery.GetBlockCount('t1427OutBlock1')
-        resultList = []
-        for i in range(nCount):
-            code = inXAQuery.GetFieldData('t1427OutBlock1', 'shcode', i)
-            price = int(inXAQuery.GetFieldData('t1427OutBlock1', 'price', i))
-            volume = int(inXAQuery.GetFieldData('t1427OutBlock1', 'volume', i))  # type: int
-            jnilvolume = int(inXAQuery.GetFieldData('t1427OutBlock1', 'jnilvolume', i))
-            low = int(inXAQuery.GetFieldData('t1427OutBlock1', 'low', i))
-            high = int(inXAQuery.GetFieldData('t1427OutBlock1', 'high', i))
-            value = int(inXAQuery.GetFieldData('t1427OutBlock1', 'value', i))
-
-            stock = {}
-            stock['code'] = code
-            stock['price'] = price
-            stock['volume'] = volume
-            stock['jnilvolume'] = jnilvolume
-            stock['priceVolume'] = price * volume
-            stock['value'] = value
-            stock['low'] = low
-            stock['high'] = high
-            stock['percent'] = get_percent(low, high)
-            if get_percent(low, high) > diff:
-                if stock not in list:
-                    resultList.append(stock)
-
-        retList = sorted(resultList, key=itemgetter('value'), reverse=True)
-
-        for d in retList:
-            print(d)
-        return retList[0:10]
-
     def t1488(self, field=1, day=0):
-        sleep(1)
+        '''
+              주식 종목 가져오기
+        '''
         inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
 
         pathname = os.path.dirname(sys.argv[0])
@@ -291,9 +258,9 @@ class Trade:
         for d in retList:
             print(d)
         df = pd.DataFrame.from_dict(retList)
-        df.to_csv("%s.txt" % TODAY, header=True, index=True, mode='a')
+        df.to_csv("daily_stock_list/%s_%s.txt" % today_time, field, header=True, index=True, mode='a')
 
-        return retList[0:10]
+        return retList[0:5]
 
     def t1302(self, 단축코드='', 작업구분='1', 시간='1', 건수='1'):
         '''
@@ -470,160 +437,10 @@ class Trade:
         XAQueryEvents.상태 = False
         return (df, df1)
 
-    def t0425(self, 계좌번호='', 비밀번호='', 종목번호='', 체결구분='0', 매매구분='0', 정렬순서='2', 주문번호=''):
+    def CSPAT00600(self, 계좌번호, 입력비밀번호, 종목번호, 주문수량, 매매구분, 가격, 가격구분):
         '''
-        주식 체결/미체결
+              주식 매도/매수 거래
         '''
-        pathname = os.path.dirname(sys.argv[0])
-        resdir = os.path.abspath(pathname)
-
-        query = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
-
-        MYNAME = inspect.currentframe().f_code.co_name
-        INBLOCK = "%sInBlock" % MYNAME
-        INBLOCK1 = "%sInBlock1" % MYNAME
-        OUTBLOCK = "%sOutBlock" % MYNAME
-        OUTBLOCK1 = "%sOutBlock1" % MYNAME
-        OUTBLOCK2 = "%sOutBlock2" % MYNAME
-        RESFILE = "%s\\Res\\%s.res" % (resdir, MYNAME)
-
-        print(MYNAME, RESFILE)
-
-        query.LoadFromResFile(RESFILE)
-        query.SetFieldData(INBLOCK, "accno", 0, 계좌번호)
-        query.SetFieldData(INBLOCK, "passwd", 0, 비밀번호)
-        query.SetFieldData(INBLOCK, "expcode", 0, 종목번호)
-        query.SetFieldData(INBLOCK, "chegb", 0, 체결구분)
-        query.SetFieldData(INBLOCK, "medosu", 0, 매매구분)
-        query.SetFieldData(INBLOCK, "sortgb", 0, 정렬순서)
-        query.SetFieldData(INBLOCK, "cts_ordno", 0, 주문번호)
-        query.Request(0)
-
-        while XAQueryEvents.상태 == False:
-            pythoncom.PumpWaitingMessages()
-
-        result = []
-        nCount = query.GetBlockCount(OUTBLOCK)
-        for i in range(nCount):
-            총주문수량 = int(query.GetFieldData(OUTBLOCK, "tqty", i).strip())
-            총체결수량 = int(query.GetFieldData(OUTBLOCK, "tcheqty", i).strip())
-            총미체결수량 = int(query.GetFieldData(OUTBLOCK, "tordrem", i).strip())
-            추정수수료 = int(query.GetFieldData(OUTBLOCK, "cmss", i).strip())
-            총주문금액 = int(query.GetFieldData(OUTBLOCK, "tamt", i).strip())
-            총매도체결금액 = int(query.GetFieldData(OUTBLOCK, "tmdamt", i).strip())
-            총매수체결금액 = int(query.GetFieldData(OUTBLOCK, "tmsamt", i).strip())
-            추정제세금 = int(query.GetFieldData(OUTBLOCK, "tax", i).strip())
-            주문번호 = query.GetFieldData(OUTBLOCK, "cts_ordno", i).strip()
-
-            lst = [총주문수량, 총체결수량, 총미체결수량, 추정수수료, 총주문금액, 총매도체결금액, 총매수체결금액, 추정제세금, 주문번호]
-            result.append(lst)
-
-        columns = ['총주문수량', '총체결수량', '총미체결수량', '추정수수료', '총주문금액', '총매도체결금액', '총매수체결금액', '추정제세금', '주문번호']
-        df = DataFrame(data=result, columns=columns)
-
-        result = []
-        nCount = query.GetBlockCount(OUTBLOCK1)
-        for i in range(nCount):
-            주문번호 = int(query.GetFieldData(OUTBLOCK1, "ordno", i).strip())
-            종목번호 = query.GetFieldData(OUTBLOCK1, "expcode", i).strip()
-            구분 = query.GetFieldData(OUTBLOCK1, "medosu", i).strip()
-            주문수량 = int(query.GetFieldData(OUTBLOCK1, "qty", i).strip())
-            주문가격 = int(query.GetFieldData(OUTBLOCK1, "price", i).strip())
-            체결수량 = int(query.GetFieldData(OUTBLOCK1, "cheqty", i).strip())
-            체결가격 = int(query.GetFieldData(OUTBLOCK1, "cheprice", i).strip())
-            미체결잔량 = int(query.GetFieldData(OUTBLOCK1, "ordrem", i).strip())
-            확인수량 = int(query.GetFieldData(OUTBLOCK1, "cfmqty", i).strip())
-            상태 = query.GetFieldData(OUTBLOCK1, "status", i).strip()
-            원주문번호 = int(query.GetFieldData(OUTBLOCK1, "orgordno", i).strip())
-            유형 = query.GetFieldData(OUTBLOCK1, "ordgb", i).strip()
-            주문시간 = query.GetFieldData(OUTBLOCK1, "ordtime", i).strip()
-            주문매체 = query.GetFieldData(OUTBLOCK1, "ordermtd", i).strip()
-            처리순번 = int(query.GetFieldData(OUTBLOCK1, "sysprocseq", i).strip())
-            호가유형 = query.GetFieldData(OUTBLOCK1, "hogagb", i).strip()
-            현재가 = int(query.GetFieldData(OUTBLOCK1, "price1", i).strip())
-            주문구분 = query.GetFieldData(OUTBLOCK1, "orggb", i).strip()
-            신용구분 = query.GetFieldData(OUTBLOCK1, "singb", i).strip()
-            대출일자 = query.GetFieldData(OUTBLOCK1, "loandt", i).strip()
-
-            lst = [주문번호, 종목번호, 구분, 주문수량, 주문가격, 체결수량, 체결가격, 미체결잔량, 확인수량, 상태, 원주문번호, 유형, 주문시간, 주문매체, 처리순번, 호가유형, 현재가,
-                   주문구분, 신용구분, 대출일자]
-            result.append(lst)
-
-        columns = ['주문번호', '종목번호', '구분', '주문수량', '주문가격', '체결수량', '체결가격', '미체결잔량', '확인수량', '상태', '원주문번호', '유형', '주문시간',
-                   '주문매체', '처리순번', '호가유형', '현재가', '주문구분', '신용구분', '대출일자']
-        df1 = DataFrame(data=result, columns=columns)
-
-        XAQueryEvents.상태 = False
-
-        return (df, df1)
-
-    def t8436(self, gubun=1):
-        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
-
-        pathname = os.path.dirname(sys.argv[0])
-        RESDIR = os.path.abspath(pathname)
-        MYNAME = inspect.currentframe().f_code.co_name
-        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
-
-        inXAQuery.LoadFromResFile(RESFILE)
-        inXAQuery.SetFieldData('t8436InBlock', 'gubun', 0, gubun)
-        inXAQuery.Request(0)
-
-        while XAQueryEvents.상태 == False:
-            sleep(1)
-            pythoncom.PumpWaitingMessages()
-        XAQueryEvents.상태 = False
-
-        nCount = inXAQuery.GetBlockCount('t8436OutBlock')
-        resultList = []
-        for i in range(nCount):
-            code = inXAQuery.GetFieldData('t8436OutBlock', 'shcode', i)
-            resultList.append(code)
-        return resultList
-
-    def t1102(self, shcode, code_list=[]):
-        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
-
-        pathname = os.path.dirname(sys.argv[0])
-        RESDIR = os.path.abspath(pathname)
-        MYNAME = inspect.currentframe().f_code.co_name
-        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
-
-        inXAQuery.LoadFromResFile(RESFILE)
-        inXAQuery.SetFieldData('t1102InBlock', 'shcode', 0, shcode)
-        inXAQuery.Request(0)
-
-        while XAQueryEvents.상태 == False:
-            sleep(1)
-            pythoncom.PumpWaitingMessages()
-        XAQueryEvents.상태 = False
-
-        nCount = inXAQuery.GetBlockCount('t11102OutBlock')
-        resultList = []
-        for i in range(nCount):
-            현재가 = inXAQuery.GetFieldData('t1102OutBlock', 'price', i)
-            전일거래량 = int(inXAQuery.GetFieldData('t1102OutBlock', 'jnilvolume', i))
-
-            stock = {}
-            stock['현재가'] = 현재가
-            stock['전일거래량'] = 전일거래량
-            stock['volume'] = volume
-            stock['jnilvolume'] = jnilvolume
-            stock['priceVolume'] = price * volume
-            stock['value'] = value
-            stock['low'] = low
-            stock['high'] = high
-            stock['percent'] = get_percent(low, high)
-            if get_percent(low, high) > diff:
-                if stock not in list:
-                    resultList.append(stock)
-
-        retList = sorted(resultList, key=itemgetter('value'), reverse=True)
-        for d in retList:
-            print(d)
-        return retList[0:10]
-
-    def CSPAT00600(self, 계좌번호, 입력비밀번호, 종목번호, 주문수량, 매매구분):
         pathname = os.path.dirname(sys.argv[0])
         resdir = os.path.abspath(pathname)
 
@@ -644,10 +461,9 @@ class Trade:
         query.SetFieldData(INBLOCK1, "InptPwd", 0, 입력비밀번호)
         query.SetFieldData(INBLOCK1, "IsuNo", 0, 종목번호)
         query.SetFieldData(INBLOCK1, "OrdQty", 0, 주문수량)
-        query.SetFieldData(INBLOCK1, "OrdPrc", 0, 0)  # 지정가일 경우 가격을, 시장가일 경우 0을 입력
+        query.SetFieldData(INBLOCK1, "OrdPrc", 0, 가격)  # 지정가일 경우 가격을, 시장가일 경우 0을 입력
         query.SetFieldData(INBLOCK1, "BnsTpCode", 0, 매매구분)  # 매도 1 매수 2
-        query.SetFieldData(INBLOCK1, "OrdprcPtnCode", 0,
-                           "03")  # 지정가 00, 시장가 03, 조건부지정가 05, 최유리지정가 06, 최우선지정가 07, 장개시전시간외 61, 시간외종가 81, 시간외단일가 82
+        query.SetFieldData(INBLOCK1, "OrdprcPtnCode", 0, 가격구분)  # 지정가 00, 시장가 03, 조건부지정가 05, 최유리지정가 06, 최우선지정가 07, 장개시전시간외 61, 시간외종가 81, 시간외단일가 82
         query.SetFieldData(INBLOCK1, "MgntrnCode", 0, "000")
         query.SetFieldData(INBLOCK1, "LoanDt", 0, "0")
         query.SetFieldData(INBLOCK1, "OrdCndiTpCode", 0, "0")
@@ -728,6 +544,207 @@ class Trade:
         XAQueryEvents.상태 = False
 
         return (df, df1)
+
+    # def t1427(self, field=1, day=0, diff=10, list=[]):
+    #     inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+    #
+    #     pathname = os.path.dirname(sys.argv[0])
+    #     RESDIR = os.path.abspath(pathname)
+    #     MYNAME = inspect.currentframe().f_code.co_name
+    #     RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+    #
+    #     inXAQuery.LoadFromResFile(RESFILE)
+    #     inXAQuery.SetFieldData('t1427InBlock', 'gubun', 0, field)
+    #     inXAQuery.Request(0)
+    #
+    #     while XAQueryEvents.상태 == False:
+    #         sleep(1)
+    #         pythoncom.PumpWaitingMessages()
+    #     XAQueryEvents.상태 = False
+    #
+    #     nCount = inXAQuery.GetBlockCount('t1427OutBlock1')
+    #     resultList = []
+    #     for i in range(nCount):
+    #         code = inXAQuery.GetFieldData('t1427OutBlock1', 'shcode', i)
+    #         price = int(inXAQuery.GetFieldData('t1427OutBlock1', 'price', i))
+    #         volume = int(inXAQuery.GetFieldData('t1427OutBlock1', 'volume', i))  # type: int
+    #         jnilvolume = int(inXAQuery.GetFieldData('t1427OutBlock1', 'jnilvolume', i))
+    #         low = int(inXAQuery.GetFieldData('t1427OutBlock1', 'low', i))
+    #         high = int(inXAQuery.GetFieldData('t1427OutBlock1', 'high', i))
+    #         value = int(inXAQuery.GetFieldData('t1427OutBlock1', 'value', i))
+    #
+    #         stock = {}
+    #         stock['code'] = code
+    #         stock['price'] = price
+    #         stock['volume'] = volume
+    #         stock['jnilvolume'] = jnilvolume
+    #         stock['priceVolume'] = price * volume
+    #         stock['value'] = value
+    #         stock['low'] = low
+    #         stock['high'] = high
+    #         stock['percent'] = get_percent(low, high)
+    #         if get_percent(low, high) > diff:
+    #             if stock not in list:
+    #                 resultList.append(stock)
+    #
+    #     retList = sorted(resultList, key=itemgetter('value'), reverse=True)
+    #
+    #     for d in retList:
+    #         print(d)
+    #     return retList[0:10]
+
+    # def t0425(self, 계좌번호='', 비밀번호='', 종목번호='', 체결구분='0', 매매구분='0', 정렬순서='2', 주문번호=''):
+    #     '''
+    #     주식 체결/미체결
+    #     '''
+    #     pathname = os.path.dirname(sys.argv[0])
+    #     resdir = os.path.abspath(pathname)
+    #
+    #     query = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+    #
+    #     MYNAME = inspect.currentframe().f_code.co_name
+    #     INBLOCK = "%sInBlock" % MYNAME
+    #     INBLOCK1 = "%sInBlock1" % MYNAME
+    #     OUTBLOCK = "%sOutBlock" % MYNAME
+    #     OUTBLOCK1 = "%sOutBlock1" % MYNAME
+    #     OUTBLOCK2 = "%sOutBlock2" % MYNAME
+    #     RESFILE = "%s\\Res\\%s.res" % (resdir, MYNAME)
+    #
+    #     print(MYNAME, RESFILE)
+    #
+    #     query.LoadFromResFile(RESFILE)
+    #     query.SetFieldData(INBLOCK, "accno", 0, 계좌번호)
+    #     query.SetFieldData(INBLOCK, "passwd", 0, 비밀번호)
+    #     query.SetFieldData(INBLOCK, "expcode", 0, 종목번호)
+    #     query.SetFieldData(INBLOCK, "chegb", 0, 체결구분)
+    #     query.SetFieldData(INBLOCK, "medosu", 0, 매매구분)
+    #     query.SetFieldData(INBLOCK, "sortgb", 0, 정렬순서)
+    #     query.SetFieldData(INBLOCK, "cts_ordno", 0, 주문번호)
+    #     query.Request(0)
+    #
+    #     while XAQueryEvents.상태 == False:
+    #         pythoncom.PumpWaitingMessages()
+    #
+    #     result = []
+    #     nCount = query.GetBlockCount(OUTBLOCK)
+    #     for i in range(nCount):
+    #         총주문수량 = int(query.GetFieldData(OUTBLOCK, "tqty", i).strip())
+    #         총체결수량 = int(query.GetFieldData(OUTBLOCK, "tcheqty", i).strip())
+    #         총미체결수량 = int(query.GetFieldData(OUTBLOCK, "tordrem", i).strip())
+    #         추정수수료 = int(query.GetFieldData(OUTBLOCK, "cmss", i).strip())
+    #         총주문금액 = int(query.GetFieldData(OUTBLOCK, "tamt", i).strip())
+    #         총매도체결금액 = int(query.GetFieldData(OUTBLOCK, "tmdamt", i).strip())
+    #         총매수체결금액 = int(query.GetFieldData(OUTBLOCK, "tmsamt", i).strip())
+    #         추정제세금 = int(query.GetFieldData(OUTBLOCK, "tax", i).strip())
+    #         주문번호 = query.GetFieldData(OUTBLOCK, "cts_ordno", i).strip()
+    #
+    #         lst = [총주문수량, 총체결수량, 총미체결수량, 추정수수료, 총주문금액, 총매도체결금액, 총매수체결금액, 추정제세금, 주문번호]
+    #         result.append(lst)
+    #
+    #     columns = ['총주문수량', '총체결수량', '총미체결수량', '추정수수료', '총주문금액', '총매도체결금액', '총매수체결금액', '추정제세금', '주문번호']
+    #     df = DataFrame(data=result, columns=columns)
+    #
+    #     result = []
+    #     nCount = query.GetBlockCount(OUTBLOCK1)
+    #     for i in range(nCount):
+    #         주문번호 = int(query.GetFieldData(OUTBLOCK1, "ordno", i).strip())
+    #         종목번호 = query.GetFieldData(OUTBLOCK1, "expcode", i).strip()
+    #         구분 = query.GetFieldData(OUTBLOCK1, "medosu", i).strip()
+    #         주문수량 = int(query.GetFieldData(OUTBLOCK1, "qty", i).strip())
+    #         주문가격 = int(query.GetFieldData(OUTBLOCK1, "price", i).strip())
+    #         체결수량 = int(query.GetFieldData(OUTBLOCK1, "cheqty", i).strip())
+    #         체결가격 = int(query.GetFieldData(OUTBLOCK1, "cheprice", i).strip())
+    #         미체결잔량 = int(query.GetFieldData(OUTBLOCK1, "ordrem", i).strip())
+    #         확인수량 = int(query.GetFieldData(OUTBLOCK1, "cfmqty", i).strip())
+    #         상태 = query.GetFieldData(OUTBLOCK1, "status", i).strip()
+    #         원주문번호 = int(query.GetFieldData(OUTBLOCK1, "orgordno", i).strip())
+    #         유형 = query.GetFieldData(OUTBLOCK1, "ordgb", i).strip()
+    #         주문시간 = query.GetFieldData(OUTBLOCK1, "ordtime", i).strip()
+    #         주문매체 = query.GetFieldData(OUTBLOCK1, "ordermtd", i).strip()
+    #         처리순번 = int(query.GetFieldData(OUTBLOCK1, "sysprocseq", i).strip())
+    #         호가유형 = query.GetFieldData(OUTBLOCK1, "hogagb", i).strip()
+    #         현재가 = int(query.GetFieldData(OUTBLOCK1, "price1", i).strip())
+    #         주문구분 = query.GetFieldData(OUTBLOCK1, "orggb", i).strip()
+    #         신용구분 = query.GetFieldData(OUTBLOCK1, "singb", i).strip()
+    #         대출일자 = query.GetFieldData(OUTBLOCK1, "loandt", i).strip()
+    #
+    #         lst = [주문번호, 종목번호, 구분, 주문수량, 주문가격, 체결수량, 체결가격, 미체결잔량, 확인수량, 상태, 원주문번호, 유형, 주문시간, 주문매체, 처리순번, 호가유형, 현재가,
+    #                주문구분, 신용구분, 대출일자]
+    #         result.append(lst)
+    #
+    #     columns = ['주문번호', '종목번호', '구분', '주문수량', '주문가격', '체결수량', '체결가격', '미체결잔량', '확인수량', '상태', '원주문번호', '유형', '주문시간',
+    #                '주문매체', '처리순번', '호가유형', '현재가', '주문구분', '신용구분', '대출일자']
+    #     df1 = DataFrame(data=result, columns=columns)
+    #
+    #     XAQueryEvents.상태 = False
+    #
+    #     return (df, df1)
+
+    # def t8436(self, gubun=1):
+    #     inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+    #
+    #     pathname = os.path.dirname(sys.argv[0])
+    #     RESDIR = os.path.abspath(pathname)
+    #     MYNAME = inspect.currentframe().f_code.co_name
+    #     RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+    #
+    #     inXAQuery.LoadFromResFile(RESFILE)
+    #     inXAQuery.SetFieldData('t8436InBlock', 'gubun', 0, gubun)
+    #     inXAQuery.Request(0)
+    #
+    #     while XAQueryEvents.상태 == False:
+    #         sleep(1)
+    #         pythoncom.PumpWaitingMessages()
+    #     XAQueryEvents.상태 = False
+    #
+    #     nCount = inXAQuery.GetBlockCount('t8436OutBlock')
+    #     resultList = []
+    #     for i in range(nCount):
+    #         code = inXAQuery.GetFieldData('t8436OutBlock', 'shcode', i)
+    #         resultList.append(code)
+    #     return resultList
+
+    # def t1102(self, shcode, code_list=[]):
+    #     inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+    #
+    #     pathname = os.path.dirname(sys.argv[0])
+    #     RESDIR = os.path.abspath(pathname)
+    #     MYNAME = inspect.currentframe().f_code.co_name
+    #     RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+    #
+    #     inXAQuery.LoadFromResFile(RESFILE)
+    #     inXAQuery.SetFieldData('t1102InBlock', 'shcode', 0, shcode)
+    #     inXAQuery.Request(0)
+    #
+    #     while XAQueryEvents.상태 == False:
+    #         sleep(1)
+    #         pythoncom.PumpWaitingMessages()
+    #     XAQueryEvents.상태 = False
+    #
+    #     nCount = inXAQuery.GetBlockCount('t11102OutBlock')
+    #     resultList = []
+    #     for i in range(nCount):
+    #         현재가 = inXAQuery.GetFieldData('t1102OutBlock', 'price', i)
+    #         전일거래량 = int(inXAQuery.GetFieldData('t1102OutBlock', 'jnilvolume', i))
+    #
+    #         stock = {}
+    #         stock['현재가'] = 현재가
+    #         stock['전일거래량'] = 전일거래량
+    #         stock['volume'] = volume
+    #         stock['jnilvolume'] = jnilvolume
+    #         stock['priceVolume'] = price * volume
+    #         stock['value'] = value
+    #         stock['low'] = low
+    #         stock['high'] = high
+    #         stock['percent'] = get_percent(low, high)
+    #         if get_percent(low, high) > diff:
+    #             if stock not in list:
+    #                 resultList.append(stock)
+    #
+    #     retList = sorted(resultList, key=itemgetter('value'), reverse=True)
+    #     for d in retList:
+    #         print(d)
+    #     return retList[0:10]
 
 
 if __name__ == "__main__":

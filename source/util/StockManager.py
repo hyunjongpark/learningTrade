@@ -99,12 +99,6 @@ class StockCode():
         if debug is True:
             print(print_log)
 
-        # if self.is_buy is False \
-        #         and 이전시간_현재시간_매수_매도_차이 >= 0 \
-        #         and 현재_시간_매수_매도_차이 > 0 \
-        #         and 25 >= int(self.df['등락율'][self.index]) > 0 \
-        #         and 거래량차이 > self.max_volume / 2 \
-        #         and 1000 > 남은매수대금 > 100:
         if self.is_buy is False \
                 and 이전시간_현재시간_매수_매도_차이 >= 0 \
                 and 현재_시간_매수_매도_차이 > 0 \

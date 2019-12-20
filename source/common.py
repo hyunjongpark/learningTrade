@@ -226,9 +226,7 @@ def get_percent(base, diff):
 
 
 def get_percent_price(base, p):
-    return base + ((base / 100) * p)
-
-def get_buy_count(quote_price, currentPrice):
+    currentPrice = base + ((base / 100) * p)
     step_price = 1
     if currentPrice < 1000:
         step_price = 1
@@ -244,12 +242,31 @@ def get_buy_count(quote_price, currentPrice):
         step_price = 500
     elif currentPrice > 1000000:
         step_price = 10000
+    trade_price = currentPrice - currentPrice % step_price
+    return trade_price
+
+def get_buy_count(quote_price, currentPrice):
+    # step_price = 1
+    # if currentPrice < 1000:
+    #     step_price = 1
+    # elif currentPrice < 5000:
+    #     step_price = 5
+    # elif currentPrice < 10000:
+    #     step_price = 10
+    # elif currentPrice < 50000:
+    #     step_price = 50
+    # elif currentPrice < 100000:
+    #     step_price = 100
+    # elif currentPrice < 500000:
+    #     step_price = 500
+    # elif currentPrice > 1000000:
+    #     step_price = 10000
 
     buy_count = quote_price / currentPrice
-    minus_count = buy_count % step_price
-
-    if buy_count > minus_count:
-        buy_count = buy_count - minus_count
+    # minus_count = buy_count % step_price
+    #
+    # if buy_count > minus_count:
+    #     buy_count = buy_count - minus_count
 
     return buy_count
 
