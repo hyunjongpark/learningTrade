@@ -28,18 +28,20 @@ from util.StockManager import *
 STAND_BY = 0
 RECEIVED = 1
 
-id = ""
-password = ""
-tradePW = ""
-certificate_password = "!"
+id = "phjwithy"
+password = "phj1629"
+tradePW = "1629"
+certificate_password = "s20036402!"
 money = 100000
 REAL_TRADE = True
 
 
 class TodayTradeStock:
-    def __init__(self, code, count):
+    def __init__(self, code, count, is_plus_sell):
         self.code = code
         self.buy_count = count
+        self.already_plus_sell = is_plus_sell
+        self.trade_number = 0
 
 
 class XASessionEvents:
@@ -102,17 +104,20 @@ class Trade:
         print(df0)
         print(df)
 
+        self.buy_stock_list = []
+
     def handle_buy(self, code, price):
         if not REAL_TRADE:
             return
         매매구분 = 2  # 매수
         trade_count = int(get_buy_count(money, price))
         trade_price = get_percent_price(price, 4)
-        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분, 가격=trade_price, 가격구분="00")
+        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분,
+                                  가격=trade_price, 가격구분="00")
         print(df0)
         print(df)
 
-        self.today_trade_stocks[code] = TodayTradeStock(code, trade_count)
+        self.today_trade_stocks[code] = TodayTradeStock(code, trade_count, False)
 
     def handle_sell(self, code):
         if not REAL_TRADE:
@@ -123,18 +128,38 @@ class Trade:
         print(df0)
         print(df)
 
+    def handle_sell_percent(self, code, buy_price, percent):
+        if not REAL_TRADE:
+            return
+        매매구분 = 1  # 매도
+        trade_count = self.today_trade_stocks.get(code).buy_count
+        sell_price = get_percent_price(buy_price, percent)
+        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분, 가격=sell_price, 가격구분="00")
+        print(df0)
+        print(df)
+        back_stock = self.today_trade_stocks.get(code)
+        back_stock.already_plus_sell = True
+        back_stock.trade_number = int(df['주문번호'][0])
+
     def handle_trade_condition_profit_by_bank(self):
         df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
         for i in df.index:
             current_profit = int(df['수익율'][i])
             if current_profit == 0 or current_profit == -100:
                 continue
-            if current_profit > 1 or current_profit < -2:
+
+            back_stock = self.today_trade_stocks.get(df['종목번호'][i])
+            if back_stock.already_plus_sell is False:
+                self.handle_sell_percent(df['종목번호'][i], df['평균단가'][i], 1)
+            if back_stock.already_plus_sell is True and current_profit < -2:
+                self.CSPAT00800(원주문번호=back_stock.trade_number, 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=back_stock.code, 주문수량=back_stock.buy_count)
                 self.handle_sell(df['종목번호'][i])
+
 
     def handle_trade_all_end_time(self):
         df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
         for i in df.index:
+            self.buy_stock_list.con
             current_profit = int(df['수익율'][i])
             if current_profit == 0 or current_profit == -100:
                 continue
@@ -143,78 +168,81 @@ class Trade:
     def check_realTime_stock(self):
         print('check_realTime_stock')
 
-        today = datetime.date.today()
-        getListTime = datetime.datetime(today.year, today.month, today.day, 8, 59, 0)
-        startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
-        logEndTime = datetime.datetime(today.year, today.month, today.day, 9, 10, 0)
-        endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
-        lastTradeStartTime = datetime.datetime(today.year, today.month, today.day, 15, 25, 0)
-        today_list = []
+        self.today_trade_stocks['078650'] = TodayTradeStock('078650', 1, False)
+        self.handle_trade_condition_profit_by_bank()
 
-        log_folder = ('log/%s' % TODAY)
-        if not os.path.exists(log_folder):
-            pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
-
-        isRunLastTrade = False
-        while True:
-            ## 그날에 주식 종목 가져오기
-            if len(today_list) == 0 and datetime.datetime.now() > getListTime:
-                today_list = self.t1488(field=2)
-                print(today_list)
-
-            if startTime < datetime.datetime.now() < logEndTime:
-                self.t1488(field=1)
-                self.t1488(field=2)
-
-            ## 장 시작전까지 홀딩
-            if datetime.datetime.now() < startTime:
-                print('Before[%s]' % (datetime.datetime.now()))
-                self.handle_trade_condition_profit_by_bank()
-                sleep(5)
-                continue
-
-            ## 3시25분 안 팔린 주식 일괄 매도
-            if lastTradeStartTime <= datetime.datetime.now() <= endTime and isRunLastTrade is False:
-                self.handle_trade_all_end_time()
-                isRunLastTrade = True
-
-            ## 프로그램 종료
-            if datetime.datetime.now() > endTime:
-                total_profit = 0
-                for stock in today_list:
-                    code = stock['code']
-                    profit = stockManager.get_stock_code(code).test_profit()
-                    total_profit += profit;
-                    print('Today [%s] profit[%s] total_profit[%s]' % (code, profit, total_profit))
-                break
-
-            ## 주식 종목들 매수/매도 체크
-            for stock in today_list:
-                sleep(1)
-                self.handle_trade_condition_profit_by_bank()
-                sleep(2)
-                code = stock['code']
-                df0, df = self.t1302(단축코드=code, 작업구분='2', 시간='1', 건수='1')
-                if df is None:
-                    print('Skip:[%s]' % code)
-                    continue
-
-                df.to_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
-
-                stockManager.register(code, df)
-                trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
-                if trade == 'buy':
-                    self.handle_buy(code, int(df['종가'][0]))
-                    print('BUY [%s][%s][%s] profit[%s]' % (
-                        code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
-                elif trade == 'sell_success':
-                    self.handle_sell(code)
-                    print('SELL SUCCESS [%s][%s][%s] profit[%s]' % (
-                        code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
-                elif trade == 'sell_failed':
-                    self.handle_sell(code)
-                    print('SELL FAILED [%s][%s][%s] profit[%s]' % (
-                        code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
+        # today = datetime.date.today()
+        # getListTime = datetime.datetime(today.year, today.month, today.day, 8, 59, 0)
+        # startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
+        # logEndTime = datetime.datetime(today.year, today.month, today.day, 9, 10, 0)
+        # endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
+        # lastTradeStartTime = datetime.datetime(today.year, today.month, today.day, 15, 25, 0)
+        # today_list = []
+        #
+        # log_folder = ('log/%s' % TODAY)
+        # if not os.path.exists(log_folder):
+        #     pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
+        #
+        # isRunLastTrade = False
+        # while True:
+        #     ## 그날에 주식 종목 가져오기
+        #     if len(today_list) == 0 and datetime.datetime.now() > getListTime:
+        #         today_list = self.t1488(field=2)
+        #         print(today_list)
+        #
+        #     if startTime < datetime.datetime.now() < logEndTime:
+        #         self.t1488(field=1)
+        #         self.t1488(field=2)
+        #
+        #     ## 장 시작전까지 홀딩
+        #     if datetime.datetime.now() < startTime:
+        #         print('Before[%s]' % (datetime.datetime.now()))
+        #         self.handle_trade_condition_profit_by_bank()
+        #         sleep(5)
+        #         continue
+        #
+        #     ## 3시25분 안 팔린 주식 일괄 매도
+        #     if lastTradeStartTime <= datetime.datetime.now() <= endTime and isRunLastTrade is False:
+        #         self.handle_trade_all_end_time()
+        #         isRunLastTrade = True
+        #
+        #     ## 프로그램 종료
+        #     if datetime.datetime.now() > endTime:
+        #         total_profit = 0
+        #         for stock in today_list:
+        #             code = stock['code']
+        #             profit = stockManager.get_stock_code(code).test_profit()
+        #             total_profit += profit;
+        #             print('Today [%s] profit[%s] total_profit[%s]' % (code, profit, total_profit))
+        #         break
+        #
+        #     ## 주식 종목들 매수/매도 체크
+        #     for stock in today_list:
+        #         sleep(1)
+        #         self.handle_trade_condition_profit_by_bank()
+        #         sleep(2)
+        #         code = stock['code']
+        #         df0, df = self.t1302(단축코드=code, 작업구분='2', 시간='1', 건수='1')
+        #         if df is None:
+        #             print('Skip:[%s]' % code)
+        #             continue
+        #
+        #         df.to_csv('log/%s/t1302_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
+        #
+        #         stockManager.register(code, df)
+        #         trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
+        #         if trade == 'buy':
+        #             self.handle_buy(code, int(df['종가'][0]))
+        #             print('BUY [%s][%s][%s] profit[%s]' % (
+        #                 code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
+        #         elif trade == 'sell_success':
+        #             self.handle_sell(code)
+        #             print('SELL SUCCESS [%s][%s][%s] profit[%s]' % (
+        #                 code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
+        #         elif trade == 'sell_failed':
+        #             self.handle_sell(code)
+        #             print('SELL FAILED [%s][%s][%s] profit[%s]' % (
+        #                 code, df['시간'][0], df['종가'][0], stockManager.get_stock_code(code).test_profit()))
 
     def t1488(self, field=1, day=0):
         '''
@@ -463,7 +491,8 @@ class Trade:
         query.SetFieldData(INBLOCK1, "OrdQty", 0, 주문수량)
         query.SetFieldData(INBLOCK1, "OrdPrc", 0, 가격)  # 지정가일 경우 가격을, 시장가일 경우 0을 입력
         query.SetFieldData(INBLOCK1, "BnsTpCode", 0, 매매구분)  # 매도 1 매수 2
-        query.SetFieldData(INBLOCK1, "OrdprcPtnCode", 0, 가격구분)  # 지정가 00, 시장가 03, 조건부지정가 05, 최유리지정가 06, 최우선지정가 07, 장개시전시간외 61, 시간외종가 81, 시간외단일가 82
+        query.SetFieldData(INBLOCK1, "OrdprcPtnCode", 0,
+                           가격구분)  # 지정가 00, 시장가 03, 조건부지정가 05, 최유리지정가 06, 최우선지정가 07, 장개시전시간외 61, 시간외종가 81, 시간외단일가 82
         query.SetFieldData(INBLOCK1, "MgntrnCode", 0, "000")
         query.SetFieldData(INBLOCK1, "LoanDt", 0, "0")
         query.SetFieldData(INBLOCK1, "OrdCndiTpCode", 0, "0")
@@ -539,6 +568,96 @@ class Trade:
 
         columns = ['레코드갯수', '주문번호', '주문시각', '주문시장코드', '주문유형코드', '단축종목번호', '관리사원번호', '주문금액', '예비주문번호', '반대매매일련번호',
                    '예약주문번호', '실물주문수량', '재사용주문수량', '현금주문금액', '대용주문금액', '재사용주문금액', '계좌명', '종목명']
+        df1 = DataFrame(data=result, columns=columns)
+
+        XAQueryEvents.상태 = False
+        return (df, df1)
+
+
+    def CSPAT00800(self, 원주문번호, 계좌번호, 입력비밀번호, 종목번호, 주문수량):
+        pathname = os.path.dirname(sys.argv[0])
+        resdir = os.path.abspath(pathname)
+
+        query = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+
+        MYNAME = inspect.currentframe().f_code.co_name
+        INBLOCK = "%sInBlock" % MYNAME
+        INBLOCK1 = "%sInBlock1" % MYNAME
+        OUTBLOCK = "%sOutBlock" % MYNAME
+        OUTBLOCK1 = "%sOutBlock1" % MYNAME
+        OUTBLOCK2 = "%sOutBlock2" % MYNAME
+        RESFILE = "%s\\Res\\%s.res" % (resdir, MYNAME)
+
+        print(MYNAME, RESFILE)
+
+        query.LoadFromResFile(RESFILE)
+        query.SetFieldData(INBLOCK1, "OrgOrdNo", 0, 원주문번호)
+        query.SetFieldData(INBLOCK1, "AcntNo", 0, 계좌번호)
+        query.SetFieldData(INBLOCK1, "InptPwd", 0, 입력비밀번호)
+        query.SetFieldData(INBLOCK1, "IsuNo", 0, 종목번호)
+        query.SetFieldData(INBLOCK1, "OrdQty", 0, 주문수량)
+        query.Request(0)
+
+        while XAQueryEvents.상태 == False:
+            pythoncom.PumpWaitingMessages()
+
+        result = []
+        nCount = query.GetBlockCount(OUTBLOCK1)
+        for i in range(nCount):
+            레코드갯수 = int(query.GetFieldData(OUTBLOCK1, "RecCnt", i).strip())
+            원주문번호 = int(query.GetFieldData(OUTBLOCK1, "OrgOrdNo", i).strip())
+            계좌번호 = query.GetFieldData(OUTBLOCK1, "AcntNo", i).strip()
+            입력비밀번호 = query.GetFieldData(OUTBLOCK1, "InptPwd", i).strip()
+            종목번호 = query.GetFieldData(OUTBLOCK1, "IsuNo", i).strip()
+            주문수량 = int(query.GetFieldData(OUTBLOCK1, "OrdQty", i).strip())
+            통신매체코드 = query.GetFieldData(OUTBLOCK1, "CommdaCode", i).strip()
+            그룹ID = query.GetFieldData(OUTBLOCK1, "GrpId", i).strip()
+            전략코드 = query.GetFieldData(OUTBLOCK1, "StrtgCode", i).strip()
+            주문회차 = int(query.GetFieldData(OUTBLOCK1, "OrdSeqNo", i).strip())
+            포트폴리오번호 = int(query.GetFieldData(OUTBLOCK1, "PtflNo", i).strip())
+            바스켓번호 = int(query.GetFieldData(OUTBLOCK1, "BskNo", i).strip())
+            트렌치번호 = int(query.GetFieldData(OUTBLOCK1, "TrchNo", i).strip())
+            아이템번호 = int(query.GetFieldData(OUTBLOCK1, "ItemNo", i).strip())
+
+            lst = [레코드갯수, 원주문번호, 계좌번호, 입력비밀번호, 종목번호, 주문수량, 통신매체코드, 그룹ID, 전략코드, 주문회차, 포트폴리오번호, 바스켓번호, 트렌치번호, 아이템번호]
+            result.append(lst)
+
+        columns = ['레코드갯수', '원주문번호', '계좌번호', '입력비밀번호', '종목번호', '주문수량', '통신매체코드', '그룹ID', '전략코드', '주문회차', '포트폴리오번호',
+                   '바스켓번호', '트렌치번호', '아이템번호']
+        df = DataFrame(data=result, columns=columns)
+
+        result = []
+        nCount = query.GetBlockCount(OUTBLOCK2)
+        for i in range(nCount):
+            레코드갯수 = int(query.GetFieldData(OUTBLOCK2, "RecCnt", i).strip())
+            주문번호 = int(query.GetFieldData(OUTBLOCK2, "OrdNo", i).strip())
+            모주문번호 = int(query.GetFieldData(OUTBLOCK2, "PrntOrdNo", i).strip())
+            주문시각 = query.GetFieldData(OUTBLOCK2, "OrdTime", i).strip()
+            주문시장코드 = query.GetFieldData(OUTBLOCK2, "OrdMktCode", i).strip()
+            주문유형코드 = query.GetFieldData(OUTBLOCK2, "OrdPtnCode", i).strip()
+            단축종목번호 = query.GetFieldData(OUTBLOCK2, "ShtnIsuNo", i).strip()
+            프로그램호가유형코드 = query.GetFieldData(OUTBLOCK2, "PrgmOrdprcPtnCode", i).strip()
+            공매도호가구분 = query.GetFieldData(OUTBLOCK2, "StslOrdprcTpCode", i).strip()
+            공매도가능여부 = query.GetFieldData(OUTBLOCK2, "StslAbleYn", i).strip()
+            신용거래코드 = query.GetFieldData(OUTBLOCK2, "MgntrnCode", i).strip()
+            대출일 = query.GetFieldData(OUTBLOCK2, "LoanDt", i).strip()
+            반대매매주문구분 = query.GetFieldData(OUTBLOCK2, "CvrgOrdTp", i).strip()
+            유동성공급자여부 = query.GetFieldData(OUTBLOCK2, "LpYn", i).strip()
+            관리사원번호 = query.GetFieldData(OUTBLOCK2, "MgempNo", i).strip()
+            매매구분 = query.GetFieldData(OUTBLOCK2, "BnsTpCode", i).strip()
+            예비주문번호 = int(query.GetFieldData(OUTBLOCK2, "SpareOrdNo", i).strip())
+            반대매매일련번호 = int(query.GetFieldData(OUTBLOCK2, "CvrgSeqno", i).strip())
+            예약주문번호 = int(query.GetFieldData(OUTBLOCK2, "RsvOrdNo", i).strip())
+            계좌명 = query.GetFieldData(OUTBLOCK2, "AcntNm", i).strip()
+            종목명 = query.GetFieldData(OUTBLOCK2, "IsuNm", i).strip()
+
+            lst = [레코드갯수, 주문번호, 모주문번호, 주문시각, 주문시장코드, 주문유형코드, 단축종목번호, 프로그램호가유형코드, 공매도호가구분, 공매도가능여부, 신용거래코드, 대출일,
+                   반대매매주문구분, 유동성공급자여부, 관리사원번호, 매매구분, 예비주문번호, 반대매매일련번호, 예약주문번호, 계좌명, 종목명]
+            result.append(lst)
+
+        columns = ['레코드갯수', '주문번호', '모주문번호', '주문시각', '주문시장코드', '주문유형코드', '단축종목번호', '프로그램호가유형코드', '공매도호가구분', '공매도가능여부',
+                   '신용거래코드', '대출일', '반대매매주문구분', '유동성공급자여부', '관리사원번호', '매매구분', '예비주문번호', '반대매매일련번호', '예약주문번호', '계좌명',
+                   '종목명']
         df1 = DataFrame(data=result, columns=columns)
 
         XAQueryEvents.상태 = False
