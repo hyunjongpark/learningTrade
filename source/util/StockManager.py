@@ -60,113 +60,61 @@ class StockCode():
             self.남은매수대금.append(0)
             return ('', '')
 
+        시간 = int(self.df['시간'][self.index]) - int(self.df['시간'][self.index - 1])
+        현재가차이 = int(self.df['현재가'][self.index]) - int(self.df['현재가'][self.index - 1])
+        등락율차이 = int(self.df['등락율'][self.index]) - int(self.df['등락율'][self.index - 1])
+        누적거래량차이 = int(self.df['누적거래량'][self.index]) - int(self.df['누적거래량'][self.index - 1])
+        거래량차이 = int(self.df['거래량차'][self.index]) - int(self.df['거래량차'][self.index - 1])
+        거래대금차이 = int(self.df['거래대금'][self.index]) - int(self.df['거래대금'][self.index - 1])
         시간차이 = int(self.df['시간'][self.index]) - int(self.df['시간'][self.index - 1])
-        거래량차이 = int(self.df['거래량'][self.index]) - int(self.df['거래량'][self.index - 1])
-        이전_시간_매수_매도_차이 = int(self.df['매수잔량'][self.index - 1]) - int(self.df['매도잔량'][self.index - 1])
-        현재_시간_매수_매도_차이 = int(self.df['매수잔량'][self.index]) - int(self.df['매도잔량'][self.index])
-        이전시간_현재시간_매수_매도_차이 = 현재_시간_매수_매도_차이 - 이전_시간_매수_매도_차이
-        매수매도체결건수 = int(self.df['시간별매수체결량'][self.index]) - int(self.df['시간별매도체결량'][self.index - 1])
 
-
-        self.거래량_차이_리스트.append(거래량차이)
-        self.현재_시간_매수_매도_차이_리스트.append(현재_시간_매수_매도_차이)
-        self.이전시간_현재시간_매수_매도_차이_리스트.append(이전시간_현재시간_매수_매도_차이)
-        self.매수매도체결건수_리스트.append(매수매도체결건수)
-
-        if 거래량차이 > self.max_volume:
-            self.max_volume = 거래량차이
-
-        남은매수대금 = (현재_시간_매수_매도_차이 * 거래량차이) / 100000000
-        self.남은매수대금.append(남은매수대금)
-
-
-        # print(self.df.iloc[self.index])
-
-        print_log = 'index[%s] code[%s] time[%s] 등락율[%s] 거래량차이[%s][%s] ' \
-                    '남은매수대금[%s] 매수매도체결건수[%s] 현재_차이[%s] 이전_차이[%s] DIFF_차이[%s] 체결강도[%s][%s] ' \
-                    '시간차이[%s]' % (
-            self.index, self.df['단축코드'][self.index], self.df['시간'][self.index], self.df['등락율'][self.index], 거래량차이, 거래량차이 > self.max_volume / 2,
-            남은매수대금, 매수매도체결건수, 현재_시간_매수_매도_차이, 이전_시간_매수_매도_차이, 이전시간_현재시간_매수_매도_차이, self.df['체결강도'][self.index],get_percent(int(self.df['체결강도'][self.index]),
-            int(self.df['체결강도'][self.index - 1])), 시간차이)
-
-        # ret_parrern = self.ta_tester.add_pattern(self.df)
-        # for pattern in ret_parrern:
-        #     print(pattern)
-        #     self.pattern_list.append([self.index])
-        #     self.pattern_list_price.append(self.df['등락율'][self.index])
-
+        print_log = 'index[%s] 코드[%s] 시간[%s] 현재가[%s] 등락율[%s] 누적거래량[%s] ' \
+                    '거래량차[%s] 거래대금[%s] 현재가차이[%s] 누적거래량차이[%s] 시간차이[%s]' % (
+            self.index, self.df['코드'][self.index], self.df['시간'][self.index], self.df['현재가'][self.index], self.df['등락율'][self.index], self.df['누적거래량'][self.index],
+            self.df['거래량차'][self.index], self.df['거래대금'][self.index], 현재가차이, 누적거래량차이, 시간차이)
 
         if debug is True:
             print(print_log)
 
-        if self.is_buy is False \
-                and 이전시간_현재시간_매수_매도_차이 >= 0 \
-                and 현재_시간_매수_매도_차이 > 0 \
-                and 25 >= int(self.df['등락율'][self.index]) > 0 \
-                and 거래량차이 > self.max_volume / 2 \
-                and 매수매도체결건수 > 0 \
-                and 1000 > 남은매수대금 > 100:
-
-            self.buy_list.append([self.index])
-            self.real_buy_percent = float(self.df['등락율'][self.index])
-            self.등략율_list.append(self.df['등락율'][self.index])
-            self.is_buy = True
-            self.buy_count += 1
-            self.preBuyPrice = int(self.df['종가'][self.index])
-            if debug is True:
-                print('============== Buy')
-            if self.index == len(self.df.index) - 1:
-                is_trade = 'buy'
-
-        # if self.is_buy is True \
-        #         and 남은매수대금 < 0 \
-        #         and self.남은매수대금[self.index-1] < 0:
+        # if self.is_buy is False \
+        #         and 등락율차이 >= 0.2:
+        #
+        #     self.buy_list.append([self.index])
+        #     self.real_buy_percent = float(self.df['등락율'][self.index])
+        #     self.등략율_list.append(self.df['등락율'][self.index])
+        #     self.is_buy = True
+        #     self.buy_count += 1
+        #     self.preBuyPrice = int(self.df['종가'][self.index])
+        #     if debug is True:
+        #         print('============== Buy')
+        #     if self.index == len(self.df.index) - 1:
+        #         is_trade = 'buy'
+        #
+        # if self.is_buy is True and float(self.df['등락율'][self.index]) > self.real_buy_percent + 1.0:
         #     self.real_buy_percent = 50
         #     self.is_buy = False
+        #     self.test_success_sell_index_list.append(self.index)
+        #     self.test_success_sell_price_list.append(self.df['등락율'][self.index])
         #     profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - TAX)
-        #     if profit > 0:
-        #         self.test_success_sell_index_list.append(self.index)
-        #         self.test_success_sell_price_list.append(self.df['등락율'][self.index])
-        #         if debug is True:
-        #             print('============== SUCCESS Sell[%s][%s][%s]' % (
-        #             self.preBuyPrice, int(self.df['종가'][self.index]), profit))
-        #         if self.index == len(self.df.index) - 1:
-        #             is_trade = 'sell_success'
-        #     else:
-        #         self.test_fail_sell_index_list.append(self.index)
-        #         self.test_fail_sell_price_list.append(self.df['등락율'][self.index])
-        #         if debug is True:
-        #             print('============== FAILED Sell[%s][%s][%s]' % (
-        #             self.preBuyPrice, int(self.df['종가'][self.index]), profit))
-        #         if self.index == len(self.df.index) - 1:
-        #             is_trade = 'sell_failed'
         #     self.profit += profit
-
-        if self.is_buy is True and float(self.df['등락율'][self.index]) > self.real_buy_percent + 1.0:
-            self.real_buy_percent = 50
-            self.is_buy = False
-            self.test_success_sell_index_list.append(self.index)
-            self.test_success_sell_price_list.append(self.df['등락율'][self.index])
-            profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - TAX)
-            self.profit += profit
-            # if debug is True:
-            print('============== SUCCESS Sell[%s][%s][%s]' % (self.preBuyPrice, int(self.df['종가'][self.index]), profit))
-            if self.index == len(self.df.index) - 1:
-                is_trade = 'sell_success'
-
-        if self.is_buy is True and float(self.df['등락율'][self.index]) < self.real_buy_percent - 2:
-            if debug is True:
-                print('============== Failed Sell')
-            self.real_buy_percent = 50
-            self.is_buy = False
-            self.test_fail_sell_index_list.append(self.index)
-            self.test_fail_sell_price_list.append(self.df['등락율'][self.index])
-            profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - TAX)
-            self.profit += profit
-            # if debug is True:
-            print('============== FAILED Sell[%s][%s][%s]' % (self.preBuyPrice, int(self.df['종가'][self.index]), profit))
-            if self.index == len(self.df.index) - 1:
-                is_trade = 'sell_failed'
+        #     # if debug is True:
+        #     print('============== SUCCESS Sell[%s][%s][%s]' % (self.preBuyPrice, int(self.df['종가'][self.index]), profit))
+        #     if self.index == len(self.df.index) - 1:
+        #         is_trade = 'sell_success'
+        #
+        # if self.is_buy is True and float(self.df['등락율'][self.index]) < self.real_buy_percent - 2:
+        #     if debug is True:
+        #         print('============== Failed Sell')
+        #     self.real_buy_percent = 50
+        #     self.is_buy = False
+        #     self.test_fail_sell_index_list.append(self.index)
+        #     self.test_fail_sell_price_list.append(self.df['등락율'][self.index])
+        #     profit = (get_percent(self.preBuyPrice, int(self.df['종가'][self.index])) - TAX)
+        #     self.profit += profit
+        #     # if debug is True:
+        #     print('============== FAILED Sell[%s][%s][%s]' % (self.preBuyPrice, int(self.df['종가'][self.index]), profit))
+        #     if self.index == len(self.df.index) - 1:
+        #         is_trade = 'sell_failed'
 
         self.index += 1
         return (is_trade, print_log)
