@@ -16,11 +16,8 @@ def file_test(TODAY, SHOW_CHART, DEBUG_LOG):
 
     for file in files:
         df = pd.read_csv('log/%s/%s' % (TODAY, file),
-                         names=['시간', '단축코드', '종가', '전일대비구분', '전일대비', '등락율', '체결강도', '매도체결수량', '매수체결수량', '순매수체결량',
-                                '매도체결건수',
-                                '매수체결건수', '순체결건수', '거래량', '시가', '고가', '저가', '체결량', '매도체결건수시간', '매수체결건수시간', '매도잔량',
-                                '매수잔량', '시간별매도체결량', '시간별매수체결량'])
-        code = df['단축코드'][0]
+                         names=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금'])
+        code = df['코드'][0]
         stockManager.ini_stock_code(code)
         for i in df.index:
             stockManager.register(code, df.iloc[i])
@@ -58,4 +55,4 @@ if __name__ == "__main__":
     if all_days_check:
         Trade.all_file_test(SHOW_CHART=False, DEBUG_LOG=False)
     else:
-        file_test(TODAY='20200309', SHOW_CHART=False, DEBUG_LOG=True)
+        file_test(TODAY='20200309', SHOW_CHART=False, DEBUG_LOG=False)

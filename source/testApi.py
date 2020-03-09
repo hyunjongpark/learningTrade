@@ -171,27 +171,48 @@ class Trade:
 
     def check_realTime_ETF_stock(self):
 
-        today_list = self.t8436(gubun=1)
-        resultList = []
-        for stock in today_list:
-            sleep(0.1)
-            df, sortList = self.t1102(stock[0])
-            resultList.append(sortList)
+        # today_list = self.t8436(gubun=1)
+        # resultList = []
+        # for stock in today_list:
+        #     sleep(0.1)
+        #     df, sortList = self.t1102(stock[0])
+        #     resultList.append(sortList)
+        #
+        # retList = sorted(resultList, key=itemgetter('거래대금'), reverse=True)
+        # for d in retList:
+        #     print(d)
+        # filter_list = retList[0:10]
 
-        retList = sorted(resultList, key=itemgetter('거래대금'), reverse=True)
-        for d in retList:
-            print(d)
-        filter_list = retList[0:10]
+
+        filter_list = []
+        filter_list.append({'코드': '233740', '이름': 'KODEX 코스닥 150 레버리지', '지수': 1})
+        filter_list.append({'코드': '251340', '이름': 'KODEX 코스닥 150 선물 인버스', '지수': 1})
+        filter_list.append({'코드': '252670', '이름': 'KODEX 200선물인버스2X', '지수': 0})
+        filter_list.append({'코드': '122630', '이름': 'KODEX 레버리지', '지수': 0})
 
         log_folder = ('log/%s' % TODAY)
         if not os.path.exists(log_folder):
             pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
 
+        today = datetime.date.today()
+        startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
+        endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
+
         while True:
+            ## 장 시작전까지 홀딩
+            if datetime.datetime.now() < startTime:
+                print('Before[%s]' % (datetime.datetime.now()))
+                self.handle_trade_condition_profit_by_bank()
+                sleep(5)
+                continue
+
+            ## 프로그램 종료
+            if datetime.datetime.now() > endTime:
+                break
+
             for stock in filter_list:
                 code = stock['코드']
                 sleep(0.1)
-                # code = '122630'
                 df, sortList = self.t1102(code)
                 stockManager.register(code, df)
                 trade, log = stockManager.get_stock_code(code).is_trade(debug=True)
@@ -876,7 +897,7 @@ class Trade:
         print(resultList)
         return resultList
 
-    def t1102(self, shcode, code_list=[]):
+    def t1102(self, shcode):
         inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
 
         pathname = os.path.dirname(sys.argv[0])
