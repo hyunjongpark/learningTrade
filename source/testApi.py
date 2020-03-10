@@ -37,6 +37,8 @@ certificate_password = "s20036402!"
 money = 20000
 REAL_TRADE = True
 
+DEFAULT_BUY_COUNT = 1
+
 
 class TodayTradeStock:
     def __init__(self, code, count, is_plus_sell):
@@ -76,7 +78,7 @@ class XAQueryEvents:
 class Trade:
     today_trade_stocks = dict()
 
-    check_stock_list = []
+    minus_stock_list = []
 
     def __init__(self, debug):
         if debug:
@@ -108,150 +110,11 @@ class Trade:
         print(df0)
         print(df)
 
-        self.buy_stock_list = []
-
-    def handle_buy(self, code, price):
-        if code in self.check_stock_list:
-            return
-
-        if not REAL_TRADE:
-            return
-        매매구분 = 2  # 매수
-        # trade_count = int(get_buy_count(money, price))
-        # trade_price = get_percent_price(price, 4)
-        trade_count = 1
-        trade_price = price
-        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분,
-                                  가격=trade_price, 가격구분="00")
-        print(df0)
-        print(df)
-
-        self.today_trade_stocks[code] = TodayTradeStock(code, trade_count, False)
-        self.check_stock_list.append(code)
-        print(self.check_stock_list)
-
-    def handle_sell(self, code, price, trade_count):
-        if code in self.check_stock_list:
-            if not REAL_TRADE:
-                return
-            매매구분 = 1  # 매도
-            # trade_count = self.today_trade_stocks.get(code).buy_count
-            # trade_count = 1
-            df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분, 가격=price,
-                                      가격구분="00")
-            print(df0)
-            print(df)
-            if code in self.check_stock_list:
-                self.check_stock_list.remove(code)
-            print(self.check_stock_list)
-
-    # def handle_sell_percent(self, code, buy_price, percent):
-    #     if not REAL_TRADE:
-    #         return
-    #     매매구분 = 1  # 매도
-    #     trade_count = self.today_trade_stocks.get(code).buy_count
-    #     # sell_price = get_percent_price(buy_price, percent)
-    #     sell_price = buy_price + 5
-    #     df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분,
-    #                               가격=sell_price, 가격구분="00")
-    #     print(df0)
-    #     print(df)
-    #     back_stock = self.today_trade_stocks.get(code)
-    #     back_stock.already_plus_sell = True
-    #     back_stock.trade_number = int(df['주문번호'][0])
-    #     print(self.check_stock_list)
-
-    def handle_trade_condition_profit_by_bank(self):
-        # print(len(self.check_stock_list))
-        # print(self.check_stock_list)
-        if len(self.check_stock_list) is 0:
-            return
-
-        df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
-        sleep(0.5)
-        for i in df.index:
-            # print(df['종목명'][i])
-            # print(int(df['수익율'][i]))
-            # print(df['종목번호'][i])
-            # print(df['매도가능수량'][i])
-            # print(df['매입금액'][i])
-            current_price = int(df['현재가'][i])
-            current_profit = int(df['수익율'][i])
-
-            # print(current_price)
-            # print(current_profit)
-            # if current_profit == 0 or current_profit == -100:
-            #     continue
-
-            if str(df['종목번호'][i]) == '092630':
-                continue
-
-            current_buy_count = df['매도가능수량'][i]
-            if current_buy_count > 0:
-                self.handle_sell(df['종목번호'][i], (current_price + 5), current_buy_count)
-
-                # back_stock = self.today_trade_stocks.get(df['종목번호'][i])
-                # if back_stock.already_plus_sell is False:
-                #     # self.handle_sell_percent(df['종목번호'][i], df['평균단가'][i], 1)
-                #
-            # if back_stock.already_plus_sell is True and current_profit < -0.2:
-            #     self.CSPAT00800(원주문번호=back_stock.trade_number, 계좌번호=self.계좌[0], 입력비밀번호=tradePW,
-            #                     종목번호=back_stock.code,
-            #                     주문수량=back_stock.buy_count)
-            #     self.handle_sell(df['종목번호'][i], int(df['현재가'][0]) -5, current_buy_count)
-
-    # def handle_trade_condition_profit_by_bank(self):
-    #     print(len(self.check_stock_list))
-    #     if len(self.check_stock_list) is 0:
-    #         return
-    #
-    #     df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
-    #     sleep(0.5)
-    #     for i in df.index:
-    #         print(df['종목명'][i])
-    #         print(int(df['수익율'][i]))
-    #         print(df['종목번호'][i])
-    #         current_price = int(df['현재가'][i])
-    #         current_profit = int(df['수익율'][i])
-    #
-    #         print(current_price)
-    #         print(current_profit)
-    #         # if current_profit == 0 or current_profit == -100:
-    #         #     continue
-    #
-    #         if df['종목번호'][i] in self.check_stock_list and current_profit > 0:
-    #             back_stock = self.today_trade_stocks.get(df['종목번호'][i])
-    #             if back_stock.already_plus_sell is False:
-    #                 # self.handle_sell_percent(df['종목번호'][i], df['평균단가'][i], 1)
-    #                 self.handle_sell(df['종목번호'][i], int(df['현재가'][0]) + 5)
-    #             if back_stock.already_plus_sell is True and current_profit < -0.2:
-    #                 self.CSPAT00800(원주문번호=back_stock.trade_number, 계좌번호=self.계좌[0], 입력비밀번호=tradePW,
-    #                                 종목번호=back_stock.code,
-    #                                 주문수량=back_stock.buy_count)
-    #                 self.handle_sell(df['종목번호'][i], int(df['현재가'][0]) -5)
-
-
-
-    def check_realTime_ETF_stock(self):
-
-        # today_list = self.t8436(gubun=1)
-        # resultList = []
-        # for stock in today_list:
-        #     sleep(0.1)
-        #     df, sortList = self.t1102(stock[0])
-        #     resultList.append(sortList)
-        #
-        # retList = sorted(resultList, key=itemgetter('거래대금'), reverse=True)
-        # for d in retList:
-        #     print(d)
-        # filter_list = retList[0:10]
-
-
-        filter_list = []
-        filter_list.append({'코드': '233740', '이름': 'KODEX 코스닥 150 레버리지', '지수': 1})
-        filter_list.append({'코드': '122630', '이름': 'KODEX 레버리지', '지수': 0})
-        filter_list.append({'코드': '251340', '이름': 'KODEX 코스닥 150 선물 인버스', '지수': 1})
-        filter_list.append({'코드': '252670', '이름': 'KODEX 200선물인버스2X', '지수': 0})
+    def main(self):
+        filter_list = [{'코드': '233740', '이름': 'KODEX 코스닥 150 레버리지', '지수': 1},
+                       {'코드': '122630', '이름': 'KODEX 레버리지', '지수': 0},
+                       {'코드': '251340', '이름': 'KODEX 코스닥 150 선물 인버스', '지수': 1},
+                       {'코드': '252670', '이름': 'KODEX 200선물인버스2X', '지수': 0}]
 
         log_folder = ('log/%s' % TODAY)
         if not os.path.exists(log_folder):
@@ -259,6 +122,7 @@ class Trade:
 
         today = datetime.date.today()
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
+        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 25, 0)
         endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
 
         while True:
@@ -270,16 +134,17 @@ class Trade:
                 continue
 
             ## 프로그램 종료
-            if datetime.datetime.now() > endTime:
+            if datetime.datetime.now() > preEndTime:
+                self.end_action()
                 break
 
+            self.handle_trade_condition_profit_by_bank()
             for stock in filter_list:
-                self.handle_trade_condition_profit_by_bank()
                 code = stock['코드']
                 sleep(0.1)
                 df, sortList = self.t1102(code)
                 stockManager.register(code, df)
-                trade, log = stockManager.get_stock_code(code).is_trade(debug=True)
+                trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
 
                 df.to_csv('log/%s/t1102_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
 
@@ -287,15 +152,142 @@ class Trade:
                     self.handle_buy(code, int(df['현재가'][0]))
                     print('BUY [%s][%s][%s] profit[%s]' % (
                         code, df['시간'][0], df['현재가'][0], stockManager.get_stock_code(code).test_profit()))
-                # elif trade == 'sell_success':
-                #     self.handle_sell(code, int(df['현재가'][0]))
-                #     print('SELL SUCCESS [%s][%s][%s] profit[%s]' % (
-                #         code, df['시간'][0], df['현재가'][0], stockManager.get_stock_code(code).test_profit()))
-                # elif trade == 'sell_failed':
-                #     self.handle_sell(code, int(df['현재가'][0]))
-                #     print('SELL FAILED [%s][%s][%s] profit[%s]' % (
-                #         code, df['시간'][0], df['현재가'][0], stockManager.get_stock_code(code).test_profit()))
 
+    def handle_trade_condition_profit_by_bank(self):
+        df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
+        sleep(0.7)
+        for i in df.index:
+            if str(df['종목번호'][i]) == '092630':
+                continue
+
+            buy_price = float(df['평균단가'][i])
+            current_price = int(df['현재가'][i])
+            current_profit = float(df['수익율'][i])
+
+            current_buy_count = df['매도가능수량'][i]
+            if current_buy_count > 0:
+                trade_price = buy_price - (buy_price % 5)
+                if df['종목번호'][i] in self.minus_stock_list:
+                    self.minus_stock_list.remove(df['종목번호'][i])
+                    self.handle_sell(df['종목번호'][i], (trade_price + 5), current_buy_count)
+                else:
+                    self.handle_sell(df['종목번호'][i], (trade_price + 30), current_buy_count)
+
+            if current_profit < -0.8:
+                self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
+            if current_profit < -2:
+                self.handle_sell_immediate(df['종목번호'][i], (current_price - 20))
+
+    def check_have_stock(self, code):
+        df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
+        sleep(0.5)
+        for i in df.index:
+            if str(df['종목번호'][i]) == '092630':
+                continue
+
+            잔고수량 = int(df['잔고수량'][i])
+            if 잔고수량 > 0:
+                종목번호 = df['종목번호'][i]
+                if 종목번호 == code:
+                    print('check_have_stock : ' + 종목번호);
+                    return 종목번호
+        return None
+
+    def check_try_trade_stock(self, code, trade_type):
+        df0, df = self.t0425(계좌번호=self.계좌[0], 비밀번호=password, 종목번호=code)
+        # print(df)
+        sleep(0.5)
+        주문번호_리스트 = []
+        미체결잔량_리스트 = []
+        for j in df.index:
+            주문번호 = df['주문번호'][j]
+            주문수량 = df['주문수량'][j]
+            주문가격 = df['주문가격'][j]
+            미체결잔량 = int(df['미체결잔량'][j])
+            주문구분 = df['주문구분'][j]  # 매도 01 매수 02
+            if 미체결잔량 > 0:
+                if 주문구분 == trade_type:
+                    주문번호_리스트.append(주문번호)
+                    미체결잔량_리스트.append(미체결잔량)
+                    # return 주문번호, 미체결잔량
+        return 주문번호_리스트, 미체결잔량_리스트
+
+    def handle_buy(self, code, price):
+        보유종목 = self.check_have_stock(code)
+        if 보유종목 is not None:
+            print('handle_buy 보유 종목 있음 매수 SKIP: ' + code)
+            return
+
+        주문번호_리스트, 미체결잔량_리스트 = self.check_try_trade_stock(code, '02')  # 매도 01 매수 02
+        for index, value in enumerate(주문번호_리스트):
+            print('handle_buy 미체결 매수 종목 있음, 미체결 취소 실행: ' + code)
+            self.CSPAT00800(원주문번호=주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=미체결잔량_리스트[index])
+
+        매매구분 = 2  # 매수
+        trade_count = DEFAULT_BUY_COUNT
+        trade_price = price
+        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분,
+                                  가격=trade_price, 가격구분="00")
+        # print(df0)
+        # print(df)
+        print('handle_buy 매수 : ' + code)
+
+    def handle_sell(self, code, price, trade_count):
+        매매구분 = 1  # 매도
+        df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분, 가격=price,
+                                  가격구분="00")
+        # print(df0)
+        # print(df)
+        print('handle_sell 매도 : ' + code)
+
+    def handle_sell_immediate(self, code, current_price):
+        print('sell_immediate 즉시 매도 시도: ' + code)
+        주문번호_리스트, 미체결잔량_리스트 = self.check_try_trade_stock(code, '01')
+        for index, value in enumerate(주문번호_리스트):
+            print('sell_immediate 미체결 매도 종목 있음 취소 : ' + code)
+            self.CSPAT00800(원주문번호=주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=미체결잔량_리스트[index])
+            sleep(0.5)
+            self.handle_sell(code, (current_price - 20), 미체결잔량_리스트[index])
+            sleep(0.5)
+
+    def handle_buy_stock_ride(self, code, current_price):
+        print('물타기 시도: ' + code)
+        매수_주문번호_리스트, 매수_미체결잔량_리스트 = self.check_try_trade_stock(code, '02')  # 매도 01 매수 02
+        for index, value in enumerate(매수_주문번호_리스트):
+            print('물타기 미체결 매수 종목 있음 - 취소 : ' + code)
+            self.CSPAT00800(원주문번호=매수_주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code,
+                            주문수량=매수_미체결잔량_리스트[index])
+            sleep(0.5)
+
+        매도_주문번호_리스트, 매도_미체결잔량_리스트 = self.check_try_trade_stock(code, '01')  # 매도 01 매수 02
+        for index, value in enumerate(매도_주문번호_리스트):
+            print('물타기 미체결 매도 종목 있음 - 취소 : ' + code)
+            if 매도_미체결잔량_리스트[index] > DEFAULT_BUY_COUNT * 20:
+                print('물타기 SKIP')
+                continue
+            self.CSPAT00800(원주문번호=매도_주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=매도_미체결잔량_리스트[index])
+            sleep(0.5)
+            매매구분 = 2  # 매수
+            # trade_count = 미체결잔량_리스트[index] + 미체결잔량_리스트[index]
+            trade_count = 매도_미체결잔량_리스트[index]
+            trade_price = current_price
+            df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분,
+                                      가격=trade_price, 가격구분="00")
+            # print(df0)
+            # print(df)
+            print('물타기 매수 : ' + code)
+            self.minus_stock_list.append(code)
+
+    def end_action(self):
+        df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
+        sleep(0.7)
+        for i in df.index:
+            current_price = int(df['현재가'][i])
+            current_buy_count = int(df['매도가능수량'][i])
+            if str(df['종목번호'][i]) == '092630':
+                continue
+
+            self.handle_sell_immediate(df['종목번호'][i], (current_price - 20))
 
     def t0424(self, 계좌번호='', 비밀번호='', 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호=''):
         '''
@@ -390,6 +382,93 @@ class Trade:
         df1 = DataFrame(data=result, columns=columns)
 
         XAQueryEvents.상태 = False
+        return (df, df1)
+
+    def t0425(self, 계좌번호='', 비밀번호='', 종목번호=''):
+        '''
+        주식 체결/미체결
+        '''
+        pathname = os.path.dirname(sys.argv[0])
+        resdir = os.path.abspath(pathname)
+
+        query = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+
+        MYNAME = inspect.currentframe().f_code.co_name
+        INBLOCK = "%sInBlock" % MYNAME
+        INBLOCK1 = "%sInBlock1" % MYNAME
+        OUTBLOCK = "%sOutBlock" % MYNAME
+        OUTBLOCK1 = "%sOutBlock1" % MYNAME
+        OUTBLOCK2 = "%sOutBlock2" % MYNAME
+        RESFILE = "%s\\Res\\%s.res" % (resdir, MYNAME)
+
+        # print(MYNAME, RESFILE)
+
+        query.LoadFromResFile(RESFILE)
+        query.SetFieldData(INBLOCK, "accno", 0, 계좌번호)
+        query.SetFieldData(INBLOCK, "passwd", 0, 비밀번호)
+        query.SetFieldData(INBLOCK, "expcode", 0, 종목번호)
+        query.SetFieldData(INBLOCK, "chegb", 0, 2)
+        query.SetFieldData(INBLOCK, "medosu", 0, 0)
+        query.SetFieldData(INBLOCK, "sortgb", 0, 2)
+        query.SetFieldData(INBLOCK, "cts_ordno", 0, '')
+        query.Request(0)
+
+        while XAQueryEvents.상태 == False:
+            pythoncom.PumpWaitingMessages()
+
+        result = []
+        nCount = query.GetBlockCount(OUTBLOCK)
+        for i in range(nCount):
+            총주문수량 = int(query.GetFieldData(OUTBLOCK, "tqty", i).strip())
+            총체결수량 = int(query.GetFieldData(OUTBLOCK, "tcheqty", i).strip())
+            총미체결수량 = int(query.GetFieldData(OUTBLOCK, "tordrem", i).strip())
+            추정수수료 = int(query.GetFieldData(OUTBLOCK, "cmss", i).strip())
+            총주문금액 = int(query.GetFieldData(OUTBLOCK, "tamt", i).strip())
+            총매도체결금액 = int(query.GetFieldData(OUTBLOCK, "tmdamt", i).strip())
+            총매수체결금액 = int(query.GetFieldData(OUTBLOCK, "tmsamt", i).strip())
+            추정제세금 = int(query.GetFieldData(OUTBLOCK, "tax", i).strip())
+            주문번호 = query.GetFieldData(OUTBLOCK, "cts_ordno", i).strip()
+
+            lst = [총주문수량, 총체결수량, 총미체결수량, 추정수수료, 총주문금액, 총매도체결금액, 총매수체결금액, 추정제세금, 주문번호]
+            result.append(lst)
+
+        columns = ['총주문수량', '총체결수량', '총미체결수량', '추정수수료', '총주문금액', '총매도체결금액', '총매수체결금액', '추정제세금', '주문번호']
+        df = DataFrame(data=result, columns=columns)
+
+        result = []
+        nCount = query.GetBlockCount(OUTBLOCK1)
+        for i in range(nCount):
+            주문번호 = int(query.GetFieldData(OUTBLOCK1, "ordno", i).strip())
+            종목번호 = query.GetFieldData(OUTBLOCK1, "expcode", i).strip()
+            구분 = query.GetFieldData(OUTBLOCK1, "medosu", i).strip()
+            주문수량 = int(query.GetFieldData(OUTBLOCK1, "qty", i).strip())
+            주문가격 = int(query.GetFieldData(OUTBLOCK1, "price", i).strip())
+            체결수량 = int(query.GetFieldData(OUTBLOCK1, "cheqty", i).strip())
+            체결가격 = int(query.GetFieldData(OUTBLOCK1, "cheprice", i).strip())
+            미체결잔량 = int(query.GetFieldData(OUTBLOCK1, "ordrem", i).strip())
+            확인수량 = int(query.GetFieldData(OUTBLOCK1, "cfmqty", i).strip())
+            상태 = query.GetFieldData(OUTBLOCK1, "status", i).strip()
+            원주문번호 = int(query.GetFieldData(OUTBLOCK1, "orgordno", i).strip())
+            유형 = query.GetFieldData(OUTBLOCK1, "ordgb", i).strip()
+            주문시간 = query.GetFieldData(OUTBLOCK1, "ordtime", i).strip()
+            주문매체 = query.GetFieldData(OUTBLOCK1, "ordermtd", i).strip()
+            처리순번 = int(query.GetFieldData(OUTBLOCK1, "sysprocseq", i).strip())
+            호가유형 = query.GetFieldData(OUTBLOCK1, "hogagb", i).strip()
+            현재가 = int(query.GetFieldData(OUTBLOCK1, "price1", i).strip())
+            주문구분 = query.GetFieldData(OUTBLOCK1, "orggb", i).strip()
+            신용구분 = query.GetFieldData(OUTBLOCK1, "singb", i).strip()
+            대출일자 = query.GetFieldData(OUTBLOCK1, "loandt", i).strip()
+
+            lst = [주문번호, 종목번호, 구분, 주문수량, 주문가격, 체결수량, 체결가격, 미체결잔량, 확인수량, 상태, 원주문번호, 유형, 주문시간, 주문매체, 처리순번, 호가유형, 현재가,
+                   주문구분, 신용구분, 대출일자]
+            result.append(lst)
+
+        columns = ['주문번호', '종목번호', '구분', '주문수량', '주문가격', '체결수량', '체결가격', '미체결잔량', '확인수량', '상태', '원주문번호', '유형', '주문시간',
+                   '주문매체', '처리순번', '호가유형', '현재가', '주문구분', '신용구분', '대출일자']
+        df1 = DataFrame(data=result, columns=columns)
+
+        XAQueryEvents.상태 = False
+
         return (df, df1)
 
     def CSPAT00600(self, 계좌번호, 입력비밀번호, 종목번호, 주문수량, 매매구분, 가격, 가격구분):
@@ -610,7 +689,6 @@ class Trade:
         resultList = []
         stock = {}
         for i in range(nCount):
-
             시간 = int(int(datetime.datetime.today().strftime("%H%M%S%f")) / 100000)
 
             코드 = inXAQuery.GetFieldData('t1102OutBlock', 'shcode', i)
@@ -643,6 +721,4 @@ class Trade:
 if __name__ == "__main__":
     debug_mode = False
     Trade = Trade(debug=debug_mode)
-    # Trade.check_realTime_stock()
-    Trade.check_realTime_ETF_stock()
-
+    Trade.main()
