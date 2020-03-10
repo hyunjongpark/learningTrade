@@ -268,6 +268,7 @@ def get_buy_count(quote_price, currentPrice):
     # if buy_count > minus_count:
     #     buy_count = buy_count - minus_count
 
+    # return buy_count
     return buy_count
 
 
