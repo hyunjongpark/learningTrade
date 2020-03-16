@@ -122,8 +122,7 @@ class Trade:
 
         today = datetime.date.today()
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
-        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 25, 0)
-        endTime = datetime.datetime(today.year, today.month, today.day, 15, 30, 0)
+        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 15, 0)
 
         while True:
             ## 장 시작전까지 홀딩
@@ -134,7 +133,7 @@ class Trade:
                 continue
 
             ## 프로그램 종료
-            if datetime.datetime.now() > preEndTime:
+            if datetime.datetime.now() >= preEndTime:
                 self.end_action()
                 break
 
@@ -169,13 +168,13 @@ class Trade:
                 trade_price = buy_price - (buy_price % 5)
                 if df['종목번호'][i] in self.minus_stock_list:
                     self.minus_stock_list.remove(df['종목번호'][i])
-                    self.handle_sell(df['종목번호'][i], (trade_price + 5), current_buy_count)
+                    self.handle_sell(df['종목번호'][i], (trade_price + 10), current_buy_count)
                 else:
                     self.handle_sell(df['종목번호'][i], (trade_price + 30), current_buy_count)
 
             if current_profit < -0.8:
                 self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-            if current_profit < -2:
+            if current_profit < -1:
                 self.handle_sell_immediate(df['종목번호'][i], (current_price - 20))
 
     def check_have_stock(self, code):
@@ -262,7 +261,7 @@ class Trade:
         매도_주문번호_리스트, 매도_미체결잔량_리스트 = self.check_try_trade_stock(code, '01')  # 매도 01 매수 02
         for index, value in enumerate(매도_주문번호_리스트):
             print('물타기 미체결 매도 종목 있음 - 취소 : ' + code)
-            if 매도_미체결잔량_리스트[index] > DEFAULT_BUY_COUNT * 20:
+            if 매도_미체결잔량_리스트[index] >= DEFAULT_BUY_COUNT * 4:
                 print('물타기 SKIP')
                 continue
             self.CSPAT00800(원주문번호=매도_주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=매도_미체결잔량_리스트[index])
@@ -287,7 +286,7 @@ class Trade:
             if str(df['종목번호'][i]) == '092630':
                 continue
 
-            self.handle_sell_immediate(df['종목번호'][i], (current_price - 20))
+            self.handle_sell_immediate(df['종목번호'][i], (current_price - 1000))
 
     def t0424(self, 계좌번호='', 비밀번호='', 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호=''):
         '''

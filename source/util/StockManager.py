@@ -133,7 +133,7 @@ class StockCode():
             if self.index == len(self.df.index) - 1:
                 is_trade = 'sell_success'
 
-        if self.is_buy is True and float(self.df['등락율'][self.index]) <= self.real_buy_percent - 0.5:
+        if self.is_buy is True and float(self.df['등락율'][self.index]) <= self.real_buy_percent - 0.8:
             if debug is True:
                 print('============== Failed Sell')
             self.real_buy_percent = 50
