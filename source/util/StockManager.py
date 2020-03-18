@@ -30,8 +30,8 @@ class StockCode():
         self.이전시간_현재시간_매수_매도_차이_리스트.append(0)
         self.매수매도체결건수_리스트.append(0)
 
-        # self.누적거래량차이 = []
-        # self.누적거래량차이.append(0)
+        self.누적거래량차이 = []
+        self.누적거래량차이.append(0)
 
         self.현재가차이 = []
         self.현재가차이.append(0)
@@ -92,7 +92,7 @@ class StockCode():
         self.현재가차이.append(현재가차이)
         self.거래대금차이.append(거래대금차이)
         self.등략율.append(self.df['등락율'][self.index])
-
+        self.누적거래량차이.append(누적거래량차이)
 
         if debug is True:
             print(print_log)
@@ -103,9 +103,13 @@ class StockCode():
             # 100 -> 약 2분
             is_up = False
             if len(self.등략율) > 500:
-                if float(self.등략율[self.index - 500]) < float(self.등략율[self.index - 250]) < float(
-                        self.등략율[self.index - 20]) < float(self.등략율[self.index]):
+                if float(self.등략율[self.index - 500]) < float(self.등략율[self.index - 300]) < float(self.등략율[self.index - 150]) < float(
+                        self.등략율[self.index - 50]) < float(self.등략율[self.index]):
                     is_up = True
+            # if len(self.등략율) > 500:
+            #     if float(self.등략율[self.index - 500]) < float(self.등략율[self.index - 250]) < float(
+            #             self.등략율[self.index - 20]) < float(self.등략율[self.index]):
+            #         is_up = True
 
             if is_up:
                 self.buy_list.append([self.index])

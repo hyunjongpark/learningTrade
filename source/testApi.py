@@ -175,7 +175,7 @@ class Trade:
             if current_profit < -0.8:
                 self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
             if current_profit < -1:
-                self.handle_sell_immediate(df['종목번호'][i], (current_price - 20))
+                self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
 
     def check_have_stock(self, code):
         df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
