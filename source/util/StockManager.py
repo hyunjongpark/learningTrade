@@ -98,6 +98,7 @@ class StockCode():
             print(print_log)
 
         if self.is_buy is False \
+                and self.df['등락율'][self.index] > 0 \
                 and self.현재가차이[self.index - 1] == self.현재가차이[self.index]:
 
             # 100 -> 약 2분
@@ -144,7 +145,7 @@ class StockCode():
             self.is_buy = False
             self.test_fail_sell_index_list.append(self.index)
             self.test_fail_sell_price_list.append(self.df['등락율'][self.index])
-            profit = (get_percent(self.preBuyPrice, int(self.df['현재가'][self.index])) - TAX)
+            profit = (get_percent(self.preBuyPrice, int(self.df['현재가'][self.index])) - TAX - 0.1)
             self.profit += profit
             # if debug is True:
             print(
@@ -202,6 +203,7 @@ class StockManager:
         stockCode = self.stocks.get(code)
         if stockCode == None:
             stockCode = StockCode(code)
+
             stockCode.register(df)
             self.stocks[code] = stockCode
         else:
