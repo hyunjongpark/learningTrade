@@ -20,17 +20,18 @@ def file_test(TODAY, SHOW_CHART, DEBUG_LOG):
         code = df['코드'][0]
         stockManager.ini_stock_code(code)
         for i in df.index:
+            # print('. ', end='', flush=True)
             stockManager.register(code, df.iloc[i])
             trade, log = stockManager.get_stock_code(code).is_trade(debug=DEBUG_LOG)
-            if trade == 'buy':
-                print('BUY')
-                # print(' %s' % (log))
-            elif trade == 'sell_success':
-                print('SELL SUCCESS profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
-                # print(' %s' % (log))
-            elif trade == 'sell_failed':
-                print('SELL FAILED profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
-                # print(' %s' % (log))
+            # if trade == 'buy':
+            #     print('BUY profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
+            #     # print(' %s' % (log))
+            # elif trade == 'sell_success':
+            #     print('SELL SUCCESS profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
+            #     # print(' %s' % (log))
+            # elif trade == 'sell_failed':
+            #     print('SELL FAILED profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
+            #     # print(' %s' % (log))
 
         total_profit += stockManager.get_stock_code(code).test_profit()
         if SHOW_CHART:
@@ -50,9 +51,9 @@ class Trade():
 
 
 if __name__ == "__main__":
-    all_days_check = True
+    all_days_check = False
     Trade = Trade()
     if all_days_check:
         Trade.all_file_test(SHOW_CHART=False, DEBUG_LOG=False)
     else:
-        file_test(TODAY='20200320', SHOW_CHART=False, DEBUG_LOG=False)
+        file_test(TODAY='20200317', SHOW_CHART=True, DEBUG_LOG=False)

@@ -128,6 +128,7 @@ class Trade:
         preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 15, 0)
 
         while True:
+            # print('. ', end='', flush=True)
             ## 장 시작전까지 홀딩
             if datetime.datetime.now() < startTime:
                 print('Before[%s]' % (datetime.datetime.now()))
@@ -177,22 +178,23 @@ class Trade:
             buy_price = float(df['평균단가'][i])
             current_price = int(df['현재가'][i])
             current_profit = float(df['수익율'][i])
-
             current_buy_count = df['매도가능수량'][i]
+
             if current_buy_count > 0:
                 trade_price = buy_price - (buy_price % 5)
                 if df['종목번호'][i] in self.물타기_stock_list:
                     self.물타기_stock_list.remove(df['종목번호'][i])
                     self.handle_sell(df['종목번호'][i], (trade_price + 10), current_buy_count)
                 else:
-                    self.handle_sell(df['종목번호'][i], (trade_price + self.get_default_sell_step(df['종목번호'][i])), current_buy_count)
+                    default_sell_price = (trade_price + self.get_default_sell_step(df['종목번호'][i]))
+                    self.handle_sell(df['종목번호'][i], default_sell_price, current_buy_count)
 
             # if current_profit < -0.8:
             #     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
 
             if current_profit < -0.8:
                 self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-            if current_profit < -1:
+            elif current_profit < -1:
                 self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
 
     def check_have_stock(self, code):
@@ -230,6 +232,7 @@ class Trade:
         return 주문번호_리스트, 미체결잔량_리스트
 
     def handle_buy(self, code, price):
+        print('handle_buy 매수 : ' + code)
         보유종목 = self.check_have_stock(code)
         if 보유종목 is not None:
             print('handle_buy 보유 종목 있음 매수 SKIP: ' + code)
@@ -248,15 +251,16 @@ class Trade:
                                   가격=trade_price, 가격구분="00")
         # print(df0)
         # print(df)
-        print('handle_buy 매수 : ' + code)
+
 
     def handle_sell(self, code, price, trade_count):
+        print('handle_sell 매도 : ' + code)
         매매구분 = 1  # 매도
         df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분, 가격=price,
                                   가격구분="00")
         # print(df0)
         # print(df)
-        print('handle_sell 매도 : ' + code)
+
 
     def handle_sell_immediate(self, code, current_price):
         print('sell_immediate 즉시 매도 시도: ' + code)
@@ -297,6 +301,7 @@ class Trade:
             self.물타기_stock_list.append(code)
 
     def end_action(self):
+        print('end_action')
         df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
         sleep(0.7)
         for i in df.index:
