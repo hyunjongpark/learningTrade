@@ -22,6 +22,7 @@ class StockCode():
         self.success_trade_count = 0
         self.failed_trade_count = 0
         self.period_top_price = 0
+        self.period_min_price = 10000000
         self.period_index = 0
 
         self.거래량_차이_리스트 = []
@@ -102,6 +103,11 @@ class StockCode():
         if self.is_buy is True and self.period_top_price < self.df['현재가'][self.index]:
             self.period_top_price = self.df['현재가'][self.index]
 
+        if self.is_buy is True and self.period_min_price > self.df['현재가'][self.index]:
+            self.period_min_price = self.df['현재가'][self.index]
+
+
+
         if debug is True:
             print(print_log)
 
@@ -124,6 +130,7 @@ class StockCode():
                 self.buy_count += 1
                 self.preBuyPrice = int(self.df['현재가'][self.index])
                 self.period_top_price = self.preBuyPrice
+                self.period_min_price = self.preBuyPrice
                 self.period_index = self.index
                 print('code[%s][%s] - Buy buy_price[%s] total_profit[%s]' % (self.df['코드'][self.index], self.index, int(self.df['현재가'][self.index]), self.profit))
                 if self.index == len(self.df.index) - 1:
@@ -139,7 +146,7 @@ class StockCode():
             self.profit += profit
             # if debug is True:
             self.success_trade_count = self.success_trade_count + 1
-            print('code[%s][%s] - SUCCESS Sell buy_price[%s] sell_price[%s] profit[%s] total_profit[%s] 성공[%s] 실패[%s] 구간최고가격[%s] index[%s]' % (self.df['코드'][self.index], self.index, self.preBuyPrice, int(self.df['현재가'][self.index]), profit, self.profit, self.success_trade_count, self.failed_trade_count, self.period_top_price - self.preBuyPrice, self.index - self.period_index))
+            print('code[%s][%s] - SUCCESS Sell buy_price[%s] sell_price[%s] profit[%s] total_profit[%s] 성공[%s] 실패[%s] 구간최고가격[%s] 구간최저가격[%s] index[%s]' % (self.df['코드'][self.index], self.index, self.preBuyPrice, int(self.df['현재가'][self.index]), profit, self.profit, self.success_trade_count, self.failed_trade_count, self.period_top_price - self.preBuyPrice, self.period_min_price - self.preBuyPrice, self.index - self.period_index))
             if self.index == len(self.df.index) - 1:
                 is_trade = 'sell_success'
 
@@ -148,11 +155,11 @@ class StockCode():
             self.is_buy = False
             self.test_fail_sell_index_list.append(self.index)
             self.test_fail_sell_price_list.append(self.df['등락율'][self.index])
-            profit = (get_percent(self.preBuyPrice, int(self.df['현재가'][self.index])) - TAX - 0.1)
+            profit = (get_percent(self.preBuyPrice, int(self.df['현재가'][self.index])) - TAX - 0.2)
             self.profit += profit
             # if debug is True:
             self.failed_trade_count = self.failed_trade_count + 1
-            print('code[%s][%s] - FAILED Sell buy_price[%s] sell_price[%s] profit[%s] total_profit[%s] 성공[%s] 실패[%s] 구간최고가격[%s] index[%s]' % (self.df['코드'][self.index], self.index, self.preBuyPrice, int(self.df['현재가'][self.index]), profit, self.profit, self.success_trade_count, self.failed_trade_count, self.period_top_price- self.preBuyPrice, self.index - self.period_index))
+            print('code[%s][%s] - FAILED Sell buy_price[%s] sell_price[%s] profit[%s] total_profit[%s] 성공[%s] 실패[%s] 구간최고가격[%s] 구간최저가격[%s] index[%s]' % (self.df['코드'][self.index], self.index, self.preBuyPrice, int(self.df['현재가'][self.index]), profit, self.profit, self.success_trade_count, self.failed_trade_count, self.period_top_price- self.preBuyPrice, self.period_min_price - self.preBuyPrice, self.index - self.period_index))
             if self.index == len(self.df.index) - 1:
                 is_trade = 'sell_failed'
 
