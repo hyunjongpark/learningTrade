@@ -225,6 +225,11 @@ def get_percent(base, diff):
     return (base - diff) / (base / 100) * -1
 
 
+def get_percent_price_etf(base, p):
+    currentPrice = base + ((base / 100) * p)
+    trade_price = currentPrice - currentPrice % 5
+    return trade_price + 5
+
 def get_percent_price(base, p):
     currentPrice = base + ((base / 100) * p)
     step_price = 1

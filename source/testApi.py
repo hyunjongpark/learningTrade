@@ -12,7 +12,7 @@ from pandas import DataFrame, Series, Panel
 import pandas as pd
 import numpy as np
 from operator import itemgetter
-from source.common import get_buy_count, get_percent, get_percent_price
+from source.common import get_buy_count, get_percent, get_percent_price, get_percent_price_etf
 
 from source.util.StockManager import stockManager
 from source.util.StockManagerETF import StockManagerETF
@@ -35,10 +35,6 @@ certificate_password = "s20036402!"
 DEFAULT_BUY_COUNT = 1
 DEFAULT_BUY_PROFIT = 0.3
 RIDE_TRADE_COUNT = 0
-MINUS_IMMEDIATE_SELL_PROFIT = -0.8
-MINUS_RIDE_BUY_PROFIT = -0.8
-
-
 
 
 class TodayTradeStock:
@@ -128,9 +124,6 @@ class Trade:
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
         preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 15, 0)
 
-        test_price = get_percent_price(5105, 0.3)
-        test_price = get_percent_price(8235, 0.3)
-
         while True:
             # print('. ', end='', flush=True)
             ## 장 시작전까지 홀딩
@@ -191,16 +184,19 @@ class Trade:
                     self.handle_sell(df['종목번호'][i], (trade_price + 10), current_buy_count)
                 else:
                     # default_sell_price = (trade_price + self.get_default_sell_step(df['종목번호'][i]))
-                    default_sell_price = get_percent_price(trade_price, DEFAULT_BUY_PROFIT)
+                    default_sell_price = get_percent_price_etf(trade_price, DEFAULT_BUY_PROFIT)
                     self.handle_sell(df['종목번호'][i], default_sell_price, current_buy_count)
 
             if RIDE_TRADE_COUNT == 0:
-                if current_profit < MINUS_IMMEDIATE_SELL_PROFIT:
+                if current_profit < -1.0:
                     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
+                elif current_profit < -0.8:
+                    self.handle_sell_immediate(df['종목번호'][i], current_price)
+
             else:
-                if current_profit < MINUS_IMMEDIATE_SELL_PROFIT:
+                if current_profit < -1.0:
                     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
-                elif current_profit < MINUS_RIDE_BUY_PROFIT:
+                elif current_profit < -0.8:
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
 
 
@@ -269,6 +265,7 @@ class Trade:
         # print(df)
 
 
+
     def handle_sell_immediate(self, code, current_price):
         print('sell_immediate 즉시 매도 시도: ' + code)
         주문번호_리스트, 미체결잔량_리스트 = self.check_try_trade_stock(code, '01')
@@ -276,7 +273,7 @@ class Trade:
             print('sell_immediate 미체결 매도 종목 있음 취소 : ' + code)
             self.CSPAT00800(원주문번호=주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=미체결잔량_리스트[index])
             sleep(0.5)
-            self.handle_sell(code, (current_price - 20), 미체결잔량_리스트[index])
+            self.handle_sell(code, current_price, 미체결잔량_리스트[index])
             sleep(0.5)
 
     def handle_buy_stock_ride(self, code, current_price):
