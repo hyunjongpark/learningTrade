@@ -12,6 +12,7 @@ def file_test(TODAY, SHOW_CHART, DEBUG_LOG):
         return
 
     total_profit = 0
+    total_money = 0
     files = os.listdir(log_folder)
 
     for file in files:
@@ -33,27 +34,33 @@ def file_test(TODAY, SHOW_CHART, DEBUG_LOG):
             #     print('SELL FAILED profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
             #     # print(' %s' % (log))
 
-        total_profit += stockManager.get_stock_code(code).test_profit()
+        profit, money = stockManager.get_stock_code(code).test_profit()
+        total_profit += profit
+        total_money += money
+
         if SHOW_CHART:
             stockManager.get_stock_code(code).show_graph()
-    print('>>>>>>>>DAY[%s] - Profit[%s] ' % (TODAY, total_profit))
+    print('>>>>>>>>DAY[%s] - Profit[%s] total_money[%s]' % (TODAY, total_profit, total_money))
     print('======================================================')
-    return total_profit
+    return total_profit, total_money
 
 
 class Trade():
     def all_file_test(self, SHOW_CHART, DEBUG_LOG):
         total_profit = 0
+        total_money = 0
         folders = os.listdir('log')
         for folder in folders:
-            total_profit += file_test(folder, SHOW_CHART, DEBUG_LOG)
-        print('TOTAL Profit[%s]' % (total_profit))
+            profit, money = file_test(folder, SHOW_CHART, DEBUG_LOG)
+            total_profit += profit
+            total_money += money
+        print('TOTAL Profit[%s] money[%s]' % (total_profit, total_money))
 
 
 if __name__ == "__main__":
-    all_days_check = False
+    all_days_check = True
     Trade = Trade()
     if all_days_check:
         Trade.all_file_test(SHOW_CHART=False, DEBUG_LOG=False)
     else:
-        file_test(TODAY='20200327', SHOW_CHART=False, DEBUG_LOG=False)
+        file_test(TODAY='20200328', SHOW_CHART=False, DEBUG_LOG=False)

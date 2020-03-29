@@ -29,13 +29,13 @@ def file_test(TODAY, SHOW_CHART, DEBUG_LOG):
                 print('BUY')
                 # print(' %s' % (log))
             elif trade == 'sell_success':
-                print('SELL SUCCESS profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
+                print('SELL SUCCESS profit[%s]' % (stockManager.get_stock_code(code).test_profit))
                 # print(' %s' % (log))
             elif trade == 'sell_failed':
-                print('SELL FAILED profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
+                print('SELL FAILED profit[%s]' % (stockManager.get_stock_code(code).test_profit))
                 # print(' %s' % (log))
 
-        total_profit += stockManager.get_stock_code(code).test_profit()
+        total_profit += stockManager.get_stock_code(code).test_profit
         if SHOW_CHART:
             stockManager.get_stock_code(code).show_graph()
     print('>>>>>>>>DAY[%s] - Profit[%s] ' % (TODAY, total_profit))

@@ -15,7 +15,6 @@ from operator import itemgetter
 from source.common import get_buy_count, get_percent, get_percent_price, get_percent_price_etf
 
 from source.util.StockManager import stockManager
-from source.util.StockManagerETF import StockManagerETF
 
 SERVER_PORT = 20001
 SHOW_CERTIFICATE_ERROR_DIALOG = False
@@ -34,7 +33,7 @@ certificate_password = "s20036402!"
 
 DEFAULT_BUY_COUNT = 1
 DEFAULT_BUY_PROFIT = 0.3
-RIDE_TRADE_COUNT = 0
+RIDE_TRADE_COUNT = 32
 
 
 class TodayTradeStock:
@@ -82,7 +81,6 @@ class Trade:
                   {'코드': '251340', '이름': 'KODEX 코스닥 150 선물 인버스', 'buy_count': DEFAULT_BUY_COUNT, 'sell_step': 30},
                   {'코드': '252670', '이름': 'KODEX 200선물인버스2X', 'buy_count': DEFAULT_BUY_COUNT, 'sell_step': 30}]
 
-
     def __init__(self, debug):
         if debug:
             return
@@ -114,7 +112,6 @@ class Trade:
         print(df)
 
     def main(self):
-
 
         log_folder = ('log/%s' % TODAY)
         if not os.path.exists(log_folder):
@@ -150,8 +147,6 @@ class Trade:
 
                 if trade == 'buy':
                     self.handle_buy(code, int(df['현재가'][0]))
-                    print('BUY [%s][%s][%s] profit[%s]' % (
-                        code, df['시간'][0], df['현재가'][0], stockManager.get_stock_code(code).test_profit()))
 
     def get_default_buy_count(self, code):
         for stock in self.stock_list:
@@ -175,30 +170,39 @@ class Trade:
             buy_price = float(df['평균단가'][i])
             current_price = int(df['현재가'][i])
             current_profit = float(df['수익율'][i])
-            current_buy_count = df['매도가능수량'][i]
+            current_sell_count = df['매도가능수량'][i]
+            total_buy_count = df['잔고수량'][i]
 
-            if current_buy_count > 0:
+            if current_sell_count > 0:
                 trade_price = buy_price - (buy_price % 5)
                 if df['종목번호'][i] in self.물타기_stock_list:
                     self.물타기_stock_list.remove(df['종목번호'][i])
-                    self.handle_sell(df['종목번호'][i], (trade_price + 10), current_buy_count)
-                else:
-                    # default_sell_price = (trade_price + self.get_default_sell_step(df['종목번호'][i]))
                     default_sell_price = get_percent_price_etf(trade_price, DEFAULT_BUY_PROFIT)
-                    self.handle_sell(df['종목번호'][i], default_sell_price, current_buy_count)
+                    self.handle_sell(df['종목번호'][i], default_sell_price, current_sell_count)  # 물타기 할 때도 지정가 매도
+                else:
+                    default_sell_price = get_percent_price_etf(trade_price, DEFAULT_BUY_PROFIT)
+                    self.handle_sell(df['종목번호'][i], default_sell_price, current_sell_count)  # 물타기 안 할 때도 지정가 매도
 
             if RIDE_TRADE_COUNT == 0:
                 if current_profit < -1.0:
-                    self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
+                    self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))  # 물타기 안할 때 즉시 매도
                 elif current_profit < -0.8:
-                    self.handle_sell_immediate(df['종목번호'][i], current_price)
-
+                    self.handle_sell_immediate(df['종목번호'][i], current_price)  # 물타기 안할 때 지정가 매도
             else:
-                if current_profit < -1.0:
+                if current_profit < -5:
                     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
-                elif current_profit < -0.8:
+                elif current_profit < -4.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 32:
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-
+                elif current_profit < -4.0 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 16:
+                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
+                elif current_profit < -3.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 8:
+                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
+                elif current_profit < -3.0 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 4:
+                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
+                elif current_profit < -1.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 2:
+                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
+                elif current_profit < -0.8 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 1:
+                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
 
     def check_have_stock(self, code):
         df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
@@ -255,7 +259,6 @@ class Trade:
         # print(df0)
         # print(df)
 
-
     def handle_sell(self, code, price, trade_count):
         print('handle_sell 매도 : ' + code)
         매매구분 = 1  # 매도
@@ -263,8 +266,6 @@ class Trade:
                                   가격구분="00")
         # print(df0)
         # print(df)
-
-
 
     def handle_sell_immediate(self, code, current_price):
         print('sell_immediate 즉시 매도 시도: ' + code)
@@ -291,7 +292,8 @@ class Trade:
             if 매도_미체결잔량_리스트[index] >= self.get_default_buy_count(code) * RIDE_TRADE_COUNT:
                 print('물타기 SKIP')
                 continue
-            self.CSPAT00800(원주문번호=매도_주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=매도_미체결잔량_리스트[index])
+            self.CSPAT00800(원주문번호=매도_주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code,
+                            주문수량=매도_미체결잔량_리스트[index])
             sleep(0.5)
             매매구분 = 2  # 매수
             # trade_count = 미체결잔량_리스트[index] + 미체결잔량_리스트[index]
