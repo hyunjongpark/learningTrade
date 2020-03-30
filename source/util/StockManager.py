@@ -168,7 +168,7 @@ class StockCode():
             if self.index == len(self.df.index) - 1:
                 is_trade = 'sell_success'
 
-        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -5):
+        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -4):
             self.real_buy_percent = 50
             self.is_buy = False
             self.test_fail_sell_index_list.append(self.index)
@@ -186,7 +186,7 @@ class StockCode():
             if self.index == len(self.df.index) - 1:
                 is_trade = 'sell_failed'
 
-        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -4.5) \
+        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -3.0) \
                 and self.period_buy_count == 32:
             self.물타기_index_list.append(self.index)
             self.물타기_price_list.append(self.df['등락율'][self.index])
@@ -199,7 +199,7 @@ class StockCode():
             self.preBuyPrice = ride_price
             self.period_물타기_index = self.index
 
-        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -4) \
+        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -2.5) \
                 and self.period_buy_count == 16:
             self.물타기_index_list.append(self.index)
             self.물타기_price_list.append(self.df['등락율'][self.index])
@@ -212,7 +212,7 @@ class StockCode():
             self.preBuyPrice = ride_price
             self.period_물타기_index = self.index
 
-        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -3.5) \
+        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -2.1) \
                 and self.period_buy_count == 8:
             self.물타기_index_list.append(self.index)
             self.물타기_price_list.append(self.df['등락율'][self.index])
@@ -225,7 +225,7 @@ class StockCode():
             self.preBuyPrice = ride_price
             self.period_물타기_index = self.index
 
-        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -3) \
+        if self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -1.8) \
                 and self.period_buy_count == 4:
             self.물타기_index_list.append(self.index)
             self.물타기_price_list.append(self.df['등락율'][self.index])

@@ -189,19 +189,26 @@ class Trade:
                 elif current_profit < -0.8:
                     self.handle_sell_immediate(df['종목번호'][i], current_price)  # 물타기 안할 때 지정가 매도
             else:
-                if current_profit < -5:
+                if current_profit < -4:
+                    print('물타기 -4 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
-                elif current_profit < -4.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 32:
+                elif current_profit < -3.0 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 32:
+                    print('물타기 -3.0 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-                elif current_profit < -4.0 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 16:
+                elif current_profit < -2.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 16:
+                    print('물타기 -2.5 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-                elif current_profit < -3.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 8:
+                elif current_profit < -2.1 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 8:
+                    print('물타기 -2.1 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-                elif current_profit < -3.0 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 4:
+                elif current_profit < -1.8 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 4:
+                    print('물타기 -1.8 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
                 elif current_profit < -1.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 2:
+                    print('물타기 -1.5 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
                 elif current_profit < -0.8 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 1:
+                    print('물타기 -0.8 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
 
     def check_have_stock(self, code):
@@ -622,7 +629,7 @@ class Trade:
         OUTBLOCK2 = "%sOutBlock2" % MYNAME
         RESFILE = "%s\\Res\\%s.res" % (resdir, MYNAME)
 
-        print(MYNAME, RESFILE)
+        # print(MYNAME, RESFILE)
 
         query.LoadFromResFile(RESFILE)
         query.SetFieldData(INBLOCK1, "OrgOrdNo", 0, 원주문번호)
