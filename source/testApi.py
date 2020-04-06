@@ -68,12 +68,11 @@ class Trade:
 
     물타기_stock_list = []
 
-    # stock_list = [{'코드': '233740', '이름': 'KODEX 코스닥 150 레버리지', 'buy_count': DEFAULT_BUY_COUNT},
-    #               {'코드': '122630', '이름': 'KODEX 레버리지', 'buy_count': DEFAULT_BUY_COUNT},
-    #               {'코드': '251340', '이름': 'KODEX 코스닥 150 선물 인버스', 'buy_count': DEFAULT_BUY_COUNT},
-    #               {'코드': '252670', '이름': 'KODEX 200선물인버스2X', 'buy_count': DEFAULT_BUY_COUNT}]
-    stock_list = [{'코드': '122630', '이름': 'KODEX 레버리지', 'buy_count': DEFAULT_BUY_COUNT},
+    stock_list = [{'코드': '233740', '이름': 'KODEX 코스닥 150 레버리지', 'buy_count': DEFAULT_BUY_COUNT},
+                  {'코드': '122630', '이름': 'KODEX 레버리지', 'buy_count': DEFAULT_BUY_COUNT},
+                  {'코드': '251340', '이름': 'KODEX 코스닥 150 선물 인버스', 'buy_count': DEFAULT_BUY_COUNT},
                   {'코드': '252670', '이름': 'KODEX 200선물인버스2X', 'buy_count': DEFAULT_BUY_COUNT}]
+
 
     def __init__(self, debug):
         if debug:
