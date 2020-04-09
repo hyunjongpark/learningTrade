@@ -19,6 +19,10 @@ def file_test(TODAY, SHOW_CHART, DEBUG_LOG):
         df = pd.read_csv('log/%s/%s' % (TODAY, file),
                          names=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금'])
         code = df['코드'][0]
+        if int(code) == int(233740) or int(code) == int(251340):
+            print('SKIP [%s][%s] ' % (df['한글명'][0], code))
+            continue
+
         stockManager.ini_stock_code(code)
         for i in df.index:
             # print('. ', end='', flush=True)
@@ -63,4 +67,4 @@ if __name__ == "__main__":
     if all_days_check:
         Trade.all_file_test(SHOW_CHART=False, DEBUG_LOG=False)
     else:
-        file_test(TODAY='20200406', SHOW_CHART=False, DEBUG_LOG=False)
+        file_test(TODAY='20200409', SHOW_CHART=False, DEBUG_LOG=False)

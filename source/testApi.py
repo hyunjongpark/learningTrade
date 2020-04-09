@@ -31,7 +31,7 @@ password = "phj1629"
 tradePW = "1629"
 certificate_password = "s20036402!"
 
-DEFAULT_BUY_COUNT = 5
+DEFAULT_BUY_COUNT = 10
 DEFAULT_BUY_PROFIT = 0.3
 RIDE_TRADE_COUNT = 16
 
@@ -179,9 +179,6 @@ class Trade:
                 if current_profit < -4:
                     print('물타기 실패 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
-                # elif current_profit < -4 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 16:
-                #     print('물타기 32 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                #     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
                 elif current_profit < -3.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 8:
                     print('물타기 16 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
