@@ -26,14 +26,14 @@ today_time = datetime.date.today()
 STAND_BY = 0
 RECEIVED = 1
 
-id = "phjwithy"
-password = "phj1629"
-tradePW = "1629"
-certificate_password = "s20036402!"
+id = ""
+password = ""
+tradePW = ""
+certificate_password = ""
 
-DEFAULT_BUY_COUNT = 10
+DEFAULT_BUY_COUNT = 50
 DEFAULT_BUY_PROFIT = 0.3
-RIDE_TRADE_COUNT = 16
+RIDE_TRADE_COUNT = 4
 
 
 class XASessionEvents:
@@ -112,7 +112,7 @@ class Trade:
 
         today = datetime.date.today()
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
-        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 15, 0)
+        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 19, 0)
 
         while True:
             # print('. ', end='', flush=True)
@@ -140,6 +140,8 @@ class Trade:
 
                 if trade == 'buy':
                     self.handle_buy(code, int(df['현재가'][0]))
+                elif trade == 'sell_immediate':
+                    self.handle_sell_immediate(code, (int(df['현재가'][0]) - 100))  # 최고 높은 가격에서 산 경우 -0.5일때 즉시 매도
 
     def get_default_buy_count(self, code):
         for stock in self.stock_list:
@@ -179,12 +181,6 @@ class Trade:
                 if current_profit < -4:
                     print('물타기 실패 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
-                elif current_profit < -3.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 8:
-                    print('물타기 16 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-                elif current_profit < -3 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 4:
-                    print('물타기 8 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
                 elif current_profit < -1.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 2:
                     print('물타기 4 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
@@ -231,6 +227,7 @@ class Trade:
         보유종목 = self.check_have_stock(code)
         if 보유종목 is not None:
             print('handle_buy 보유 종목 있음 매수 SKIP: ' + code)
+            stockManager.get_stock_code(code).set_not_buy(debug=False)
             return
 
         주문번호_리스트, 미체결잔량_리스트 = self.check_try_trade_stock(code, '02')  # 매도 01 매수 02
