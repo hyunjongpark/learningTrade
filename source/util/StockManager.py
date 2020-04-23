@@ -134,7 +134,6 @@ class StockCode():
 
         if self.is_buy is False \
                 and 1 <= self.df['등락율'][self.index] <= 4.5 \
-                and int(self.df['시간'][self.index]) < 1430000 \
                 and self.현재가차이[self.index - 1] == self.현재가차이[self.index]:
 
             # 100 -> 약 2분
@@ -310,7 +309,7 @@ class StockCode():
             self.skip_total_money_profit += ((int(self.df['현재가'][last_index]) - self.preBuyPrice - 20) * self.period_buy_count)
 
             print(
-                'END NOT SELL code[%s][%s] - Sell buy_price[%s] sell_price[%s] profit[%s] total_profit[%s] skip_total_money_profit[%s] money[%s] 성공[%s] 실패[%s] 구간최고가격[%s] 구간최저가격[%s] index[%s]' % (
+                'END NOT SELL code[%s][%s] - Sell buy_price[%s] sell_price[%s] profit[%s] total_profit[%s] total_money[%s] skip_total_money_profit[%s] 성공[%s] 실패[%s] 구간최고가격[%s] 구간최저가격[%s] index[%s]' % (
                     self.df['코드'][last_index], self.index, self.preBuyPrice, int(self.df['현재가'][last_index]), profit,
                     self.profit, self.total_money_profit, self.skip_total_money_profit, self.success_trade_count, self.failed_trade_count,
                     self.period_top_price - self.preBuyPrice, self.period_min_price - self.preBuyPrice,
