@@ -31,7 +31,7 @@ password = ""
 tradePW = ""
 certificate_password = ""
 
-DEFAULT_BUY_COUNT = 50
+DEFAULT_BUY_COUNT = 100
 DEFAULT_BUY_PROFIT = 0.3
 RIDE_TRADE_COUNT = 4
 
@@ -112,7 +112,7 @@ class Trade:
 
         today = datetime.date.today()
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
-        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 19, 0)
+        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 15, 0)
 
         while True:
             # print('. ', end='', flush=True)

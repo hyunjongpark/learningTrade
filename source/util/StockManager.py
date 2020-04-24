@@ -133,7 +133,7 @@ class StockCode():
             return 0, 0
 
         if self.is_buy is False \
-                and 1 <= self.df['등락율'][self.index] <= 4.5 \
+                and 1 <= self.df['등락율'][self.index] <= 4 \
                 and self.현재가차이[self.index - 1] == self.현재가차이[self.index]:
 
             # 100 -> 약 2분
