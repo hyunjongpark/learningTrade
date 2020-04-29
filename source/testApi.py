@@ -178,7 +178,7 @@ class Trade:
                 elif current_profit < -0.8:
                     self.handle_sell_immediate(df['종목번호'][i], current_price)  # 물타기 안할 때 지정가 매도
             else:
-                if current_profit < -4:
+                if current_profit < -3:
                     print('물타기 실패 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
                 elif current_profit < -1.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 2:
