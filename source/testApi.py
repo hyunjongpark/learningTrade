@@ -32,7 +32,7 @@ tradePW = ""
 certificate_password = ""
 
 DEFAULT_BUY_COUNT = 100
-DEFAULT_BUY_PROFIT = 0.3
+DEFAULT_BUY_PROFIT = 0.25
 RIDE_TRADE_COUNT = 4
 
 
@@ -139,7 +139,11 @@ class Trade:
                 df.to_csv('log/%s/t1102_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
 
                 if trade == 'buy':
-                    self.handle_buy(code, int(df['현재가'][0]))
+                    isBuy, buy_code = stockManager.is_buy_another_stock(code)
+                    if isBuy:
+                        print('already buy another stock[%s] ' % buy_code)
+                    else:
+                        self.handle_buy(code, int(df['현재가'][0]))
                 elif trade == 'sell_immediate':
                     self.handle_sell_immediate(code, (int(df['현재가'][0]) - 100))  # 최고 높은 가격에서 산 경우 -0.5일때 즉시 매도
 
@@ -181,9 +185,9 @@ class Trade:
                 if current_profit < -3:
                     print('물타기 실패 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
-                elif current_profit < -1.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 2:
-                    print('물타기 4 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
+                # elif current_profit < -1.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 2:
+                #     print('물타기 4 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
+                #     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
                 elif current_profit < -0.8 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 1:
                     print('물타기 2 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
                     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))

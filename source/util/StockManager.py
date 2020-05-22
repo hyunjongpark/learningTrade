@@ -137,6 +137,7 @@ class StockCode():
 
         if self.is_buy is False \
                 and 1 <= self.df['등락율'][self.index] <= 4 \
+                and int(self.df['시간'][self.index]) < 1430000 \
                 and self.현재가차이[self.index - 1] == self.현재가차이[self.index]:
 
             # 100 -> 약 2분
@@ -176,7 +177,7 @@ class StockCode():
                         is_trade = 'skip_buy'
 
         if self.is_buy is True \
-                and float(self.df['현재가'][self.index]) >= get_percent_price_etf(self.preBuyPrice, 0.3):
+                and float(self.df['현재가'][self.index]) >= get_percent_price_etf(self.preBuyPrice, 0.25):
             self.real_buy_percent = 50
             self.is_buy = False
             self.test_success_sell_index_list.append(self.index)
@@ -201,7 +202,7 @@ class StockCode():
             if self.index == len(self.df.index) - 1:
                 is_trade = 'sell_success'
 
-        elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -4):
+        elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -3):
             self.real_buy_percent = 50
             self.is_buy = False
             self.test_fail_sell_index_list.append(self.index)
@@ -267,20 +268,20 @@ class StockCode():
         #     if self.index == len(self.df.index) - 1:
         #         is_trade = 'sell_immediate'
 
-        elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -1.5) \
-                and self.period_buy_count == 2:
-            self.물타기_index_list.append(self.index)
-            self.물타기_price_list.append(self.df['등락율'][self.index])
-            self.period_buy_count = self.period_buy_count + self.period_buy_count
-
-            ride_price = int((self.preBuyPrice + self.df['현재가'][self.index]) / 2)
-
-            print('>>> ride code[%s][%s] buy[%s] now[%s] ride_price[%s] buy_count[%s] money[%s] index[%s] buy_index[%s]' % (
-                    self.code, self.df['시간'][self.index], self.preBuyPrice, self.df['현재가'][self.index], ride_price,
-                    self.period_buy_count, ride_price * self.period_buy_count, self.index - self.period_물타기_index,
-                    self.index - self.period_index))
-            self.preBuyPrice = ride_price
-            self.period_물타기_index = self.index
+        # elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -1.5) \
+        #         and self.period_buy_count == 2:
+        #     self.물타기_index_list.append(self.index)
+        #     self.물타기_price_list.append(self.df['등락율'][self.index])
+        #     self.period_buy_count = self.period_buy_count + self.period_buy_count
+        #
+        #     ride_price = int((self.preBuyPrice + self.df['현재가'][self.index]) / 2)
+        #
+        #     print('>>> ride code[%s][%s] buy[%s] now[%s] ride_price[%s] buy_count[%s] money[%s] index[%s] buy_index[%s]' % (
+        #             self.code, self.df['시간'][self.index], self.preBuyPrice, self.df['현재가'][self.index], ride_price,
+        #             self.period_buy_count, ride_price * self.period_buy_count, self.index - self.period_물타기_index,
+        #             self.index - self.period_index))
+        #     self.preBuyPrice = ride_price
+        #     self.period_물타기_index = self.index
 
         elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -0.8) \
                 and self.period_buy_count == 1:
@@ -379,6 +380,19 @@ class StockManager:
         for stockCode in self.stocks.keys():
             code = self.stocks.get(stockCode)
             code.show_graph()
+
+    def is_buy_another_stock(self, code):
+        isBuy = False
+        buy_code = ''
+        for stockCode in self.stocks.keys():
+            if stockCode == code:
+                continue
+            stock = self.stocks.get(stockCode)
+            if stock.is_buy:
+                isBuy = True
+                buy_code = stockCode
+                break
+        return isBuy, buy_code
 
 
 stockManager = StockManager()

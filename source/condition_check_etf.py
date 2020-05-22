@@ -30,15 +30,6 @@ def file_test(TODAY, SHOW_CHART, DEBUG_LOG):
             # print('. ', end='', flush=True)
             stockManager.register(code, df.iloc[i])
             trade, log = stockManager.get_stock_code(code).is_trade(debug=DEBUG_LOG)
-            # if trade == 'buy':
-            #     print('BUY profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
-            #     # print(' %s' % (log))
-            # elif trade == 'sell_success':
-            #     print('SELL SUCCESS profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
-            #     # print(' %s' % (log))
-            # elif trade == 'sell_failed':
-            #     print('SELL FAILED profit[%s]' % (stockManager.get_stock_code(code).test_profit()))
-            #     # print(' %s' % (log))
 
         profit, money, skip_money = stockManager.get_stock_code(code).test_profit()
         total_profit += profit
@@ -66,9 +57,9 @@ class Trade():
 
 
 if __name__ == "__main__":
-    all_days_check = True
+    all_days_check = False
     Trade = Trade()
     if all_days_check:
         Trade.all_file_test(SHOW_CHART=False, DEBUG_LOG=False)
     else:
-        file_test(TODAY='20200429', SHOW_CHART=False, DEBUG_LOG=False)
+        file_test(TODAY='20200522', SHOW_CHART=False, DEBUG_LOG=False)
