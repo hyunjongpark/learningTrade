@@ -5,16 +5,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pandas as pd
-from common import *
-from source.common import get_buy_count, get_percent, get_percent_price, get_percent_price_etf
+
+from source.common import get_percent_price_etf, RIDE_TRADE_COUNT, DEFAULT_BUY_COUNT, \
+    FAILED_SELL_PROFIT, SUCCESS_SELL_PROFIT, RIDE_1_PROFIT
 import numpy
 from source.common import get_percent
 
 # from util.ta_tester import ta_tester
 
 TAX = 0.0015
-
-RIDE_COUNT = 128
 
 
 class StockCode():
@@ -177,7 +176,7 @@ class StockCode():
                         is_trade = 'skip_buy'
 
         if self.is_buy is True \
-                and float(self.df['현재가'][self.index]) >= get_percent_price_etf(self.preBuyPrice, 0.25):
+                and float(self.df['현재가'][self.index]) >= get_percent_price_etf(self.preBuyPrice, SUCCESS_SELL_PROFIT):
             self.real_buy_percent = 50
             self.is_buy = False
             self.test_success_sell_index_list.append(self.index)
@@ -202,7 +201,7 @@ class StockCode():
             if self.index == len(self.df.index) - 1:
                 is_trade = 'sell_success'
 
-        elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -3):
+        elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, FAILED_SELL_PROFIT):
             self.real_buy_percent = 50
             self.is_buy = False
             self.test_fail_sell_index_list.append(self.index)
@@ -228,46 +227,6 @@ class StockCode():
             if self.index == len(self.df.index) - 1:
                 is_trade = 'sell_failed'
 
-        # elif self.is_buy is True and self.preSellPrice == 0 and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -0.8):
-        #     self.real_buy_percent = 50
-        #     self.is_buy = False
-        #     self.test_fail_sell_index_list.append(self.index)
-        #     self.test_fail_sell_price_list.append(self.df['등락율'][self.index])
-        #     profit = ((get_percent(self.preBuyPrice,
-        #                            int(self.df['현재가'][self.index])) - TAX - 0.2) * self.period_buy_count)
-        #     self.profit += profit
-        #     self.preSellPrice = int(self.df['현재가'][self.index])
-        #     self.total_money_profit += ((int(self.df['현재가'][self.index]) - self.preBuyPrice - 20) * self.period_buy_count)
-        #     self.failed_trade_count = self.failed_trade_count + 1
-        #     print(
-        #         'code[%s][%s][%s] - First Buy FAILED Sell buy_price[%s] sell_price[%s] profit[%s] total_profit[%s] money[%s] 성공[%s] 실패[%s] 구간최고가격[%s] 구간최저가격[%s] index[%s]' % (
-        #             self.df['코드'][self.index], self.index, self.df['시간'][self.index], self.preBuyPrice,
-        #             int(self.df['현재가'][self.index]), profit,
-        #             self.profit, self.total_money_profit, self.success_trade_count, self.failed_trade_count,
-        #             self.period_top_price - self.preBuyPrice, self.period_min_price - self.preBuyPrice,
-        #             self.index - self.period_index))
-        #     if self.index == len(self.df.index) - 1:
-        #         is_trade = 'sell_immediate'
-
-        # elif self.is_buy is True and self.success_trade_count >= 2 and self.preBuyPrice == self.buy_top_price and float(self.등략율[self.index]) < -0.5:
-        #     self.real_buy_percent = 50
-        #     self.is_buy = False
-        #     self.test_fail_sell_index_list.append(self.index)
-        #     self.test_fail_sell_price_list.append(self.df['등락율'][self.index])
-        #     profit = ((get_percent(self.preBuyPrice, int(self.df['현재가'][self.index])) - TAX - 0.2) * self.period_buy_count)
-        #     self.profit += profit
-        #     self.total_money_profit += ((int(self.df['현재가'][self.index]) - self.preBuyPrice - 20) * self.period_buy_count)
-        #     self.skip_total_money_profit += ((int(self.df['현재가'][self.index]) - self.preBuyPrice - 20) * self.period_buy_count)
-        #     self.failed_trade_count = self.failed_trade_count + 1
-        #     print('code[%s][%s][%s] - Immediate Sell buy_price[%s] sell_price[%s] profit[%s] total_profit[%s] skip_total_money_profit[%s] money[%s] 성공[%s] 실패[%s] 구간최고가격[%s] 구간최저가격[%s] index[%s]' % (
-        #             self.df['코드'][self.index], self.index, self.df['시간'][self.index], self.preBuyPrice,
-        #             int(self.df['현재가'][self.index]), profit,
-        #             self.profit, self.total_money_profit, self.skip_total_money_profit, self.success_trade_count, self.failed_trade_count,
-        #             self.period_top_price - self.preBuyPrice, self.period_min_price - self.preBuyPrice,
-        #             self.index - self.period_index))
-        #     if self.index == len(self.df.index) - 1:
-        #         is_trade = 'sell_immediate'
-
         # elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -1.5) \
         #         and self.period_buy_count == 2:
         #     self.물타기_index_list.append(self.index)
@@ -276,14 +235,14 @@ class StockCode():
         #
         #     ride_price = int((self.preBuyPrice + self.df['현재가'][self.index]) / 2)
         #
-        #     print('>>> ride code[%s][%s] buy[%s] now[%s] ride_price[%s] buy_count[%s] money[%s] index[%s] buy_index[%s]' % (
+        #     print('>>> 2 ride code[%s][%s] buy[%s] now[%s] ride_price[%s] buy_count[%s] money[%s] index[%s] buy_index[%s]' % (
         #             self.code, self.df['시간'][self.index], self.preBuyPrice, self.df['현재가'][self.index], ride_price,
         #             self.period_buy_count, ride_price * self.period_buy_count, self.index - self.period_물타기_index,
         #             self.index - self.period_index))
         #     self.preBuyPrice = ride_price
         #     self.period_물타기_index = self.index
 
-        elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, -0.8) \
+        elif self.is_buy is True and float(self.df['현재가'][self.index]) <= get_percent_price_etf(self.preBuyPrice, RIDE_1_PROFIT) \
                 and self.period_buy_count == 1:
             self.물타기_index_list.append(self.index)
             self.물타기_price_list.append(self.df['등락율'][self.index])
@@ -291,7 +250,7 @@ class StockCode():
 
             ride_price = int((self.preBuyPrice + self.df['현재가'][self.index]) / 2)
 
-            print('>>> ride code[%s][%s] buy[%s] now[%s] ride_price[%s] buy_count[%s] money[%s] index[%s] buy_index[%s]' % (
+            print('>>> 1 ride code[%s][%s] buy[%s] now[%s] ride_price[%s] buy_count[%s] money[%s] index[%s] buy_index[%s]' % (
                     self.code, self.df['시간'][self.index], self.preBuyPrice, self.df['현재가'][self.index], ride_price,
                     self.period_buy_count, ride_price * self.period_buy_count, self.index - self.period_물타기_index,
                     self.index - self.period_index))
