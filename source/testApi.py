@@ -29,10 +29,10 @@ today_time = datetime.date.today()
 STAND_BY = 0
 RECEIVED = 1
 
-id = "phjwithy"
-password = "phj1629"
-tradePW = "1629"
-certificate_password = "s20036402!"
+id = ""
+password = ""
+tradePW = ""
+certificate_password = ""
 
 
 class XASessionEvents:
