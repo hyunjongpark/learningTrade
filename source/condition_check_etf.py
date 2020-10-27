@@ -19,6 +19,9 @@ def file_test(TODAY, SHOW_CHART, DEBUG_LOG):
         df = pd.read_csv('log/%s/%s' % (TODAY, file),
                          names=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금'])
         code = df['코드'][0]
+        if int(code) == int(233740) or int(code) == int(251340):
+            continue
+
         stockManager.ini_stock_code(code)
         for i in df.index:
             # print('. ', end='', flush=True)

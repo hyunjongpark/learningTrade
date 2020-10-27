@@ -26,10 +26,10 @@ today_time = datetime.date.today()
 STAND_BY = 0
 RECEIVED = 1
 
-id = "phjwithy"
-password = "phj1629"
-tradePW = "1629"
-certificate_password = "s20036402!"
+id = ""
+password = ""
+tradePW = ""
+certificate_password = "!"
 
 DEFAULT_BUY_COUNT = 10
 DEFAULT_BUY_PROFIT = 0.3
@@ -105,18 +105,57 @@ class Trade:
         print(df)
 
     def main(self):
+        today = datetime.date.today()
+        startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
+        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 15, 0)
 
         log_folder = ('log/%s' % TODAY)
         if not os.path.exists(log_folder):
             pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
 
-        df, sortList = self.t1102('001470')
+        up_df_list, sortList = self.t1489('0')
+        for j in up_df_list.index:
+            code = up_df_list['코드'][j]
+            print('코드[%s]종목[%s]' % (code, up_df_list['한글명'][j] ))
+            # df0, df = t1305(단축코드=code, 일주월구분='1', 날짜='', IDX='', 건수='10')
+            # for t in df.index:
+            #     print('날짜[%s]종목[%s]' % (df['날짜'][t], df['등락율'][t] ))
+
+        df_list, sortList = self.t8436('0')
+        for i in df_list.index:
+            code = df_list['코드'][i]
+            # print('종목[%s]한글명[%s]구분[%s]' % (code, df_list['한글명'][i], df_list['구분'][i]))
+            sleep(0.1)
+            df, sortList = self.t1102(code)
+            # print('[%s/%s]구분[%s]전고점[%s]종목[%s]현재가[%s]고가[%s]' % (i, len(df_list), df_list['구분'][i], df['최고가일'][0], df['한글명'][0], df['현재가'][0], df['고가'][0]))
+            # if int(df['최고가일'][0]) == int(TODAY) and int(df['현재가'][0]) == int(df['고가'][0]):
+            if int(df['현재가'][0]) == int(df['고가'][0]) and int(df_list['ETF구분'][i]) == 0 and int(df['거래대금'][0]) / 100000000 > 10 and int( df['등락율'][0]) < 25:
+                print('[%s/%s]구분[%s]최고가일[%s]종목[%s]거래대금[%s]등락율[%s]' %
+                      (i, len(df_list), df_list['구분'][i], df['최고가일'][0], df['한글명'][0], int(df['거래대금'][0]) / 100000000, df['등락율'][0] ))
+                if int(df['최고가일'][0]) == int(TODAY):
+                    print("today >>>>>>>>>>>>>>>>>>>>")
+                sleep(1)
+                df0, df = t1305(단축코드=code, 일주월구분='1', 날짜='', IDX='', 건수='2')
+                if df['등락율'][0] > 0 and df['등락율'][1] > 0:
+                    print("high >>>>>>>>>>>>>>>>>>>>")
 
 
+                # for j in up_df_list.index:
+                #     up_code = up_df_list['코드'][j]
+                #     # print('코드[%s]종목[%s]' % (code, up_df_list['한글명'][j]))
+                #     if up_code == code:
+                #         print('>>>>>>> 코드[%s]종목[%s]' % (code, up_df_list['한글명'][j]))
 
-        today = datetime.date.today()
-        startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
-        preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 15, 0)
+
+        # for stock in df:
+        #     code = stock['코드']
+        #     sleep(0.1)
+        #     df, sortList = self.t1102(code)
+        #     print('종목[%s]전고점[%s]' % (df['한글명'][0], df['최고가일'][0]))
+        #     if int(df['현재가'][0]) == 20101023:
+        #         print('전고점[%s]' % (df['최고가일'][0]))
+
+
 
         while True:
             # print('. ', end='', flush=True)
@@ -722,26 +761,31 @@ class Trade:
             누적거래량 = int(inXAQuery.GetFieldData('t1102OutBlock', 'volume', i))
 
             거래량차 = int(inXAQuery.GetFieldData('t1102OutBlock', 'volumediff', i))
-            거래대금 = 현재가 * 누적거래량
 
-            # stock['전일거래량'] = int(inXAQuery.GetFieldData('t1102OutBlock', 'jnilvolume', i))
-            # stock['고가'] = int(inXAQuery.GetFieldData('t1102OutBlock', 'high', i))
-            # stock['저가'] = int(inXAQuery.GetFieldData('t1102OutBlock', 'low', i))
-            # stock['소진율'] = inXAQuery.GetFieldData('t1102OutBlock', 'exhratio', i)
-            # stock['회전율'] = inXAQuery.GetFieldData('t1102OutBlock', 'vol', i)
-            # stock['percent'] = get_percent(stock['저가'], stock['고가'])
+
+            최고가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'high52w', i))
+            최고가일 = int(inXAQuery.GetFieldData('t1102OutBlock', 'high52wdate', i))
+
+            시가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'open', i))
+            고가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'high', i))
+            저가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'low', i))
+
+
+
+            거래대금 = 현재가 * 누적거래량
 
             stock['코드'] = 코드
             stock['거래대금'] = 거래대금
 
-            lst = [시간, 한글명, 코드, 현재가, 등락율, 누적거래량, 거래량차, 거래대금]
+            lst = [시간, 한글명, 코드, 현재가, 등락율, 누적거래량, 거래량차, 거래대금, 최고가, 최고가일, 시가, 고가, 저가]
             resultList.append(lst)
 
-        df = DataFrame(data=resultList, columns=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금'])
+        df = DataFrame(data=resultList, columns=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금', '최고가', '최고가일', '시가','고가','저가',])
         # print(df)
         return df, stock
 
-    def DS3(self, shcode):
+
+    def t1101(self, shcode):
         inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
 
         pathname = os.path.dirname(sys.argv[0])
@@ -750,27 +794,29 @@ class Trade:
         RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
 
         inXAQuery.LoadFromResFile(RESFILE)
-        inXAQuery.SetFieldData('InBlock', 'shcode', 0, shcode)
+        inXAQuery.SetFieldData('t1101InBlock', 'shcode', 0, shcode)
         inXAQuery.Request(0)
 
         while XAQueryEvents.상태 == False:
             pythoncom.PumpWaitingMessages()
         XAQueryEvents.상태 = False
 
-        nCount = inXAQuery.GetBlockCount('OutBlock')
+        nCount = inXAQuery.GetBlockCount('t1101OutBlock')
         resultList = []
         stock = {}
         for i in range(nCount):
             시간 = int(int(datetime.datetime.today().strftime("%H%M%S%f")) / 100000)
 
-            코드 = inXAQuery.GetFieldData('OutBlock', 'dan_cvolume', i)
-            # 한글명 = inXAQuery.GetFieldData('t1102OutBlock', 'hname', i)
-            # 현재가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'price', i))
-            # 등락율 = float(inXAQuery.GetFieldData('t1102OutBlock', 'diff', i))
-            # 누적거래량 = int(inXAQuery.GetFieldData('t1102OutBlock', 'volume', i))
-            #
-            # 거래량차 = int(inXAQuery.GetFieldData('t1102OutBlock', 'volumediff', i))
-            # 거래대금 = 현재가 * 누적거래량
+            코드 = inXAQuery.GetFieldData('t1101OutBlock', 'shcode', i)
+            한글명 = inXAQuery.GetFieldData('t1101OutBlock', 'hname', i)
+            현재가 = inXAQuery.GetFieldData('t1101OutBlock', 'price', i)
+            누적거래량 = inXAQuery.GetFieldData('t1101OutBlock', 'volume', i)
+            직전매수대비수량1 = inXAQuery.GetFieldData('t1101OutBlock', 'prebidcha1', i)
+            직전매수대비수량2 = inXAQuery.GetFieldData('t1101OutBlock', 'prebidcha2', i)
+            시간외매수잔량 = int(inXAQuery.GetFieldData('t1101OutBlock', 'tmbid', i))
+            매수호가1 = int(inXAQuery.GetFieldData('t1101OutBlock', 'bidho1', i))
+            매수호가수량1 = int(inXAQuery.GetFieldData('t1101OutBlock', 'bidrem1', i))
+
 
             # stock['전일거래량'] = int(inXAQuery.GetFieldData('t1102OutBlock', 'jnilvolume', i))
             # stock['고가'] = int(inXAQuery.GetFieldData('t1102OutBlock', 'high', i))
@@ -780,14 +826,167 @@ class Trade:
             # stock['percent'] = get_percent(stock['저가'], stock['고가'])
 
             stock['코드'] = 코드
-            stock['거래대금'] = 거래대금
+            # stock['거래대금'] = 거래대금
 
-            lst = [시간, 한글명, 코드, 현재가, 등락율, 누적거래량, 거래량차, 거래대금]
+            lst = [시간, 한글명, 코드, 시간외매수잔량]
             resultList.append(lst)
 
         df = DataFrame(data=resultList, columns=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금'])
         # print(df)
         return df, stock
+
+    def t8436(self, gubun):
+        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+
+        pathname = os.path.dirname(sys.argv[0])
+        RESDIR = os.path.abspath(pathname)
+        MYNAME = inspect.currentframe().f_code.co_name
+        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+
+        inXAQuery.LoadFromResFile(RESFILE)
+        inXAQuery.SetFieldData('t8436InBlock', 'gubun', 0, gubun)
+        inXAQuery.Request(0)
+
+        while XAQueryEvents.상태 == False:
+            pythoncom.PumpWaitingMessages()
+        XAQueryEvents.상태 = False
+
+        nCount = inXAQuery.GetBlockCount('t8436OutBlock')
+        resultList = []
+        stock = {}
+        for i in range(nCount):
+            시간 = int(int(datetime.datetime.today().strftime("%H%M%S%f")) / 100000)
+
+            코드 = inXAQuery.GetFieldData('t8436OutBlock', 'shcode', i)
+            한글명 = inXAQuery.GetFieldData('t8436OutBlock', 'hname', i)
+            구분 = inXAQuery.GetFieldData('t8436OutBlock', 'gubun', i)
+            ETF구분 = inXAQuery.GetFieldData('t8436OutBlock', 'etfgubun', i)
+
+
+
+            stock['코드'] = 코드
+
+            lst = [시간, 한글명, 코드, 구분, ETF구분]
+            resultList.append(lst)
+
+        df = DataFrame(data=resultList, columns=['시간', '한글명', '코드', '구분', 'ETF구분'])
+        print(df)
+        return df, stock
+
+
+    def t1489(self, gubun):
+        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+
+        pathname = os.path.dirname(sys.argv[0])
+        RESDIR = os.path.abspath(pathname)
+        MYNAME = inspect.currentframe().f_code.co_name
+        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+
+        inXAQuery.LoadFromResFile(RESFILE)
+        inXAQuery.SetFieldData('t1489InBlock', 'gubun', 0, gubun)
+        inXAQuery.SetFieldData('t1489InBlock', 'jgubun', 0, 4) #장
+        inXAQuery.Request(0)
+
+        while XAQueryEvents.상태 == False:
+            pythoncom.PumpWaitingMessages()
+        XAQueryEvents.상태 = False
+
+        nCount = inXAQuery.GetBlockCount('t1489OutBlock1')
+        resultList = []
+        stock = {}
+        for i in range(nCount):
+            시간 = int(int(datetime.datetime.today().strftime("%H%M%S%f")) / 100000)
+
+            코드 = inXAQuery.GetFieldData('t1489OutBlock1', 'shcode', i)
+            한글명 = inXAQuery.GetFieldData('t1489OutBlock1', 'hname', i)
+
+
+            stock['코드'] = 코드
+
+            lst = [시간, 한글명, 코드]
+            resultList.append(lst)
+
+        df = DataFrame(data=resultList, columns=['시간', '한글명', '코드'])
+        print(df)
+        return df, stock
+
+def t1305(단축코드='',일주월구분='1',날짜='',IDX='',건수='900'):
+    '''
+    기간별주가
+    '''
+    query = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+    pathname = os.path.dirname(sys.argv[0])
+    RESDIR = os.path.abspath(pathname)
+
+    MYNAME = inspect.currentframe().f_code.co_name
+    INBLOCK = "%sInBlock" % MYNAME
+    OUTBLOCK = "%sOutBlock" % MYNAME
+    OUTBLOCK1 = "%sOutBlock1" % MYNAME
+    RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+
+    query.LoadFromResFile(RESFILE)
+    query.SetFieldData(INBLOCK, "shcode", 0, 단축코드)
+    query.SetFieldData(INBLOCK, "dwmcode", 0, 일주월구분)
+    query.SetFieldData(INBLOCK, "date", 0, 날짜)
+    query.SetFieldData(INBLOCK, "idx", 0, IDX)
+    query.SetFieldData(INBLOCK, "cnt", 0, 건수)
+    query.Request(0)
+
+    while XAQueryEvents.상태 == False:
+        pythoncom.PumpWaitingMessages()
+
+    result = []
+    nCount = query.GetBlockCount(OUTBLOCK)
+    for i in range(nCount):
+        CNT = int(query.GetFieldData(OUTBLOCK, "cnt", i).strip())
+        날짜 = query.GetFieldData(OUTBLOCK, "date", i).strip()
+        IDX = int(query.GetFieldData(OUTBLOCK, "idx", i).strip())
+
+        lst = [CNT,날짜,IDX]
+        result.append(lst)
+
+    df = DataFrame(data=result, columns=['CNT','날짜','IDX'])
+
+    result = []
+    nCount = query.GetBlockCount(OUTBLOCK1)
+    for i in range(nCount):
+        날짜 = query.GetFieldData(OUTBLOCK1, "date", i).strip()
+        시가 = int(query.GetFieldData(OUTBLOCK1, "open", i).strip())
+        고가 = int(query.GetFieldData(OUTBLOCK1, "high", i).strip())
+        저가 = int(query.GetFieldData(OUTBLOCK1, "low", i).strip())
+        종가 = int(query.GetFieldData(OUTBLOCK1, "close", i).strip())
+        전일대비구분 = query.GetFieldData(OUTBLOCK1, "sign", i).strip()
+        전일대비 = int(query.GetFieldData(OUTBLOCK1, "change", i).strip())
+        등락율 = float(query.GetFieldData(OUTBLOCK1, "diff", i).strip())
+        누적거래량 = int(query.GetFieldData(OUTBLOCK1, "volume", i).strip())
+        거래증가율 = float(query.GetFieldData(OUTBLOCK1, "diff_vol", i).strip())
+        체결강도 = float(query.GetFieldData(OUTBLOCK1, "chdegree", i).strip())
+        소진율 = float(query.GetFieldData(OUTBLOCK1, "sojinrate", i).strip())
+        회전율 = float(query.GetFieldData(OUTBLOCK1, "changerate", i).strip())
+        외인순매수 = int(query.GetFieldData(OUTBLOCK1, "fpvolume", i).strip())
+        기관순매수 = int(query.GetFieldData(OUTBLOCK1, "covolume", i).strip())
+        종목코드 = query.GetFieldData(OUTBLOCK1, "shcode", i).strip()
+        누적거래대금 = int(query.GetFieldData(OUTBLOCK1, "value", i).strip())
+        개인순매수 = int(query.GetFieldData(OUTBLOCK1, "ppvolume", i).strip())
+        시가대비구분 = query.GetFieldData(OUTBLOCK1, "o_sign", i).strip()
+        시가대비 = int(query.GetFieldData(OUTBLOCK1, "o_change", i).strip())
+        시가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "o_diff", i).strip())
+        고가대비구분 = query.GetFieldData(OUTBLOCK1, "h_sign", i).strip()
+        고가대비 = int(query.GetFieldData(OUTBLOCK1, "h_change", i).strip())
+        고가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "h_diff", i).strip())
+        저가대비구분 = query.GetFieldData(OUTBLOCK1, "l_sign", i).strip()
+        저가대비 = int(query.GetFieldData(OUTBLOCK1, "l_change", i).strip())
+        저가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "l_diff", i).strip())
+        시가총액 = int(query.GetFieldData(OUTBLOCK1, "marketcap", i).strip())
+
+        lst = [날짜,시가,고가,저가,종가,전일대비구분,전일대비,등락율,누적거래량,거래증가율,체결강도,소진율,회전율,외인순매수,기관순매수,종목코드,누적거래대금,개인순매수,시가대비구분,시가대비,시가기준등락율,고가대비구분,고가대비,고가기준등락율,저가대비구분,저가대비,저가기준등락율,시가총액]
+        result.append(lst)
+
+    df1 = DataFrame(data=result, columns=['날짜','시가','고가','저가','종가','전일대비구분','전일대비','등락율','누적거래량','거래증가율','체결강도','소진율','회전율','외인순매수','기관순매수','종목코드','누적거래대금','개인순매수','시가대비구분','시가대비','시가기준등락율','고가대비구분','고가대비','고가기준등락율','저가대비구분','저가대비','저가기준등락율','시가총액'])
+
+    XAQueryEvents.상태 = False
+
+    return (df, df1)
 
 if __name__ == "__main__":
     debug_mode = False
