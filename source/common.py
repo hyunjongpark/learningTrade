@@ -12,6 +12,17 @@ import urllib.request as urllib2
 import bs4
 from bs4 import BeautifulSoup
 
+
+
+
+RIDE_TRADE_COUNT = 4
+
+DEFAULT_BUY_COUNT = 100
+SUCCESS_SELL_PROFIT = 0.25
+RIDE_1_PROFIT = -0.8
+RIDE_2_PROFIT = -1.5
+FAILED_SELL_PROFIT = -3
+
 parentPath = os.path.abspath("..")
 if parentPath not in sys.path:
     sys.path.insert(0, parentPath)

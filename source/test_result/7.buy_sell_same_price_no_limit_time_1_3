@@ -1,0 +1,776 @@
+C:\ProgramData\Anaconda3\envs\py35_32\python.exe C:/Users/COM/git/learningTrade/source/condition_check_etf.py
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][1923][944304.0] - Buy buy_price[8840] total_profit[0] percent[1.61]
+code[252670.0][1940][944570.0] - SUCCESS Sell buy_price[8840] sell_price[8870] profit[0.33786651583710403] total_profit[0.33786651583710403] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-5.0] index[17]
+code[252670.0][1956][945193.0] - Buy buy_price[8845] total_profit[0.33786651583710403] percent[1.67]
+>>> ride code[252670][947094.0] buy[8845] now[8775.0] ride_price[8810] buy_count[2] money[17620] index[83] buy_index[83]
+code[252670.0][4095][1030065.0] -        Skip - different sell price
+code[252670.0][4095][1030065.0] - SUCCESS Sell buy_price[8810] sell_price[8840] profit[0.6780442678774121] total_profit[0.33886651583710403] total_money[30] skip_total_money_profit[90] 성공[2] 실패[0] 구간최고가격[50.0] 구간최저가격[-185.0] index[2139]
+code[252670.0][4118][1030384.0] - Buy buy_price[8830] total_profit[0.33886651583710403] percent[1.49]
+code[252670.0][4250][1033310.0] -        Skip - different sell price
+code[252670.0][4250][1033310.0] - SUCCESS Sell buy_price[8830] sell_price[8865] profit[0.3948759909399774] total_profit[0.33986651583710403] total_money[30] skip_total_money_profit[125] 성공[3] 실패[0] 구간최고가격[35.0] 구간최저가격[-10.0] index[132]
+code[252670.0][4255][1033374.0] - Buy buy_price[8855] total_profit[0.33986651583710403] percent[1.78]
+code[252670.0][4533][1039393.0] -        Skip - different sell price
+code[252670.0][4533][1039393.0] - SUCCESS Sell buy_price[8855] sell_price[8885] profit[0.33729164313946924] total_profit[0.34086651583710403] total_money[30] skip_total_money_profit[155] 성공[4] 실패[0] 구간최고가격[30.0] 구간최저가격[-30.0] index[278]
+code[252670.0][4735][1044061.0] - Buy buy_price[8910] total_profit[0.34086651583710403] percent[2.41]
+>>> ride code[252670][1045577.0] buy[8910] now[8840.0] ride_price[8875] buy_count[2] money[17750] index[86] buy_index[86]
+code[252670.0][6116][1114091.0] -        Skip - different sell price
+code[252670.0][6116][1114091.0] - SUCCESS Sell buy_price[8875] sell_price[8905] profit[0.673056338028169] total_profit[0.34186651583710403] total_money[30] skip_total_money_profit[215] 성공[5] 실패[0] 구간최고가격[35] 구간최저가격[-90.0] index[1381]
+code[252670.0][6158][1115041.0] - Buy buy_price[8900] total_profit[0.34186651583710403] percent[2.3]
+code[252670.0][6358][1119199.0] -        Skip - different sell price
+code[252670.0][6358][1119199.0] - SUCCESS Sell buy_price[8900] sell_price[8930] profit[0.33557865168539325] total_profit[0.34286651583710404] total_money[30] skip_total_money_profit[245] 성공[6] 실패[0] 구간최고가격[30.0] 구간최저가격[-25.0] index[200]
+code[252670.0][6367][1119312.0] - Buy buy_price[8925] total_profit[0.34286651583710404] percent[2.59]
+code[252670.0][6437][1121033.0] -        Skip - different sell price
+code[252670.0][6437][1121033.0] - SUCCESS Sell buy_price[8925] sell_price[8955] profit[0.33463445378151263] total_profit[0.34386651583710404] total_money[30] skip_total_money_profit[275] 성공[7] 실패[0] 구간최고가격[30.0] 구간최저가격[-5.0] index[70]
+code[252670.0][6494][1122169.0] - Buy buy_price[8955] total_profit[0.34386651583710404] percent[2.93]
+code[252670.0][7045][1134075.0] - SUCCESS Sell buy_price[8955] sell_price[8985] profit[0.33350837520938026] total_profit[0.6773748910464843] total_money[60] skip_total_money_profit[305] 성공[8] 실패[0] 구간최고가격[30.0] 구간최저가격[-55.0] index[551]
+code[252670.0][8204][1159078.0] - Buy buy_price[8960] total_profit[0.6773748910464843] percent[2.99]
+code[252670.0][8282][1200494.0] -        Skip - different sell price
+code[252670.0][8282][1200494.0] - SUCCESS Sell buy_price[8960] sell_price[8990] profit[0.3333214285714286] total_profit[0.6783748910464843] total_money[60] skip_total_money_profit[335] 성공[9] 실패[0] 구간최고가격[30.0] 구간최저가격[-5.0] index[78]
+END 종목[252670] 수익률[0.6783748910464843] 현금[60]
+>>>>>>>>DAY[20200316] - Profit[0] total_money[60] skip_total_money[335]
+======================================================
+code[122630.0][3358][1029223.0] - Buy buy_price[8905] total_profit[0] percent[1.19]
+code[122630.0][3441][1031124.0] - SUCCESS Sell buy_price[8905] sell_price[8935] profit[0.33538938798427853] total_profit[0.33538938798427853] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-35.0] index[83]
+code[122630.0][3449][1031242.0] - Buy buy_price[8940] total_profit[0.33538938798427853] percent[1.59]
+>>> ride code[122630][1035316.0] buy[8940] now[8870.0] ride_price[8905] buy_count[2] money[17810] index[183] buy_index[183]
+code[122630.0][4017][1044152.0] - Skip NOT Same Price
+code[122630.0][4017][1044152.0] - FAILED Sell buy_price[8905] sell_price[8640] profit[-6.354712521055587] total_profit[0.33438938798427853] skip_total_money_profit[30] money[-540] 성공[1] 실패[1] 구간최고가격[50.0] 구간최저가격[-265.0] index[568]
+END 종목[122630] 수익률[0.33438938798427853] 현금[30]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][3874][1041063.0] - Buy buy_price[9525] total_profit[0] percent[1.22]
+code[252670.0][3989][1043387.0] - SUCCESS Sell buy_price[9525] sell_price[9555] profit[0.31346062992125984] total_profit[0.31346062992125984] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-65.0] index[115]
+code[252670.0][4002][1043565.0] - Buy buy_price[9545] total_profit[0.31346062992125984] percent[1.43]
+code[252670.0][4018][1044180.0] -        Skip - different sell price
+code[252670.0][4018][1044180.0] - SUCCESS Sell buy_price[9545] sell_price[9575] profit[0.3128006809848088] total_profit[0.31446062992125984] total_money[30] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[16]
+code[252670.0][4046][1044544.0] - Buy buy_price[9605] total_profit[0.31446062992125984] percent[2.07]
+code[252670.0][4057][1045087.0] -        Skip - different sell price
+code[252670.0][4057][1045087.0] - SUCCESS Sell buy_price[9605] sell_price[9635] profit[0.31083732431025507] total_profit[0.31546062992125984] total_money[30] skip_total_money_profit[90] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[11]
+code[252670.0][4064][1045178.0] - Buy buy_price[9630] total_profit[0.31546062992125984] percent[2.34]
+code[252670.0][4116][1046257.0] -        Skip - different sell price
+code[252670.0][4116][1046257.0] - SUCCESS Sell buy_price[9630] sell_price[9660] profit[0.31002647975077885] total_profit[0.31646062992125984] total_money[30] skip_total_money_profit[120] 성공[4] 실패[0] 구간최고가격[30.0] 구간최저가격[-30.0] index[52]
+code[252670.0][4117][1046270.0] - Buy buy_price[9665] total_profit[0.31646062992125984] percent[2.71]
+code[252670.0][4251][1049231.0] -        Skip - different sell price
+code[252670.0][4251][1049231.0] - SUCCESS Sell buy_price[9665] sell_price[9700] profit[0.36063140196585614] total_profit[0.31746062992125984] total_money[30] skip_total_money_profit[155] 성공[5] 실패[0] 구간최고가격[35.0] 구간최저가격[-65.0] index[134]
+code[252670.0][10374][1310460.0] - Buy buy_price[9605] total_profit[0.31746062992125984] percent[2.07]
+code[252670.0][10506][1313444.0] -        Skip - different sell price
+code[252670.0][10506][1313444.0] - SUCCESS Sell buy_price[9605] sell_price[9635] profit[0.31083732431025507] total_profit[0.31846062992125984] total_money[30] skip_total_money_profit[185] 성공[6] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[132]
+code[252670.0][10512][1313594.0] - Buy buy_price[9660] total_profit[0.31846062992125984] percent[2.66]
+code[252670.0][10751][1319369.0] -        Skip - different sell price
+code[252670.0][10751][1319369.0] - SUCCESS Sell buy_price[9660] sell_price[9690] profit[0.30905900621118015] total_profit[0.31946062992125984] total_money[30] skip_total_money_profit[215] 성공[7] 실패[0] 구간최고가격[30.0] 구간최저가격[-50.0] index[239]
+code[252670.0][10753][1319395.0] - Buy buy_price[9690] total_profit[0.31946062992125984] percent[2.98]
+code[252670.0][10817][1321061.0] - SUCCESS Sell buy_price[9690] sell_price[9720] profit[0.3080975232198142] total_profit[0.6275581531410741] total_money[60] skip_total_money_profit[245] 성공[8] 실패[0] 구간최고가격[30.0] 구간최저가격[-20.0] index[64]
+code[252670.0][12723][1403300.0] - Buy buy_price[9620] total_profit[0.6275581531410741] percent[2.23]
+code[252670.0][12938][1408368.0] -        Skip - different sell price
+code[252670.0][12938][1408368.0] - SUCCESS Sell buy_price[9620] sell_price[9650] profit[0.31035031185031187] total_profit[0.6285581531410741] total_money[60] skip_total_money_profit[275] 성공[9] 실패[0] 구간최고가격[30.0] 구간최저가격[-50.0] index[215]
+code[252670.0][13073][1411346.0] - Buy buy_price[9645] total_profit[0.6285581531410741] percent[2.5]
+>>> ride code[252670][1418495.0] buy[9645] now[9570.0] ride_price[9607] buy_count[2] money[19214] index[325] buy_index[325]
+code[252670.0][13660][1424437.0] -        Skip - different sell price
+code[252670.0][13660][1424437.0] - SUCCESS Sell buy_price[9607] sell_price[9640] profit[0.6839990631830957] total_profit[0.6295581531410741] total_money[60] skip_total_money_profit[341] 성공[10] 실패[0] 구간최고가격[58.0] 구간최저가격[-52.0] index[587]
+END 종목[252670] 수익률[0.6295581531410741] 현금[60]
+>>>>>>>>DAY[20200317] - Profit[0] total_money[90] skip_total_money[-199]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][1913][943595.0] - Buy buy_price[9845] total_profit[0] percent[1.08]
+code[252670.0][1949][944469.0] - SUCCESS Sell buy_price[9845] sell_price[9875] profit[0.3032232097511427] total_profit[0.3032232097511427] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[36]
+code[252670.0][1956][944572.0] - Buy buy_price[9875] total_profit[0.3032232097511427] percent[1.39]
+code[252670.0][1984][945331.0] - SUCCESS Sell buy_price[9875] sell_price[9905] profit[0.3022974683544304] total_profit[0.6055206781055731] total_money[60] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-25.0] index[28]
+code[252670.0][1993][945446.0] - Buy buy_price[9880] total_profit[0.6055206781055731] percent[1.44]
+code[252670.0][2018][946179.0] -        Skip - different sell price
+code[252670.0][2018][946179.0] - SUCCESS Sell buy_price[9880] sell_price[9910] profit[0.3021437246963563] total_profit[0.6065206781055731] total_money[60] skip_total_money_profit[90] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[25]
+code[252670.0][2029][946320.0] - Buy buy_price[9900] total_profit[0.6065206781055731] percent[1.64]
+code[252670.0][2109][948164.0] -        Skip - different sell price
+code[252670.0][2109][948164.0] - SUCCESS Sell buy_price[9900] sell_price[9930] profit[0.30153030303030304] total_profit[0.6075206781055731] total_money[60] skip_total_money_profit[120] 성공[4] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[80]
+code[252670.0][2110][948177.0] - Buy buy_price[9935] total_profit[0.6075206781055731] percent[2.0]
+code[252670.0][2118][948305.0] -        Skip - different sell price
+code[252670.0][2118][948305.0] - SUCCESS Sell buy_price[9935] sell_price[9970] profit[0.3507898842476095] total_profit[0.6085206781055731] total_money[60] skip_total_money_profit[155] 성공[5] 실패[0] 구간최고가격[35.0] 구간최저가격[0] index[8]
+code[252670.0][2121][948343.0] - Buy buy_price[9965] total_profit[0.6085206781055731] percent[2.31]
+code[252670.0][2161][949270.0] -        Skip - different sell price
+code[252670.0][2161][949270.0] - SUCCESS Sell buy_price[9965] sell_price[9995] profit[0.29955368790767684] total_profit[0.6095206781055731] total_money[60] skip_total_money_profit[185] 성공[6] 실패[0] 구간최고가격[30.0] 구간최저가격[-25.0] index[40]
+code[252670.0][2167][949347.0] - Buy buy_price[9965] total_profit[0.6095206781055731] percent[2.31]
+>>> ride code[252670][951141.0] buy[9965] now[9890.0] ride_price[9927] buy_count[2] money[19854] index[76] buy_index[76]
+code[252670.0][2823][1003491.0] -        Skip - different sell price
+code[252670.0][2823][1003491.0] - SUCCESS Sell buy_price[9927] sell_price[9960] profit[0.6618534300392869] total_profit[0.6105206781055731] total_money[60] skip_total_money_profit[251] 성공[7] 실패[0] 구간최고가격[38] 구간최저가격[-122.0] index[656]
+code[252670.0][2992][1007265.0] - Buy buy_price[9955] total_profit[0.6105206781055731] percent[2.21]
+code[252670.0][3006][1007475.0] -        Skip - different sell price
+code[252670.0][3006][1007475.0] - SUCCESS Sell buy_price[9955] sell_price[9990] profit[0.3500821195379207] total_profit[0.6115206781055731] total_money[60] skip_total_money_profit[286] 성공[8] 실패[0] 구간최고가격[35.0] 구간최저가격[-5.0] index[14]
+code[252670.0][3034][1008239.0] - Buy buy_price[10000] total_profit[0.6115206781055731] percent[2.67]
+code[252670.0][3118][1010143.0] -        Skip - different sell price
+code[252670.0][3118][1010143.0] - SUCCESS Sell buy_price[10000] sell_price[10035] profit[0.3485] total_profit[0.6125206781055731] total_money[60] skip_total_money_profit[321] 성공[9] 실패[0] 구간최고가격[35.0] 구간최저가격[-10.0] index[84]
+code[252670.0][3850][1026034.0] - Buy buy_price[10030] total_profit[0.6125206781055731] percent[2.98]
+code[252670.0][3895][1027055.0] -        Skip - different sell price
+code[252670.0][3895][1027055.0] - SUCCESS Sell buy_price[10030] sell_price[10065] profit[0.3474531405782652] total_profit[0.6135206781055731] total_money[60] skip_total_money_profit[356] 성공[10] 실패[0] 구간최고가격[35.0] 구간최저가격[-5.0] index[45]
+code[252670.0][5493][1102189.0] - Buy buy_price[9945] total_profit[0.6135206781055731] percent[2.1]
+code[252670.0][5823][1109242.0] -        Skip - different sell price
+code[252670.0][5823][1109242.0] - SUCCESS Sell buy_price[9945] sell_price[9980] profit[0.3504356460532931] total_profit[0.6145206781055731] total_money[60] skip_total_money_profit[391] 성공[11] 실패[0] 구간최고가격[35.0] 구간최저가격[-20.0] index[330]
+code[252670.0][5901][1111054.0] - Buy buy_price[9980] total_profit[0.6145206781055731] percent[2.46]
+>>> ride code[252670][1118162.0] buy[9980] now[9905.0] ride_price[9942] buy_count[2] money[19884] index[335] buy_index[335]
+code[252670.0][6538][1124443.0] - SUCCESS Sell buy_price[9942] sell_price[9975] profit[0.660850331925166] total_profit[1.2753710100307392] total_money[126] skip_total_money_profit[457] 성공[12] 실패[0] 구간최고가격[48.0] 구간최저가격[-62.0] index[637]
+code[252670.0][10570][1251273.0] - Buy buy_price[9840] total_profit[1.2753710100307392] percent[1.03]
+code[252670.0][10748][1255193.0] -        Skip - different sell price
+code[252670.0][10748][1255193.0] - SUCCESS Sell buy_price[9840] sell_price[9870] profit[0.3033780487804878] total_profit[1.276371010030739] total_money[126] skip_total_money_profit[487] 성공[13] 실패[0] 구간최고가격[30.0] 구간최저가격[-45.0] index[178]
+code[252670.0][12976][1343431.0] - Buy buy_price[9870] total_profit[1.276371010030739] percent[1.33]
+code[252670.0][13124][1346571.0] - SUCCESS Sell buy_price[9870] sell_price[9900] profit[0.302451367781155] total_profit[1.578822377811894] total_money[156] skip_total_money_profit[517] 성공[14] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[148]
+code[252670.0][13781][1401034.0] - Buy buy_price[9880] total_profit[1.578822377811894] percent[1.44]
+code[252670.0][14190][1409535.0] -        Skip - different sell price
+code[252670.0][14190][1409535.0] - SUCCESS Sell buy_price[9880] sell_price[9910] profit[0.3021437246963563] total_profit[1.5798223778118938] total_money[156] skip_total_money_profit[547] 성공[15] 실패[0] 구간최고가격[30.0] 구간최저가격[-20.0] index[409]
+code[252670.0][14243][1411017.0] - Buy buy_price[9940] total_profit[1.5798223778118938] percent[2.05]
+code[252670.0][14310][1412300.0] -        Skip - different sell price
+code[252670.0][14310][1412300.0] - SUCCESS Sell buy_price[9940] sell_price[9970] profit[0.30031086519114686] total_profit[1.5808223778118937] total_money[156] skip_total_money_profit[577] 성공[16] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[67]
+code[252670.0][14352][1413236.0] - Buy buy_price[9970] total_profit[1.5808223778118937] percent[2.36]
+code[252670.0][14390][1414136.0] - SUCCESS Sell buy_price[9970] sell_price[10000] profit[0.2994027081243731] total_profit[1.8802250859362668] total_money[186] skip_total_money_profit[607] 성공[17] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[38]
+code[252670.0][14394][1414187.0] - Buy buy_price[10000] total_profit[1.8802250859362668] percent[2.67]
+code[252670.0][14629][1419262.0] - SUCCESS Sell buy_price[10000] sell_price[10035] profit[0.3485] total_profit[2.228725085936267] total_money[221] skip_total_money_profit[642] 성공[18] 실패[0] 구간최고가격[35.0] 구간최저가격[-30.0] index[235]
+code[252670.0][14658][1420055.0] - Buy buy_price[10025] total_profit[2.228725085936267] percent[2.93]
+code[252670.0][14722][1421285.0] -        Skip - different sell price
+code[252670.0][14722][1421285.0] - SUCCESS Sell buy_price[10025] sell_price[10060] profit[0.3476271820448878] total_profit[2.2297250859362667] total_money[221] skip_total_money_profit[677] 성공[19] 실패[0] 구간최고가격[35.0] 구간최저가격[-20.0] index[64]
+END 종목[252670] 수익률[2.2297250859362667] 현금[221]
+>>>>>>>>DAY[20200318] - Profit[2] total_money[221] skip_total_money[677]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][1066][942206.0] - Buy buy_price[11030] total_profit[0] percent[1.05]
+code[252670.0][1072][942312.0] - SUCCESS Sell buy_price[11030] sell_price[11065] profit[0.3158164097914778] total_profit[0.3158164097914778] total_money[35] skip_total_money_profit[35] 성공[1] 실패[0] 구간최고가격[35.0] 구간최저가격[0] index[6]
+code[252670.0][1073][942330.0] - Buy buy_price[11070] total_profit[0.3158164097914778] percent[1.42]
+code[252670.0][1079][942452.0] -        Skip - different sell price
+code[252670.0][1079][942452.0] - SUCCESS Sell buy_price[11070] sell_price[11105] profit[0.31466982836495033] total_profit[0.3168164097914778] total_money[35] skip_total_money_profit[70] 성공[2] 실패[0] 구간최고가격[35.0] 구간최저가격[0] index[6]
+code[252670.0][1082][942491.0] - Buy buy_price[11115] total_profit[0.3168164097914778] percent[1.83]
+>>> ride code[252670][943102.0] buy[11115] now[11025.0] ride_price[11070] buy_count[2] money[22140] index[15] buy_index[15]
+code[252670.0][1218][945551.0] -        Skip - different sell price
+code[252670.0][1218][945551.0] - SUCCESS Sell buy_price[11070] sell_price[11105] profit[0.6293396567299007] total_profit[0.3178164097914778] total_money[35] skip_total_money_profit[140] 성공[3] 실패[0] 구간최고가격[45] 구간최저가격[-165.0] index[136]
+code[252670.0][1259][946491.0] - Buy buy_price[11085] total_profit[0.3178164097914778] percent[1.56]
+code[252670.0][1341][948393.0] -        Skip - different sell price
+code[252670.0][1341][948393.0] - SUCCESS Sell buy_price[11085] sell_price[11125] profit[0.35934799278304014] total_profit[0.3188164097914778] total_money[35] skip_total_money_profit[180] 성공[4] 실패[0] 구간최고가격[40.0] 구간최저가격[-70.0] index[82]
+code[252670.0][1342][948407.0] - Buy buy_price[11135] total_profit[0.3188164097914778] percent[2.02]
+code[252670.0][1347][948485.0] -        Skip - different sell price
+code[252670.0][1347][948485.0] - SUCCESS Sell buy_price[11135] sell_price[11170] profit[0.31282420296362823] total_profit[0.3198164097914778] total_money[35] skip_total_money_profit[215] 성공[5] 실패[0] 구간최고가격[35.0] 구간최저가격[0] index[5]
+code[252670.0][1352][948551.0] - Buy buy_price[11200] total_profit[0.3198164097914778] percent[2.61]
+code[252670.0][1386][949417.0] -        Skip - different sell price
+code[252670.0][1386][949417.0] - SUCCESS Sell buy_price[11200] sell_price[11235] profit[0.311] total_profit[0.3208164097914778] total_money[35] skip_total_money_profit[250] 성공[6] 실패[0] 구간최고가격[35.0] 구간최저가격[-45.0] index[34]
+END 종목[252670] 수익률[0.3208164097914778] 현금[35]
+>>>>>>>>DAY[20200319] - Profit[0] total_money[35] skip_total_money[250]
+======================================================
+code[122630.0][2824][1001480.0] - Buy buy_price[6610] total_profit[0] percent[2.48]
+code[122630.0][2874][1002550.0] - SUCCESS Sell buy_price[6610] sell_price[6630] profit[0.30107186081694404] total_profit[0.30107186081694404] total_money[20] skip_total_money_profit[20] 성공[1] 실패[0] 구간최고가격[20.0] 구간최저가격[-20.0] index[50]
+code[122630.0][2882][1003053.0] - Buy buy_price[6635] total_profit[0.30107186081694404] percent[2.87]
+code[122630.0][2891][1003182.0] -        Skip - different sell price
+code[122630.0][2891][1003182.0] - SUCCESS Sell buy_price[6635] sell_price[6655] profit[0.2999318010550113] total_profit[0.30207186081694404] total_money[20] skip_total_money_profit[40] 성공[2] 실패[0] 구간최고가격[20.0] 구간최저가격[0] index[9]
+END 종목[122630] 수익률[0.30207186081694404] 현금[20]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200320] - Profit[0] total_money[20] skip_total_money[40]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200323] - Profit[0] total_money[0] skip_total_money[0]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200324] - Profit[0] total_money[0] skip_total_money[0]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200325] - Profit[0] total_money[0] skip_total_money[0]
+======================================================
+code[122630.0][1917][942104.0] - Buy buy_price[8575] total_profit[0] percent[1.96]
+code[122630.0][1960][943100.0] - SUCCESS Sell buy_price[8575] sell_price[8610] profit[0.40666326530612246] total_profit[0.40666326530612246] total_money[35] skip_total_money_profit[35] 성공[1] 실패[0] 구간최고가격[35.0] 구간최저가격[0] index[43]
+code[122630.0][8548][1206453.0] - Buy buy_price[8545] total_profit[0.40666326530612246] percent[1.61]
+>>> ride code[122630][1211253.0] buy[8545] now[8475.0] ride_price[8510] buy_count[2] money[17020] index[211] buy_index[211]
+code[122630.0][9806][1254076.0] -        Skip - different sell price
+code[122630.0][9806][1254076.0] - SUCCESS Sell buy_price[8510] sell_price[8540] profit[0.7020528789659225] total_profit[0.40766326530612246] total_money[35] skip_total_money_profit[95] 성공[2] 실패[0] 구간최고가격[40.0] 구간최저가격[-105.0] index[1258]
+code[122630.0][9827][1254360.0] - Buy buy_price[8545] total_profit[0.40766326530612246] percent[1.61]
+code[122630.0][9850][1255070.0] -        Skip - different sell price
+code[122630.0][9850][1255070.0] - SUCCESS Sell buy_price[8545] sell_price[8575] profit[0.3495825043885313] total_profit[0.40866326530612246] total_money[35] skip_total_money_profit[125] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[-5.0] index[23]
+code[122630.0][9852][1255096.0] - Buy buy_price[8575] total_profit[0.40866326530612246] percent[1.96]
+>>> ride code[122630][1259228.0] buy[8575] now[8505.0] ride_price[8540] buy_count[2] money[17080] index[192] buy_index[192]
+code[122630.0][13535][1412122.0] - SUCCESS Sell buy_price[8540] sell_price[8570] profit[0.699576112412178] total_profit[1.1082393777183004] total_money[95] skip_total_money_profit[185] 성공[4] 실패[0] 구간최고가격[40.0] 구간최저가격[-85.0] index[3683]
+code[122630.0][13538][1412166.0] - Buy buy_price[8575] total_profit[1.1082393777183004] percent[1.96]
+code[122630.0][13608][1413594.0] -        Skip - different sell price
+code[122630.0][13608][1413594.0] - SUCCESS Sell buy_price[8575] sell_price[8605] profit[0.3483542274052478] total_profit[1.1092393777183003] total_money[95] skip_total_money_profit[215] 성공[5] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[70]
+code[122630.0][13621][1414180.0] - Buy buy_price[8610] total_profit[1.1092393777183003] percent[2.38]
+code[122630.0][13668][1415266.0] -        Skip - different sell price
+code[122630.0][13668][1415266.0] - SUCCESS Sell buy_price[8610] sell_price[8640] profit[0.34693205574912894] total_profit[1.1102393777183002] total_money[95] skip_total_money_profit[245] 성공[6] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[47]
+code[122630.0][13670][1415316.0] - Buy buy_price[8640] total_profit[1.1102393777183002] percent[2.73]
+code[122630.0][13742][1417235.0] - SUCCESS Sell buy_price[8640] sell_price[8670] profit[0.3457222222222222] total_profit[1.4559615999405224] total_money[125] skip_total_money_profit[275] 성공[7] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[72]
+code[122630.0][13755][1417410.0] - Buy buy_price[8660] total_profit[1.4559615999405224] percent[2.97]
+>>> ride code[122630][1423407.0] buy[8660] now[8595.0] ride_price[8627] buy_count[2] money[17254] index[259] buy_index[259]
+code[122630.0][14167][1427060.0] -        Skip - different sell price
+code[122630.0][14167][1427060.0] - SUCCESS Sell buy_price[8627] sell_price[8655] profit[0.6461248406166686] total_profit[1.4569615999405223] total_money[125] skip_total_money_profit[331] 성공[8] 실패[0] 구간최고가격[58.0] 구간최저가격[-32.0] index[412]
+END 종목[122630] 수익률[1.4569615999405223] 현금[125]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][2854][1002418.0] - Buy buy_price[8545] total_profit[0] percent[1.0]
+>>> ride code[252670][1003554.0] buy[8545] now[8475.0] ride_price[8510] buy_count[2] money[17020] index[56] buy_index[56]
+code[252670.0][2974][1005179.0] - SUCCESS Sell buy_price[8510] sell_price[8540] profit[0.7020528789659225] total_profit[0.7020528789659225] total_money[60] skip_total_money_profit[60] 성공[1] 실패[0] 구간최고가격[40.0] 구간최저가격[-35.0] index[120]
+code[252670.0][3031][1006323.0] - Buy buy_price[8570] total_profit[0.7020528789659225] percent[1.3]
+code[252670.0][3095][1007568.0] -        Skip - different sell price
+code[252670.0][3095][1007568.0] - SUCCESS Sell buy_price[8570] sell_price[8600] profit[0.3485583430571762] total_profit[0.7030528789659225] total_money[60] skip_total_money_profit[90] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[64]
+code[252670.0][3100][1008046.0] - Buy buy_price[8605] total_profit[0.7030528789659225] percent[1.71]
+>>> ride code[252670][1009356.0] buy[8605] now[8540.0] ride_price[8572] buy_count[2] money[17144] index[70] buy_index[70]
+code[252670.0][3627][1019358.0] -        Skip - different sell price
+code[252670.0][3627][1019358.0] - SUCCESS Sell buy_price[8572] sell_price[8600] profit[0.650289780681288] total_profit[0.7040528789659225] total_money[60] skip_total_money_profit[146] 성공[3] 실패[0] 구간최고가격[43.0] 구간최저가격[-92.0] index[527]
+code[252670.0][3669][1020330.0] - Buy buy_price[8645] total_profit[0.7040528789659225] percent[2.19]
+code[252670.0][3844][1024244.0] -        Skip - different sell price
+code[252670.0][3844][1024244.0] - SUCCESS Sell buy_price[8645] sell_price[8675] profit[0.34552139965297857] total_profit[0.7050528789659225] total_money[60] skip_total_money_profit[176] 성공[4] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[175]
+code[252670.0][3848][1024296.0] - Buy buy_price[8675] total_profit[0.7050528789659225] percent[2.54]
+code[252670.0][3916][1026023.0] - SUCCESS Sell buy_price[8675] sell_price[8705] profit[0.344321325648415] total_profit[1.0493742046143375] total_money[90] skip_total_money_profit[206] 성공[5] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[68]
+code[252670.0][3920][1026076.0] - Buy buy_price[8710] total_profit[1.0493742046143375] percent[2.96]
+>>> ride code[252670][1027511.0] buy[8710] now[8645.0] ride_price[8677] buy_count[2] money[17354] index[79] buy_index[79]
+code[252670.0][8100][1156562.0] - Skip NOT Same Price
+code[252670.0][8100][1156562.0] - FAILED Sell buy_price[8677] sell_price[8420] profit[-6.32670635012101] total_profit[1.0483742046143376] skip_total_money_profit[90] money[-348] 성공[5] 실패[1] 구간최고가격[33] 구간최저가격[-257.0] index[4180]
+code[252670.0][15351][1452464.0] - Buy buy_price[8545] total_profit[1.0483742046143376] percent[1.0]
+>>> ride code[252670][1454262.0] buy[8545] now[8480.0] ride_price[8512] buy_count[2] money[17024] index[76] buy_index[76]
+code[252670.0][15808][1502393.0] -        Skip - different sell price
+code[252670.0][15808][1502393.0] - SUCCESS Sell buy_price[8512] sell_price[8540] profit[0.6548947368421052] total_profit[1.0493742046143375] total_money[90] skip_total_money_profit[-292] 성공[6] 실패[1] 구간최고가격[53.0] 구간최저가격[-77.0] index[457]
+code[252670.0][15934][1505399.0] - Buy buy_price[8590] total_profit[1.0493742046143375] percent[1.54]
+code[252670.0][15953][1506064.0] -        Skip - different sell price
+code[252670.0][15953][1506064.0] - SUCCESS Sell buy_price[8590] sell_price[8620] profit[0.34774330616996507] total_profit[1.0503742046143374] total_money[90] skip_total_money_profit[-262] 성공[7] 실패[1] 구간최고가격[30.0] 구간최저가격[0] index[19]
+code[252670.0][15955][1506089.0] - Buy buy_price[8620] total_profit[1.0503742046143374] percent[1.89]
+code[252670.0][16144][1510135.0] - SUCCESS Sell buy_price[8620] sell_price[8650] profit[0.3465278422273782] total_profit[1.3969020468417157] total_money[120] skip_total_money_profit[-232] 성공[8] 실패[1] 구간최고가격[30.0] 구간최저가격[-60.0] index[189]
+code[252670.0][16178][1510572.0] - Buy buy_price[8640] total_profit[1.3969020468417157] percent[2.13]
+code[252670.0][16213][1511435.0] -        Skip - different sell price
+code[252670.0][16213][1511435.0] - SUCCESS Sell buy_price[8640] sell_price[8670] profit[0.3457222222222222] total_profit[1.3979020468417156] total_money[120] skip_total_money_profit[-202] 성공[9] 실패[1] 구간최고가격[30.0] 구간최저가격[-15.0] index[35]
+code[252670.0][16225][1511594.0] - Buy buy_price[8665] total_profit[1.3979020468417156] percent[2.42]
+code[252670.0][16249][1512322.0] -        Skip - different sell price
+code[252670.0][16249][1512322.0] - SUCCESS Sell buy_price[8665] sell_price[8695] profit[0.3447204270051933] total_profit[1.3989020468417155] total_money[120] skip_total_money_profit[-172] 성공[10] 실패[1] 구간최고가격[30.0] 구간최저가격[-5.0] index[24]
+code[252670.0][16260][1512463.0] - Buy buy_price[8680] total_profit[1.3989020468417155] percent[2.6]
+code[252670.0][16310][1513551.0] -        Skip - different sell price
+code[252670.0][16310][1513551.0] - SUCCESS Sell buy_price[8680] sell_price[8710] profit[0.3441221198156682] total_profit[1.3999020468417154] total_money[120] skip_total_money_profit[-142] 성공[11] 실패[1] 구간최고가격[30.0] 구간최저가격[-15.0] index[50]
+code[252670.0][16315][1514016.0] - Buy buy_price[8710] total_profit[1.3999020468417154] percent[2.96]
+END NOT SELL code[252670.0][16362] - Sell buy_price[8710] sell_price[8715] profit[-0.14409471871412172] total_profit[1.3999020468417154] total_money[105] skip_total_money_profit[-157] 성공[11] 실패[1] 구간최고가격[10.0] 구간최저가격[-25.0] index[47]
+END 종목[252670] 수익률[1.3999020468417154] 현금[105]
+>>>>>>>>DAY[20200326] - Profit[2] total_money[230] skip_total_money[174]
+======================================================
+code[122630.0][14073][1425339.0] - Buy buy_price[8220] total_profit[0] percent[1.29]
+code[122630.0][14104][1426152.0] - SUCCESS Sell buy_price[8220] sell_price[8245] profit[0.30263625304136255] total_profit[0.30263625304136255] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[-5.0] index[31]
+code[122630.0][14111][1426243.0] - Buy buy_price[8235] total_profit[0.30263625304136255] percent[1.48]
+code[122630.0][14153][1427222.0] -        Skip - different sell price
+code[122630.0][14153][1427222.0] - SUCCESS Sell buy_price[8235] sell_price[8260] profit[0.3020822707953856] total_profit[0.30363625304136255] total_money[25] skip_total_money_profit[50] 성공[2] 실패[0] 구간최고가격[25.0] 구간최저가격[-20.0] index[42]
+code[122630.0][14159][1427300.0] - Buy buy_price[8255] total_profit[0.30363625304136255] percent[1.73]
+code[122630.0][14210][1428392.0] -        Skip - different sell price
+code[122630.0][14210][1428392.0] - SUCCESS Sell buy_price[8255] sell_price[8280] profit[0.30134675953967294] total_profit[0.30463625304136255] total_money[25] skip_total_money_profit[75] 성공[3] 실패[0] 구간최고가격[25.0] 구간최저가격[-35.0] index[51]
+code[122630.0][14217][1428483.0] - Buy buy_price[8285] total_profit[0.30463625304136255] percent[2.09]
+code[122630.0][14289][1430244.0] -        Skip - different sell price
+code[122630.0][14289][1430244.0] - SUCCESS Sell buy_price[8285] sell_price[8310] profit[0.30025015087507545] total_profit[0.30563625304136255] total_money[25] skip_total_money_profit[100] 성공[4] 실패[0] 구간최고가격[25.0] 구간최저가격[-10.0] index[72]
+code[122630.0][14309][1430503.0] - Buy buy_price[8320] total_profit[0.30563625304136255] percent[2.53]
+code[122630.0][14349][1431432.0] -        Skip - different sell price
+code[122630.0][14349][1431432.0] - SUCCESS Sell buy_price[8320] sell_price[8345] profit[0.2989807692307692] total_profit[0.30663625304136255] total_money[25] skip_total_money_profit[125] 성공[5] 실패[0] 구간최고가격[25.0] 구간최저가격[-20.0] index[40]
+code[122630.0][14355][1431528.0] - Buy buy_price[8335] total_profit[0.30663625304136255] percent[2.71]
+>>> ride code[122630][1434038.0] buy[8335] now[8270.0] ride_price[8302] buy_count[2] money[16604] index[96] buy_index[96]
+code[122630.0][15463][1456163.0] -        Skip - different sell price
+code[122630.0][15463][1456163.0] - SUCCESS Sell buy_price[8302] sell_price[8330] profit[0.6715362563237774] total_profit[0.30763625304136255] total_money[25] skip_total_money_profit[181] 성공[6] 실패[0] 구간최고가격[48.0] 구간최저가격[-167.0] index[1108]
+code[122630.0][15485][1456450.0] - Buy buy_price[8345] total_profit[0.30763625304136255] percent[2.83]
+>>> ride code[122630][1458194.0] buy[8345] now[8275.0] ride_price[8310] buy_count[2] money[16620] index[65] buy_index[65]
+code[122630.0][15577][1458566.0] -        Skip - different sell price
+code[122630.0][15577][1458566.0] - SUCCESS Sell buy_price[8310] sell_price[8335] profit[0.598684717208183] total_profit[0.30863625304136255] total_money[25] skip_total_money_profit[231] 성공[7] 실패[0] 구간최고가격[55.0] 구간최저가격[-35.0] index[92]
+END 종목[122630] 수익률[0.30863625304136255] 현금[25]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][13584][1413591.0] - Buy buy_price[8825] total_profit[0] percent[1.03]
+code[252670.0][13617][1414426.0] - SUCCESS Sell buy_price[8825] sell_price[8860] profit[0.39510056657223797] total_profit[0.39510056657223797] total_money[35] skip_total_money_profit[35] 성공[1] 실패[0] 구간최고가격[35.0] 구간최저가격[-15.0] index[33]
+code[252670.0][13621][1414478.0] - Buy buy_price[8855] total_profit[0.39510056657223797] percent[1.37]
+code[252670.0][13652][1415302.0] -        Skip - different sell price
+code[252670.0][13652][1415302.0] - SUCCESS Sell buy_price[8855] sell_price[8885] profit[0.33729164313946924] total_profit[0.39610056657223797] total_money[35] skip_total_money_profit[65] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-5.0] index[31]
+code[252670.0][13675][1415596.0] - Buy buy_price[8910] total_profit[0.39610056657223797] percent[2.0]
+>>> ride code[252670][1417173.0] buy[8910] now[8780.0] ride_price[8845] buy_count[2] money[17690] index[17] buy_index[17]
+code[252670.0][14213][1428446.0] - Skip NOT Same Price
+code[252670.0][14213][1428446.0] - FAILED Sell buy_price[8845] sell_price[8580] profit[-6.395085924250989] total_profit[0.39510056657223797] skip_total_money_profit[35] money[-505] 성공[2] 실패[1] 구간최고가격[75.0] 구간최저가격[-265.0] index[538]
+END 종목[252670] 수익률[0.39510056657223797] 현금[35]
+>>>>>>>>DAY[20200327] - Profit[0] total_money[60] skip_total_money[-274]
+======================================================
+code[122630.0][15295][1438304.0] - Buy buy_price[8575] total_profit[0] percent[1.0]
+code[122630.0][15335][1439240.0] - SUCCESS Sell buy_price[8575] sell_price[8605] profit[0.3483542274052478] total_profit[0.3483542274052478] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[40]
+code[122630.0][15342][1439333.0] - Buy buy_price[8605] total_profit[0.3483542274052478] percent[1.35]
+code[122630.0][15438][1441412.0] - SUCCESS Sell buy_price[8605] sell_price[8635] profit[0.3471345148169669] total_profit[0.6954887422222147] total_money[60] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[96]
+code[122630.0][15440][1441439.0] - Buy buy_price[8635] total_profit[0.6954887422222147] percent[1.71]
+>>> ride code[122630][1447284.0] buy[8635] now[8570.0] ride_price[8602] buy_count[2] money[17204] index[261] buy_index[261]
+code[122630.0][15984][1453423.0] - SUCCESS Sell buy_price[8602] sell_price[8630] profit[0.6480113926993722] total_profit[1.343500134921587] total_money[116] skip_total_money_profit[116] 성공[3] 실패[0] 구간최고가격[58.0] 구간최저가격[-82.0] index[544]
+END 종목[122630] 수익률[1.343500134921587] 현금[116]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][12279][1331367.0] - Buy buy_price[8565] total_profit[0] percent[2.88]
+code[252670.0][12470][1335485.0] - SUCCESS Sell buy_price[8565] sell_price[8595] profit[0.3487626970227671] total_profit[0.3487626970227671] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[191]
+code[252670.0][14662][1424237.0] - Buy buy_price[8410] total_profit[0.3487626970227671] percent[1.02]
+code[252670.0][14744][1426148.0] -        Skip - different sell price
+code[252670.0][14744][1426148.0] - SUCCESS Sell buy_price[8410] sell_price[8440] profit[0.35521819262782406] total_profit[0.3497626970227671] total_money[30] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-5.0] index[82]
+END 종목[252670] 수익률[0.3497626970227671] 현금[30]
+>>>>>>>>DAY[20200330] - Profit[1] total_money[146] skip_total_money[176]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][5842][1256272.0] - Buy buy_price[8180] total_profit[0] percent[1.11]
+code[252670.0][5961][1259053.0] - SUCCESS Sell buy_price[8180] sell_price[8205] profit[0.3041234718826406] total_profit[0.3041234718826406] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[0] index[119]
+code[252670.0][5963][1259079.0] - Buy buy_price[8205] total_profit[0.3041234718826406] percent[1.42]
+code[252670.0][6962][1321036.0] - SUCCESS Sell buy_price[8205] sell_price[8230] profit[0.30319226081657524] total_profit[0.6073157326992158] total_money[50] skip_total_money_profit[50] 성공[2] 실패[0] 구간최고가격[25.0] 구간최저가격[-35.0] index[999]
+code[252670.0][7030][1322333.0] - Buy buy_price[8230] total_profit[0.6073157326992158] percent[1.73]
+code[252670.0][7176][1325474.0] - SUCCESS Sell buy_price[8230] sell_price[8255] profit[0.3022667071688943] total_profit[0.90958243986811] total_money[75] skip_total_money_profit[75] 성공[3] 실패[0] 구간최고가격[25.0] 구간최저가격[-15.0] index[146]
+code[252670.0][7214][1326395.0] - Buy buy_price[8265] total_profit[0.90958243986811] percent[2.16]
+>>> ride code[252670][1335296.0] buy[8265] now[8200.0] ride_price[8232] buy_count[2] money[16464] index[399] buy_index[399]
+code[252670.0][7898][1341475.0] -        Skip - different sell price
+code[252670.0][7898][1341475.0] - SUCCESS Sell buy_price[8232] sell_price[8260] profit[0.6772721088435375] total_profit[0.91058243986811] total_money[75] skip_total_money_profit[131] 성공[4] 실패[0] 구간최고가격[38.0] 구간최저가격[-37.0] index[684]
+code[252670.0][9198][1410175.0] - Buy buy_price[8235] total_profit[0.91058243986811] percent[1.79]
+code[252670.0][9740][1422218.0] -        Skip - different sell price
+code[252670.0][9740][1422218.0] - SUCCESS Sell buy_price[8235] sell_price[8260] profit[0.3020822707953856] total_profit[0.91158243986811] total_money[75] skip_total_money_profit[156] 성공[5] 실패[0] 구간최고가격[25.0] 구간최저가격[-25.0] index[542]
+code[252670.0][9848][1424443.0] - Buy buy_price[8290] total_profit[0.91158243986811] percent[2.47]
+code[252670.0][10010][1428185.0] -        Skip - different sell price
+code[252670.0][10010][1428185.0] - SUCCESS Sell buy_price[8290] sell_price[8315] profit[0.300068154402895] total_profit[0.91258243986811] total_money[75] skip_total_money_profit[181] 성공[6] 실패[0] 구간최고가격[25.0] 구간최저가격[-15.0] index[162]
+code[252670.0][10020][1428318.0] - Buy buy_price[8320] total_profit[0.91258243986811] percent[2.84]
+code[252670.0][10097][1430179.0] -        Skip - different sell price
+code[252670.0][10097][1430179.0] - SUCCESS Sell buy_price[8320] sell_price[8345] profit[0.2989807692307692] total_profit[0.91358243986811] total_money[75] skip_total_money_profit[206] 성공[7] 실패[0] 구간최고가격[25.0] 구간최저가격[-5.0] index[77]
+END 종목[252670] 수익률[0.91358243986811] 현금[75]
+>>>>>>>>DAY[20200401] - Profit[0] total_money[75] skip_total_money[206]
+======================================================
+code[122630.0][5876][1108476.0] - Buy buy_price[8110] total_profit[0] percent[2.08]
+code[122630.0][6074][1113055.0] - SUCCESS Sell buy_price[8110] sell_price[8135] profit[0.3067614056720099] total_profit[0.3067614056720099] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[-45.0] index[198]
+code[122630.0][6183][1115252.0] - Buy buy_price[8135] total_profit[0.3067614056720099] percent[2.39]
+code[122630.0][6360][1120114.0] - SUCCESS Sell buy_price[8135] sell_price[8160] profit[0.3058140749846343] total_profit[0.6125754806566441] total_money[50] skip_total_money_profit[50] 성공[2] 실패[0] 구간최고가격[25.0] 구간최저가격[-25.0] index[177]
+code[122630.0][7515][1145153.0] - Buy buy_price[8155] total_profit[0.6125754806566441] percent[2.64]
+code[122630.0][7826][1151553.0] -        Skip - different sell price
+code[122630.0][7826][1151553.0] - SUCCESS Sell buy_price[8155] sell_price[8180] profit[0.30506039239730226] total_profit[0.6135754806566441] total_money[50] skip_total_money_profit[75] 성공[3] 실패[0] 구간최고가격[25.0] 구간최저가격[-40.0] index[311]
+code[122630.0][13037][1344290.0] - Buy buy_price[8175] total_profit[0.6135754806566441] percent[2.89]
+code[122630.0][13055][1344550.0] -        Skip - different sell price
+code[122630.0][13055][1344550.0] - SUCCESS Sell buy_price[8175] sell_price[8200] profit[0.3043103975535168] total_profit[0.6145754806566441] total_money[50] skip_total_money_profit[100] 성공[4] 실패[0] 구간최고가격[25.0] 구간최저가격[0] index[18]
+code[122630.0][14777][1422287.0] - Buy buy_price[8180] total_profit[0.6145754806566441] percent[2.96]
+code[122630.0][15171][1431394.0] -        Skip - different sell price
+code[122630.0][15171][1431394.0] - SUCCESS Sell buy_price[8180] sell_price[8210] profit[0.3652481662591687] total_profit[0.6155754806566441] total_money[50] skip_total_money_profit[130] 성공[5] 실패[0] 구간최고가격[30.0] 구간최저가격[-60.0] index[394]
+END 종목[122630] 수익률[0.6155754806566441] 현금[50]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][3163][1009322.0] - Buy buy_price[8950] total_profit[0] percent[1.36]
+code[252670.0][3199][1010246.0] - SUCCESS Sell buy_price[8950] sell_price[8980] profit[0.33369553072625696] total_profit[0.33369553072625696] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[36]
+code[252670.0][3207][1010350.0] - Buy buy_price[8985] total_profit[0.33369553072625696] percent[1.76]
+code[252670.0][3309][1012501.0] -        Skip - different sell price
+code[252670.0][3309][1012501.0] - SUCCESS Sell buy_price[8985] sell_price[9015] profit[0.332389816360601] total_profit[0.33469553072625696] total_money[30] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[102]
+code[252670.0][3317][1013006.0] - Buy buy_price[9020] total_profit[0.33469553072625696] percent[2.15]
+>>> ride code[252670][1014140.0] buy[9020] now[8950.0] ride_price[8985] buy_count[2] money[17970] index[55] buy_index[55]
+code[252670.0][3562][1018256.0] -        Skip - different sell price
+code[252670.0][3562][1018256.0] - SUCCESS Sell buy_price[8985] sell_price[9015] profit[0.664779632721202] total_profit[0.33569553072625696] total_money[30] skip_total_money_profit[120] 성공[3] 실패[0] 구간최고가격[35] 구간최저가격[-55.0] index[245]
+END 종목[252670] 수익률[0.33569553072625696] 현금[30]
+>>>>>>>>DAY[20200402] - Profit[0] total_money[80] skip_total_money[250]
+======================================================
+code[122630.0][1319][929564.0] - Buy buy_price[8515] total_profit[0] percent[1.37]
+code[122630.0][1660][937340.0] - SUCCESS Sell buy_price[8515] sell_price[8545] profit[0.3508194362889019] total_profit[0.3508194362889019] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-45.0] index[341]
+code[122630.0][5110][1053335.0] - Buy buy_price[8485] total_profit[0.3508194362889019] percent[1.01]
+>>> ride code[122630][1113016.0] buy[8485] now[8420.0] ride_price[8452] buy_count[2] money[16904] index[893] buy_index[893]
+code[122630.0][12686][1338217.0] - Skip NOT Same Price
+code[122630.0][12686][1338217.0] - FAILED Sell buy_price[8452] sell_price[8200] profit[-6.36608566019877] total_profit[0.3498194362889019] skip_total_money_profit[30] money[-514] 성공[1] 실패[1] 구간최고가격[48.0] 구간최저가격[-252.0] index[7576]
+code[122630.0][16183][1456272.0] - Buy buy_price[8485] total_profit[0.3498194362889019] percent[1.01]
+>>> ride code[122630][1504103.0] buy[8485] now[8415.0] ride_price[8450] buy_count[2] money[16900] index[353] buy_index[353]
+code[122630.0]- Skip NOT Same Price
+END NOT SELL code[122630.0][16993] - Sell buy_price[8450] sell_price[8425] profit[0] total_profit[0.3498194362889019] total_money[30] skip_total_money_profit[-604] 성공[1] 실패[1] 구간최고가격[35] 구간최저가격[-55.0] index[810]
+END 종목[122630] 수익률[0.3498194362889019] 현금[30]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][2795][1002255.0] - Buy buy_price[8410] total_profit[0] percent[1.02]
+code[252670.0][2934][1005306.0] - SUCCESS Sell buy_price[8410] sell_price[8440] profit[0.35521819262782406] total_profit[0.35521819262782406] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[139]
+code[252670.0][11388][1309468.0] - Buy buy_price[8410] total_profit[0.35521819262782406] percent[1.02]
+code[252670.0][11494][1312079.0] -        Skip - different sell price
+code[252670.0][11494][1312079.0] - SUCCESS Sell buy_price[8410] sell_price[8440] profit[0.35521819262782406] total_profit[0.35621819262782406] total_money[30] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[106]
+code[252670.0][11542][1313117.0] - Buy buy_price[8445] total_profit[0.35621819262782406] percent[1.44]
+code[252670.0][11691][1316292.0] -        Skip - different sell price
+code[252670.0][11691][1316292.0] - SUCCESS Sell buy_price[8445] sell_price[8475] profit[0.3537397868561279] total_profit[0.35721819262782406] total_money[30] skip_total_money_profit[90] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[149]
+code[252670.0][11732][1317244.0] - Buy buy_price[8475] total_profit[0.35721819262782406] percent[1.8]
+code[252670.0][12577][1335456.0] - SUCCESS Sell buy_price[8475] sell_price[8505] profit[0.35248230088495575] total_profit[0.7097004935127798] total_money[60] skip_total_money_profit[120] 성공[4] 실패[0] 구간최고가격[30.0] 구간최저가격[-55.0] index[845]
+code[252670.0][12682][1338122.0] - Buy buy_price[8540] total_profit[0.7097004935127798] percent[2.58]
+>>> ride code[252670][1347436.0] buy[8540] now[8470.0] ride_price[8505] buy_count[2] money[17010] index[353] buy_index[353]
+code[252670.0][13358][1354440.0] -        Skip - different sell price
+code[252670.0][13358][1354440.0] - SUCCESS Sell buy_price[8505] sell_price[8535] profit[0.7024673721340389] total_profit[0.7107004935127798] total_money[60] skip_total_money_profit[180] 성공[5] 실패[0] 구간최고가격[40.0] 구간최저가격[-50.0] index[676]
+code[252670.0][13477][1357171.0] - Buy buy_price[8520] total_profit[0.7107004935127798] percent[2.34]
+>>> ride code[252670][1403389.0] buy[8520] now[8455.0] ride_price[8487] buy_count[2] money[16974] index[290] buy_index[290]
+code[252670.0][14549][1420427.0] -        Skip - different sell price
+code[252670.0][14549][1420427.0] - SUCCESS Sell buy_price[8487] sell_price[8515] profit[0.6568326852833746] total_profit[0.7117004935127798] total_money[60] skip_total_money_profit[236] 성공[6] 실패[0] 구간최고가격[38.0] 구간최저가격[-57.0] index[1072]
+END 종목[252670] 수익률[0.7117004935127798] 현금[60]
+>>>>>>>>DAY[20200403] - Profit[0] total_money[90] skip_total_money[-368]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200406] - Profit[0] total_money[0] skip_total_money[0]
+======================================================
+code[122630.0][4970][1051002.0] - Buy buy_price[9310] total_profit[0] percent[2.65]
+>>> ride code[122630][1055242.0] buy[9310] now[9240.0] ride_price[9275] buy_count[2] money[18550] index[201] buy_index[201]
+code[122630.0][8064][1200059.0] - SUCCESS Sell buy_price[9275] sell_price[9305] profit[0.6439002695417789] total_profit[0.6439002695417789] total_money[60] skip_total_money_profit[60] 성공[1] 실패[0] 구간최고가격[35] 구간최저가격[-135.0] index[3094]
+code[122630.0][8157][1202064.0] - Buy buy_price[9290] total_profit[0.6439002695417789] percent[2.43]
+>>> ride code[122630][1217529.0] buy[9290] now[9220.0] ride_price[9255] buy_count[2] money[18510] index[733] buy_index[733]
+code[122630.0][13468][1357592.0] -        Skip - different sell price
+code[122630.0][13468][1357592.0] - SUCCESS Sell buy_price[9255] sell_price[9285] profit[0.6452982171799028] total_profit[0.6449002695417789] total_money[60] skip_total_money_profit[120] 성공[2] 실패[0] 구간최고가격[60.0] 구간최저가격[-195.0] index[5311]
+code[122630.0][13471][1358031.0] - Buy buy_price[9275] total_profit[0.6449002695417789] percent[2.26]
+code[122630.0][13518][1359046.0] -        Skip - different sell price
+code[122630.0][13518][1359046.0] - SUCCESS Sell buy_price[9275] sell_price[9305] profit[0.32195013477088946] total_profit[0.6459002695417789] total_money[60] skip_total_money_profit[150] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[47]
+code[122630.0][13520][1359071.0] - Buy buy_price[9305] total_profit[0.6459002695417789] percent[2.59]
+code[122630.0][13569][1400112.0] - SUCCESS Sell buy_price[9305] sell_price[9335] profit[0.32090730789897903] total_profit[0.966807577440758] total_money[90] skip_total_money_profit[180] 성공[4] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[49]
+code[122630.0][13572][1400151.0] - Buy buy_price[9330] total_profit[0.966807577440758] percent[2.87]
+>>> ride code[122630][1415280.0] buy[9330] now[9260.0] ride_price[9295] buy_count[2] money[18590] index[697] buy_index[697]
+code[122630.0][15268][1437084.0] -        Skip - different sell price
+code[122630.0][15268][1437084.0] - SUCCESS Sell buy_price[9295] sell_price[9325] profit[0.6425083378160301] total_profit[0.967807577440758] total_money[90] skip_total_money_profit[240] 성공[5] 실패[0] 구간최고가격[50.0] 구간최저가격[-80.0] index[1696]
+END 종목[122630] 수익률[0.967807577440758] 현금[90]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200407] - Profit[0] total_money[90] skip_total_money[240]
+======================================================
+code[122630.0][14163][1415132.0] - Buy buy_price[9490] total_profit[0] percent[1.01]
+code[122630.0][15781][1451137.0] - SUCCESS Sell buy_price[9490] sell_price[9520] profit[0.3146222339304531] total_profit[0.3146222339304531] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-60.0] index[1618]
+code[122630.0][15788][1451232.0] - Buy buy_price[9525] total_profit[0.3146222339304531] percent[1.38]
+>>> ride code[122630][1501292.0] buy[9525] now[9450.0] ride_price[9487] buy_count[2] money[18974] index[451] buy_index[451]
+code[122630.0]- Skip NOT Same Price
+END NOT SELL code[122630.0][16849] - Sell buy_price[9487] sell_price[9260] profit[0] total_profit[0.3146222339304531] total_money[30] skip_total_money_profit[-464] 성공[1] 실패[0] 구간최고가격[53.0] 구간최저가격[-247.0] index[1061]
+END 종목[122630] 수익률[0.3146222339304531] 현금[30]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][1153][925538.0] - Buy buy_price[7550] total_profit[0] percent[2.3]
+code[252670.0][1480][933037.0] - SUCCESS Sell buy_price[7550] sell_price[7575] profit[0.32962582781456956] total_profit[0.32962582781456956] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[-30.0] index[327]
+code[252670.0][4372][1038559.0] - Buy buy_price[7455] total_profit[0.32962582781456956] percent[1.02]
+code[252670.0][4839][1049173.0] -        Skip - different sell price
+code[252670.0][4839][1049173.0] - SUCCESS Sell buy_price[7455] sell_price[7480] profit[0.333845405767941] total_profit[0.33062582781456956] total_money[25] skip_total_money_profit[50] 성공[2] 실패[0] 구간최고가격[25.0] 구간최저가격[-40.0] index[467]
+code[252670.0][5130][1055461.0] - Buy buy_price[7490] total_profit[0.33062582781456956] percent[1.49]
+>>> ride code[252670][1111469.0] buy[7490] now[7435.0] ride_price[7462] buy_count[2] money[14924] index[719] buy_index[719]
+code[252670.0][7181][1141417.0] -        Skip - different sell price
+code[252670.0][7181][1141417.0] - SUCCESS Sell buy_price[7462] sell_price[7485] profit[0.6134567140176896] total_profit[0.33162582781456956] total_money[25] skip_total_money_profit[96] 성공[3] 실패[0] 구간최고가격[38.0] 구간최저가격[-37.0] index[2051]
+code[252670.0][7183][1141443.0] - Buy buy_price[7485] total_profit[0.33162582781456956] percent[1.42]
+code[252670.0][7958][1158435.0] - SUCCESS Sell buy_price[7485] sell_price[7510] profit[0.33250133600534404] total_profit[0.6641271638199135] total_money[50] skip_total_money_profit[121] 성공[4] 실패[0] 구간최고가격[25.0] 구간최저가격[-20.0] index[775]
+code[252670.0][8304][1206178.0] - Buy buy_price[7535] total_profit[0.6641271638199135] percent[2.1]
+>>> ride code[252670][1225279.0] buy[7535] now[7470.0] ride_price[7502] buy_count[2] money[15004] index[878] buy_index[878]
+code[252670.0][15780][1451155.0] - Skip NOT Same Price
+code[252670.0][15780][1451155.0] - FAILED Sell buy_price[7502] sell_price[7280] profit[-6.321421754198881] total_profit[0.6631271638199135] skip_total_money_profit[50] money[-363] 성공[4] 실패[1] 구간최고가격[43.0] 구간최저가격[-222.0] index[7476]
+code[252670.0][16557][1508371.0] - Buy buy_price[7455] total_profit[0.6631271638199135] percent[1.02]
+code[252670.0][16687][1511289.0] -        Skip - different sell price
+code[252670.0][16687][1511289.0] - SUCCESS Sell buy_price[7455] sell_price[7480] profit[0.333845405767941] total_profit[0.6641271638199135] total_money[50] skip_total_money_profit[-338] 성공[5] 실패[1] 구간최고가격[25.0] 구간최저가격[-15.0] index[130]
+code[252670.0][16689][1511315.0] - Buy buy_price[7480] total_profit[0.6641271638199135] percent[1.36]
+END NOT SELL code[252670.0][16847] - Sell buy_price[7480] sell_price[7490] profit[-0.06781016042780749] total_profit[0.6641271638199135] total_money[40] skip_total_money_profit[-348] 성공[5] 실패[1] 구간최고가격[20.0] 구간최저가격[0] index[158]
+END 종목[252670] 수익률[0.6641271638199135] 현금[40]
+>>>>>>>>DAY[20200408] - Profit[0] total_money[70] skip_total_money[-812]
+======================================================
+code[122630.0][5057][1050237.0] - Buy buy_price[9295] total_profit[0] percent[1.92]
+>>> ride code[122630][1144418.0] buy[9295] now[9225.0] ride_price[9260] buy_count[2] money[18520] index[2509] buy_index[2509]
+code[122630.0][8312][1200422.0] - SUCCESS Sell buy_price[9260] sell_price[9290] profit[0.6449481641468683] total_profit[0.6449481641468683] total_money[60] skip_total_money_profit[60] 성공[1] 실패[0] 구간최고가격[60.0] 구간최저가격[-45.0] index[3255]
+code[122630.0][9185][1219151.0] - Buy buy_price[9320] total_profit[0.6449481641468683] percent[2.19]
+code[122630.0][9508][1226063.0] -        Skip - different sell price
+code[122630.0][9508][1226063.0] - SUCCESS Sell buy_price[9320] sell_price[9350] profit[0.3203884120171674] total_profit[0.6459481641468683] total_money[60] skip_total_money_profit[90] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[323]
+code[122630.0][9523][1226254.0] - Buy buy_price[9350] total_profit[0.6459481641468683] percent[2.52]
+code[122630.0][10595][1249225.0] - SUCCESS Sell buy_price[9350] sell_price[9380] profit[0.31935561497326204] total_profit[0.9653037791201303] total_money[90] skip_total_money_profit[120] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[-45.0] index[1072]
+code[122630.0][10623][1249583.0] - Buy buy_price[9375] total_profit[0.9653037791201303] percent[2.8]
+>>> ride code[122630][1307048.0] buy[9375] now[9305.0] ride_price[9340] buy_count[2] money[18680] index[785] buy_index[785]
+code[122630.0][13716][1356459.0] -        Skip - different sell price
+code[122630.0][13716][1356459.0] - SUCCESS Sell buy_price[9340] sell_price[9370] profit[0.6393982869379015] total_profit[0.9663037791201303] total_money[90] skip_total_money_profit[180] 성공[4] 실패[0] 구간최고가격[45.0] 구간최저가격[-105.0] index[3093]
+code[122630.0][13763][1357460.0] - Buy buy_price[9370] total_profit[0.9663037791201303] percent[2.74]
+code[122630.0][13847][1359353.0] - SUCCESS Sell buy_price[9370] sell_price[9400] profit[0.31867075773745995] total_profit[1.2849745368575902] total_money[120] skip_total_money_profit[210] 성공[5] 실패[0] 구간최고가격[30.0] 구간최저가격[-5.0] index[84]
+code[122630.0][13879][1400169.0] - Buy buy_price[9390] total_profit[1.2849745368575902] percent[2.96]
+>>> ride code[122630][1407185.0] buy[9390] now[9315.0] ride_price[9352] buy_count[2] money[18704] index[329] buy_index[329]
+code[122630.0][16743][1501440.0] -        Skip - different sell price
+code[122630.0][16743][1501440.0] - SUCCESS Sell buy_price[9352] sell_price[9385] profit[0.7027313943541489] total_profit[1.2859745368575901] total_money[120] skip_total_money_profit[276] 성공[6] 실패[0] 구간최고가격[38] 구간최저가격[-112.0] index[2864]
+code[122630.0][17103][1509267.0] - Buy buy_price[9375] total_profit[1.2859745368575901] percent[2.8]
+code[122630.0]- Skip NOT Same Price
+END NOT SELL code[122630.0][17361] - Sell buy_price[9375] sell_price[9355] profit[0] total_profit[1.2859745368575901] total_money[120] skip_total_money_profit[236] 성공[6] 실패[0] 구간최고가격[10.0] 구간최저가격[-30.0] index[258]
+END 종목[122630] 수익률[1.2859745368575901] 현금[120]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200409] - Profit[1] total_money[120] skip_total_money[236]
+======================================================
+code[122630.0][4035][1030249.0] - Buy buy_price[9485] total_profit[0] percent[1.01]
+>>> ride code[122630][1052520.0] buy[9485] now[9410.0] ride_price[9447] buy_count[2] money[18894] index[984] buy_index[984]
+code[122630.0][15042][1432506.0] - SUCCESS Sell buy_price[9447] sell_price[9480] profit[0.6956344871387742] total_profit[0.6956344871387742] total_money[66] skip_total_money_profit[66] 성공[1] 실패[0] 구간최고가격[38] 구간최저가격[-162.0] index[11007]
+code[122630.0][15148][1435106.0] - Buy buy_price[9485] total_profit[0.6956344871387742] percent[1.01]
+code[122630.0][15638][1445561.0] -        Skip - different sell price
+code[122630.0][15638][1445561.0] - SUCCESS Sell buy_price[9485] sell_price[9515] profit[0.31478887717448606] total_profit[0.6966344871387742] total_money[66] skip_total_money_profit[96] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-35.0] index[490]
+code[122630.0][15668][1446354.0] - Buy buy_price[9505] total_profit[0.6966344871387742] percent[1.22]
+code[122630.0][16925][1514114.0] -        Skip - different sell price
+code[122630.0][16925][1514114.0] - SUCCESS Sell buy_price[9505] sell_price[9535] profit[0.3141233561283535] total_profit[0.6976344871387742] total_money[66] skip_total_money_profit[126] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[-25.0] index[1257]
+END 종목[122630] 수익률[0.6976344871387742] 현금[66]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][657][914267.0] - Buy buy_price[7455] total_profit[0] percent[1.22]
+>>> ride code[252670][918431.0] buy[7455] now[7400.0] ride_price[7427] buy_count[2] money[14854] index[194] buy_index[194]
+code[252670.0][5953][1113347.0] - SUCCESS Sell buy_price[7427] sell_price[7450] profit[0.6163617880705534] total_profit[0.6163617880705534] total_money[46] skip_total_money_profit[46] 성공[1] 실패[0] 구간최고가격[28] 구간최저가격[-122.0] index[5296]
+code[252670.0][5957][1113402.0] - Buy buy_price[7450] total_profit[0.6163617880705534] percent[1.15]
+code[252670.0][6037][1115352.0] - SUCCESS Sell buy_price[7450] sell_price[7475] profit[0.33407046979865773] total_profit[0.9504322578692112] total_money[71] skip_total_money_profit[71] 성공[2] 실패[0] 구간최고가격[25.0] 구간최저가격[-5.0] index[80]
+code[252670.0][6039][1115380.0] - Buy buy_price[7475] total_profit[0.9504322578692112] percent[1.49]
+>>> ride code[252670][1117131.0] buy[7475] now[7420.0] ride_price[7447] buy_count[2] money[14894] index[71] buy_index[71]
+END NOT SELL code[252670.0][16963] - Sell buy_price[7447] sell_price[7265] profit[-5.290874311803411] total_profit[0.9504322578692112] total_money[-333] skip_total_money_profit[-333] 성공[2] 실패[0] 구간최고가격[33.0] 구간최저가격[-192.0] index[10924]
+END 종목[252670] 수익률[0.9504322578692112] 현금[-333]
+>>>>>>>>DAY[20200410] - Profit[0] total_money[-267] skip_total_money[-207]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][765][916516.0] - Buy buy_price[7375] total_profit[0] percent[1.65]
+code[252670.0][857][918550.0] - SUCCESS Sell buy_price[7375] sell_price[7400] profit[0.3374830508474576] total_profit[0.3374830508474576] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[0] index[92]
+code[252670.0][952][921062.0] - Buy buy_price[7395] total_profit[0.3374830508474576] percent[1.93]
+code[252670.0][2044][946035.0] -        Skip - different sell price
+code[252670.0][2044][946035.0] - SUCCESS Sell buy_price[7395] sell_price[7420] profit[0.3365662609871535] total_profit[0.3384830508474576] total_money[25] skip_total_money_profit[50] 성공[2] 실패[0] 구간최고가격[25.0] 구간최저가격[-45.0] index[1092]
+code[252670.0][2062][946274.0] - Buy buy_price[7415] total_profit[0.3384830508474576] percent[2.21]
+code[252670.0][2244][950254.0] -        Skip - different sell price
+code[252670.0][2244][950254.0] - SUCCESS Sell buy_price[7415] sell_price[7440] profit[0.33565441672285906] total_profit[0.3394830508474576] total_money[25] skip_total_money_profit[75] 성공[3] 실패[0] 구간최고가격[25.0] 구간최저가격[-10.0] index[182]
+code[252670.0][2311][951529.0] - Buy buy_price[7440] total_profit[0.3394830508474576] percent[2.55]
+>>> ride code[252670][1013204.0] buy[7440] now[7385.0] ride_price[7412] buy_count[2] money[14824] index[979] buy_index[979]
+code[252670.0][12511][1334368.0] - SUCCESS Sell buy_price[7412] sell_price[7435] profit[0.61761521856449] total_profit[0.9570982694119476] total_money[71] skip_total_money_profit[121] 성공[4] 실패[0] 구간최고가격[33.0] 구간최저가격[-87.0] index[10200]
+code[252670.0][12539][1335132.0] - Buy buy_price[7450] total_profit[0.9570982694119476] percent[2.69]
+>>> ride code[252670][1358036.0] buy[7450] now[7395.0] ride_price[7422] buy_count[2] money[14844] index[1042] buy_index[1042]
+code[252670.0][15028][1430179.0] -        Skip - different sell price
+code[252670.0][15028][1430179.0] - SUCCESS Sell buy_price[7422] sell_price[7445] profit[0.6167790353004581] total_profit[0.9580982694119476] total_money[71] skip_total_money_profit[167] 성공[5] 실패[0] 구간최고가격[28] 구간최저가격[-42.0] index[2489]
+code[252670.0][15065][1431095.0] - Buy buy_price[7460] total_profit[0.9580982694119476] percent[2.83]
+code[252670.0][16202][1456071.0] -        Skip - different sell price
+code[252670.0][16202][1456071.0] - SUCCESS Sell buy_price[7460] sell_price[7485] profit[0.3336206434316354] total_profit[0.9590982694119476] total_money[71] skip_total_money_profit[192] 성공[6] 실패[0] 구간최고가격[25.0] 구간최저가격[-30.0] index[1137]
+END 종목[252670] 수익률[0.9590982694119476] 현금[71]
+>>>>>>>>DAY[20200413] - Profit[0] total_money[71] skip_total_money[192]
+======================================================
+code[122630.0][1616][934580.0] - Buy buy_price[9365] total_profit[0] percent[1.79]
+code[122630.0][2782][1000028.0] - SUCCESS Sell buy_price[9365] sell_price[9395] profit[0.31884169781099836] total_profit[0.31884169781099836] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-20.0] index[1166]
+code[122630.0][2801][1000270.0] - Buy buy_price[9390] total_profit[0.31884169781099836] percent[2.07]
+code[122630.0][3318][1011316.0] -        Skip - different sell price
+code[122630.0][3318][1011316.0] - SUCCESS Sell buy_price[9390] sell_price[9420] profit[0.3179888178913738] total_profit[0.31984169781099836] total_money[30] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-30.0] index[517]
+code[122630.0][3408][1013315.0] - Buy buy_price[9430] total_profit[0.31984169781099836] percent[2.5]
+code[122630.0][3704][1019535.0] -        Skip - different sell price
+code[122630.0][3704][1019535.0] - SUCCESS Sell buy_price[9430] sell_price[9460] profit[0.3166336161187699] total_profit[0.32084169781099836] total_money[30] skip_total_money_profit[90] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[296]
+code[122630.0][3711][1020024.0] - Buy buy_price[9460] total_profit[0.32084169781099836] percent[2.83]
+code[122630.0][4449][1035484.0] - SUCCESS Sell buy_price[9460] sell_price[9495] profit[0.3684788583509514] total_profit[0.6893205561619498] total_money[65] skip_total_money_profit[125] 성공[4] 실패[0] 구간최고가격[35.0] 구간최저가격[-35.0] index[738]
+END 종목[122630] 수익률[0.6893205561619498] 현금[65]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200414] - Profit[0] total_money[65] skip_total_money[125]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][736][916344.0] - Buy buy_price[7360] total_profit[0] percent[1.73]
+code[252670.0][880][919430.0] - SUCCESS Sell buy_price[7360] sell_price[7385] profit[0.33817391304347827] total_profit[0.33817391304347827] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[-25.0] index[144]
+code[252670.0][890][919558.0] - Buy buy_price[7380] total_profit[0.33817391304347827] percent[2.0]
+code[252670.0][973][921445.0] -        Skip - different sell price
+code[252670.0][973][921445.0] - SUCCESS Sell buy_price[7380] sell_price[7405] profit[0.33725338753387535] total_profit[0.33917391304347827] total_money[25] skip_total_money_profit[50] 성공[2] 실패[0] 구간최고가격[25.0] 구간최저가격[-10.0] index[83]
+code[252670.0][978][921517.0] - Buy buy_price[7410] total_profit[0.33917391304347827] percent[2.42]
+code[252670.0][1365][930175.0] -        Skip - different sell price
+code[252670.0][1365][930175.0] - SUCCESS Sell buy_price[7410] sell_price[7435] profit[0.33588191632928477] total_profit[0.34017391304347827] total_money[25] skip_total_money_profit[75] 성공[3] 실패[0] 구간최고가격[25.0] 구간최저가격[-15.0] index[387]
+code[252670.0][1408][931133.0] - Buy buy_price[7445] total_profit[0.34017391304347827] percent[2.9]
+code[252670.0][1635][936086.0] -        Skip - different sell price
+code[252670.0][1635][936086.0] - SUCCESS Sell buy_price[7445] sell_price[7470] profit[0.33429583613163194] total_profit[0.34117391304347827] total_money[25] skip_total_money_profit[100] 성공[4] 실패[0] 구간최고가격[25.0] 구간최저가격[-15.0] index[227]
+code[252670.0][4781][1044127.0] - Buy buy_price[7330] total_profit[0.34117391304347827] percent[1.31]
+code[252670.0][4923][1047179.0] -        Skip - different sell price
+code[252670.0][4923][1047179.0] - SUCCESS Sell buy_price[7330] sell_price[7355] profit[0.33956412005457026] total_profit[0.3421739130434783] total_money[25] skip_total_money_profit[125] 성공[5] 실패[0] 구간최고가격[25.0] 구간최저가격[-10.0] index[142]
+code[252670.0][4929][1047255.0] - Buy buy_price[7350] total_profit[0.3421739130434783] percent[1.59]
+>>> ride code[252670][1115335.0] buy[7350] now[7295.0] ride_price[7322] buy_count[2] money[14644] index[1311] buy_index[1311]
+code[252670.0][8309][1159575.0] -        Skip - different sell price
+code[252670.0][8309][1159575.0] - SUCCESS Sell buy_price[7322] sell_price[7345] profit[0.6252436492761541] total_profit[0.3431739130434783] total_money[25] skip_total_money_profit[171] 성공[6] 실패[0] 구간최고가격[43.0] 구간최저가격[-52.0] index[3380]
+code[252670.0][8483][1203387.0] - Buy buy_price[7345] total_profit[0.3431739130434783] percent[1.52]
+>>> ride code[252670][1305236.0] buy[7345] now[7290.0] ride_price[7317] buy_count[2] money[14634] index[2891] buy_index[2891]
+END NOT SELL code[252670.0][17377] - Sell buy_price[7317] sell_price[7240] profit[-2.507687713543802] total_profit[0.3431739130434783] total_money[-169] skip_total_money_profit[-23] 성공[6] 실패[0] 구간최고가격[48.0] 구간최저가격[-112.0] index[8894]
+END 종목[252670] 수익률[0.3431739130434783] 현금[-169]
+>>>>>>>>DAY[20200416] - Profit[0] total_money[-169] skip_total_money[-23]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200417] - Profit[0] total_money[0] skip_total_money[0]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][2975][1005509.0] - Buy buy_price[6840] total_profit[0] percent[1.03]
+code[252670.0][4618][1041462.0] - SUCCESS Sell buy_price[6840] sell_price[6865] profit[0.36399707602339176] total_profit[0.36399707602339176] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[-40.0] index[1643]
+code[252670.0][4716][1043544.0] - Buy buy_price[6865] total_profit[0.36399707602339176] percent[1.4]
+>>> ride code[252670][1105199.0] buy[6865] now[6815.0] ride_price[6840] buy_count[2] money[13680] index[981] buy_index[981]
+code[252670.0][14123][1409551.0] - SUCCESS Sell buy_price[6840] sell_price[6865] profit[0.7279941520467835] total_profit[1.0919912280701753] total_money[75] skip_total_money_profit[75] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-55.0] index[9407]
+code[252670.0][14144][1410225.0] - Buy buy_price[6865] total_profit[1.0919912280701753] percent[1.4]
+code[252670.0][14283][1413275.0] - SUCCESS Sell buy_price[6865] sell_price[6890] profit[0.36266605972323374] total_profit[1.4546572877934092] total_money[100] skip_total_money_profit[100] 성공[3] 실패[0] 구간최고가격[25.0] 구간최저가격[-10.0] index[139]
+code[252670.0][14302][1413523.0] - Buy buy_price[6890] total_profit[1.4546572877934092] percent[1.77]
+code[252670.0][15637][1443039.0] - SUCCESS Sell buy_price[6890] sell_price[6915] profit[0.36134470246734396] total_profit[1.8160019902607532] total_money[125] skip_total_money_profit[125] 성공[4] 실패[0] 구간최고가격[25.0] 구간최저가격[-45.0] index[1335]
+code[252670.0][15659][1443327.0] - Buy buy_price[6910] total_profit[1.8160019902607532] percent[2.07]
+code[252670.0][16191][1455089.0] -        Skip - different sell price
+code[252670.0][16191][1455089.0] - SUCCESS Sell buy_price[6910] sell_price[6935] profit[0.36029450072358904] total_profit[1.817001990260753] total_money[125] skip_total_money_profit[150] 성공[5] 실패[0] 구간최고가격[25.0] 구간최저가격[-25.0] index[532]
+code[252670.0][16548][1502569.0] - Buy buy_price[6945] total_profit[1.817001990260753] percent[2.58]
+code[252670.0][16639][1504562.0] -        Skip - different sell price
+code[252670.0][16639][1504562.0] - SUCCESS Sell buy_price[6945] sell_price[6970] profit[0.3584712023038157] total_profit[1.818001990260753] total_money[125] skip_total_money_profit[175] 성공[6] 실패[0] 구간최고가격[25.0] 구간최저가격[-5.0] index[91]
+END 종목[252670] 수익률[1.818001990260753] 현금[125]
+>>>>>>>>DAY[20200420] - Profit[1] total_money[125] skip_total_money[175]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][732][916057.0] - Buy buy_price[7120] total_profit[0] percent[2.59]
+code[252670.0][922][920220.0] - SUCCESS Sell buy_price[7120] sell_price[7145] profit[0.34962359550561795] total_profit[0.34962359550561795] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[-20.0] index[190]
+code[252670.0][946][920529.0] - Buy buy_price[7140] total_profit[0.34962359550561795] percent[2.88]
+>>> ride code[252670][927365.0] buy[7140] now[7085.0] ride_price[7112] buy_count[2] money[14224] index[314] buy_index[314]
+code[252670.0][4973][1047323.0] -        Skip - different sell price
+code[252670.0][4973][1047323.0] - SUCCESS Sell buy_price[7112] sell_price[7135] profit[0.6437941507311585] total_profit[0.35062359550561795] total_money[25] skip_total_money_profit[71] 성공[2] 실패[0] 구간최고가격[33.0] 구간최저가격[-152.0] index[4027]
+code[252670.0][4975][1047349.0] - Buy buy_price[7135] total_profit[0.35062359550561795] percent[2.81]
+code[252670.0][5007][1048179.0] - SUCCESS Sell buy_price[7135] sell_price[7160] profit[0.348885423966363] total_profit[0.699509019471981] total_money[50] skip_total_money_profit[96] 성공[3] 실패[0] 구간최고가격[25.0] 구간최저가격[-25.0] index[32]
+END 종목[252670] 수익률[0.699509019471981] 현금[50]
+>>>>>>>>DAY[20200421] - Profit[0] total_money[50] skip_total_money[96]
+======================================================
+code[122630.0][16333][1456401.0] - Buy buy_price[9785] total_profit[0] percent[1.08]
+code[122630.0][17155][1514442.0] - SUCCESS Sell buy_price[9785] sell_price[9815] profit[0.3050917220235054] total_profit[0.3050917220235054] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-65.0] index[822]
+code[122630.0][17164][1514559.0] - Buy buy_price[9835] total_profit[0.3050917220235054] percent[1.6]
+code[122630.0][17214][1516032.0] -        Skip - different sell price
+code[122630.0][17214][1516032.0] - SUCCESS Sell buy_price[9835] sell_price[9865] profit[0.3035330452465684] total_profit[0.3060917220235054] total_money[30] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[50]
+code[122630.0][17224][1516163.0] - Buy buy_price[9865] total_profit[0.3060917220235054] percent[1.91]
+code[122630.0][17341][1518491.0] - SUCCESS Sell buy_price[9865] sell_price[9895] profit[0.30260542321338063] total_profit[0.608697145236886] total_money[60] skip_total_money_profit[90] 성공[3] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[117]
+code[122630.0][17343][1518517.0] - Buy buy_price[9895] total_profit[0.608697145236886] percent[2.22]
+END NOT SELL code[122630.0][17351] - Sell buy_price[9895] sell_price[9890] profit[-0.25203057099545223] total_profit[0.608697145236886] total_money[35] skip_total_money_profit[65] 성공[3] 실패[0] 구간최고가격[0] 구간최저가격[-10.0] index[8]
+END 종목[122630] 수익률[0.608697145236886] 현금[35]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][6728][1128140.0] - Buy buy_price[7305] total_profit[0] percent[2.89]
+>>> ride code[252670][1149532.0] buy[7305] now[7250.0] ride_price[7277] buy_count[2] money[14554] index[993] buy_index[993]
+code[252670.0][15664][1442024.0] - FAILED Sell buy_price[7277] sell_price[7060] profit[-6.366996152260548] total_profit[-6.366996152260548] skip_total_money_profit[-474] money[-474] 성공[0] 실패[1] 구간최고가격[33.0] 구간최저가격[-217.0] index[8936]
+END 종목[252670] 수익률[-6.366996152260548] 현금[-474]
+>>>>>>>>DAY[20200422] - Profit[-6] total_money[-439] skip_total_money[-409]
+======================================================
+code[122630.0][2301][950264.0] - Buy buy_price[9960] total_profit[0] percent[1.07]
+code[122630.0][2841][1002045.0] - SUCCESS Sell buy_price[9960] sell_price[9995] profit[0.3499056224899599] total_profit[0.3499056224899599] total_money[35] skip_total_money_profit[35] 성공[1] 실패[0] 구간최고가격[35.0] 구간최저가격[-35.0] index[540]
+code[122630.0][3011][1005420.0] - Buy buy_price[10035] total_profit[0.3499056224899599] percent[1.83]
+code[122630.0][3136][1008216.0] -        Skip - different sell price
+code[122630.0][3136][1008216.0] - SUCCESS Sell buy_price[10035] sell_price[10070] profit[0.3472792725460887] total_profit[0.3509056224899599] total_money[35] skip_total_money_profit[70] 성공[2] 실패[0] 구간최고가격[35.0] 구간최저가격[0] index[125]
+code[122630.0][3140][1008267.0] - Buy buy_price[10075] total_profit[0.3509056224899599] percent[2.23]
+>>> ride code[122630][1032121.0] buy[10075] now[9995.0] ride_price[10035] buy_count[2] money[20070] index[1108] buy_index[1108]
+code[122630.0][13011][1341065.0] -        Skip - different sell price
+code[122630.0][13011][1341065.0] - SUCCESS Sell buy_price[10035] sell_price[10070] profit[0.6945585450921774] total_profit[0.3519056224899599] total_money[35] skip_total_money_profit[140] 성공[3] 실패[0] 구간최고가격[65.0] 구간최저가격[-190.0] index[9871]
+code[122630.0][13044][1341489.0] - Buy buy_price[10065] total_profit[0.3519056224899599] percent[2.13]
+code[122630.0][14079][1404081.0] -        Skip - different sell price
+code[122630.0][14079][1404081.0] - SUCCESS Sell buy_price[10065] sell_price[10100] profit[0.34623969200198706] total_profit[0.3529056224899599] total_money[35] skip_total_money_profit[175] 성공[4] 실패[0] 구간최고가격[35.0] 구간최저가격[-55.0] index[1035]
+code[122630.0][14081][1404108.0] - Buy buy_price[10100] total_profit[0.3529056224899599] percent[2.49]
+>>> ride code[122630][1435589.0] buy[10100] now[10020.0] ride_price[10060] buy_count[2] money[20120] index[1472] buy_index[1472]
+END NOT SELL code[122630.0][17528] - Sell buy_price[10060] sell_price[10040] profit[-0.8006143141153081] total_profit[0.3529056224899599] total_money[-45] skip_total_money_profit[95] 성공[4] 실패[0] 구간최고가격[70.0] 구간최저가격[-120.0] index[3447]
+END 종목[122630] 수익률[0.3529056224899599] 현금[-45]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200423] - Profit[0] total_money[-45] skip_total_money[95]
+======================================================
+END 종목[122630] 수익률[0] 현금[0]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][535][911564.0] - Buy buy_price[6950] total_profit[0] percent[1.76]
+code[252670.0][731][916481.0] - SUCCESS Sell buy_price[6950] sell_price[6975] profit[0.3582122302158273] total_profit[0.3582122302158273] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[-5.0] index[196]
+code[252670.0][778][917514.0] - Buy buy_price[6975] total_profit[0.3582122302158273] percent[2.12]
+code[252670.0][1581][935474.0] - SUCCESS Sell buy_price[6975] sell_price[7000] profit[0.35692293906810035] total_profit[0.7151351692839276] total_money[50] skip_total_money_profit[50] 성공[2] 실패[0] 구간최고가격[25.0] 구간최저가격[-30.0] index[803]
+code[252670.0][3603][1020202.0] - Buy buy_price[6965] total_profit[0.7151351692839276] percent[1.98]
+code[252670.0][3755][1023386.0] -        Skip - different sell price
+code[252670.0][3755][1023386.0] - SUCCESS Sell buy_price[6965] sell_price[6990] profit[0.3574375448671931] total_profit[0.7161351692839276] total_money[50] skip_total_money_profit[75] 성공[3] 실패[0] 구간최고가격[25.0] 구간최저가격[-5.0] index[152]
+code[252670.0][3757][1023412.0] - Buy buy_price[6980] total_profit[0.7161351692839276] percent[2.2]
+code[252670.0][4163][1032321.0] -        Skip - different sell price
+code[252670.0][4163][1032321.0] - SUCCESS Sell buy_price[6980] sell_price[7005] profit[0.35666618911174786] total_profit[0.7171351692839276] total_money[50] skip_total_money_profit[100] 성공[4] 실패[0] 구간최고가격[25.0] 구간최저가격[-10.0] index[406]
+code[252670.0][5212][1055401.0] - Buy buy_price[6975] total_profit[0.7171351692839276] percent[2.12]
+>>> ride code[252670][1142063.0] buy[6975] now[6920.0] ride_price[6947] buy_count[2] money[13894] index[2108] buy_index[2108]
+code[252670.0][9147][1222068.0] -        Skip - different sell price
+code[252670.0][9147][1222068.0] - SUCCESS Sell buy_price[6947] sell_price[6970] profit[0.6591563264718584] total_profit[0.7181351692839276] total_money[50] skip_total_money_profit[146] 성공[5] 실패[0] 구간최고가격[38.0] 구간최저가격[-27.0] index[3935]
+code[252670.0][9149][1222095.0] - Buy buy_price[6970] total_profit[0.7181351692839276] percent[2.05]
+code[252670.0][11571][1315335.0] - SUCCESS Sell buy_price[6970] sell_price[6995] profit[0.35718005738880915] total_profit[1.0753152266727368] total_money[75] skip_total_money_profit[171] 성공[6] 실패[0] 구간최고가격[25.0] 구간최저가격[-15.0] index[2422]
+code[252670.0][11574][1315374.0] - Buy buy_price[6995] total_profit[1.0753152266727368] percent[2.42]
+code[252670.0][12865][1344037.0] - SUCCESS Sell buy_price[6995] sell_price[7020] profit[0.35589814152966404] total_profit[1.4312133682024009] total_money[100] skip_total_money_profit[196] 성공[7] 실패[0] 구간최고가격[25.0] 구간최저가격[-30.0] index[1291]
+code[252670.0][12866][1344050.0] - Buy buy_price[7025] total_profit[1.4312133682024009] percent[2.86]
+code[252670.0][13257][1352385.0] -        Skip - different sell price
+code[252670.0][13257][1352385.0] - SUCCESS Sell buy_price[7025] sell_price[7050] profit[0.35437188612099646] total_profit[1.4322133682024007] total_money[100] skip_total_money_profit[221] 성공[8] 실패[0] 구간최고가격[25.0] 구간최저가격[-5.0] index[391]
+END 종목[252670] 수익률[1.4322133682024007] 현금[100]
+>>>>>>>>DAY[20200424] - Profit[1] total_money[100] skip_total_money[221]
+======================================================
+code[122630.0][515][911302.0] - Buy buy_price[9855] total_profit[0] percent[1.44]
+code[122630.0][2200][955389.0] - SUCCESS Sell buy_price[9855] sell_price[9885] profit[0.30291400304414] total_profit[0.30291400304414] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-55.0] index[1685]
+code[122630.0][2202][955422.0] - Buy buy_price[9885] total_profit[0.30291400304414] percent[1.75]
+code[122630.0][2217][956078.0] - SUCCESS Sell buy_price[9885] sell_price[9915] profit[0.30199013657056145] total_profit[0.6049041396147015] total_money[60] skip_total_money_profit[60] 성공[2] 실패[0] 구간최고가격[30.0] 구간최저가격[0] index[15]
+code[122630.0][2219][956111.0] - Buy buy_price[9915] total_profit[0.6049041396147015] percent[2.06]
+code[122630.0][3491][1030232.0] - SUCCESS Sell buy_price[9915] sell_price[9950] profit[0.3515005042864347] total_profit[0.9564046439011362] total_money[95] skip_total_money_profit[95] 성공[3] 실패[0] 구간최고가격[35.0] 구간최저가격[-35.0] index[1272]
+code[122630.0][3571][1032202.0] - Buy buy_price[9965] total_profit[0.9564046439011362] percent[2.57]
+code[122630.0][4113][1046156.0] -        Skip - different sell price
+code[122630.0][4113][1046156.0] - SUCCESS Sell buy_price[9965] sell_price[9995] profit[0.29955368790767684] total_profit[0.9574046439011362] total_money[95] skip_total_money_profit[125] 성공[4] 실패[0] 구간최고가격[30.0] 구간최저가격[-20.0] index[542]
+code[122630.0][4295][1050557.0] - Buy buy_price[9990] total_profit[0.9574046439011362] percent[2.83]
+code[122630.0][4680][1059584.0] -        Skip - different sell price
+code[122630.0][4680][1059584.0] - SUCCESS Sell buy_price[9990] sell_price[10020] profit[0.2988003003003003] total_profit[0.9584046439011362] total_money[95] skip_total_money_profit[155] 성공[5] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[385]
+END 종목[122630] 수익률[0.9584046439011362] 현금[95]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200427] - Profit[0] total_money[95] skip_total_money[155]
+======================================================
+code[122630.0][657][914309.0] - Buy buy_price[10225] total_profit[0] percent[1.09]
+code[122630.0][757][916431.0] - SUCCESS Sell buy_price[10225] sell_price[10260] profit[0.3407982885085575] total_profit[0.3407982885085575] total_money[35] skip_total_money_profit[35] 성공[1] 실패[0] 구간최고가격[35.0] 구간최저가격[-5.0] index[100]
+code[122630.0][759][916457.0] - Buy buy_price[10260] total_profit[0.3407982885085575] percent[1.43]
+code[122630.0][2231][949048.0] - SUCCESS Sell buy_price[10260] sell_price[10295] profit[0.33963060428849906] total_profit[0.6804288927970565] total_money[70] skip_total_money_profit[70] 성공[2] 실패[0] 구간최고가격[35.0] 구간최저가격[-60.0] index[1472]
+code[122630.0][2263][949462.0] - Buy buy_price[10290] total_profit[0.6804288927970565] percent[1.73]
+>>> ride code[122630][1002257.0] buy[10290] now[10210.0] ride_price[10250] buy_count[2] money[20500] index[579] buy_index[579]
+code[122630.0]- Skip NOT Same Price
+END NOT SELL code[122630.0][17011] - Sell buy_price[10250] sell_price[10195] profit[0] total_profit[0.6804288927970565] total_money[70] skip_total_money_profit[-80] 성공[2] 실패[0] 구간최고가격[45.0] 구간최저가격[-270.0] index[14748]
+END 종목[122630] 수익률[0.6804288927970565] 현금[70]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+code[252670.0][5141][1052369.0] - Buy buy_price[6820] total_profit[0] percent[1.04]
+code[252670.0][5202][1053597.0] - SUCCESS Sell buy_price[6820] sell_price[6845] profit[0.36506891495601174] total_profit[0.36506891495601174] total_money[25] skip_total_money_profit[25] 성공[1] 실패[0] 구간최고가격[25.0] 구간최저가격[-5.0] index[61]
+code[252670.0][5208][1054075.0] - Buy buy_price[6845] total_profit[0.36506891495601174] percent[1.41]
+>>> ride code[252670][1125215.0] buy[6845] now[6795.0] ride_price[6820] buy_count[2] money[13640] index[1418] buy_index[1418]
+END NOT SELL code[252670.0][17011] - Sell buy_price[6820] sell_price[6700] profit[-3.9220615835777126] total_profit[0.36506891495601174] total_money[-255] skip_total_money_profit[-255] 성공[1] 실패[0] 구간최고가격[40.0] 구간최저가격[-125.0] index[11803]
+END 종목[252670] 수익률[0.36506891495601174] 현금[-255]
+>>>>>>>>DAY[20200428] - Profit[0] total_money[-185] skip_total_money[-335]
+======================================================
+code[122630.0][965][921248.0] - Buy buy_price[10340] total_profit[0] percent[1.03]
+>>> ride code[122630][945222.0] buy[10340] now[10260.0] ride_price[10300] buy_count[2] money[20600] index[1104] buy_index[1104]
+code[122630.0][2503][954443.0] - SUCCESS Sell buy_price[10300] sell_price[10335] profit[0.6766116504854369] total_profit[0.6766116504854369] total_money[70] skip_total_money_profit[70] 성공[1] 실패[0] 구간최고가격[40] 구간최저가격[-40.0] index[1538]
+code[122630.0][2527][955154.0] - Buy buy_price[10340] total_profit[0.6766116504854369] percent[1.03]
+code[122630.0][2974][1005059.0] -        Skip - different sell price
+code[122630.0][2974][1005059.0] - SUCCESS Sell buy_price[10340] sell_price[10375] profit[0.33699129593810445] total_profit[0.6776116504854369] total_money[70] skip_total_money_profit[105] 성공[2] 실패[0] 구간최고가격[35.0] 구간최저가격[-10.0] index[447]
+code[122630.0][3208][1010113.0] - Buy buy_price[10395] total_profit[0.6776116504854369] percent[1.56]
+code[122630.0][3332][1012515.0] -        Skip - different sell price
+code[122630.0][3332][1012515.0] - SUCCESS Sell buy_price[10395] sell_price[10430] profit[0.33520033670033667] total_profit[0.6786116504854369] total_money[70] skip_total_money_profit[140] 성공[3] 실패[0] 구간최고가격[35.0] 구간최저가격[-5.0] index[124]
+code[122630.0][3335][1012554.0] - Buy buy_price[10425] total_profit[0.6786116504854369] percent[1.86]
+code[122630.0][3715][1021064.0] -        Skip - different sell price
+code[122630.0][3715][1021064.0] - SUCCESS Sell buy_price[10425] sell_price[10460] profit[0.33423141486810554] total_profit[0.6796116504854369] total_money[70] skip_total_money_profit[175] 성공[4] 실패[0] 구간최고가격[35.0] 구간최저가격[-15.0] index[380]
+code[122630.0][3740][1021397.0] - Buy buy_price[10455] total_profit[0.6796116504854369] percent[2.15]
+code[122630.0][3812][1023134.0] -        Skip - different sell price
+code[122630.0][3812][1023134.0] - SUCCESS Sell buy_price[10455] sell_price[10490] profit[0.3332680535628886] total_profit[0.6806116504854369] total_money[70] skip_total_money_profit[210] 성공[5] 실패[0] 구간최고가격[35.0] 구간최저가격[-5.0] index[72]
+code[122630.0][3827][1023329.0] - Buy buy_price[10480] total_profit[0.6806116504854369] percent[2.39]
+>>> ride code[122630][1115471.0] buy[10480] now[10400.0] ride_price[10440] buy_count[2] money[20880] index[2410] buy_index[2410]
+code[122630.0][6668][1125121.0] -        Skip - different sell price
+code[122630.0][6668][1125121.0] - SUCCESS Sell buy_price[10440] sell_price[10475] profit[0.6674980842911877] total_profit[0.6816116504854369] total_money[70] skip_total_money_profit[280] 성공[6] 실패[0] 구간최고가격[70.0] 구간최저가격[-40.0] index[2841]
+code[122630.0][6717][1126184.0] - Buy buy_price[10475] total_profit[0.6816116504854369] percent[2.34]
+>>> ride code[122630][1209148.0] buy[10475] now[10395.0] ride_price[10435] buy_count[2] money[20870] index[1992] buy_index[1992]
+END NOT SELL code[122630.0][17189] - Sell buy_price[10435] sell_price[10375] profit[-1.5529760421657883] total_profit[0.6816116504854369] total_money[-90] skip_total_money_profit[120] 성공[6] 실패[0] 구간최고가격[40] 구간최저가격[-100.0] index[10472]
+END 종목[122630] 수익률[0.6816116504854369] 현금[-90]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200429] - Profit[0] total_money[-90] skip_total_money[120]
+======================================================
+code[122630.0][1510][933124.0] - Buy buy_price[9950] total_profit[0] percent[1.84]
+code[122630.0][1733][938079.0] - SUCCESS Sell buy_price[9950] sell_price[9980] profit[0.3000075376884422] total_profit[0.3000075376884422] total_money[30] skip_total_money_profit[30] 성공[1] 실패[0] 구간최고가격[30.0] 구간최저가격[-10.0] index[223]
+code[122630.0][1735][938105.0] - Buy buy_price[9970] total_profit[0.3000075376884422] percent[2.05]
+>>> ride code[122630][952201.0] buy[9970] now[9895.0] ride_price[9932] buy_count[2] money[19864] index[647] buy_index[647]
+code[122630.0][4574][1040190.0] -        Skip - different sell price
+code[122630.0][4574][1040190.0] - SUCCESS Sell buy_price[9932] sell_price[9965] profit[0.6615187273459525] total_profit[0.3010075376884422] total_money[30] skip_total_money_profit[96] 성공[2] 실패[0] 구간최고가격[48.0] 구간최저가격[-107.0] index[2839]
+code[122630.0][4577][1040229.0] - Buy buy_price[9960] total_profit[0.3010075376884422] percent[1.94]
+>>> ride code[122630][1106095.0] buy[9960] now[9885.0] ride_price[9922] buy_count[2] money[19844] index[1178] buy_index[1178]
+code[122630.0][8740][1211078.0] -        Skip - different sell price
+code[122630.0][8740][1211078.0] - SUCCESS Sell buy_price[9922] sell_price[9955] profit[0.6621884700665188] total_profit[0.3020075376884422] total_money[30] skip_total_money_profit[162] 성공[3] 실패[0] 구간최고가격[53.0] 구간최저가격[-47.0] index[4163]
+code[122630.0][8920][1215042.0] - Buy buy_price[9960] total_profit[0.3020075376884422] percent[1.94]
+code[122630.0][11949][1324034.0] -        Skip - different sell price
+code[122630.0][11949][1324034.0] - SUCCESS Sell buy_price[9960] sell_price[9990] profit[0.29970481927710846] total_profit[0.3030075376884422] total_money[30] skip_total_money_profit[192] 성공[4] 실패[0] 구간최고가격[30.0] 구간최저가격[-35.0] index[3029]
+code[122630.0][11951][1324063.0] - Buy buy_price[9990] total_profit[0.3030075376884422] percent[2.25]
+code[122630.0][13620][1401256.0] - SUCCESS Sell buy_price[9990] sell_price[10020] profit[0.2988003003003003] total_profit[0.6018078379887425] total_money[60] skip_total_money_profit[222] 성공[5] 실패[0] 구간최고가격[30.0] 구간최저가격[-15.0] index[1669]
+code[122630.0][13702][1403150.0] - Buy buy_price[10015] total_profit[0.6018078379887425] percent[2.51]
+code[122630.0][13964][1409017.0] -        Skip - different sell price
+code[122630.0][13964][1409017.0] - SUCCESS Sell buy_price[10015] sell_price[10050] profit[0.3479757863205192] total_profit[0.6028078379887425] total_money[60] skip_total_money_profit[257] 성공[6] 실패[0] 구간최고가격[35.0] 구간최저가격[-5.0] index[262]
+code[122630.0][13966][1409043.0] - Buy buy_price[10050] total_profit[0.6028078379887425] percent[2.87]
+code[122630.0][14346][1417293.0] - SUCCESS Sell buy_price[10050] sell_price[10085] profit[0.3467587064676617] total_profit[0.9495665444564042] total_money[95] skip_total_money_profit[292] 성공[7] 실패[0] 구간최고가격[35.0] 구간최저가격[-10.0] index[380]
+END 종목[122630] 수익률[0.9495665444564042] 현금[95]
+SKIP [KODEX 코스닥150 레버][233740]
+SKIP [KODEX 코스닥150선물][251340]
+END 종목[252670] 수익률[0] 현금[0]
+>>>>>>>>DAY[20200506] - Profit[0] total_money[95] skip_total_money[292]
+======================================================
+TOTAL Profit[2] money[793] skip_money[1428]
+
+Process finished with exit code 0
