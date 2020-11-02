@@ -113,76 +113,106 @@ class Trade:
         if not os.path.exists(log_folder):
             pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
 
-        up_df_list, sortList = self.t1489('0')
-        for j in up_df_list.index:
-            code = up_df_list['코드'][j]
-            print('코드[%s]종목[%s]' % (code, up_df_list['한글명'][j] ))
-            # df0, df = t1305(단축코드=code, 일주월구분='1', 날짜='', IDX='', 건수='10')
-            # for t in df.index:
-            #     print('날짜[%s]종목[%s]' % (df['날짜'][t], df['등락율'][t] ))
-
-        df_list, sortList = self.t8436('0')
-        for i in df_list.index:
-            code = df_list['코드'][i]
-            # print('종목[%s]한글명[%s]구분[%s]' % (code, df_list['한글명'][i], df_list['구분'][i]))
-            sleep(0.1)
-            df, sortList = self.t1102(code)
-            # print('[%s/%s]구분[%s]전고점[%s]종목[%s]현재가[%s]고가[%s]' % (i, len(df_list), df_list['구분'][i], df['최고가일'][0], df['한글명'][0], df['현재가'][0], df['고가'][0]))
-            # if int(df['최고가일'][0]) == int(TODAY) and int(df['현재가'][0]) == int(df['고가'][0]):
-            if int(df['현재가'][0]) == int(df['고가'][0]) and int(df_list['ETF구분'][i]) == 0 and int(df['거래대금'][0]) / 100000000 > 10 and int( df['등락율'][0]) < 25:
-                print('[%s/%s]구분[%s]최고가일[%s]종목[%s]거래대금[%s]등락율[%s]' %
-                      (i, len(df_list), df_list['구분'][i], df['최고가일'][0], df['한글명'][0], int(df['거래대금'][0]) / 100000000, df['등락율'][0] ))
-                if int(df['최고가일'][0]) == int(TODAY):
-                    print("today >>>>>>>>>>>>>>>>>>>>")
-                sleep(1)
-                df0, df = t1305(단축코드=code, 일주월구분='1', 날짜='', IDX='', 건수='2')
-                if df['등락율'][0] > 0 and df['등락율'][1] > 0:
-                    print("high >>>>>>>>>>>>>>>>>>>>")
-
-
-                # for j in up_df_list.index:
-                #     up_code = up_df_list['코드'][j]
-                #     # print('코드[%s]종목[%s]' % (code, up_df_list['한글명'][j]))
-                #     if up_code == code:
-                #         print('>>>>>>> 코드[%s]종목[%s]' % (code, up_df_list['한글명'][j]))
-
-
-        # for stock in df:
-        #     code = stock['코드']
-        #     sleep(0.1)
-        #     df, sortList = self.t1102(code)
-        #     print('종목[%s]전고점[%s]' % (df['한글명'][0], df['최고가일'][0]))
-        #     if int(df['현재가'][0]) == 20101023:
-        #         print('전고점[%s]' % (df['최고가일'][0]))
-
-
-
         while True:
-            # print('. ', end='', flush=True)
-            ## 장 시작전까지 홀딩
             if datetime.datetime.now() < startTime:
                 print('Before[%s]' % (datetime.datetime.now()))
                 self.handle_trade_condition_profit_by_bank()
                 sleep(5)
                 continue
 
-            ## 프로그램 종료
+             ## 프로그램 종료
             if datetime.datetime.now() >= preEndTime:
-                self.end_action()
+                print('End[%s]' % (datetime.datetime.now()))
                 break
 
-            self.handle_trade_condition_profit_by_bank()
-            for stock in self.stock_list:
-                code = stock['코드']
-                sleep(0.1)
-                df, sortList = self.t1102(code)
-                stockManager.register(code, df)
-                trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
+            sleep(0.1)
+            up_df_list, sortList = self.t1489('0') #예상체결량 상위조회
+            for j in up_df_list.index:
+                code = up_df_list['코드'][j]
+                sleep(1)
+                df, df_list = self.t1102(code)
+                # print('한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]' % (  df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY))
+                if int( df['최고가'][0]) == int(df['현재가'][0]) and int(df['최고가일'][0]) == int(TODAY):
+                    print('111 시간[%s]종목[%s]가격[%s]' % (datetime.datetime.now(), df['한글명'][0], df['현재가'][0]))
+                if int( df['고가'][0]) == int(df['현재가'][0]):
+                    print('222 시간[%s]종목[%s]가격[%s]' % (datetime.datetime.now(), df['한글명'][0], df['현재가'][0]))
 
-                df.to_csv('log/%s/t1102_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
 
-                if trade == 'buy':
-                    self.handle_buy(code, int(df['현재가'][0]))
+        # resultList = []
+        # df_list, sortList = self.t8436('0')
+        # for i in df_list.index:
+        #     code = df_list['코드'][i]
+        #     # print('종목[%s]한글명[%s]구분[%s]' % (code, df_list['한글명'][i], df_list['구분'][i]))
+        #     sleep(0.1)
+        #     df, sortList = self.t1102(code)
+        #     lst = [df['시간'][0], df['한글명'][0], df['코드'][0], df['현재가'][0], df['등락율'][0], df['누적거래량'][0], df['거래량차'][0], df['거래대금'][0], df['최고가'][0], df['최고가일'][0], df['시가'][0], df['고가'][0], df['저가'][0], df_list['ETF구분'][i]]
+        #     resultList.append(lst)
+        #
+        # sort_df = DataFrame(data=resultList, columns=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금', '최고가', '최고가일', '시가', '고가', '저가', 'ETF구분'])
+        # rank_sorted = sort_df.sort_values(by='거래대금', ascending=False)
+        # print(rank_sorted)
+        # index = 0
+        # for idx, stock in rank_sorted.iterrows():
+        #     index = index + 1
+        #     code = stock['코드']
+        #     # print('[%s/%s]구분[%s]최고가일[%s]종목[%s]거래대금[%s]누적거래량[%s]등락율[%s]' % (i, len(df_list), stock['ETF구분'], stock['최고가일'], stock['한글명'], int(stock['거래대금']) / 100000000, stock['누적거래량'], stock['등락율']))
+        #
+        #     if int(stock['현재가']) == int(stock['고가']) and int(stock['ETF구분']) == 0 and int( stock['거래대금']) / 100000000 > 10 and int(stock['등락율']) < 25:
+        #         print('[%s/%s]구분[%s]최고가일[%s]종목[%s]거래대금[%s]누적거래량[%s]등락율[%s]' % (
+        #         index, len(df_list), stock['ETF구분'], stock['최고가일'], stock['한글명'], int(stock['거래대금']) / 100000000,
+        #         stock['누적거래량'], stock['등락율']))
+        #
+        #         if int(stock['최고가일']) == int(TODAY):
+        #             print(">>> today >>>>>>>>>>>>>>>>>>>>")
+        #         sleep(1)
+        #         df0, df = t1305(단축코드=code, 일주월구분='1', 날짜='', IDX='', 건수='2')
+        #         if df['등락율'][0] > 0 and df['등락율'][1] > 0:
+        #             print("high >>>>>>>>>>>>>>>>>>>>")
+        #
+        #
+        #         # for j in up_df_list.index:
+        #         #     up_code = up_df_list['코드'][j]
+        #         #     # print('코드[%s]종목[%s]' % (code, up_df_list['한글명'][j]))
+        #         #     if up_code == code:
+        #         #         print('>>>>>>> 코드[%s]종목[%s]' % (code, up_df_list['한글명'][j]))
+        #
+        #
+        # # for stock in df:
+        # #     code = stock['코드']
+        # #     sleep(0.1)
+        # #     df, sortList = self.t1102(code)
+        # #     print('종목[%s]전고점[%s]' % (df['한글명'][0], df['최고가일'][0]))
+        # #     if int(df['현재가'][0]) == 20101023:
+        # #         print('전고점[%s]' % (df['최고가일'][0]))
+        #
+        # return
+        #
+        # while True:
+        #     # print('. ', end='', flush=True)
+        #     ## 장 시작전까지 홀딩
+        #     if datetime.datetime.now() < startTime:
+        #         print('Before[%s]' % (datetime.datetime.now()))
+        #         self.handle_trade_condition_profit_by_bank()
+        #         sleep(5)
+        #         continue
+        #
+        #     ## 프로그램 종료
+        #     if datetime.datetime.now() >= preEndTime:
+        #         self.end_action()
+        #         break
+        #
+        #     self.handle_trade_condition_profit_by_bank()
+        #     for stock in self.stock_list:
+        #         code = stock['코드']
+        #         sleep(0.1)
+        #         df, sortList = self.t1102(code)
+        #         stockManager.register(code, df)
+        #         trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
+        #
+        #         df.to_csv('log/%s/t1102_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
+        #
+        #         if trade == 'buy':
+        #             self.handle_buy(code, int(df['현재가'][0]))
 
     def get_default_buy_count(self, code):
         for stock in self.stock_list:
@@ -782,6 +812,8 @@ class Trade:
 
         df = DataFrame(data=resultList, columns=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금', '최고가', '최고가일', '시가','고가','저가',])
         # print(df)
+        # df_sort = df.sort_values(by='누적거래량', ascending=False)
+        # print(df_sort)
         return df, stock
 
 
@@ -907,7 +939,7 @@ class Trade:
             resultList.append(lst)
 
         df = DataFrame(data=resultList, columns=['시간', '한글명', '코드'])
-        print(df)
+        # print(df)
         return df, stock
 
 def t1305(단축코드='',일주월구분='1',날짜='',IDX='',건수='900'):
