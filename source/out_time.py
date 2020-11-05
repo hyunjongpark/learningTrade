@@ -35,6 +35,29 @@ DEFAULT_BUY_COUNT = 10
 DEFAULT_BUY_PROFIT = 0.3
 RIDE_TRADE_COUNT = 16
 
+class Stock:
+    def __init__(self):
+        self.count = 0
+
+class TradeManager:
+    def __init__(self):
+        self.stocks = dict()
+
+    def update(self, code):
+        stockCode = self.stocks.get(code)
+        if stockCode == None:
+            self.stocks[code] = Stock()
+        else:
+            stockCode.count += 1
+
+    def get_stock(self, code):
+        stockCode = self.stocks.get(code)
+        if stockCode == None:
+            self.stocks[code] = Stock()
+            return self.stocks.get(code)
+        else:
+            return stockCode
+
 
 class XASessionEvents:
     login_state = STAND_BY
@@ -105,6 +128,8 @@ class Trade:
         print(df)
 
     def main(self):
+        tradeManager = TradeManager()
+
         today = datetime.date.today()
         startTime = datetime.datetime(today.year, today.month, today.day, 9, 00, 0)
         preEndTime = datetime.datetime(today.year, today.month, today.day, 15, 15, 0)
@@ -121,21 +146,28 @@ class Trade:
                 continue
 
              ## 프로그램 종료
-            if datetime.datetime.now() >= preEndTime:
-                print('End[%s]' % (datetime.datetime.now()))
-                break
+            # if datetime.datetime.now() >= preEndTime:
+            #     print('End[%s]' % (datetime.datetime.now()))
+            #     break
 
             sleep(0.1)
             up_df_list, sortList = self.t1489('0') #예상체결량 상위조회
             for j in up_df_list.index:
+                sleep(1)
+                df11, df_list11 = self.t1615()
                 code = up_df_list['코드'][j]
                 sleep(1)
                 df, df_list = self.t1102(code)
-                # print('한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]' % (  df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY))
+
                 if int( df['최고가'][0]) == int(df['현재가'][0]) and int(df['최고가일'][0]) == int(TODAY):
-                    print('111 시간[%s]종목[%s]가격[%s]' % (datetime.datetime.now(), df['한글명'][0], df['현재가'][0]))
+                    tradeManager.update(code)
+                    print('1111 한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]count[%s]' % (df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY, tradeManager.get_stock(code).count))
+
+                    print('시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][0], df11['개인'][0], df11['외국인'][0], df11['기관계'][0], df11['증권'][0]))
+                    print('시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][1], df11['개인'][1], df11['외국인'][1], df11['기관계'][1], df11['증권'][1]))
+
                 if int( df['고가'][0]) == int(df['현재가'][0]):
-                    print('222 시간[%s]종목[%s]가격[%s]' % (datetime.datetime.now(), df['한글명'][0], df['현재가'][0]))
+                    print('>>>>>>>>>>>222 시간[%s]종목[%s]가격[%s]' % (datetime.datetime.now(), df['한글명'][0], df['현재가'][0]))
 
 
         # resultList = []
@@ -905,6 +937,44 @@ class Trade:
         print(df)
         return df, stock
 
+    def t1615(self):
+        inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
+
+        pathname = os.path.dirname(sys.argv[0])
+        RESDIR = os.path.abspath(pathname)
+        MYNAME = inspect.currentframe().f_code.co_name
+        RESFILE = "%s\\Res\\%s.res" % (RESDIR, MYNAME)
+
+        inXAQuery.LoadFromResFile(RESFILE)
+        inXAQuery.SetFieldData('t1615InBlock', 'gubun1', 0, 1)
+        inXAQuery.Request(0)
+
+        while XAQueryEvents.상태 == False:
+            pythoncom.PumpWaitingMessages()
+        XAQueryEvents.상태 = False
+
+        nCount = inXAQuery.GetBlockCount('t1615OutBlock1')
+        resultList = []
+        stock = {}
+        for i in range(nCount):
+            시간 = int(int(datetime.datetime.today().strftime("%H%M%S%f")) / 100000)
+
+            시장명 = inXAQuery.GetFieldData('t1615OutBlock1', 'hname', i)
+            개인 = inXAQuery.GetFieldData('t1615OutBlock1', 'sv_08', i)
+            외국인 = inXAQuery.GetFieldData('t1615OutBlock1', 'sv_17', i)
+            기관계 = inXAQuery.GetFieldData('t1615OutBlock1', 'sv_18', i)
+            증권 = inXAQuery.GetFieldData('t1615OutBlock1', 'sv_07', i)
+
+
+
+            stock['시장명'] = 시장명
+
+            lst = [시간, 시장명, 개인, 외국인, 기관계, 증권]
+            resultList.append(lst)
+
+        df = DataFrame(data=resultList, columns=['시간', '시장명', '개인', '외국인', '기관계', '증권'])
+        # print(df)
+        return df, stock
 
     def t1489(self, gubun):
         inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
@@ -916,7 +986,7 @@ class Trade:
 
         inXAQuery.LoadFromResFile(RESFILE)
         inXAQuery.SetFieldData('t1489InBlock', 'gubun', 0, gubun)
-        inXAQuery.SetFieldData('t1489InBlock', 'jgubun', 0, 4) #장
+        inXAQuery.SetFieldData('t1489InBlock', 'jgubun', 0, 1)
         inXAQuery.Request(0)
 
         while XAQueryEvents.상태 == False:
