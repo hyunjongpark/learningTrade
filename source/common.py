@@ -179,7 +179,7 @@ def get_trade_next_day(base_date):
     df = df[df.index > base_date]
     if len(df) == 0:
         return 'last date'
-    return df.iloc[0].name
+    return df.iloc[0].nameqa
 
 
 def getDateByPercent(start_date, end_date, percent):

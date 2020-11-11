@@ -35,20 +35,29 @@ DEFAULT_BUY_COUNT = 10
 DEFAULT_BUY_PROFIT = 0.3
 RIDE_TRADE_COUNT = 16
 
+
+
 class Stock:
     def __init__(self):
         self.count = 0
+        self.index = 0
+        self.array =[]
+    def add_price(self, price):
+        self.array.append(price)
+        self.index += 1
 
 class TradeManager:
     def __init__(self):
         self.stocks = dict()
 
-    def update(self, code):
+    def update(self, code, price):
         stockCode = self.stocks.get(code)
         if stockCode == None:
             self.stocks[code] = Stock()
+            stockCode = self.stocks.get(code)
         else:
             stockCode.count += 1
+        stockCode.add_price(price)
 
     def get_stock(self, code):
         stockCode = self.stocks.get(code)
@@ -138,6 +147,9 @@ class Trade:
         if not os.path.exists(log_folder):
             pathlib.Path(log_folder).mkdir(parents=True, exist_ok=True)
 
+        stock_df_list, sortList = self.t8436('0')
+
+
         while True:
             if datetime.datetime.now() < startTime:
                 print('Before[%s]' % (datetime.datetime.now()))
@@ -153,21 +165,53 @@ class Trade:
             sleep(0.1)
             up_df_list, sortList = self.t1489('0') #예상체결량 상위조회
             for j in up_df_list.index:
-                sleep(1)
-                df11, df_list11 = self.t1615()
+                # print(up_df_list)
                 code = up_df_list['코드'][j]
                 sleep(1)
                 df, df_list = self.t1102(code)
+                # print(df)
 
+                if int(df['등락율'][0]) > 25:
+                    continue
+
+                is_etf = False
+                for ii in stock_df_list.index:
+                    code1 = stock_df_list['코드'][ii]
+                    if code1 == code and int(stock_df_list['ETF구분'][ii]) == 1:
+                        is_etf = True
+                if is_etf:
+                    continue
+
+
+
+                # print(df)
+                if code == '004872':
+                    continue
                 if int( df['최고가'][0]) == int(df['현재가'][0]) and int(df['최고가일'][0]) == int(TODAY):
-                    tradeManager.update(code)
-                    print('1111 한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]count[%s]' % (df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY, tradeManager.get_stock(code).count))
+                    tradeManager.update(code, int(df['현재가'][0]))
 
-                    print('시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][0], df11['개인'][0], df11['외국인'][0], df11['기관계'][0], df11['증권'][0]))
-                    print('시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][1], df11['개인'][1], df11['외국인'][1], df11['기관계'][1], df11['증권'][1]))
+                    sleep(2)
+                    df11, df_list11 = self.t1615()
+                    print('1 시간[%s]한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]count[%s]' % (datetime.datetime.now(), df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY, tradeManager.get_stock(code).count))
+                    print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][0], df11['개인'][0], df11['외국인'][0], df11['기관계'][0], df11['증권'][0]))
+                    print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][1], df11['개인'][1], df11['외국인'][1], df11['기관계'][1], df11['증권'][1]))
+
+                    tradeManager.update(code, int(df['현재가'][0]))
+                    s = tradeManager.get_stock(code)
+                    if s.index >= 2 and s.array[s.index - 1] > s.array[s.index - 2]:
+                        print(">>>>>>>>> 1 BUY ")
 
                 if int( df['고가'][0]) == int(df['현재가'][0]):
-                    print('>>>>>>>>>>>222 시간[%s]종목[%s]가격[%s]' % (datetime.datetime.now(), df['한글명'][0], df['현재가'][0]))
+                    tradeManager.update(code, int(df['현재가'][0]))
+                    sleep(2)
+                    df11, df_list11 = self.t1615()
+                    print('2시간[%s]한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]count[%s]' % (datetime.datetime.now(), df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY, tradeManager.get_stock(code).count))
+                    print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % (df11['시장명'][0], df11['개인'][0], df11['외국인'][0], df11['기관계'][0], df11['증권'][0]))
+                    print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][1], df11['개인'][1], df11['외국인'][1], df11['기관계'][1], df11['증권'][1]))
+                    tradeManager.update(code, int(df['현재가'][0]))
+                    s = tradeManager.get_stock(code)
+                    if s.index >= 2 and s.array[s.index - 1] > s.array[s.index - 2]:
+                        print(">>>>>>>>> 2 BUY ")
 
 
         # resultList = []
