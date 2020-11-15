@@ -31,20 +31,21 @@ password = ""
 tradePW = ""
 certificate_password = "!"
 
-DEFAULT_BUY_COUNT = 10
-DEFAULT_BUY_PROFIT = 0.3
-RIDE_TRADE_COUNT = 16
-
+DEFAULT_BUY_COUNT = 1
+DEFAULT_BUY_PROFIT = 0.6
 
 
 class Stock:
     def __init__(self):
         self.count = 0
         self.index = 0
-        self.array =[]
+        self.array = []
+        self.today_tride = False
+
     def add_price(self, price):
         self.array.append(price)
         self.index += 1
+
 
 class TradeManager:
     def __init__(self):
@@ -98,14 +99,6 @@ class XAQueryEvents:
 class Trade:
     today_trade_stocks = dict()
 
-    물타기_stock_list = []
-
-    stock_list = [{'코드': '233740', '이름': 'KODEX 코스닥 150 레버리지', 'buy_count': DEFAULT_BUY_COUNT},
-                  {'코드': '122630', '이름': 'KODEX 레버리지', 'buy_count': DEFAULT_BUY_COUNT},
-                  {'코드': '251340', '이름': 'KODEX 코스닥 150 선물 인버스', 'buy_count': DEFAULT_BUY_COUNT},
-                  {'코드': '252670', '이름': 'KODEX 200선물인버스2X', 'buy_count': DEFAULT_BUY_COUNT}]
-
-
     def __init__(self, debug):
         if debug:
             return
@@ -149,7 +142,6 @@ class Trade:
 
         stock_df_list, sortList = self.t8436('0')
 
-
         while True:
             if datetime.datetime.now() < startTime:
                 print('Before[%s]' % (datetime.datetime.now()))
@@ -157,23 +149,21 @@ class Trade:
                 sleep(5)
                 continue
 
-             ## 프로그램 종료
-            # if datetime.datetime.now() >= preEndTime:
-            #     print('End[%s]' % (datetime.datetime.now()))
-            #     break
+            ## 프로그램 종료
+            if datetime.datetime.now() >= preEndTime:
+                print('End[%s]' % (datetime.datetime.now()))
+                self.end_action()
+                break
 
             sleep(0.1)
-            up_df_list, sortList = self.t1489('0') #예상체결량 상위조회
+            up_df_list, sortList = self.t1489('0')  # 예상체결량 상위조회
+            sort_index = 0
             for j in up_df_list.index:
+                sort_index += 1
                 # print(up_df_list)
                 code = up_df_list['코드'][j]
-                sleep(1)
-                df, df_list = self.t1102(code)
-                # print(df)
 
-                if int(df['등락율'][0]) > 25:
-                    continue
-
+                # ETF Skip
                 is_etf = False
                 for ii in stock_df_list.index:
                     code1 = stock_df_list['코드'][ii]
@@ -182,119 +172,55 @@ class Trade:
                 if is_etf:
                     continue
 
-
-
-                # print(df)
+                # Exception Code
                 if code == '004872':
                     continue
-                if int( df['최고가'][0]) == int(df['현재가'][0]) and int(df['최고가일'][0]) == int(TODAY):
-                    tradeManager.update(code, int(df['현재가'][0]))
 
-                    sleep(2)
-                    df11, df_list11 = self.t1615()
-                    print('1 시간[%s]한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]count[%s]' % (datetime.datetime.now(), df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY, tradeManager.get_stock(code).count))
-                    print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][0], df11['개인'][0], df11['외국인'][0], df11['기관계'][0], df11['증권'][0]))
-                    print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][1], df11['개인'][1], df11['외국인'][1], df11['기관계'][1], df11['증권'][1]))
+                # 매수한 종목 profit 체크
+                sleep(5)
+                self.handle_trade_condition_profit_by_bank()
 
-                    tradeManager.update(code, int(df['현재가'][0]))
-                    s = tradeManager.get_stock(code)
-                    if s.index >= 2 and s.array[s.index - 1] > s.array[s.index - 2]:
-                        print(">>>>>>>>> 1 BUY ")
+                # // 종목 가격 조회
+                sleep(1)
+                df, df_list = self.t1102(code)
+                # print(df)
 
-                if int( df['고가'][0]) == int(df['현재가'][0]):
-                    tradeManager.update(code, int(df['현재가'][0]))
-                    sleep(2)
-                    df11, df_list11 = self.t1615()
-                    print('2시간[%s]한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]count[%s]' % (datetime.datetime.now(), df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY, tradeManager.get_stock(code).count))
-                    print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % (df11['시장명'][0], df11['개인'][0], df11['외국인'][0], df11['기관계'][0], df11['증권'][0]))
-                    print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % ( df11['시장명'][1], df11['개인'][1], df11['외국인'][1], df11['기관계'][1], df11['증권'][1]))
-                    tradeManager.update(code, int(df['현재가'][0]))
-                    s = tradeManager.get_stock(code)
-                    if s.index >= 2 and s.array[s.index - 1] > s.array[s.index - 2]:
-                        print(">>>>>>>>> 2 BUY ")
+                if int(df['등락율'][0]) > 25:
+                    continue
+
+                if (int(df['거래대금'][0]) / 100000000 ) < 100:
+                    continue
+
+                # 조건 검색
+                status = 0
+                if int(df['최고가'][0]) == int(df['현재가'][0]) and int(df['최고가일'][0]) == int(TODAY):
+                    status = 1
+                elif int(df['고가'][0]) == int(df['현재가'][0]):
+                    status = 2
+
+                if status == 0:
+                    continue
+
+                # 지수 조회
+                sleep(2)
+                df11, df_list11 = self.t1615()
 
 
-        # resultList = []
-        # df_list, sortList = self.t8436('0')
-        # for i in df_list.index:
-        #     code = df_list['코드'][i]
-        #     # print('종목[%s]한글명[%s]구분[%s]' % (code, df_list['한글명'][i], df_list['구분'][i]))
-        #     sleep(0.1)
-        #     df, sortList = self.t1102(code)
-        #     lst = [df['시간'][0], df['한글명'][0], df['코드'][0], df['현재가'][0], df['등락율'][0], df['누적거래량'][0], df['거래량차'][0], df['거래대금'][0], df['최고가'][0], df['최고가일'][0], df['시가'][0], df['고가'][0], df['저가'][0], df_list['ETF구분'][i]]
-        #     resultList.append(lst)
-        #
-        # sort_df = DataFrame(data=resultList, columns=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금', '최고가', '최고가일', '시가', '고가', '저가', 'ETF구분'])
-        # rank_sorted = sort_df.sort_values(by='거래대금', ascending=False)
-        # print(rank_sorted)
-        # index = 0
-        # for idx, stock in rank_sorted.iterrows():
-        #     index = index + 1
-        #     code = stock['코드']
-        #     # print('[%s/%s]구분[%s]최고가일[%s]종목[%s]거래대금[%s]누적거래량[%s]등락율[%s]' % (i, len(df_list), stock['ETF구분'], stock['최고가일'], stock['한글명'], int(stock['거래대금']) / 100000000, stock['누적거래량'], stock['등락율']))
-        #
-        #     if int(stock['현재가']) == int(stock['고가']) and int(stock['ETF구분']) == 0 and int( stock['거래대금']) / 100000000 > 10 and int(stock['등락율']) < 25:
-        #         print('[%s/%s]구분[%s]최고가일[%s]종목[%s]거래대금[%s]누적거래량[%s]등락율[%s]' % (
-        #         index, len(df_list), stock['ETF구분'], stock['최고가일'], stock['한글명'], int(stock['거래대금']) / 100000000,
-        #         stock['누적거래량'], stock['등락율']))
-        #
-        #         if int(stock['최고가일']) == int(TODAY):
-        #             print(">>> today >>>>>>>>>>>>>>>>>>>>")
-        #         sleep(1)
-        #         df0, df = t1305(단축코드=code, 일주월구분='1', 날짜='', IDX='', 건수='2')
-        #         if df['등락율'][0] > 0 and df['등락율'][1] > 0:
-        #             print("high >>>>>>>>>>>>>>>>>>>>")
-        #
-        #
-        #         # for j in up_df_list.index:
-        #         #     up_code = up_df_list['코드'][j]
-        #         #     # print('코드[%s]종목[%s]' % (code, up_df_list['한글명'][j]))
-        #         #     if up_code == code:
-        #         #         print('>>>>>>> 코드[%s]종목[%s]' % (code, up_df_list['한글명'][j]))
-        #
-        #
-        # # for stock in df:
-        # #     code = stock['코드']
-        # #     sleep(0.1)
-        # #     df, sortList = self.t1102(code)
-        # #     print('종목[%s]전고점[%s]' % (df['한글명'][0], df['최고가일'][0]))
-        # #     if int(df['현재가'][0]) == 20101023:
-        # #         print('전고점[%s]' % (df['최고가일'][0]))
-        #
-        # return
-        #
-        # while True:
-        #     # print('. ', end='', flush=True)
-        #     ## 장 시작전까지 홀딩
-        #     if datetime.datetime.now() < startTime:
-        #         print('Before[%s]' % (datetime.datetime.now()))
-        #         self.handle_trade_condition_profit_by_bank()
-        #         sleep(5)
-        #         continue
-        #
-        #     ## 프로그램 종료
-        #     if datetime.datetime.now() >= preEndTime:
-        #         self.end_action()
-        #         break
-        #
-        #     self.handle_trade_condition_profit_by_bank()
-        #     for stock in self.stock_list:
-        #         code = stock['코드']
-        #         sleep(0.1)
-        #         df, sortList = self.t1102(code)
-        #         stockManager.register(code, df)
-        #         trade, log = stockManager.get_stock_code(code).is_trade(debug=False)
-        #
-        #         df.to_csv('log/%s/t1102_%s_%s.csv' % (TODAY, TODAY, code), mode='a', index=False, header=False)
-        #
-        #         if trade == 'buy':
-        #             self.handle_buy(code, int(df['현재가'][0]))
+                print('[%s] 시간[%s]한글명[%s]최고가[%s]현재가[%s]최고가일[%s]today[%s]count[%s]' % (
+                status, datetime.datetime.now(), df['한글명'][0], df['최고가'][0], df['현재가'][0], df['최고가일'][0], TODAY,
+                tradeManager.get_stock(code).count))
+                print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % (
+                df11['시장명'][0], df11['개인'][0], df11['외국인'][0], df11['기관계'][0], df11['증권'][0]))
+                print('     시장명[%s]개인[%s]외국인[%s]기관계[%s]증권[%s]' % (
+                df11['시장명'][1], df11['개인'][1], df11['외국인'][1], df11['기관계'][1], df11['증권'][1]))
 
-    def get_default_buy_count(self, code):
-        for stock in self.stock_list:
-            if stock['코드'] == code:
-                return stock['buy_count']
-        return 1
+                tradeManager.update(code, int(df['현재가'][0]))
+                s = tradeManager.get_stock(code)
+                if s.index >= 2 and s.array[s.index - 1] > s.array[s.index - 2] and s.today_tride is False:
+                    trading_buy_price = get_percent_price(int(df['현재가'][0]), 2)
+                    print(">>>>>>>>>>>  매수 type[%s]sort[%s]code[%s]pride[%s]tri_price[%s]" % (status, sort_index, code, int(df['현재가'][0]), trading_buy_price))
+                    self.handle_buy(code, trading_buy_price)
+                    s.trading_buy_price = True
 
     def handle_trade_condition_profit_by_bank(self):
         df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
@@ -310,39 +236,15 @@ class Trade:
             total_buy_count = df['잔고수량'][i]
 
             if current_sell_count > 0:
-                trade_price = buy_price - (buy_price % 5)
-                if current_sell_count >= self.get_default_buy_count(df['종목번호'][i]) * 8:
-                    default_sell_price = get_percent_price_etf(trade_price, DEFAULT_BUY_PROFIT)
-                    self.handle_sell(df['종목번호'][i], default_sell_price, current_sell_count)  # 물타기 안 할 때도 지정가 매도
-                    # self.handle_sell(df['종목번호'][i], trade_price + 5, current_sell_count)  # 1 2 4 8 16 32 -> 16부터 이익 없이 매도 처리
-                else:
-                    default_sell_price = get_percent_price_etf(trade_price, DEFAULT_BUY_PROFIT)
-                    self.handle_sell(df['종목번호'][i], default_sell_price, current_sell_count)  # 물타기 안 할 때도 지정가 매도
+                # trade_price = buy_price - (buy_price % 5)
+                # default_sell_price = get_percent_price_etf(trade_price, DEFAULT_BUY_PROFIT)
+                default_sell_price = get_percent_price(buy_price, DEFAULT_BUY_PROFIT)
+                print('>>>>>>>>>>> 매도예약 code[%s] 가격[%s]' % (df['종목번호'][i], default_sell_price))
+                self.handle_sell(df['종목번호'][i], default_sell_price, current_sell_count)  # 물타기 안 할 때도 지정가 매도
 
-            if RIDE_TRADE_COUNT == 0:
-                if current_profit < -1.0:
-                    self.handle_sell_immediate(df['종목번호'][i], current_price)  # 물타기 안할 때 지정가 매도
-                elif current_profit < -0.8:
-                    self.handle_sell_immediate(df['종목번호'][i], current_price)  # 물타기 안할 때 지정가 매도
-            else:
-                if current_profit < -4:
-                    print('물타기 실패 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                    self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
-                # elif current_profit < -4 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 16:
-                #     print('물타기 32 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                #     self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-                elif current_profit < -3.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 8:
-                    print('물타기 16 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-                elif current_profit < -3 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 4:
-                    print('물타기 8 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-                elif current_profit < -1.5 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 2:
-                    print('물타기 4 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
-                elif current_profit < -0.8 and total_buy_count == self.get_default_buy_count(df['종목번호'][i]) * 1:
-                    print('물타기 2 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
-                    self.handle_buy_stock_ride(df['종목번호'][i], (current_price + 50))
+            if current_profit < -DEFAULT_BUY_PROFIT:
+                print('>>>>>>>>>>> 실패 code[%s] 가격[%s]' % (df['종목번호'][i], current_price))
+                self.handle_sell_immediate(df['종목번호'][i], (current_price - 100))
 
     def check_have_stock(self, code):
         df0, df = self.t0424(계좌번호=self.계좌[0], 비밀번호=password, 단가구분='1', 체결구분='0', 단일가구분='0', 제비용포함여부='1', CTS_종목번호='')
@@ -391,8 +293,7 @@ class Trade:
             self.CSPAT00800(원주문번호=주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=미체결잔량_리스트[index])
 
         매매구분 = 2  # 매수
-        # trade_count = DEFAULT_BUY_COUNT
-        trade_count = self.get_default_buy_count(code)
+        trade_count = DEFAULT_BUY_COUNT
         trade_price = price
         df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분,
                                   가격=trade_price, 가격구분="00")
@@ -416,35 +317,6 @@ class Trade:
             sleep(0.5)
             self.handle_sell(code, current_price, 미체결잔량_리스트[index])
             sleep(0.5)
-
-    def handle_buy_stock_ride(self, code, current_price):
-        print('물타기 시도: ' + code)
-        매수_주문번호_리스트, 매수_미체결잔량_리스트 = self.check_try_trade_stock(code, '02')  # 매도 01 매수 02
-        for index, value in enumerate(매수_주문번호_리스트):
-            print('물타기 미체결 매수 종목 있음 - 취소 : ' + code)
-            self.CSPAT00800(원주문번호=매수_주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code,
-                            주문수량=매수_미체결잔량_리스트[index])
-            sleep(0.5)
-
-        매도_주문번호_리스트, 매도_미체결잔량_리스트 = self.check_try_trade_stock(code, '01')  # 매도 01 매수 02
-        for index, value in enumerate(매도_주문번호_리스트):
-            print('물타기 미체결 매도 종목 있음 - 취소 : ' + code)
-            if 매도_미체결잔량_리스트[index] >= self.get_default_buy_count(code) * RIDE_TRADE_COUNT:
-                print('물타기 SKIP')
-                continue
-            self.CSPAT00800(원주문번호=매도_주문번호_리스트[index], 계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code,
-                            주문수량=매도_미체결잔량_리스트[index])
-            sleep(0.5)
-            매매구분 = 2  # 매수
-            # trade_count = 미체결잔량_리스트[index] + 미체결잔량_리스트[index]
-            trade_count = 매도_미체결잔량_리스트[index]
-            trade_price = current_price
-            df0, df = self.CSPAT00600(계좌번호=self.계좌[0], 입력비밀번호=tradePW, 종목번호=code, 주문수량=trade_count, 매매구분=매매구분,
-                                      가격=trade_price, 가격구분="00")
-            # print(df0)
-            # print(df)
-            print('물타기 매수 : ' + code)
-            self.물타기_stock_list.append(code)
 
     def end_action(self):
         print('end_action')
@@ -868,15 +740,12 @@ class Trade:
 
             거래량차 = int(inXAQuery.GetFieldData('t1102OutBlock', 'volumediff', i))
 
-
             최고가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'high52w', i))
             최고가일 = int(inXAQuery.GetFieldData('t1102OutBlock', 'high52wdate', i))
 
             시가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'open', i))
             고가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'high', i))
             저가 = int(inXAQuery.GetFieldData('t1102OutBlock', 'low', i))
-
-
 
             거래대금 = 현재가 * 누적거래량
 
@@ -886,12 +755,13 @@ class Trade:
             lst = [시간, 한글명, 코드, 현재가, 등락율, 누적거래량, 거래량차, 거래대금, 최고가, 최고가일, 시가, 고가, 저가]
             resultList.append(lst)
 
-        df = DataFrame(data=resultList, columns=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금', '최고가', '최고가일', '시가','고가','저가',])
+        df = DataFrame(data=resultList,
+                       columns=['시간', '한글명', '코드', '현재가', '등락율', '누적거래량', '거래량차', '거래대금', '최고가', '최고가일', '시가', '고가',
+                                '저가', ])
         # print(df)
         # df_sort = df.sort_values(by='누적거래량', ascending=False)
         # print(df_sort)
         return df, stock
-
 
     def t1101(self, shcode):
         inXAQuery = win32com.client.DispatchWithEvents("XA_DataSet.XAQuery", XAQueryEvents)
@@ -924,7 +794,6 @@ class Trade:
             시간외매수잔량 = int(inXAQuery.GetFieldData('t1101OutBlock', 'tmbid', i))
             매수호가1 = int(inXAQuery.GetFieldData('t1101OutBlock', 'bidho1', i))
             매수호가수량1 = int(inXAQuery.GetFieldData('t1101OutBlock', 'bidrem1', i))
-
 
             # stock['전일거래량'] = int(inXAQuery.GetFieldData('t1102OutBlock', 'jnilvolume', i))
             # stock['고가'] = int(inXAQuery.GetFieldData('t1102OutBlock', 'high', i))
@@ -970,8 +839,6 @@ class Trade:
             구분 = inXAQuery.GetFieldData('t8436OutBlock', 'gubun', i)
             ETF구분 = inXAQuery.GetFieldData('t8436OutBlock', 'etfgubun', i)
 
-
-
             stock['코드'] = 코드
 
             lst = [시간, 한글명, 코드, 구분, ETF구분]
@@ -1009,8 +876,6 @@ class Trade:
             기관계 = inXAQuery.GetFieldData('t1615OutBlock1', 'sv_18', i)
             증권 = inXAQuery.GetFieldData('t1615OutBlock1', 'sv_07', i)
 
-
-
             stock['시장명'] = 시장명
 
             lst = [시간, 시장명, 개인, 외국인, 기관계, 증권]
@@ -1046,7 +911,6 @@ class Trade:
             코드 = inXAQuery.GetFieldData('t1489OutBlock1', 'shcode', i)
             한글명 = inXAQuery.GetFieldData('t1489OutBlock1', 'hname', i)
 
-
             stock['코드'] = 코드
 
             lst = [시간, 한글명, 코드]
@@ -1056,7 +920,8 @@ class Trade:
         # print(df)
         return df, stock
 
-def t1305(단축코드='',일주월구분='1',날짜='',IDX='',건수='900'):
+
+def t1305(단축코드='', 일주월구분='1', 날짜='', IDX='', 건수='900'):
     '''
     기간별주가
     '''
@@ -1088,10 +953,10 @@ def t1305(단축코드='',일주월구분='1',날짜='',IDX='',건수='900'):
         날짜 = query.GetFieldData(OUTBLOCK, "date", i).strip()
         IDX = int(query.GetFieldData(OUTBLOCK, "idx", i).strip())
 
-        lst = [CNT,날짜,IDX]
+        lst = [CNT, 날짜, IDX]
         result.append(lst)
 
-    df = DataFrame(data=result, columns=['CNT','날짜','IDX'])
+    df = DataFrame(data=result, columns=['CNT', '날짜', 'IDX'])
 
     result = []
     nCount = query.GetBlockCount(OUTBLOCK1)
@@ -1125,14 +990,19 @@ def t1305(단축코드='',일주월구분='1',날짜='',IDX='',건수='900'):
         저가기준등락율 = float(query.GetFieldData(OUTBLOCK1, "l_diff", i).strip())
         시가총액 = int(query.GetFieldData(OUTBLOCK1, "marketcap", i).strip())
 
-        lst = [날짜,시가,고가,저가,종가,전일대비구분,전일대비,등락율,누적거래량,거래증가율,체결강도,소진율,회전율,외인순매수,기관순매수,종목코드,누적거래대금,개인순매수,시가대비구분,시가대비,시가기준등락율,고가대비구분,고가대비,고가기준등락율,저가대비구분,저가대비,저가기준등락율,시가총액]
+        lst = [날짜, 시가, 고가, 저가, 종가, 전일대비구분, 전일대비, 등락율, 누적거래량, 거래증가율, 체결강도, 소진율, 회전율, 외인순매수, 기관순매수, 종목코드, 누적거래대금, 개인순매수,
+               시가대비구분, 시가대비, 시가기준등락율, 고가대비구분, 고가대비, 고가기준등락율, 저가대비구분, 저가대비, 저가기준등락율, 시가총액]
         result.append(lst)
 
-    df1 = DataFrame(data=result, columns=['날짜','시가','고가','저가','종가','전일대비구분','전일대비','등락율','누적거래량','거래증가율','체결강도','소진율','회전율','외인순매수','기관순매수','종목코드','누적거래대금','개인순매수','시가대비구분','시가대비','시가기준등락율','고가대비구분','고가대비','고가기준등락율','저가대비구분','저가대비','저가기준등락율','시가총액'])
+    df1 = DataFrame(data=result,
+                    columns=['날짜', '시가', '고가', '저가', '종가', '전일대비구분', '전일대비', '등락율', '누적거래량', '거래증가율', '체결강도', '소진율',
+                             '회전율', '외인순매수', '기관순매수', '종목코드', '누적거래대금', '개인순매수', '시가대비구분', '시가대비', '시가기준등락율', '고가대비구분',
+                             '고가대비', '고가기준등락율', '저가대비구분', '저가대비', '저가기준등락율', '시가총액'])
 
     XAQueryEvents.상태 = False
 
     return (df, df1)
+
 
 if __name__ == "__main__":
     debug_mode = False
